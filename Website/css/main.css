@@ -1,0 +1,154 @@
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,p,pre,form,fieldset,input,textarea,p,blockquote,th,td {
+	margin:0;
+	padding:0
+}
+html {
+	height:100%;
+	overflow:-moz-scrollbars-vertical;
+	overflow-x:auto
+}
+table {
+	border:0;
+	border-collapse:collapse;
+	border-spacing:0
+}
+fieldset,img {
+	border:0
+}
+address,caption,cite,code,dfn,em,strong,th,var {
+	font-style:normal;
+	font-weight:normal
+}
+em,cite {
+	font-style:italic
+}
+strong {
+	font-weight:bold
+}
+ol,ul {
+	list-style:none
+}
+caption,th {
+	text-align:left
+}
+h1,h2,h3,h4,h5,h6 {
+	font-size:100%;
+	font-weight:normal;
+	margin:0;
+	padding:0
+}
+q:before,q:after {
+	content:''
+}
+abbr,acronym {
+	border:0
+}
+
+html {
+	height: 100%;
+}
+
+
+
+
+
+
+
+body {
+	font-family: Arial;
+	font-size: 16px;
+}
+
+h1 {
+	margin-bottom: 0;
+	font-family: "Lucida Sans Unicode","Lucida Grande",sans-serif;
+	font-size: 24px;
+	font-weight: normal;
+}
+
+h2 {
+	margin: 0 0 2em 0;
+	font-family: "Lucida Sans Unicode","Lucida Grande",sans-serif;
+	font-size: 16px;
+	font-weight: normal;
+}
+
+h3 {
+	margin: 1 0 0 0;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+
+
+
+
+
+ul.specs {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+ul.specs li {
+    margin-left: 20px;
+    list-style-type: disc;
+}
+
+div.break {
+    height: 2em;
+}
+
+
+
+div.onoPager {
+    position: relative;
+}
+
+*.onoPager_listContainer {
+    position: relative;
+    overflow: hidden;
+}
+
+*.onoPager_listItem {
+    margin: 0;
+    padding: 10px;
+    overflow: hidden;
+    -webkit-box-shadow: inset 0 0 10px 2px #cccccc;
+    box-shadow: inset 0 0 10px 2px #cccccc;
+}
+
+a.onoPager_previous,
+a.onoPager_next {
+    -moz-transition: all 0.3s ease-out;  
+    -o-transition: all 0.3s ease-out;  
+    -webkit-transition: all 0.3s ease-out;  
+    -ms-transition: all 0.3s ease-out;  
+    transition: all 0.3s ease-out;  
+}
+
+a.onoPager_previous.disabled,
+a.onoPager_next.disabled {
+    cursor: default;
+    opacity: 0.3;
+}
+
+div.onoPager_pageByNumber a.onoPager_active {
+    font-weight: bold;
+}
+
+div.onoPager_scroller {
+  position: relative;
+  height: 20px;
+  background: #cccccc;
+}
+
+div.onoPager_scrollerHandle {
+  cursor: w-resize;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 20px;
+  height: 20px;
+  background: #999999;
+}
