@@ -7,6 +7,8 @@
  */
 
 // TODO:
+// - Build support for scroll wheel
+// - Highlight arrow key when pressing an arrow key on keyboard
 // - onHandleDrag assumes margin-*. Must handle possible left/top as well
 // - Slider does not manage the disabled class on 'next' and 'previous'.
 // Next release:
@@ -296,7 +298,11 @@
           config.status
         );
         if (config.autoPage.active == true) {
-          pager.initAutopager(config.autoPage, animation, listContainer, list);
+          pager.initAutopager(config.autoPage,
+                              animation,
+                              config.orientation,
+                              listContainer,
+                              list);
         }
       } else {
         pageNext.hide();
@@ -411,7 +417,9 @@
     }
 
     function page(arg_newIndex) {
-      pager.resetAutopager();
+      if (config.autoPage.active == true) {
+        pager.resetAutopager();
+      }
       var oldIndex = pager.getIndex();
       var newIndex = pager.setIndex(arg_newIndex);
       animation._page(oldIndex, newIndex);
@@ -642,6 +650,15 @@ var onoPager = {};
  * @namespace Manages the scroller control.
  *
  * @constructor
+ * @param {Object} arg_pageScroller The scroller, wrapped in a jQuery object.
+ * @param {Object} arg_listContainer The element that contains the list, wrapped
+ *    in a jQuery object.
+ * @param {Object} arg_list The element that contains the list, wrapped
+ *    in a jQuery object.
+ * @param {String} arg_orientation Determines on what axis the animation moves.
+ * Possible values are 'horizontal' and 'vertical' though it's possible to use
+ * other values as long as the animation object supports that value. Default
+ * value is 'horizontal'.
  */
 onoPager.scroller = function(arg_pageScroller,
                              arg_listContainer,
@@ -656,7 +673,7 @@ onoPager.scroller = function(arg_pageScroller,
   var orientation = arg_orientation;
   var noChangeCount = 0;
   var previousOffset = 0;
-  var tools = onoPager.animation.tools;
+  var tools = onoPager.tools;
   var listContainerSize = 0;
   var listScrollSize = 0;
   var interval = 10;
@@ -669,7 +686,7 @@ onoPager.scroller = function(arg_pageScroller,
     var scrollPercentage = Math.round((offset / listScrollSize) * 100);
     pageHandle.css('left', ((totalScroll / 100) * scrollPercentage) + 'px');
   }
-  
+
   function clearIntervalIfNoChange(arg_offset) {
     if (arg_offset == previousOffset) {
       noChangeCount++;
@@ -687,18 +704,18 @@ onoPager.scroller = function(arg_pageScroller,
   this.init = function(animation) {
     var listSize = tools.getInnerSize(orientation, list);
     listContainerSize = tools.getInnerSize(orientation, listContainer);
-    listScrollSize = listSize - listContainerSize; 
+    listScrollSize = listSize - listContainerSize;
     var sizeKey = tools.getWidthHeight(orientation);
     var pageScrollerCss = {};
-    pageScrollerCss[sizeKey] = listContainerSize +'px';
+    pageScrollerCss[sizeKey] = listContainerSize + 'px';
     pageScroller.css(pageScrollerCss);
-    
-    totalScroll = tools.getInnerSize(orientation, pageScroller) - 
+
+    totalScroll = tools.getInnerSize(orientation, pageScroller) -
                     tools.getInnerSize(orientation, pageHandle);
     var dragHandler = new onoPager.scroller.dragHandle();
     dragHandler.init(pageHandle, orientation, totalScroll, animation);
   }
-  
+
   this.updateHandle = function() {
     clearInterval(updateInterval);
     noChangeCount = 0;
@@ -713,6 +730,8 @@ onoPager.scroller = function(arg_pageScroller,
 
 /**
  * @namespace Code for making the scroller handle draggable.
+ *
+ * @constructor
  */
 onoPager.scroller.dragHandle = function() {
   var startSize = 0;
@@ -728,9 +747,9 @@ onoPager.scroller.dragHandle = function() {
 
   function onMouseDown(e) {
     var target = e.target;
-    if ((e.button == 1 && window.event != null || 
+    if ((e.button == 1 && window.event != null ||
       e.button == 0)) {
-      
+
       if (orientation == HORIZONTAL) {
         startSize = e.pageX;
         offsetSize = extractNumber(target.style.left);
@@ -739,13 +758,13 @@ onoPager.scroller.dragHandle = function() {
         offsetSize = extractNumber(target.style.top);
       }
       previousSize = startSize;
-      
+
       jQuery(document).bind('mousemove.scroller', onMouseMove);
       jQuery(document).bind('mouseup.scroller', onMouseUp);
-      
+
       // prevent text selection or image drag
-      document.onselectstart = function () { return false; };
-      handle[0].ondragstart = function() { return false; };      
+      document.onselectstart = function() {return false;};
+      handle[0].ondragstart = function() {return false;};
       //document.body.focus();
       return false;
     }
@@ -762,16 +781,16 @@ onoPager.scroller.dragHandle = function() {
     }
     animation.onHandleDrag(Math.round((offset / totalScroll) * 100));
   }
-  
+
   function setBoundsToOffset(arg_offset) {
     var offset = arg_offset;
-    
+
     if (offset < 0) {
       offset = 0;
     } else if (offset > totalScroll) {
       offset = totalScroll;
     }
-     
+
     return offset;
   }
 
@@ -783,7 +802,7 @@ onoPager.scroller.dragHandle = function() {
   }
 
   function extractNumber(value) {
-    var n = parseInt(value);    
+    var n = parseInt(value);
     return n == null || isNaN(n) ? 0 : n;
   }
 
@@ -931,13 +950,14 @@ onoPager.pager = function(arg_index,
     setPagerButtons(index);
     return index;
   }
-  
+
   function startAutopager() {
     autoPageInterval = setInterval(
       function() {
         if (pageLoop == false && (index == (length - 1))) {
           clearInterval(autoPageInterval);
         }
+        //console.log(autoPageConfig)
         autoPageConfig.animation._page(index, move(1));
       },
       autoPageConfig.interval
@@ -974,8 +994,12 @@ onoPager.pager = function(arg_index,
 
   /**
    * Sets index adding move value to index
-   * @param {Object} autoPageConfig AutoPage configuration.
-   * @param {Object} animation Animation instance.
+   * @param {Object} arg_autoPageConfig AutoPage configuration.
+   * @param {Object} arg_animation Animation instance.
+   * @param {Object} orientation Determines on what axis the
+   *    animation moves. Possible values are 'horizontal' and 'vertical' though
+   *    it's possible to use other values as long as the animation object
+   *    supports that value. Default value is 'horizontal'.
    * @param {Object} listContainer Element that holds the list.
    * @param {Object} list Element that is the root of the list. That's the
    *  &lt;ul&gt; most of the time.
@@ -989,27 +1013,24 @@ onoPager.pager = function(arg_index,
    */
   this.initAutopager = function(arg_autoPageConfig,
                                 arg_animation,
+                                orientation,
                                 listContainer,
                                 list) {
-    var overflow = listContainer.innerWidth() - list.innerWidth();
-    alert(listContainer.innerWidth())
+    console.log('init autopager');
+    var tools = onoPager.tools;
+    var overflow = tools.getInnerSize(orientation, listContainer) -
+                     tools.getInnerSize(orientation, list);
+    jQuery.extend(true,
+                  autoPageConfig,
+                  arg_autoPageConfig,
+                  {animation: arg_animation});
     if (overflow < 0) {
-      jQuery.extend(true,
-                    autoPageConfig,
-                    arg_autoPageConfig,
-                    {animation: arg_animation});
-      console.log(autoPageConfig)
       startAutopager();
     }
   }
 
   /**
    * Sets index adding move value to index
-   * @param {Object} autoPageConfig AutoPage configuration.
-   * @param {Object} animation Animation instance.
-   * @param {Object} listContainer Element that holds the list.
-   * @param {Object} list Element that is the root of the list. That's the
-   *  &lt;ul&gt; most of the time.
    * @example
    * instance.initAutoPager(
    *    {
@@ -1019,8 +1040,9 @@ onoPager.pager = function(arg_index,
    * );
    */
   this.resetAutopager = function() {
+    console.log('reset autopager');
     clearInterval(autoPageInterval);
-    //startAutopager();
+    startAutopager();
   }
 };
 
@@ -1157,7 +1179,7 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
    * @this
    */
   this._checkMaxScroll = function(arg_scroll) {
-    var tools = onoPager.animation.tools;
+    var tools = onoPager.tools;
     var orientation = this._config.orientation;
     var listSize = tools.getInnerSize(orientation, this._config.list);
     var listContainerSize = tools.getInnerSize(
@@ -1238,7 +1260,7 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
   /**
    * Extend config object
    *
-   * @param {Object} newconfig The new config object that has to extend the
+   * @param {Object} arg_newconfig The new config object that has to extend the
    * existing config object.
    * @this
    */
@@ -1249,7 +1271,7 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
   /**
    * Handles drag event of the scroller handle.
    *
-   * @param {Object} percentage The position of the handle relative to the
+   * @param {Number} percentage The position of the handle relative to the
    * scroller in percentage.
    * @this
    */
@@ -1257,15 +1279,15 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
     var list = this._config.list;
     var listContainer = this._config.listContainer;
     var orientation = this._config.orientation;
-    var tools = onoPager.animation.tools;
+    var tools = onoPager.tools;
     var listSize = tools.getInnerSize(orientation, list);
     var listContainerSize = tools.getInnerSize(orientation, listContainer);
     var listScrollSize = listSize - listContainerSize;
     var listScrollPosition = Math.round(-((listScrollSize / 100) * percentage));
     var offsetKey = tools.getTopLeft(orientation);
     var css = {};
-    
-    css['margin-' + offsetKey] = listScrollPosition +'px';
+
+    css['margin-' + offsetKey] = listScrollPosition + 'px';
     list.css(css);
   }
 
@@ -1463,7 +1485,7 @@ onoPager.animation.linear = function(newConfig, extraConfig) {
    * @this
    */
   var linearInstance = new onoPager.animation._standard(newConfig, extraConfig);
-  var tools = onoPager.animation.tools;
+  var tools = onoPager.tools;
 
   linearInstance._setListContainerHeight = function(listContainer, listItems) {
     if (listItems.size() > 1) {
@@ -1708,7 +1730,7 @@ onoPager.animation.linearScroller = function(newConfig, extraConfig) {
 /**
  * @namespace Helper methods for the animation objects.
  */
-onoPager.animation.tools = (function() {
+onoPager.tools = (function() {
   var HORIZONTAL = 'horizontal';
   var VERTICAL = 'vertical';
 
