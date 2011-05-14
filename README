@@ -1,0 +1,29 @@
+ABOUT
+
+Creates a widget that enables the user to navigate through a list of elements (like an <ul>). It provides different types of paging navigation. These are called animation objects and reside in the onoPager.animation namespace. The onoPager library consist now of 3 types of animations: "slides", "linear" and "linearScroller". The onoPager is built in such a way that it's easy to add your own animation objects without having to rewrite the basic paging functionality. 
+
+
+
+FOLDERS
+
+/Documentation/Onopager: Documentation of all public methods, generated with JsDoc Toolkit.
+/Tools/Create documentation.bat: Creates the documentation in the folder mentioned here above.
+/Tools/Linter.bat: Windows batch file for checking the syntax of jquery.onopager.js.
+/Tools/Minify.bat: Windows batch file creating a minified version of jquery.onopager.js.
+/Tools/Test.bat: Not really helpful unit testing at the moment. It tests just a tiny bit of the code.
+/Website/index.html: Web page with some Ono pager demos.
+
+
+
+LICENSE
+
+Copyright (c) 2011, Wouter Bos, developer at Estate Internet (www.estate.nl)
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+    * Neither the name of Estate Internet nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
