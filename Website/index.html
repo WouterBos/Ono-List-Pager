@@ -12,87 +12,17 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="robots" content="noindex" />
-	<title>Demo from www.thebrightlines.com</title>
+	<title>Ono pager demos</title>
 
   <link href="css/main.css" rel="stylesheet" type="text/css" />
-  
-  <script src="javascript/jquery.min.js"></script>
-  <script src="javascript/jquery.easing.1.3.js"></script>
-  <script src="javascript/jquery.onopager.js"></script>
-	<script type="text/javascript">
-    var platform = navigator.platform;
-    var userAgent = navigator.userAgent;
-    
-    //alert(platform)
-    //alert(userAgent)
-          
-	    jQuery(function() {
-        jQuery('#list1').onoPager({
-          pagePerItem: true,
-          listContainer: {
-            width: '400px',
-            height: '100px'
-          },
-          listItems: {
-              width: '380px',
-              height: '80px'
-          },
-          autoPage: {
-            active: true,
-            interval: 5000
-          },
-          keyTriggersPage: true,
-          swipeTriggersPage: true,
-          swipePlatforms: 'all',
-          animationType: 'linear',
-          animationEasing: 'easeOutCubic',
-          orientation: 'vertical',
-          animationSpeed: 1000
-        })
-
-        jQuery('#list2').onoPager({
-          pagePerItem: true,
-          listContainer: {
-            width: '400px',
-            height: '100px'
-          },
-          listItems: {
-              width: '380px',
-              height: '80px'
-          },
-          scroller: {
-            active: true,
-            pixelMove: 2
-          },
-          animationType: 'linearScroller',
-          animationSpeed: 1000
-        })
-
-        jQuery('#list3').onoPager({
-          pagePerItem: true,
-          pageLoop: false,
-          listContainer: {
-            width: '300px',
-            height: '100px'
-          },
-          listItems: {
-            width: '800px',
-            height: '500px'
-          },
-          animationType: 'slides',
-          animationEasing: 'easeOutCubic',
-          animationSpeed: 1000
-        })
-	    })
-	</script>
 </head>
 <body>
-	<h1>Ono list pager demo</h1>
-	<h2>Article related to this demo: <a href="#TODO">TODO</a></h2>
+	<h1>Ono pager demos</h1>
+	<h2>Read more about the Ono pager in this article on: <a href="#TODO">TODO</a></h2>
 
-	<div id="debug" style="font-size: 3em">debug</div>
+	<div id="debug" style="font-size: 3em; display: none">debug</div>
 	
-	<h3>List 1: Animation type "linear"</h3>
+	<h3>List 1: Basic, unstyled pager <span>type: "linear"</span></h3>
 	<ul id="list1" class="onoPager_noJs">
 		<li>1 Lorem ipsum dolor sit amet site amet site amet. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. Donec vel risus diam. Vestibulum posuere tristique Etiam vitae massa</li>
 		<li>2 Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>
@@ -101,6 +31,25 @@
 		<li>5 Lorem ipsum dolor sit amet site amet site amet. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. Donec vel risus diam. Vestibulum posuere tristique vulputate neque ut leo aliquet scelerisque Etiam vitae massa</li>
 		<li>6 Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>
 	</ul>
+  
+  <div class="code">
+    JavaScript code
+<pre>jQuery('#list1').onoPager({
+  pagePerItem: true,
+  listContainer: {
+    width: '400px',
+    height: '100px'
+  },
+  listItems: {
+      width: '380px',
+      height: '80px'
+  },
+  animationType: 'linear',
+  animationEasing: 'easeOutCubic',
+  orientation: 'horizontal',
+  animationSpeed: 1000
+});</pre>
+  </div>
 
     <div class="break"></div>
 
@@ -138,9 +87,107 @@
     <div class="onoPager_listItem">Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</div>
 	</div>
 
-<script>
-  //document.getElementById('debug').innerHTML = 242;
-</script>
+  <script src="javascript/jquery.min.js"></script>
+  <script src="javascript/jquery.easing.1.3.js"></script>
+  <script src="javascript/jquery.onopager.js"></script>
+  <script type="text/javascript">
+    jQuery('#list1').onoPager({
+      pagePerItem: true,
+      listContainer: {
+        width: '400px',
+        height: '100px'
+      },
+      listItems: {
+          width: '380px',
+          height: '80px'
+      },
+      animationType: 'linear',
+      animationEasing: 'easeOutCubic',
+      orientation: 'horizontal',
+      animationSpeed: 1000
+    });
 
+    jQuery('#list2').onoPager({
+      pagePerItem: true,
+      listContainer: {
+        width: '400px',
+        height: '100px'
+      },
+      listItems: {
+          width: '380px',
+          height: '80px'
+      },
+      status: {
+        active: false
+      },
+      scroller: {
+        active: true,
+        pixelMove: 2
+      },
+      animationType: 'linearScroller',
+      animationSpeed: 1000
+    });
+
+    /*
+    jQuery(function() {
+      jQuery('#list1').onoPager({
+        pagePerItem: true,
+        listContainer: {
+          width: '400px',
+          height: '100px'
+        },
+        listItems: {
+            width: '380px',
+            height: '80px'
+        },
+        autoPage: {
+          active: true,
+          interval: 5000
+        },
+        keyTriggersPage: true,
+        swipeTriggersPage: true,
+        swipePlatforms: 'all',
+        animationType: 'linear',
+        animationEasing: 'easeOutCubic',
+        orientation: 'vertical',
+        animationSpeed: 1000
+      })
+
+      jQuery('#list2').onoPager({
+        pagePerItem: true,
+        listContainer: {
+          width: '400px',
+          height: '100px'
+        },
+        listItems: {
+            width: '380px',
+            height: '80px'
+        },
+        scroller: {
+          active: true,
+          pixelMove: 2
+        },
+        animationType: 'linearScroller',
+        animationSpeed: 1000
+      })
+
+      jQuery('#list3').onoPager({
+        pagePerItem: true,
+        pageLoop: false,
+        listContainer: {
+          width: '300px',
+          height: '100px'
+        },
+        listItems: {
+          width: '800px',
+          height: '500px'
+        },
+        animationType: 'slides',
+        animationEasing: 'easeOutCubic',
+        animationSpeed: 1000
+      })
+    })
+    */
+  </script>
 </body>
 </html>

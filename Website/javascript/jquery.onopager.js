@@ -1344,7 +1344,10 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
   delete this.pagerHover;
 
   this._pagerHover = function(move) {
-    this._config.scroller.updateHandle();
+    if (this._config.scroller.updateHandle) {
+      // update the handle of the scroller if one exists.
+      this._config.scroller.updateHandle();
+    }
     this.pagerHover(move);
   }
 };

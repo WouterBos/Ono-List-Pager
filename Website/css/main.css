@@ -43,6 +43,9 @@ q:before,q:after {
 abbr,acronym {
 	border:0
 }
+a {
+  color: #0000ff;
+}
 
 html {
 	height: 100%;
@@ -56,7 +59,8 @@ html {
 
 body {
 	font-family: Arial;
-	font-size: 16px;
+	font-size: 14px;
+  margin: 15px;
 }
 
 h1 {
@@ -75,8 +79,14 @@ h2 {
 
 h3 {
 	margin: 1 0 0 0;
-	font-size: 14px;
+	font-size: 15px;
 	font-weight: bold;
+}
+
+h3 span {
+  margin-left: 0.4em;
+  font-style: italic;
+  font-weight: normal;
 }
 
 
@@ -97,6 +107,46 @@ ul.specs li {
 
 div.break {
     height: 2em;
+}
+
+div.code {
+  float: left;
+  position: relative;
+  color: #0000ff;
+  text-decoration: underline;
+}
+
+div.code pre {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  z-index: 100;
+  opacity: 0;
+  border: 15px solid #dddddd;
+  -moz-outline-radius: 4px; 
+  -webkit-outline-radius: 4px; 
+  outline-radius: 4px; 
+  outline: 3px solid rgba(220,220,220,0.5);
+  width: 100%;
+  height: 0;
+  text-align: left;
+  padding: 5px;
+  overflow-y: scroll;
+  color: #000000;
+  font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
+  font-size: 12px;
+  text-decoration: none;
+  background: #dddddd;
+  -moz-transition: all 0.3s ease-out;  
+  -o-transition: all 0.3s ease-out;  
+  -webkit-transition: all 0.3s ease-out;  
+  -ms-transition: all 0.3s ease-out;  
+  transition: all 0.3s ease-out;  
+}
+div.code:hover pre {
+  opacity: 1;
+  width: 300px;
+  height: 200px;
 }
 
 
