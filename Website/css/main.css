@@ -83,26 +83,27 @@ h3 {
 	font-weight: bold;
 }
 
-h3 span {
-  margin-left: 0.4em;
-  font-style: italic;
-  font-weight: normal;
+
+
+
+
+
+div.title {
+  min-height: 0;
+}
+div.title:after {
+  clear: both;
+  display: block;
+  width: 100%;
+  content: "";
 }
 
-
-
-
-
-
-ul.specs {
-    position: absolute;
-    top: 10px;
-    right: 10px;
+div.title h3 {
+  float: left;
 }
 
-ul.specs li {
-    margin-left: 20px;
-    list-style-type: disc;
+div.title div.code {
+  float: left;
 }
 
 div.break {
@@ -110,9 +111,11 @@ div.break {
 }
 
 div.code {
-  float: left;
+  margin: 0 0 0 1em;
+  display: inline;
   position: relative;
   color: #0000ff;
+  font-size: 12px;
   text-decoration: underline;
 }
 
@@ -122,11 +125,16 @@ div.code pre {
   left: -10px;
   z-index: 100;
   opacity: 0;
-  border: 15px solid #dddddd;
+  -moz-transition: all 0.3s ease-out;  
+  -o-transition: all 0.3s ease-out;  
+  -webkit-transition: all 0.3s ease-out;  
+  -ms-transition: all 0.3s ease-out;  
+  transition: all 0.3s ease-out;  
+  border: 5px solid #dddddd;
   -moz-outline-radius: 4px; 
   -webkit-outline-radius: 4px; 
   outline-radius: 4px; 
-  outline: 3px solid rgba(220,220,220,0.5);
+  outline: 2px solid rgba(220,220,220,0.5);
   width: 100%;
   height: 0;
   text-align: left;
@@ -137,16 +145,22 @@ div.code pre {
   font-size: 12px;
   text-decoration: none;
   background: #dddddd;
-  -moz-transition: all 0.3s ease-out;  
-  -o-transition: all 0.3s ease-out;  
-  -webkit-transition: all 0.3s ease-out;  
-  -ms-transition: all 0.3s ease-out;  
-  transition: all 0.3s ease-out;  
 }
 div.code:hover pre {
   opacity: 1;
   width: 300px;
   height: 200px;
+}
+
+ul.demos {
+  margin-left: -20px;
+}
+
+ul.demos > li {
+  float: left;
+  margin: 0 0 20px 20px;
+  width: 300px;
+  height: 210px;
 }
 
 
@@ -198,7 +212,9 @@ div.onoPager_scrollerHandle {
   position: absolute;
   left: 0;
   top: 0;
-  width: 20px;
-  height: 20px;
+  border-radius: 10px;
+  border: 1px solid #333333;
+  width: 18px;
+  height: 18px;
   background: #999999;
 }

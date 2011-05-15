@@ -583,7 +583,7 @@
         );
       }
       if (config.platform == 'all') {
-        // Handle swipes on desktop
+        // Handles swipes on desktop
         $(this).mousedown(function(e) {
           var offsetLeft = ($(window).width() - $(this).outerWidth(true)) / 2;
           var offsetTop = ($(window).height() - $(this).outerHeight(true)) / 2;
@@ -596,7 +596,7 @@
               $(this).unbind('mousemove');
             });
 
-            // Handle horizontal swipes
+            // Handles horizontal swipes
             var diffX = (e.pageX - offsetLeft) - data.x;
             var diffY = (e.pageY - offsetTop) - data.y;
 
@@ -711,7 +711,7 @@ onoPager.scroller = function(arg_pageScroller,
     pageScroller.css(pageScrollerCss);
 
     totalScroll = tools.getInnerSize(orientation, pageScroller) -
-                    tools.getInnerSize(orientation, pageHandle);
+                    tools.getOuterSize(orientation, pageHandle);
     var dragHandler = new onoPager.scroller.dragHandle();
     dragHandler.init(pageHandle, orientation, totalScroll, animation);
   }
@@ -1809,8 +1809,8 @@ onoPager.tools = (function() {
     },
 
     /**
-     * Returns either the width or height of an element in pixels. Padding and
-     *   border included.
+     * Returns either the width or height of an element in pixels. Padding
+     *   included.
      * @param {Object} orientation Either 'horizontal' or 'vertical'.
      * @param {Object} selector jQuery selector.
      * @return {String} Either width or height in pixels.
@@ -1820,6 +1820,21 @@ onoPager.tools = (function() {
         return jQuery(selector).innerWidth(true);
       } else if (orientation == VERTICAL) {
         return jQuery(selector).innerHeight(true);
+      }
+    },
+
+    /**
+     * Returns either the width or height of an element in pixels. Padding and
+     *   border included.
+     * @param {Object} orientation Either 'horizontal' or 'vertical'.
+     * @param {Object} selector jQuery selector.
+     * @return {String} Either width or height in pixels.
+     */
+    getOuterSize: function(orientation, selector) {
+      if (orientation == HORIZONTAL) {
+        return jQuery(selector).outerWidth(true);
+      } else if (orientation == VERTICAL) {
+        return jQuery(selector).outerHeight(true);
       }
     }
   };
