@@ -14,7 +14,9 @@
 	<meta name="robots" content="noindex" />
 	<title>Ono pager demos</title>
 
-  <link href="css/main.css" rel="stylesheet" type="text/css" />
+  <link href="css/page.css" rel="stylesheet" type="text/css" />
+  <link href="css/onoPager-basic.css" rel="stylesheet" type="text/css" />
+  <link href="css/onoPager-examples.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<h1>Ono pager demos</h1>
@@ -23,7 +25,7 @@
 	<div id="debug" style="font-size: 3em; display: none">debug</div>
   
 	<ul class="demos">
-	  <li>
+	  <li class="list1">
     	<div class="title">
         <h3>List 1: "linear"</h3>
         <div class="code">
@@ -56,7 +58,7 @@
     	</ul>
     </li>
     
-    <li>
+    <li class="list2">
       <div class="title">
         <h3>List 2: "linearScroller"</h3>
         <div class="code">
@@ -94,14 +96,15 @@
       </ul>
     </li>
     
-    <li>
+    <li class="list3">
       <div class="title">
-        <h3>List 3: "slides", orientation is vertical</h3>
+        <h3>List 3: "slides", orientation vertical</h3>
         <div class="code">
           code
           <pre>jQuery('#list3').onoPager({
   pagePerItem: true,
   pageLoop: false,
+  orientation: 'vertical',
   listContainer: {
     width: '250px',
     height: '100px'
@@ -162,6 +165,7 @@
 
     jQuery('#list2').onoPager({
       pagePerItem: true,
+      orientation: 'vertical',
       listContainer: {
         width: '250px',
         height: '100px'
@@ -173,10 +177,15 @@
       status: {
         active: false
       },
+      labels: {
+        next: '&raquo;',
+        previous: '&laquo;'
+      },
       scroller: {
         active: true,
         pixelMove: 2
       },
+      pageByNumber: false,
       animationType: 'linearScroller',
       animationSpeed: 1000
     });
@@ -184,6 +193,7 @@
     jQuery('#list3').onoPager({
       pagePerItem: true,
       pageLoop: false,
+      orientation: 'vertical',
       listContainer: {
         width: '250px',
         height: '100px'
@@ -192,6 +202,7 @@
         width: '230px',
         height: '80px'
       },
+      pageByNumber: false,
       animationType: 'slides',
       animationEasing: 'easeOutCubic',
       animationSpeed: 1000

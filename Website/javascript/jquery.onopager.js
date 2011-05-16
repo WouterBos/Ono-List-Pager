@@ -12,6 +12,7 @@
 // - onHandleDrag assumes margin-*. Must handle possible left/top as well
 // - Slider does not manage the disabled class on 'next' and 'previous'.
 // Next release:
+//  - Should 'page' still be mandatory?
 //  - Do something with handleResize()
 //    - Standard: Run method when either list container or list has dynamic size
 //    - Standard: Wait until resize is finished
@@ -178,6 +179,7 @@
         active: false,
         pixelMove: 2
       },
+      pageByNumber: true,
       keyTriggersPage: false,
       swipeTriggersPage: false,
       swipePlatforms: 'touch',
@@ -229,7 +231,9 @@
       newHTML += '<a' + EMPTY_HREF +
         ' class="' + ONOPAGER + '_previous ' + ONOPAGER + '_step" title="' +
         config.labels.previous + '">' + config.labels.previous + '</a>';
-      newHTML += '<div class="' + ONOPAGER + '_pageByNumber"/>';
+      if (config.pageByNumber == true) {
+        newHTML += '<div class="' + ONOPAGER + '_pageByNumber"/>';
+      }
       newHTML += '<a' + EMPTY_HREF + ' class="' + ONOPAGER + '_next ' +
         ONOPAGER + '_step" ' + 'title="' + config.labels.next + '">' +
         config.labels.next + '</a>';
@@ -677,6 +681,7 @@ onoPager.scroller = function(arg_pageScroller,
   var listContainerSize = 0;
   var listScrollSize = 0;
   var interval = 10;
+  var topLeft = tools.getTopLeft(orientation)
 
   function _updateHandle() {
     var positionList = tools.getOffset(orientation, list);
@@ -684,7 +689,7 @@ onoPager.scroller = function(arg_pageScroller,
     var offset = -(positionList - positionListContainer);
     clearIntervalIfNoChange(offset);
     var scrollPercentage = Math.round((offset / listScrollSize) * 100);
-    pageHandle.css('left', ((totalScroll / 100) * scrollPercentage) + 'px');
+    pageHandle.css(topLeft, ((totalScroll / 100) * scrollPercentage) + 'px');
   }
 
   function clearIntervalIfNoChange(arg_offset) {
@@ -708,6 +713,11 @@ onoPager.scroller = function(arg_pageScroller,
     var sizeKey = tools.getWidthHeight(orientation);
     var pageScrollerCss = {};
     pageScrollerCss[sizeKey] = listContainerSize + 'px';
+    if (orientation == 'horizontal') {
+      pageScrollerCss['height'] = pageHandle.outerHeight();
+    } else {
+      pageScrollerCss['width'] = pageHandle.outerWidth();
+    }
     pageScroller.css(pageScrollerCss);
 
     totalScroll = tools.getInnerSize(orientation, pageScroller) -
@@ -957,7 +967,6 @@ onoPager.pager = function(arg_index,
         if (pageLoop == false && (index == (length - 1))) {
           clearInterval(autoPageInterval);
         }
-        //console.log(autoPageConfig)
         autoPageConfig.animation._page(index, move(1));
       },
       autoPageConfig.interval
@@ -1016,7 +1025,6 @@ onoPager.pager = function(arg_index,
                                 orientation,
                                 listContainer,
                                 list) {
-    console.log('init autopager');
     var tools = onoPager.tools;
     var overflow = tools.getInnerSize(orientation, listContainer) -
                      tools.getInnerSize(orientation, list);
@@ -1040,7 +1048,6 @@ onoPager.pager = function(arg_index,
    * );
    */
   this.resetAutopager = function() {
-    console.log('reset autopager');
     clearInterval(autoPageInterval);
     startAutopager();
   }
@@ -1159,11 +1166,6 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
   if (typeof(extraConfig) == 'object') {
     jQuery.extend(true, this._config.custom, extraConfig);
   }
-
-  // TODO: paging width is not always the same as the width of the first
-  //    list item
-
-  this._pageWidth = this._config.listItems.innerWidth();
 
   /**
    * Checks if arg_scroll is not out of bounds. Use this method if you want to
@@ -1372,6 +1374,7 @@ onoPager.animation.slides = function(newConfig, extraConfig) {
    * @memberOf onoPager.animation.slides
    */
   var slidesInstance = new onoPager.animation._standard(newConfig, extraConfig);
+  var tools = onoPager.tools;
 
   /**
    * @see onoPager.animation._standard#init
@@ -1389,21 +1392,6 @@ onoPager.animation.slides = function(newConfig, extraConfig) {
   }
 
   /**
-   * @see onoPager.animation._standard#getPagesLength
-   * @memberOf onoPager.animation.slides
-   * @return {Number} See onoPager.animation._standard#getPagesLength.
-   * @this
-   */
-  slidesInstance.getPagesLength = function() {
-    if (this._config.pagePerItem == true) {
-      return this._config.listItems.size();
-    } else {
-      var listItemsWidth = (listItems.size() * listItems.outerWidth(true));
-      return Math.ceil(listItemsWidth / listContainer.innerWidth());
-    }
-  }
-
-  /**
    * @see onoPager.animation._standard#page
    * @memberOf onoPager.animation.slides
    * @this
@@ -1411,16 +1399,20 @@ onoPager.animation.slides = function(newConfig, extraConfig) {
   slidesInstance.page = function(oldIndex, newIndex) {
     var oldItemLeft = 0;
     var newItemLeft = 0;
+    var pageSize = tools.getInnerSize(
+      slidesInstance._config.orientation,
+      slidesInstance._config.listItems
+    );
 
     if (oldIndex < newIndex) {
       // Next
-      oldItemLeft = this._pageWidth;
-      newItemLeft = -this._pageWidth;
+      oldItemLeft = pageSize;
+      newItemLeft = -pageSize;
     }
     if (oldIndex > newIndex) {
       // Previous
-      oldItemLeft = -this._pageWidth;
-      newItemLeft = this._pageWidth;
+      oldItemLeft = -pageSize;
+      newItemLeft = pageSize;
     }
 
     jQuery(this._config.listItems[oldIndex]).stop(true, true);
@@ -1432,29 +1424,25 @@ onoPager.animation.slides = function(newConfig, extraConfig) {
         item.hide();
       }
     });
-
-    jQuery(this._config.listItems[newIndex]).css(
-      {
-        'display': 'block',
-        'left': oldItemLeft + 'px'
-      }
-    );
-
+    
+    var newCss = {};
+    var topLeft = tools.getTopLeft(slidesInstance._config.orientation);
+    newCss['display'] = 'block';
+    newCss[topLeft] = oldItemLeft + 'px';
+    jQuery(this._config.listItems[newIndex]).css(newCss);
+    
+    var oldAni = {};
+    oldAni[topLeft] = newItemLeft + 'px';
     jQuery(this._config.listItems[oldIndex]).animate(
-      {
-        'left': newItemLeft + 'px'
-      },
+      oldAni,
       this._config.animationSpeed
     );
 
+    var newAni = {};
+    newAni[topLeft] = '0';
     jQuery(this._config.listItems[newIndex])
       .delay(this._config.animationSpeed / 8)
-      .animate(
-      {
-        'left': '0'
-      },
-      this._config.animationSpeed
-    );
+      .animate(newAni, this._config.animationSpeed);
   }
 
   /**
@@ -1635,6 +1623,7 @@ onoPager.animation.linearScroller = function(newConfig, extraConfig) {
   var linearScrollerInstance = new onoPager.animation._standard(
     newConfig, extraConfig
   );
+  var tools = onoPager.tools;
 
   /**
    * @see onoPager.animation._standard#init
@@ -1642,21 +1631,26 @@ onoPager.animation.linearScroller = function(newConfig, extraConfig) {
    * @this
    */
   linearScrollerInstance.init = function() {
-    var listWidth = 0;
-    this._config.listItems.css('float', 'left');
-    this._config.listItems.each(function(index) {
-      listWidth += jQuery(this).outerWidth(true);
-    });
-    this._config.list.css(
-      {
-        'width': listWidth + 'px',
-        'position': 'relative'
-      }
-    );
+    var listSize = 0;
+    if (this._config.orientation == 'horizontal') {
+      this._config.listItems.css('float', 'left');
+      this._config.listItems.each(function(index) {
+        listSize += jQuery(this).outerWidth(true);
+      });
+      this._config.list.css(
+        {
+          'width': listSize + 'px',
+          'position': 'relative'
+        }
+      );
     this._config.listContainer.css('position', 'relative');
-    var viewport = this._config.list.parent().width();
+    }
+    var viewport = tools.getInnerSize(
+      this._config.orientation,
+      this._config.list.parent()
+    );
 
-    if (listWidth > viewport) {
+    if (listSize > viewport) {
       this._config.pageNext.show();
     }
   }
@@ -1667,8 +1661,7 @@ onoPager.animation.linearScroller = function(newConfig, extraConfig) {
    * @this
    */
   linearScrollerInstance.page = function(oldIndex, newIndex) {
-    var offset = jQuery(this._config.listItems[newIndex]).position().left;
-    this._config.list.animate({marginLeft: '-' + offset + 'px'}, 1000);
+    // Not implemented
   }
 
   /**
@@ -1677,6 +1670,7 @@ onoPager.animation.linearScroller = function(newConfig, extraConfig) {
    * @this
    */
   linearScrollerInstance.pagerHover = function(move) {
+    var topLeft = tools.getTopLeft(this._config.orientation)
     var speed = 5;
     if (move >= 1 || move <= -1) {
       var list = this._config.list;
@@ -1685,15 +1679,13 @@ onoPager.animation.linearScroller = function(newConfig, extraConfig) {
 
       this._moveInterval = setInterval(
         function() {
-          var currentMargin = list.css('margin-left');
+          var currentMargin = list.css('margin-' + topLeft);
           currentMargin = currentMargin.replace('px', '');
           currentMargin = parseInt(currentMargin);
           if (!checkBounds(currentMargin, list, move)) {
             return;
           }
-          list.css(
-            {'margin-left': (-move) + currentMargin + 'px'}
-          );
+          list.css('margin-' + topLeft, (-move) + currentMargin + 'px');
         },
         speed
       );
@@ -1702,9 +1694,15 @@ onoPager.animation.linearScroller = function(newConfig, extraConfig) {
     }
 
     var checkBounds = function(currentMargin, list, move) {
-      var listWidth = jQuery(list).width();
-      var viewportWidth = jQuery(list).parent().width();
-      var maxMarginBound = listWidth - viewportWidth;
+      var listSize = tools.getInnerSize(
+        linearScrollerInstance._config.orientation,
+        jQuery(list)
+      );
+      var viewportSize = tools.getInnerSize(
+        linearScrollerInstance._config.orientation,
+        jQuery(list).parent()
+      );
+      var maxMarginBound = listSize - viewportSize;
       var newMargin = currentMargin - move;
       var DISABLED = 'disabled';
 
@@ -1822,20 +1820,5 @@ onoPager.tools = (function() {
         return jQuery(selector).innerHeight(true);
       }
     },
-
-    /**
-     * Returns either the width or height of an element in pixels. Padding and
-     *   border included.
-     * @param {Object} orientation Either 'horizontal' or 'vertical'.
-     * @param {Object} selector jQuery selector.
-     * @return {String} Either width or height in pixels.
-     */
-    getOuterSize: function(orientation, selector) {
-      if (orientation == HORIZONTAL) {
-        return jQuery(selector).outerWidth(true);
-      } else if (orientation == VERTICAL) {
-        return jQuery(selector).outerHeight(true);
-      }
-    }
   };
 })();
