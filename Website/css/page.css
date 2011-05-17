@@ -78,9 +78,16 @@ h2 {
 }
 
 h3 {
-	margin: 1 0 0 0;
-	font-size: 15px;
-	font-weight: bold;
+  clear: both;
+	margin: 1em 0 0.5em 0;
+  font-family: "Lucida Sans Unicode","Lucida Grande",sans-serif;
+	font-size: 16px;
+}
+
+h4 {
+  clear: both;
+  font-size: 13px;
+  font-weight: bold;
 }
 
 
@@ -148,8 +155,10 @@ div.code:hover pre {
   height: 210px;
 }
 
+
+
 ul.demos {
-  margin-left: -20px;
+  margin: 0 0 20px -20px;
 }
 
 ul.demos > li {
@@ -157,4 +166,45 @@ ul.demos > li {
   margin: 0 0 20px 20px;
   width: 300px;
   height: 210px;
+}
+
+ul.demos h4 {
+  float: left;
+  margin-bottom: 10px;
+}
+
+
+
+ul.editDemo {
+  min-height: 0;
+}
+ul.editDemo:after {
+  clear: both;
+  display: block;
+  width: 100%;
+  content: "";
+}
+
+ul.editDemo li:first-child {
+  float: left;
+  width: 45%
+}
+ul.editDemo li:first-child + li {
+  float: left;
+  width: 30%
+}
+ul.editDemo li:first-child + li + li {
+  float: left;
+  width: 25%
+}
+
+ul.editDemo textarea {
+  width: 95%;
+  height: 250px;
+  font-size: 12px;
+  font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
+}
+
+#editDemo_result > div {
+  margin-bottom: 1em; 
 }

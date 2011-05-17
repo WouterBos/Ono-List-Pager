@@ -24,10 +24,12 @@
 
 	<div id="debug" style="font-size: 3em; display: none">debug</div>
   
+  <h3>Demos</h3>
+  
 	<ul class="demos">
 	  <li class="list1">
     	<div class="title">
-        <h3>List 1: "linear"</h3>
+        <h4>List 1: "linear"</h4>
         <div class="code">
           code
           <pre>jQuery('#list1').onoPager({
@@ -60,7 +62,7 @@
     
     <li class="list2">
       <div class="title">
-        <h3>List 2: "linearScroller"</h3>
+        <h4>List 2: "linearScroller"</h4>
         <div class="code">
           code
           <pre>jQuery('#list2').onoPager({
@@ -98,7 +100,7 @@
     
     <li class="list3">
       <div class="title">
-        <h3>List 3: "slides", orientation vertical</h3>
+        <h4>List 3: "slides", orientation vertical</h4>
         <div class="code">
           code
           <pre>jQuery('#list3').onoPager({
@@ -130,8 +132,8 @@
       </ul>
     </li>
   
-    <li>
-    	<h3>List 4: Animation with non-semantic markup (no &lt;ul&gt;, but &lt;div&gt;)</h3>
+    <li style="overflow: hidden">
+    	<h4>List 4: Animation with non-semantic markup (no &lt;ul&gt;, but &lt;div&gt;)</h4>
     	<div id="list4" class="onoPager_noJs">
         <div class="onoPager_listItem">Lorem ipsum dolor sit amet site amet site amet. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. Donec vel risus diam. Vestibulum posuere tristique Etiam vitae massa</div>
         <div class="onoPager_listItem">Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</div>
@@ -143,10 +145,54 @@
     </li>
   </ul>
 
+  <h3>Play with it yourself</h3>
+  
+  <ul class="editDemo">
+    <li>
+      <h4>HTML:</h4>
+      <textarea id="editDemo_html">
+&lt;ul class="onoPager_noJs">
+  &lt;li>1 Lorem ipsum dolor sit amet site amet site amet.&lt;/li>
+  &lt;li>2 Aliquam arcu odio, sollicitudin. Curabitur.&lt;/li>
+  &lt;li>3 Lorem ipsum dolor sit amet site amet site.&lt;/li>
+  &lt;li>4 Aliquam arcu odio, sollicitudin. Curabitur.&lt;/li>
+  &lt;li>5 Lorem ipsum dolor sit amet site amet site amet.&lt;/li>
+  &lt;li>6 Aliquam arcu odio, sollicitudin.&lt;/li>
+&lt;/ul>
+      </textarea>
+    </li>
+    <li>
+      <h4>JavaScript:</h4>
+      <textarea id="editDemo_js">{
+  pagePerItem: true,
+  listContainer: {
+    width: '250px',
+    height: '100px'
+  },
+  listItems: {
+      width: '230px',
+      height: '80px'
+  },
+  animationType: 'linear'
+}</textarea>
+    </li>
+    <li>
+      <h4>Result</h4>
+      <div id="editDemo_result"></div>
+      <input type="button" value="Create pager" id="runCode">
+    </li>
+  </ul>
+
   <script src="javascript/jquery.min.js"></script>
   <script src="javascript/jquery.easing.1.3.js"></script>
   <script src="javascript/jquery.onopager.js"></script>
   <script type="text/javascript">
+    jQuery('#runCode').click(function() {
+      jQuery('#editDemo_result').html(jQuery('#editDemo_html').val());
+      eval('var onoConfig = ' + jQuery('#editDemo_js').val());
+      jQuery('#editDemo_result ul').onoPager(onoConfig);
+    });
+    
     jQuery('#list1').onoPager({
       pagePerItem: true,
       listContainer: {

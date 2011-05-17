@@ -681,7 +681,7 @@ onoPager.scroller = function(arg_pageScroller,
   var listContainerSize = 0;
   var listScrollSize = 0;
   var interval = 10;
-  var topLeft = tools.getTopLeft(orientation)
+  var topLeft = tools.getTopLeft(orientation);
 
   function _updateHandle() {
     var positionList = tools.getOffset(orientation, list);
@@ -706,7 +706,7 @@ onoPager.scroller = function(arg_pageScroller,
 
 
 
-  this.init = function(animation) {
+  this.init = function(animation, pageNext, pagePrevious) {
     var listSize = tools.getInnerSize(orientation, list);
     listContainerSize = tools.getInnerSize(orientation, listContainer);
     listScrollSize = listSize - listContainerSize;
@@ -722,8 +722,13 @@ onoPager.scroller = function(arg_pageScroller,
 
     totalScroll = tools.getInnerSize(orientation, pageScroller) -
                     tools.getOuterSize(orientation, pageHandle);
-    var dragHandler = new onoPager.scroller.dragHandle();
-    dragHandler.init(pageHandle, orientation, totalScroll, animation);
+    var dragHandler = new onoPager.scroller.dragHandle(pageHandle,
+                                                       orientation,
+                                                       totalScroll,
+                                                       animation,
+                                                       pageNext,
+                                                       pagePrevious);
+    dragHandler.init();
   }
 
   this.updateHandle = function() {
@@ -743,17 +748,24 @@ onoPager.scroller = function(arg_pageScroller,
  *
  * @constructor
  */
-onoPager.scroller.dragHandle = function() {
+onoPager.scroller.dragHandle = function(arg_handle,
+                                        arg_orientation,
+                                        arg_totalScroll,
+                                        arg_animation,
+                                        arg_pageNext,
+                                        arg_pagePrevious) {
   var startSize = 0;
   var offsetSize = 0;
   var previousSize = 0;
   var dragElement;
-  var orientation = '';
   var HORIZONTAL = 'horizontal';
   var VERTICAL = 'vertical';
-  var handle;
-  var totalScroll;
-  var animation;
+  var handle = arg_handle;
+  var orientation = arg_orientation;
+  var totalScroll = arg_totalScroll;
+  var animation = arg_animation;
+  var pageNext = arg_pageNext;
+  var pagePrevious = arg_pagePrevious;
 
   function onMouseDown(e) {
     var target = e.target;
@@ -797,8 +809,13 @@ onoPager.scroller.dragHandle = function() {
 
     if (offset < 0) {
       offset = 0;
+      pagePrevious.addClass('disabled');
     } else if (offset > totalScroll) {
       offset = totalScroll;
+      pageNext.addClass('disabled');
+    } else {
+      pageNext.removeClass('disabled');
+      pagePrevious.removeClass('disabled');
     }
 
     return offset;
@@ -818,14 +835,7 @@ onoPager.scroller.dragHandle = function() {
 
 
 
-  this.init = function(arg_handle,
-                       arg_orientation,
-                       arg_totalScroll,
-                       arg_animation) {
-    handle = arg_handle;
-    orientation = arg_orientation;
-    totalScroll = arg_totalScroll;
-    animation = arg_animation;
+  this.init = function() {
     handle.mousedown(onMouseDown);
 
     if (orientation == HORIZONTAL) {
