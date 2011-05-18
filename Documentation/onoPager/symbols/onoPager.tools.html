@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
-		<title>onoPager.pager | OnoPager reference</title>
+		<title>onoPager.tools | OnoPager reference</title>
 
 		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;" />
 		<meta name="mobileoptimized" content="0" />
@@ -84,12 +84,12 @@
 			<header>
 				<h1 class="classTitle">
 					
-					Namespace <span>onoPager.pager</span>
+					Namespace <span>onoPager.tools</span>
 				</h1>
 				
 				<div class="intro">
 					<p class="description summary">
-						Paging logic.
+						Helper methods for the animation objects.
 					</p>
 						
 					
@@ -108,7 +108,7 @@
 			
 				<section>
 					<div class="props">
-						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class onoPager.pager.">
+						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class onoPager.tools.">
 							<caption class="sectionTitle">Namespace Summary</caption>
 							<thead>
 								<tr>
@@ -121,7 +121,7 @@
 									<td class="attributes">&nbsp;</td>
 									<td class="nameDescription" >
 										<div class="fixedFont">
-											<b><a href="../symbols/onoPager.pager.html#constructor">onoPager.pager</a></b>
+											<b><a href="../symbols/onoPager.tools.html#constructor">onoPager.tools</a></b>
 										</div>
 										<div class="description"></div>
 									</td>
@@ -145,7 +145,7 @@
 						
 						
 							<nav>
-								<table class="summaryTable" id="MethodsList" cellspacing="0" summary="A summary of the methods documented in the class onoPager.pager.">
+								<table class="summaryTable" id="MethodsList" cellspacing="0" summary="A summary of the methods documented in the class onoPager.tools.">
 									<thead>
 										<tr>
 											<th scope="col">Method Attributes</th>
@@ -159,55 +159,66 @@
 											<tr
 												 class='item0'
 											>
-												<td class="attributes">&nbsp;</td>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/onoPager.pager.html#getIndex">getIndex</a></b>()
+													<div class="fixedFont">onoPager.tools.<b><a href="../symbols/onoPager.tools.html#.getInnerSize">getInnerSize</a></b>(orientation, selector)
 													</div>
-													<div class="description">Returns index of currently active page</div>
+													<div class="description">Returns either the width or height of an element in pixels.</div>
 												</td>
 											</tr>
 										
 											<tr
 												 class='item1'
 											>
-												<td class="attributes">&nbsp;</td>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/onoPager.pager.html#initAutopager">initAutopager</a></b>(arg_autoPageConfig, arg_animation, orientation, listContainer, list)
+													<div class="fixedFont">onoPager.tools.<b><a href="../symbols/onoPager.tools.html#.getOffset">getOffset</a></b>(orientation, selector)
 													</div>
-													<div class="description">Sets index adding move value to index</div>
+													<div class="description">Returns either left or top position in pixels relative to the page.</div>
 												</td>
 											</tr>
 										
 											<tr
 												 class='item2'
 											>
-												<td class="attributes">&nbsp;</td>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/onoPager.pager.html#move">move</a></b>(arg_move)
+													<div class="fixedFont">onoPager.tools.<b><a href="../symbols/onoPager.tools.html#.getOuterSize">getOuterSize</a></b>(orientation, selector)
 													</div>
-													<div class="description">Sets index adding move value to index</div>
+													<div class="description">Returns either the width or height of an element in pixels.</div>
 												</td>
 											</tr>
 										
 											<tr
 												 class='item3'
 											>
-												<td class="attributes">&nbsp;</td>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/onoPager.pager.html#resetAutopager">resetAutopager</a></b>()
+													<div class="fixedFont">onoPager.tools.<b><a href="../symbols/onoPager.tools.html#.getPosition">getPosition</a></b>(orientation, selector)
 													</div>
-													<div class="description">Sets index adding move value to index</div>
+													<div class="description">Returns either left or top position in pixels relative to its offsetparent.</div>
 												</td>
 											</tr>
 										
 											<tr
 												 class='item4'
 											>
-												<td class="attributes">&nbsp;</td>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/onoPager.pager.html#setIndex">setIndex</a></b>(arg_index)
+													<div class="fixedFont">onoPager.tools.<b><a href="../symbols/onoPager.tools.html#.getTopLeft">getTopLeft</a></b>(orientation)
 													</div>
-													<div class="description">Sets index by assigning it.</div>
+													<div class="description">Returns either the string 'left' or 'top'.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item5'
+											>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">onoPager.tools.<b><a href="../symbols/onoPager.tools.html#.getWidthHeight">getWidthHeight</a></b>(orientation)
+													</div>
+													<div class="description">Returns either the string 'width' or 'height'.</div>
 												</td>
 											</tr>
 										
@@ -237,7 +248,7 @@
 							</h2>
 							
 							<div class="fixedFont">
-								<b>onoPager.pager</b>
+								<b>onoPager.tools</b>
 							</div>
 							
 							<div class="description">
@@ -247,41 +258,6 @@
 							
 							
 						
-							
-								<dl class="detailList params">
-									<dt class="heading">Parameters:</dt>
-									
-										<dt>
-											<span class="light fixedFont">{Number|Null}</span>  <b>arg_index</b>
-											
-										</dt>
-										<dd>Initial index position.</dd>
-									
-										<dt>
-											<span class="light fixedFont">{Number|Null}</span>  <b>arg_length</b>
-											
-										</dt>
-										<dd>Number of items in list.</dd>
-									
-										<dt>
-											<span class="light fixedFont">{Boolean|Null}</span>  <b>arg_pageLoop</b>
-											
-										</dt>
-										<dd>If set to true, the pager will loop from the last item back to the first.</dd>
-									
-										<dt>
-											<span class="light fixedFont">{Object}</span>  <b>arg_controls</b>
-											
-										</dt>
-										<dd>Object that contains certain elements in the pager, wrapped in a jQuery object.</dd>
-									
-										<dt>
-											<span class="light fixedFont">{Object}</span>  <b>arg_status</b>
-											
-										</dt>
-										<dd>Configuration object for the status box.</dd>
-									
-								</dl>
 							
 							
 							
@@ -310,18 +286,18 @@
 									<li 
 										 class='item0'
 									>
-										<div class="fixedFont heading" id="getIndex">
+										<div class="fixedFont heading" id=".getInnerSize">
 											<span class='lighter'>
-											
+											&lt;static&gt; 
 											</span>
 											
-											<span class="light">{Number}</span>
+											<span class="light">{String}</span>
 											
-											<b>getIndex</b>()
+											<span class="light">onoPager.tools.</span><b>getInnerSize</b>(orientation, selector)
 										</div>
 										
 										<div class="description">
-											Returns index of currently active page
+											Returns either the width or height of an element in pixels. Padding  included.
 											
 											
 											
@@ -330,6 +306,23 @@
 										
 										
 										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{Object}</span> <b>orientation</b>
+														
+													</dt>
+													<dd>Either 'horizontal' or 'vertical'.</dd>
+												
+													<dt>
+														<span class="light fixedFont">{Object}</span> <b>selector</b>
+														
+													</dt>
+													<dd>jQuery selector.</dd>
+												
+											</dl>
 										
 										
 										
@@ -344,7 +337,7 @@
 												
 													<dt class="heading">Returns:</dt>
 													
-														<dd><span class="light fixedFont">{Number}</span> Index of currently active page.</dd>
+														<dd><span class="light fixedFont">{String}</span> Either width or height in pixels.</dd>
 													
 												
 												
@@ -360,103 +353,41 @@
 									<li 
 										 class='item1'
 									>
-										<div class="fixedFont heading" id="initAutopager">
+										<div class="fixedFont heading" id=".getOffset">
 											<span class='lighter'>
-											
+											&lt;static&gt; 
 											</span>
 											
+											<span class="light">{Number}</span>
 											
-											
-											<b>initAutopager</b>(arg_autoPageConfig, arg_animation, orientation, listContainer, list)
+											<span class="light">onoPager.tools.</span><b>getOffset</b>(orientation, selector)
 										</div>
 										
 										<div class="description">
-											Sets index adding move value to index
+											Returns either left or top position in pixels relative to the page.
 											
 											
 											
 											
 										</div>
 										
-										
-											
-												<pre class="code">instance.initAutoPager(   {     active: true,     interval: 2000   });</pre>
-											
 										
 										
 										
 											<dl class="detailList params">
 												<dt class="heading">Parameters:</dt>
-												
-													<dt>
-														<span class="light fixedFont">{Object}</span> <b>arg_autoPageConfig</b>
-														
-													</dt>
-													<dd>AutoPage configuration.</dd>
-												
-													<dt>
-														<span class="light fixedFont">{Object}</span> <b>arg_animation</b>
-														
-													</dt>
-													<dd>Animation instance.</dd>
 												
 													<dt>
 														<span class="light fixedFont">{Object}</span> <b>orientation</b>
 														
 													</dt>
-													<dd>Determines on what axis the   animation moves. Possible values are 'horizontal' and 'vertical' though   it's possible to use other values as long as the animation object   supports that value. Default value is 'horizontal'.</dd>
+													<dd>Either 'horizontal' or 'vertical'.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{Object}</span> <b>listContainer</b>
+														<span class="light fixedFont">{Object}</span> <b>selector</b>
 														
 													</dt>
-													<dd>Element that holds the list.</dd>
-												
-													<dt>
-														<span class="light fixedFont">{Object}</span> <b>list</b>
-														
-													</dt>
-													<dd>Element that is the root of the list. That's the &lt;ul&gt; most of the time.</dd>
-												
-											</dl>
-										
-										
-										
-										<div class="hr"></div>
-									</li>
-								
-									<li 
-										 class='item2'
-									>
-										<div class="fixedFont heading" id="move">
-											<span class='lighter'>
-											
-											</span>
-											
-											<span class="light">{Number}</span>
-											
-											<b>move</b>(arg_move)
-										</div>
-										
-										<div class="description">
-											Sets index adding move value to index
-											
-											
-											
-											
-										</div>
-										
-										
-										
-										
-											<dl class="detailList params">
-												<dt class="heading">Parameters:</dt>
-												
-													<dt>
-														<span class="light fixedFont">{Number}</span> <b>arg_move</b>
-														
-													</dt>
-													<dd>The number the pager has to move.</dd>
+													<dd>jQuery selector.</dd>
 												
 											</dl>
 										
@@ -473,7 +404,74 @@
 												
 													<dt class="heading">Returns:</dt>
 													
-														<dd><span class="light fixedFont">{Number}</span> index Returns the current index.</dd>
+														<dd><span class="light fixedFont">{Number}</span> Left or top offset in pixels.</dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item2'
+									>
+										<div class="fixedFont heading" id=".getOuterSize">
+											<span class='lighter'>
+											&lt;static&gt; 
+											</span>
+											
+											<span class="light">{String}</span>
+											
+											<span class="light">onoPager.tools.</span><b>getOuterSize</b>(orientation, selector)
+										</div>
+										
+										<div class="description">
+											Returns either the width or height of an element in pixels. Padding,  border and margin included.
+											
+											
+											
+											
+										</div>
+										
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{Object}</span> <b>orientation</b>
+														
+													</dt>
+													<dd>Either 'horizontal' or 'vertical'.</dd>
+												
+													<dt>
+														<span class="light fixedFont">{Object}</span> <b>selector</b>
+														
+													</dt>
+													<dd>jQuery selector.</dd>
+												
+											</dl>
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{String}</span> Either width or height in pixels.</dd>
 													
 												
 												
@@ -489,51 +487,18 @@
 									<li 
 										 class='item3'
 									>
-										<div class="fixedFont heading" id="resetAutopager">
+										<div class="fixedFont heading" id=".getPosition">
 											<span class='lighter'>
-											
-											</span>
-											
-											
-											
-											<b>resetAutopager</b>()
-										</div>
-										
-										<div class="description">
-											Sets index adding move value to index
-											
-											
-											
-											
-										</div>
-										
-										
-											
-												<pre class="code">instance.initAutoPager(   {     active: true,     interval: 2000   });</pre>
-											
-										
-										
-										
-										
-										
-										<div class="hr"></div>
-									</li>
-								
-									<li 
-										 class='item4'
-									>
-										<div class="fixedFont heading" id="setIndex">
-											<span class='lighter'>
-											
+											&lt;static&gt; 
 											</span>
 											
 											<span class="light">{Number}</span>
 											
-											<b>setIndex</b>(arg_index)
+											<span class="light">onoPager.tools.</span><b>getPosition</b>(orientation, selector)
 										</div>
 										
 										<div class="description">
-											Sets index by assigning it.
+											Returns either left or top position in pixels relative to its offsetparent.
 											
 											
 											
@@ -547,10 +512,16 @@
 												<dt class="heading">Parameters:</dt>
 												
 													<dt>
-														<span class="light fixedFont">{Number}</span> <b>arg_index</b>
+														<span class="light fixedFont">{Object}</span> <b>orientation</b>
 														
 													</dt>
-													<dd>The new index.</dd>
+													<dd>Either 'horizontal' or 'vertical'.</dd>
+												
+													<dt>
+														<span class="light fixedFont">{Object}</span> <b>selector</b>
+														
+													</dt>
+													<dd>jQuery selector.</dd>
 												
 											</dl>
 										
@@ -567,7 +538,129 @@
 												
 													<dt class="heading">Returns:</dt>
 													
-														<dd><span class="light fixedFont">{Number}</span> Returns the current index.</dd>
+														<dd><span class="light fixedFont">{Number}</span> Left or top position in pixels.</dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item4'
+									>
+										<div class="fixedFont heading" id=".getTopLeft">
+											<span class='lighter'>
+											&lt;static&gt; 
+											</span>
+											
+											<span class="light">{String}</span>
+											
+											<span class="light">onoPager.tools.</span><b>getTopLeft</b>(orientation)
+										</div>
+										
+										<div class="description">
+											Returns either the string 'left' or 'top'.
+											
+											
+											
+											
+										</div>
+										
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{Object}</span> <b>orientation</b>
+														
+													</dt>
+													<dd>Either 'horizontal' or 'vertical'.</dd>
+												
+											</dl>
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{String}</span> Either 'left or 'top'.</dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item5'
+									>
+										<div class="fixedFont heading" id=".getWidthHeight">
+											<span class='lighter'>
+											&lt;static&gt; 
+											</span>
+											
+											<span class="light">{String}</span>
+											
+											<span class="light">onoPager.tools.</span><b>getWidthHeight</b>(orientation)
+										</div>
+										
+										<div class="description">
+											Returns either the string 'width' or 'height'.
+											
+											
+											
+											
+										</div>
+										
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{Object}</span> <b>orientation</b>
+														
+													</dt>
+													<dd>Either 'horizontal' or 'vertical'.</dd>
+												
+											</dl>
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{String}</span> Either 'width or 'height'.</dd>
 													
 												
 												

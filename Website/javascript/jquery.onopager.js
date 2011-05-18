@@ -7,10 +7,10 @@
  */
 
 // TODO:
+// - Manage the number of visible items in pageByNumber 
 // - Build support for scroll wheel
 // - Highlight arrow key when pressing an arrow key on keyboard
 // - onHandleDrag assumes margin-*. Must handle possible left/top as well
-// - Slider does not manage the disabled class on 'next' and 'previous'.
 // Next release:
 //  - Should 'page' still be mandatory?
 //  - Do something with handleResize()
@@ -48,6 +48,8 @@
    * @param {Object} animationConfig Optional extra configuration object for
    *    the animation object.
    * @param {Boolean} animationConfig.pagePerItem Page per item.
+   * @param {Boolean} animationConfig.pageLoop If true, the pager scrolls back
+   *    to the first item after the last item.
    * @param {String} animationConfig.ListContainer.width Width of list
    *    container, like '200px'.
    * @param {String} animationConfig.ListContainer.height Height of list
@@ -71,10 +73,14 @@
    *    between the page index number and the total pages number.
    * @param {String} animationConfig.status.appendText Text that appears after
    *    the total pages number.
-   * @param {Boolean} animationConfig.scroller Activates a Javascript scrollbar.
-   *    Default is true.
-   * @param {Boolean} animationConfig.keyTriggersPage Activates page navigation
-   *    by using the arrow keys on the keyboard. Default is false.
+   * @param {Boolean} animationConfig.scroller.active Activates a Javascript
+   *    scrollbar. Default is true.
+   * @param {Boolean} animationConfig.scroller.active Activates a Javascript
+   *    scrollbar. Default is true.
+   * @param {Boolean} animationConfig.pixelMove The amount of pixels the pager
+   *    scrolls after each frame.
+   * @param {Boolean} animationConfig.pageByNumber.active Activates the bar with
+   *    all pages, defined by number. Default is true.
    * @param {Boolean} animationConfig.swipeTriggersPage Activates page
    *    navigation by swiping on the screen. Default is false.
    * @param {String} animationConfig.swipePlatforms Determines on what platforms
@@ -138,7 +144,13 @@
    *      seperationText: ' of ',
    *      appendText: ' pages'
    *    },
-   *    scroller: true,
+   *    scroller: {
+   *      active: false,
+   *      pixelMove: 2
+   *    },
+   *    pageByNumber: {
+   *      active: true
+   *    },
    *    keyTriggersPage: false,
    *    swipeTriggersPage: false,
    *    swipePlatforms: 'touch',
@@ -175,11 +187,13 @@
         seperationText: ' / ',
         appendText: ''
       },
-      scroller: { // TODO JSDOC
+      scroller: {
         active: false,
         pixelMove: 2
       },
-      pageByNumber: true,
+      pageByNumber: {
+        active: true
+      },
       keyTriggersPage: false,
       swipeTriggersPage: false,
       swipePlatforms: 'touch',
@@ -231,7 +245,7 @@
       newHTML += '<a' + EMPTY_HREF +
         ' class="' + ONOPAGER + '_previous ' + ONOPAGER + '_step" title="' +
         config.labels.previous + '">' + config.labels.previous + '</a>';
-      if (config.pageByNumber == true) {
+      if (config.pageByNumber.active == true) {
         newHTML += '<div class="' + ONOPAGER + '_pageByNumber"/>';
       }
       newHTML += '<a' + EMPTY_HREF + ' class="' + ONOPAGER + '_next ' +
@@ -335,11 +349,12 @@
     function setControlEvents() {
       // Page with scroller
       if (config.scroller.active == true) {
+
         var scroller = new onoPager.scroller(pageScroller,
                                              listContainer,
                                              list,
                                              config.orientation);
-        scroller.init(animation);
+        scroller.init(animation, pageNext, pagePrevious);
         animation.extendConfig({scroller: scroller});
       }
 
@@ -1635,6 +1650,43 @@ onoPager.animation.linearScroller = function(newConfig, extraConfig) {
   );
   var tools = onoPager.tools;
 
+  function checkBounds(currentMargin, list, move) {
+    var pagePrevious = linearScrollerInstance._config.pagePrevious;
+    var pageNext = linearScrollerInstance._config.pageNext;
+    var listSize = tools.getInnerSize(
+      linearScrollerInstance._config.orientation,
+      jQuery(list)
+    );
+    var viewportSize = tools.getInnerSize(
+      linearScrollerInstance._config.orientation,
+      jQuery(list).parent()
+    );
+    var maxMarginBound = listSize - viewportSize;
+    var newMargin = currentMargin - move;
+    var DISABLED = 'disabled';
+    
+    if (newMargin >= 0) {
+      pagePrevious.addClass(DISABLED);
+      return false;
+    } else if ((newMargin - 1) <= (-maxMarginBound)) {
+      pageNext.addClass(DISABLED);
+      return false;
+    } else {
+      pagePrevious.removeClass(DISABLED);
+      pageNext.removeClass(DISABLED);
+      return true;
+    }
+  }
+  
+  function currentOffset() {
+    var topLeft = tools.getTopLeft(linearScrollerInstance._config.orientation);
+    var currentMargin = linearScrollerInstance._config.list.css(
+                          'margin-' + topLeft);
+    currentMargin = currentMargin.replace('px', '');
+    currentMargin = parseInt(currentMargin);
+    return currentMargin;
+  }
+
   /**
    * @see onoPager.animation._standard#init
    * @memberOf onoPager.animation.linearScroller
@@ -1663,6 +1715,8 @@ onoPager.animation.linearScroller = function(newConfig, extraConfig) {
     if (listSize > viewport) {
       this._config.pageNext.show();
     }
+    
+    checkBounds(currentOffset(), this._config.list, 0)
   }
 
   /**
@@ -1680,18 +1734,12 @@ onoPager.animation.linearScroller = function(newConfig, extraConfig) {
    * @this
    */
   linearScrollerInstance.pagerHover = function(move) {
-    var topLeft = tools.getTopLeft(this._config.orientation)
     var speed = 5;
-    if (move >= 1 || move <= -1) {
+    if (move != 0) {
       var list = this._config.list;
-      var pagePrevious = this._config.pagePrevious;
-      var pageNext = this._config.pageNext;
-
       this._moveInterval = setInterval(
         function() {
-          var currentMargin = list.css('margin-' + topLeft);
-          currentMargin = currentMargin.replace('px', '');
-          currentMargin = parseInt(currentMargin);
+          var currentMargin = currentOffset();
           if (!checkBounds(currentMargin, list, move)) {
             return;
           }
@@ -1701,32 +1749,6 @@ onoPager.animation.linearScroller = function(newConfig, extraConfig) {
       );
     } else {
       clearInterval(this._moveInterval);
-    }
-
-    var checkBounds = function(currentMargin, list, move) {
-      var listSize = tools.getInnerSize(
-        linearScrollerInstance._config.orientation,
-        jQuery(list)
-      );
-      var viewportSize = tools.getInnerSize(
-        linearScrollerInstance._config.orientation,
-        jQuery(list).parent()
-      );
-      var maxMarginBound = listSize - viewportSize;
-      var newMargin = currentMargin - move;
-      var DISABLED = 'disabled';
-
-      if (newMargin > 0) {
-        pagePrevious.addClass(DISABLED);
-        return false;
-      } else if ((newMargin - 1) <= (-maxMarginBound)) {
-        pageNext.addClass(DISABLED);
-        return false;
-      } else {
-        pagePrevious.removeClass(DISABLED);
-        pageNext.removeClass(DISABLED);
-        return true;
-      }
     }
   }
 

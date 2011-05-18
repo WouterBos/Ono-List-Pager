@@ -54,11 +54,13 @@
 				
 					<li><a href="../symbols/onoPager.animation.slides.html">onoPager<span class='break'> </span>.<span class='break'> </span>animation<span class='break'> </span>.<span class='break'> </span>slides</a></li>
 				
-					<li><a href="../symbols/onoPager.animation.tools.html">onoPager<span class='break'> </span>.<span class='break'> </span>animation<span class='break'> </span>.<span class='break'> </span>tools</a></li>
-				
 					<li><a href="../symbols/onoPager.pager.html">onoPager<span class='break'> </span>.<span class='break'> </span>pager</a></li>
 				
 					<li><a href="../symbols/onoPager.scroller.html">onoPager<span class='break'> </span>.<span class='break'> </span>scroller</a></li>
+				
+					<li><a href="../symbols/onoPager.scroller.dragHandle.html">onoPager<span class='break'> </span>.<span class='break'> </span>scroller<span class='break'> </span>.<span class='break'> </span>dragHandle</a></li>
+				
+					<li><a href="../symbols/onoPager.tools.html">onoPager<span class='break'> </span>.<span class='break'> </span>tools</a></li>
 				
 			</ul>
 		</nav>
@@ -69,7 +71,7 @@
 			Documentation generator: <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.3.2<br />
 			Template: <a href="http://www.thebrightlines.com/2010/05/06/new-template-for-jsdoctoolkit-codeview/" target="_blank">Codeview</a> 1.2<br />
 			Generated on:
-			<time datetime='2011-4-11' pubdate>2011-4-11 23:05</time>
+			<time datetime='2011-4-19' pubdate>2011-4-19 0:07</time>
 		</footer>
 	</div>
 </div>
@@ -260,7 +262,7 @@
 										
 										
 											
-												<pre class="code">// Simple example:jQuery('#list1').onoPager({  pagePerItem: false,  listContainer: {    width: '700px',    height: '100px'  },  listItems: {    width: '300px'  },  animationType: 'linear',  animationSpeed: 1000});// Advanced example:jQuery('#list1').onoPager({   pagePerItem: true,   pageLoop: true,   listContainer: {     width: '300px',     height: '100px'   },   listItems: {     width: '300px',     height: '100px'   },   activeIndex: 2,   autoPage: {     active: true,     interval: 2000,   },   labels: {     next: 'next',     previous: 'previous'   },   status: {     active: true,     prependText: 'page ',     seperationText: ' of ',     appendText: ' pages'   },   scroller: true,   keyTriggersPage: false,   swipeTriggersPage: false,   swipePlatforms: 'touch',   animationType: 'linear',   animationEasing: 'linear',   orientation: 'horizontal',   animationSpeed: 1000});</pre>
+												<pre class="code">// Simple example:jQuery('#list1').onoPager({  pagePerItem: false,  listContainer: {    width: '700px',    height: '100px'  },  listItems: {    width: '300px'  },  animationType: 'linear',  animationSpeed: 1000});// Advanced example:jQuery('#list1').onoPager({   pagePerItem: true,   pageLoop: true,   listContainer: {     width: '300px',     height: '100px'   },   listItems: {     width: '300px',     height: '100px'   },   activeIndex: 2,   autoPage: {     active: true,     interval: 2000,   },   labels: {     next: 'next',     previous: 'previous'   },   status: {     active: true,     prependText: 'page ',     seperationText: ' of ',     appendText: ' pages'   },   scroller: {     active: false,     pixelMove: 2   },   pageByNumber: {     active: true   },   keyTriggersPage: false,   swipeTriggersPage: false,   swipePlatforms: 'touch',   animationType: 'linear',   animationEasing: 'linear',   orientation: 'horizontal',   animationSpeed: 1000});</pre>
 											
 										
 										
@@ -285,6 +287,12 @@
 														
 													</dt>
 													<dd>Page per item.</dd>
+												
+													<dt>
+														<span class="light fixedFont">{Boolean}</span> <b>animationConfig.pageLoop</b>
+														
+													</dt>
+													<dd>If true, the pager scrolls back   to the first item after the last item.</dd>
 												
 													<dt>
 														<span class="light fixedFont">{String}</span> <b>animationConfig.ListContainer.width</b>
@@ -365,16 +373,28 @@
 													<dd>Text that appears after   the total pages number.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{Boolean}</span> <b>animationConfig.scroller</b>
+														<span class="light fixedFont">{Boolean}</span> <b>animationConfig.scroller.active</b>
 														
 													</dt>
-													<dd>Activates a Javascript scrollbar.   Default is true.</dd>
+													<dd>Activates a Javascript   scrollbar. Default is true.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{Boolean}</span> <b>animationConfig.keyTriggersPage</b>
+														<span class="light fixedFont">{Boolean}</span> <b>animationConfig.scroller.active</b>
 														
 													</dt>
-													<dd>Activates page navigation   by using the arrow keys on the keyboard. Default is false.</dd>
+													<dd>Activates a Javascript   scrollbar. Default is true.</dd>
+												
+													<dt>
+														<span class="light fixedFont">{Boolean}</span> <b>animationConfig.pixelMove</b>
+														
+													</dt>
+													<dd>The amount of pixels the pager   scrolls after each frame.</dd>
+												
+													<dt>
+														<span class="light fixedFont">{Boolean}</span> <b>animationConfig.pageByNumber.active</b>
+														
+													</dt>
+													<dd>Activates the bar with   all pages, defined by number. Default is true.</dd>
 												
 													<dt>
 														<span class="light fixedFont">{Boolean}</span> <b>animationConfig.swipeTriggersPage</b>

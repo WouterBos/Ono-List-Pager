@@ -54,11 +54,13 @@
 				
 					<li><a href="../symbols/onoPager.animation.slides.html">onoPager<span class='break'> </span>.<span class='break'> </span>animation<span class='break'> </span>.<span class='break'> </span>slides</a></li>
 				
-					<li><a href="../symbols/onoPager.animation.tools.html">onoPager<span class='break'> </span>.<span class='break'> </span>animation<span class='break'> </span>.<span class='break'> </span>tools</a></li>
-				
 					<li><a href="../symbols/onoPager.pager.html">onoPager<span class='break'> </span>.<span class='break'> </span>pager</a></li>
 				
 					<li><a href="../symbols/onoPager.scroller.html">onoPager<span class='break'> </span>.<span class='break'> </span>scroller</a></li>
+				
+					<li><a href="../symbols/onoPager.scroller.dragHandle.html">onoPager<span class='break'> </span>.<span class='break'> </span>scroller<span class='break'> </span>.<span class='break'> </span>dragHandle</a></li>
+				
+					<li><a href="../symbols/onoPager.tools.html">onoPager<span class='break'> </span>.<span class='break'> </span>tools</a></li>
 				
 			</ul>
 		</nav>
@@ -69,7 +71,7 @@
 			Documentation generator: <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.3.2<br />
 			Template: <a href="http://www.thebrightlines.com/2010/05/06/new-template-for-jsdoctoolkit-codeview/" target="_blank">Codeview</a> 1.2<br />
 			Generated on:
-			<time datetime='2011-4-11' pubdate>2011-4-11 23:05</time>
+			<time datetime='2011-4-19' pubdate>2011-4-19 0:07</time>
 		</footer>
 	</div>
 </div>
@@ -192,7 +194,7 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/onoPager.animation._standard.html#extendConfig">extendConfig</a></b>(newconfig)
+													<div class="fixedFont"><b><a href="../symbols/onoPager.animation._standard.html#extendConfig">extendConfig</a></b>(arg_newconfig)
 													</div>
 													<div class="description">Extend config object</div>
 												</td>
@@ -225,6 +227,28 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/onoPager.animation._standard.html#onHandleDrag">onHandleDrag</a></b>(percentage)
+													</div>
+													<div class="description">Handles drag event of the scroller handle.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item7'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/onoPager.animation._standard.html#onPagerCreated">onPagerCreated</a></b>()
+													</div>
+													<div class="description">Event that is called when the pager is created.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item8'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
 													<div class="fixedFont"><b><a href="../symbols/onoPager.animation._standard.html#page">page</a></b>(oldIndex, newIndex)
 													</div>
 													<div class="description">Makes the transition from one slide to the next.</div>
@@ -232,7 +256,7 @@
 											</tr>
 										
 											<tr
-												 class='item7'
+												 class='item9'
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
@@ -483,7 +507,7 @@
 											
 											
 											
-											<b>extendConfig</b>(newconfig)
+											<b>extendConfig</b>(arg_newconfig)
 										</div>
 										
 										<div class="description">
@@ -501,7 +525,7 @@
 												<dt class="heading">Parameters:</dt>
 												
 													<dt>
-														<span class="light fixedFont">{Object}</span> <b>newconfig</b>
+														<span class="light fixedFont">{Object}</span> <b>arg_newconfig</b>
 														
 													</dt>
 													<dd>The new config object that has to extend theexisting config object.</dd>
@@ -595,6 +619,75 @@
 									<li 
 										 class='item6'
 									>
+										<div class="fixedFont heading" id="onHandleDrag">
+											<span class='lighter'>
+											
+											</span>
+											
+											
+											
+											<b>onHandleDrag</b>(percentage)
+										</div>
+										
+										<div class="description">
+											Handles drag event of the scroller handle.
+											
+											
+											
+											
+										</div>
+										
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{Number}</span> <b>percentage</b>
+														
+													</dt>
+													<dd>The position of the handle relative to thescroller in percentage.</dd>
+												
+											</dl>
+										
+										
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item7'
+									>
+										<div class="fixedFont heading" id="onPagerCreated">
+											<span class='lighter'>
+											
+											</span>
+											
+											
+											
+											<b>onPagerCreated</b>()
+										</div>
+										
+										<div class="description">
+											Event that is called when the pager is created. This method is notimplemented in the base animation object, but is part of the interface.Failing to implement this method will result in an error.
+											
+											
+											
+											
+										</div>
+										
+										
+										
+										
+										
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item8'
+									>
 										<div class="fixedFont heading" id="page">
 											<span class='lighter'>
 											
@@ -639,7 +732,7 @@
 									</li>
 								
 									<li 
-										 class='item7'
+										 class='item9'
 									>
 										<div class="fixedFont heading" id="pagerHover">
 											<span class='lighter'>

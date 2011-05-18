@@ -58,7 +58,7 @@ html {
 
 
 body {
-	font-family: Arial;
+	font-family: Arial, sans-serif;
 	font-size: 14px;
   margin: 15px;
 }
@@ -82,6 +82,10 @@ h3 {
 	margin: 1em 0 0.5em 0;
   font-family: "Lucida Sans Unicode","Lucida Grande",sans-serif;
 	font-size: 16px;
+}
+h3 a {
+  font-family: Arial, sans-serif;
+  font-size: 12px;
 }
 
 h4 {
@@ -168,9 +172,14 @@ ul.demos > li {
   height: 210px;
 }
 
+ul.demos > li.wide {
+  width: 425px;
+}
+
 ul.demos h4 {
   float: left;
-  margin-bottom: 10px;
+  width: 250px;
+  height: 3em;
 }
 
 
