@@ -1649,6 +1649,7 @@ onoPager.animation.linearScroller = function(newConfig, extraConfig) {
     newConfig, extraConfig
   );
   var tools = onoPager.tools;
+  var topLeft = tools.getTopLeft(linearScrollerInstance._config.orientation);
 
   function checkBounds(currentMargin, list, move) {
     var pagePrevious = linearScrollerInstance._config.pagePrevious;
@@ -1679,7 +1680,6 @@ onoPager.animation.linearScroller = function(newConfig, extraConfig) {
   }
   
   function currentOffset() {
-    var topLeft = tools.getTopLeft(linearScrollerInstance._config.orientation);
     var currentMargin = linearScrollerInstance._config.list.css(
                           'margin-' + topLeft);
     currentMargin = currentMargin.replace('px', '');

@@ -161,6 +161,13 @@ div.code:hover pre {
 
 
 
+ul.simpleList {
+  margin-left: 20px;
+  list-style: disc;
+}
+
+
+
 ul.demos {
   margin: 0 0 20px -20px;
 }
