@@ -183,6 +183,11 @@ ul.demos > li.wide {
   width: 425px;
 }
 
+ul.demos > li.fullWidth {
+  clear: both;
+  width: 100%;
+}
+
 ul.demos h4 {
   float: left;
   width: 250px;
@@ -223,4 +228,17 @@ ul.editDemo textarea {
 
 #editDemo_result > div {
   margin-bottom: 1em; 
+}
+
+
+
+
+div.onoPager_animation_linearContinous {
+  width: 100%;
+  overflow: hidden;
+}
+
+div.onoPager_animation_linearContinous div.onoPager_listContainer {
+  margin: 0 auto;
+  overflow: visible;
 }

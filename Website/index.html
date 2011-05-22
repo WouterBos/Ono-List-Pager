@@ -179,6 +179,25 @@
         <div class="onoPager_listItem">Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</div>
     	</div>
     </li>
+  
+    <li class="fullWidth">
+      <div class="title">
+        <h4>List 5: "linear continuous"</h4>
+        <div class="code">
+          code
+          <pre>TODO</pre>
+        </div>
+      </div>
+
+      <div id="list5" class="onoPager_noJs">
+        <div class="onoPager_listItem">1 Lorem ipsum dolor sit.</div>
+        <div class="onoPager_listItem">2 Aliquam arcu odio, sollicitudin..</div>
+        <div class="onoPager_listItem">3 Lorem ipsum dolor sit</div>
+        <div class="onoPager_listItem">4 Aliquam arcu odio, sollicitudin.</div>
+        <div class="onoPager_listItem">5 Lorem ipsum dolor sit amet site</div>
+        <div class="onoPager_listItem">6 Aliquam arcu odio, sollicitudin.</div>
+      </div>
+    </li>
   </ul>
 
   <h3>Play with it yourself <a href="/onopager/documentation/onoPager/symbols/jQuery.fn.html#.$.fn.onoPager">Configuration options</a></h3>
@@ -303,6 +322,22 @@
           height: '80px'
       },
       animationType: 'linear',
+      animationEasing: 'easeOutCubic',
+      orientation: 'horizontal',
+      animationSpeed: 1000
+    });
+
+    jQuery('#list5').onoPager({
+      pagePerItem: false,
+      listContainer: {
+        width: '230px',
+        height: '100px'
+      },
+      listItems: {
+          width: '210px',
+          height: '80px'
+      },
+      animationType: 'linearContinous',
       animationEasing: 'easeOutCubic',
       orientation: 'horizontal',
       animationSpeed: 1000
