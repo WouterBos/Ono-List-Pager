@@ -148,7 +148,8 @@
    *      pixelMove: 2
    *    },
    *    pageByNumber: {
-   *      active: true
+   *      active: true,
+   *      enableClick: true
    *    },
    *    keyTriggersPage: false,
    *    swipeTriggersPage: false,
@@ -174,7 +175,8 @@
       activeIndex: 0,
       autoPage: {
         active: false,
-        interval: 2000
+        interval: 2000,
+        autoPageAnimationType: ''
       },
       labels: {
         next: 'next',
@@ -191,7 +193,8 @@
         pixelMove: 2
       },
       pageByNumber: {
-        active: true
+        active: true,
+        enableClick: true
       },
       keyTriggersPage: false,
       swipeTriggersPage: false,
@@ -218,6 +221,7 @@
     var pageByNumber; // Container with list of links of available pages
     var pageStatus; // Container with feedback for user about the paging status
     var pageScroller; // Page by using the scroller
+    var autoPageContainer; // Box that gives feedback about the autopage status
 
 
 
@@ -257,6 +261,9 @@
         newHTML += '<div class="' + ONOPAGER + '_scroller"><div class="' +
           ONOPAGER + '_scrollerHandle"></div></div>';
       }
+      if (config.autoPage.autoPageAnimationType) {
+        newHTML += '<div class="' + ONOPAGER + '_autoPageContainer"></div>';
+      }
       root.append(
         '<div class="' + ONOPAGER + '_controls">' + newHTML + '</div>'
       );
@@ -266,6 +273,9 @@
       pageByNumber = root.find('> * > div.' + ONOPAGER + '_pageByNumber');
       pageStatus = root.find('> * > div.' + ONOPAGER + '_status');
       pageScroller = root.find('> * > div.' + ONOPAGER + '_scroller');
+      autoPageContainer = root.find(
+        '> * > div.' + ONOPAGER + '_autoPageContainer'
+      );
     }
 
     // Initialize the animation object.
@@ -314,19 +324,21 @@
           },
           config.status
         );
-        if (config.autoPage.active == true) {
-          pager.initAutopager(config.autoPage,
-                              animation,
-                              config.orientation,
-                              listContainer,
-                              list);
-        }
       } else {
         pageNext.hide();
         pagePrevious.hide();
       }
       animation.extendConfig({pager: pager});
       animation._onPagerCreated();
+      if (config.autoPage.active == true && pageTotal > 1) {
+        pager.initAutopager(config.autoPage,
+                            config.animationSpeed,
+                            animation,
+                            config.orientation,
+                            listContainer,
+                            list,
+                            autoPageContainer);
+      }
     }
 
     function setPageByNumber() {
@@ -338,11 +350,16 @@
       }
 
       pageByNumber.html(html);
-      pageByNumber.find('a').each(function(index) {
-        $(this).click(function() {
-          page(index);
+
+      if (config.pageByNumber.enableClick == true) {
+        pageByNumber.find('a').each(function(index){
+          $(this).click(function(){
+            page(index);
+          });
         });
-      });
+      } else {
+        pageByNumber.find('a').addClass('onoPager_readonly');
+      }
     }
 
     function setControlEvents() {
@@ -899,6 +916,11 @@ onoPager.pager = function(arg_index,
   // Set autopager variables
   var autoPageConfig = {};
   var autoPageInterval;
+  var autoPageAnimation;
+  var autoPageContainer;
+  var listContainer;
+  var animationSpeed;
+  var orientation;
 
   // Set pager controls
   var controls = {
@@ -996,15 +1018,34 @@ onoPager.pager = function(arg_index,
   }
 
   function startAutopager() {
-    autoPageInterval = setInterval(
-      function() {
-        if (pageLoop == false && (index == (length - 1))) {
-          clearInterval(autoPageInterval);
+    autoPageInterval = setInterval(autoPager, autoPageConfig.interval);
+    autoPageAnimation = setAnimation();
+  }
+  
+  function autoPager() {
+    if (pageLoop == false && (index == (length - 1))) {
+      clearInterval(autoPageInterval);
+    }
+    autoPageConfig.animation._page(index, move(1));
+    autoPageAnimation._start();
+  }
+
+  function setAnimation() {
+    if (autoPageConfig.autoPageAnimationType != '') {
+      var newAnimation = onoPager.autopageAnimation.createAnimation(
+        {
+          listContainer: listContainer,
+          animationSpeed: animationSpeed,
+          orientation: orientation,
+          root: autoPageContainer,
+          autoPageAnimationType: autoPageConfig.autoPageAnimationType
         }
-        autoPageConfig.animation._page(index, move(1));
-      },
-      autoPageConfig.interval
-    );
+      );
+      newAnimation._init();
+      return newAnimation;
+    } else {
+      return null;
+    }
   }
 
 
@@ -1055,13 +1096,19 @@ onoPager.pager = function(arg_index,
    * );
    */
   this.initAutopager = function(arg_autoPageConfig,
+                                arg_animationSpeed,
                                 arg_animation,
-                                orientation,
-                                listContainer,
-                                list) {
+                                arg_orientation,
+                                arg_listContainer,
+                                arg_list,
+                                arg_autoPageContainer) {
     var tools = onoPager.tools;
+    animationSpeed = arg_animationSpeed;
+    listContainer = arg_listContainer;
+    orientation = arg_orientation;
+    autoPageContainer = arg_autoPageContainer;
     var overflow = tools.getInnerSize(orientation, listContainer) -
-                     tools.getInnerSize(orientation, list);
+                     tools.getInnerSize(orientation, arg_list);
     jQuery.extend(true,
                   autoPageConfig,
                   arg_autoPageConfig,
@@ -2128,3 +2175,153 @@ onoPager.tools = (function() {
     }
   };
 })();
+
+
+
+
+
+
+/**
+ * @namespace Handles animation that gives a time indication of the intervals
+ *    between paging. 
+ */
+onoPager.autopageAnimation = (function() {
+  // Throws an error if the created animation object does not comply to the
+  // interface.
+  function interfaceCheck(animation, publicMethods) {
+    var hasMethod;
+    for (var i = 0; i < publicMethods.length; i++) {
+      hasMethod = false;
+      for (object in animation) {
+        if (object == publicMethods[i]) {
+          hasMethod = true;
+        }
+      }
+      if (hasMethod == false) {
+        throw new Error('Animation object does not implement ' +
+          'public method "' + publicMethods[i] + '"');
+      }
+      if (typeof(animation[object]) != 'function') {
+        throw new Error('animation.' + publicMethods[i] + ' is not of type' +
+          '"function", but "' + typeof(animation[object]) + '"');
+      }
+    }
+  }
+
+  return {
+    /**
+     * This method creates and returns an animation object.
+     *
+     * @param {String} animationType Name of the animation that must be loaded.
+     * @param {Object} config Configuration object.
+     *   animation object.
+     */
+    createAnimation: function(config) {
+      if (typeof(onoPager.autopageAnimation[config.autoPageAnimationType]) != 'function') {
+        throw new Error('autoPageAnimationType "' + config.autoPageAnimationType + '" is not of ' +
+          'type function, but ' + typeof(onoPager.autopageAnimation[config.autoPageAnimationType]));
+      }
+      config.root.addClass('onoPager_onoPager.autopageAnimation_' + config.autoPageAnimationType);
+
+      var animation = onoPager.autopageAnimation[config.autoPageAnimationType](config);
+
+      interfaceCheck(
+        animation,
+        [
+          'init',
+          'start'
+        ]
+      );
+
+      return animation;
+    }
+  };
+})();
+
+
+
+
+
+
+/**
+ * @namespace Base component of all autopage animation objects. All properties
+ * and methods defined here are available to all animation objects. All private
+ * properties and methods are designated by an underscore prefix.
+ *
+ * @constructor
+ * @param {Object} newConfig Standard configuration object.
+ */
+onoPager.autopageAnimation._standard = function(newConfig) {
+  this._config = {
+    listContainer: null,
+    animationSpeed: 0,
+    orientation: null,
+    root: null
+  };
+  jQuery.extend(true, this._config, newConfig);
+
+  /**
+   * This method is run when the animation object is initialized. This method
+   * is not implemented in the base animation object, but is part of the
+   * interface. Failing to implement this method will result in an error.
+   */
+  this.init = function() {}
+  delete this.init;
+
+  this._init = function() {
+    this.init();
+  }
+
+  /**
+   * Starts the page animation. This method is not implemented in the base
+   * animation object, but is part of the interface. Failing to implement this
+   * method will result in an error.
+   */
+  this.start = function() {}
+  delete this.page;
+
+  this._start = function() {
+    this.start();
+  }
+};
+
+
+
+
+
+
+/**
+ * @namespace Autopage animation object. This object will create a simple
+ * timeline
+ *
+ * @param {Object} newConfig Standard configuration object.
+ * @return {Object} instance of an animation object.
+ */
+onoPager.autopageAnimation.timeline = function(newConfig) {
+  /**
+   * New animation object.
+   * @memberOf onoPager.autopageAnimation.timeline
+   */
+  var timelineInstance = new onoPager.autopageAnimation._standard(newConfig);
+  var tools = onoPager.tools;
+
+  /**
+   * @see onoPager.autopageAnimation._standard#init
+   * @memberOf onoPager.autopageAnimation.timeline
+   * @this
+   */
+  timelineInstance.init = function() {
+    this._config.root.html('ok');
+  }
+
+  /**
+   * @see onoPager.autopageAnimation._standard#start
+   * @memberOf onoPager.autopageAnimation.timeline
+   * @this
+   */
+  timelineInstance.start = function() {
+    //
+  }
+
+  return timelineInstance;
+};
