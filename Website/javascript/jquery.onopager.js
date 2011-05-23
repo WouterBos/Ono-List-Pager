@@ -7,7 +7,7 @@
  */
 
 // TODO:
-// - Manage the number of visible items in pageByNumber 
+// - Manage the number of visible items in pageByNumber
 // - Build support for scroll wheel
 // - Highlight arrow key when pressing an arrow key on keyboard
 // - onHandleDrag assumes margin-*. Must handle possible left/top as well
@@ -761,6 +761,16 @@ onoPager.scroller = function(arg_pageScroller,
  * @namespace Code for making the scroller handle draggable.
  *
  * @constructor
+ * @param {Object} arg_handle The handle of the scroller.
+ * @param {String} arg_orientation The orientation of the paer, which is either
+ *    'horizontal' or 'vertical'.
+ * @param {Number} arg_totalScroll The amount of pixels the handle may move
+ *    (which is the size of the scroller minus the size of the handle).
+ * @param {Object} arg_animation The animation object.
+ * @param {Object} arg_pageNext The 'next' button, which has to be disabled when
+ *    you reach the end of the scroller.
+ * @param {Object} arg_pagePrevious The 'previous' button, which has to be
+ *    disabled when you reach the begin of the scroller.
  */
 onoPager.scroller.dragHandle = function(arg_handle,
                                         arg_orientation,
@@ -1448,13 +1458,13 @@ onoPager.animation.slides = function(newConfig, extraConfig) {
         item.hide();
       }
     });
-    
+
     var newCss = {};
     var topLeft = tools.getTopLeft(slidesInstance._config.orientation);
     newCss['display'] = 'block';
     newCss[topLeft] = oldItemLeft + 'px';
     jQuery(this._config.listItems[newIndex]).css(newCss);
-    
+
     var oldAni = {};
     oldAni[topLeft] = newItemLeft + 'px';
     jQuery(this._config.listItems[oldIndex]).animate(
@@ -1636,15 +1646,17 @@ onoPager.animation.linearContinous = function(newConfig, extraConfig) {
     linearContinousInstance._config.orientation,
     linearContinousInstance._config.listItems
   );
+  var newListItems; // contains the new list of items, after duplication
+                    // takes place in onPagerCreated
 
   // Appends and prepends items until the list always fills the screen.
   function fillIdleSpace(idleSpace) {
     var list = linearContinousInstance._config.list;
     var listItems = linearContinousInstance._config.listItems;
-    
+
     fillBefore();
     fillAfter();
-    
+
     function fillBefore() {
       // Add items to the begin of the list
       var prependItems = jQuery([]);
@@ -1653,7 +1665,7 @@ onoPager.animation.linearContinous = function(newConfig, extraConfig) {
 
       for (var i = 1; i <= listItems.size(); i++) {
         if (prependSpace < idleSpace) {
-          prependItemsArray.push(jQuery(listItems.get(-i)));
+          prependItemsArray.push(jQuery(listItems.get(-i)).clone(true));
           if (i > 1) {
             prependSpace += tools.getInnerSize(
               linearContinousInstance._config.orientation,
@@ -1664,11 +1676,9 @@ onoPager.animation.linearContinous = function(newConfig, extraConfig) {
           break;
         }
       }
-      prependItemsArray.reverse();
       for (var i = 0; i < prependItemsArray.length; i++) {
-        prependItems = prependItems.add(listItems[i]).clone(true)
+        list.prepend(jQuery(prependItemsArray[i]).clone(true));
       }
-      list.prepend(prependItems);
     }
 
     function fillAfter() {
@@ -1717,16 +1727,6 @@ onoPager.animation.linearContinous = function(newConfig, extraConfig) {
       throw new Error('Orientation must be either horizontal ' +
         'or vertical. It\'s now ' + this._config.orientation);
     }
-
-    var offset = tools.getPosition(
-      this._config.orientation,
-      jQuery(this._config.listItems[this._config.activeIndex])
-    );
-    if (this._config.orientation == 'horizontal') {
-      this._config.list.css({ 'left': '-' + offset + 'px' });
-    } else {
-      this._config.list.css({ 'top': '-' + offset + 'px' });
-    }
   }
 
   /**
@@ -1735,23 +1735,26 @@ onoPager.animation.linearContinous = function(newConfig, extraConfig) {
    * @this
    */
   linearContinousInstance.page = function(oldIndex, newIndex) {
-      if (oldIndex != newIndex) {
-        linearContinousInstance._setActiveClass(oldIndex, false);
-      }
+    if (oldIndex != newIndex) {
+      linearContinousInstance._setActiveClass(oldIndex, false);
+    }
     this._config.list.stop(true, false);
+
+    resetPosition(oldIndex, newIndex);
+
     var offset;
     if (this._config.pagePerItem == true) {
       offset = tools.getPosition(
         this._config.orientation,
         jQuery(this._config.listItems[newIndex])
       );
-    } else {
-      var size = tools.getInnerSize(
-        linearContinousInstance._config.orientation,
-        this._config.listContainer
-      );
-      offset = size * newIndex;
-    }
+    }// else {
+    //  var size = tools.getInnerSize(
+    //    linearContinousInstance._config.orientation,
+    //    this._config.listContainer
+    //  );
+    //  offset = size * jQuery(this._config.listItems[newIndex]).index();
+    //}
 
     offset = this._checkMaxScroll(offset);
 
@@ -1768,6 +1771,66 @@ onoPager.animation.linearContinous = function(newConfig, extraConfig) {
         }
       }
     );
+
+    function resetPosition(oldIndex, newIndex) {
+      var listSize = linearContinousInstance._config.listItems.size();
+      var topLeft = tools.getTopLeft(
+        linearContinousInstance._config.orientation
+      );
+      var offset;
+
+      // If user pages from last item to first item, position on the item
+      // *before* the first item.
+      if (oldIndex == (listSize - 1) && newIndex == 0) {
+        var firstIndex = newListItems.index(
+          linearContinousInstance._config.listItems[newIndex]
+        );
+
+        if (linearContinousInstance._config.pagePerItem == true) {
+          offset = tools.getPosition(
+            linearContinousInstance._config.orientation,
+            jQuery(newListItems[firstIndex - 1])
+          );
+          offset = Math.round(offset);
+        }// else {
+        //  var size = tools.getInnerSize(
+        //    linearContinousInstance._config.orientation,
+        //    linearContinousInstance._config.listContainer
+        //  );
+        //  offset = size * jQuery(
+        //      linearContinousInstance._config.listItems[newIndex]
+        //    ).index();
+        //}
+      }
+
+      // If user pages from the first item to last item, position on the item
+      // *after* the last item.
+      if (oldIndex == 0 && newIndex == (listSize - 1)) {
+        var lastIndex = newListItems.index(
+          linearContinousInstance._config.listItems[newIndex]
+        );
+
+        if (linearContinousInstance._config.pagePerItem == true) {
+          offset = tools.getPosition(
+            linearContinousInstance._config.orientation,
+            jQuery(newListItems[lastIndex + 1])
+          );
+          offset = Math.round(offset);
+        }// else {
+        //  var size = tools.getInnerSize(
+        //    linearContinousInstance._config.orientation,
+        //    linearContinousInstance._config.listContainer
+        //  );
+        //  offset = size * jQuery(
+        //    linearContinousInstance._config.listItems[newIndex]
+        //  ).index();
+        //}
+      }
+
+      if (offset) {
+        linearContinousInstance._config.list.css(topLeft, '-' + offset + 'px');
+      }
+    }
   }
 
   /**
@@ -1791,10 +1854,10 @@ onoPager.animation.linearContinous = function(newConfig, extraConfig) {
     );
     var idleSpace = (rootSize - listContainerSize) / 2;
     var listBounds = 0;
-    
+
     // Creates extra items to fill the idle space in the list container.
     fillIdleSpace(idleSpace);
-    
+
     // Set active item
     linearContinousInstance._setActiveClass(
       linearContinousInstance._config.activeIndex,
@@ -1802,7 +1865,7 @@ onoPager.animation.linearContinous = function(newConfig, extraConfig) {
     );
 
     // Set list width/height
-    var newListItems = this._config.list.find('> .onoPager_listItem');
+    newListItems = this._config.list.find('> .onoPager_listItem');
     newListItems.each(function(index) {
       listBounds += tools.getOuterSize(
         linearContinousInstance._config.orientation,
@@ -1821,6 +1884,16 @@ onoPager.animation.linearContinous = function(newConfig, extraConfig) {
     this._config.listContainer.css({
         'position': 'relative'
     });
+
+    var offset = tools.getPosition(
+      this._config.orientation,
+      jQuery(this._config.listItems[this._config.activeIndex])
+    );
+    if (this._config.orientation == 'horizontal') {
+      this._config.list.css({ 'left': '-' + offset + 'px' });
+    } else {
+      this._config.list.css({ 'top': '-' + offset + 'px' });
+    }
   }
 
   return linearContinousInstance;
@@ -1866,7 +1939,7 @@ onoPager.animation.linearScroller = function(newConfig, extraConfig) {
     var maxMarginBound = listSize - viewportSize;
     var newMargin = currentMargin - move;
     var DISABLED = 'disabled';
-    
+
     if (newMargin >= 0) {
       pagePrevious.addClass(DISABLED);
       return false;
@@ -1879,7 +1952,7 @@ onoPager.animation.linearScroller = function(newConfig, extraConfig) {
       return true;
     }
   }
-  
+
   function currentOffset() {
     var currentMargin = linearScrollerInstance._config.list.css(
                           'margin-' + topLeft);
@@ -1916,8 +1989,8 @@ onoPager.animation.linearScroller = function(newConfig, extraConfig) {
     if (listSize > viewport) {
       this._config.pageNext.show();
     }
-    
-    checkBounds(currentOffset(), this._config.list, 0)
+
+    checkBounds(currentOffset(), this._config.list, 0);
   }
 
   /**
