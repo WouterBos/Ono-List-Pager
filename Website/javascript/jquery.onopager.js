@@ -498,12 +498,18 @@
       setResizeEvent();
     });
   }
+})(jQuery);
 
 
 
 
 
 
+/**
+ * @namespace Root namespace for the Ono Pager
+ */
+var onoPager = {};
+(function($) {
   /**
    * Handles swipe events on mobile phones and desktops. The code is based on
    * the QuickGestures jQuery plugin of Anders Zakrisson.
@@ -664,24 +670,7 @@
       }
     });
   };
-})(jQuery);
-
-
-
-
-
-
-/**
- * @namespace Root namespace for the Ono Pager
- */
-var onoPager = {};
-
-
-
-
-
-
-/**
+})(jQuery);/**
  * @namespace Manages the scroller control.
  *
  * @constructor
@@ -886,12 +875,6 @@ onoPager.scroller.dragHandle = function(arg_handle,
     }
   }
 };
-
-
-
-
-
-
 /**
  * @namespace Paging logic.
  *
@@ -1038,7 +1021,8 @@ onoPager.pager = function(arg_index,
           animationSpeed: animationSpeed,
           orientation: orientation,
           root: autoPageContainer,
-          autoPageAnimationType: autoPageConfig.autoPageAnimationType
+          autoPageAnimationType: autoPageConfig.autoPageAnimationType,
+          autoPageInterval: autoPageConfig.interval
         }
       );
       newAnimation._init();
@@ -1139,6 +1123,186 @@ onoPager.pager = function(arg_index,
 
 
 
+/**
+ * @namespace Handles animation that gives a time indication of the intervals
+ *    between paging. 
+ */
+onoPager.autopageAnimation = (function() {
+  // Throws an error if the created animation object does not comply to the
+  // interface.
+  function interfaceCheck(animation, publicMethods) {
+    var hasMethod;
+    for (var i = 0; i < publicMethods.length; i++) {
+      hasMethod = false;
+      for (object in animation) {
+        if (object == publicMethods[i]) {
+          hasMethod = true;
+        }
+      }
+      if (hasMethod == false) {
+        throw new Error('Animation object does not implement ' +
+          'public method "' + publicMethods[i] + '"');
+      }
+      if (typeof(animation[object]) != 'function') {
+        throw new Error('animation.' + publicMethods[i] + ' is not of type' +
+          '"function", but "' + typeof(animation[object]) + '"');
+      }
+    }
+  }
+
+  return {
+    /**
+     * This method creates and returns an animation object.
+     *
+     * @param {String} animationType Name of the animation that must be loaded.
+     * @param {Object} config Configuration object.
+     *   animation object.
+     */
+    createAnimation: function(config) {
+      if (typeof(onoPager.autopageAnimation[config.autoPageAnimationType]) != 'function') {
+        throw new Error('autoPageAnimationType "' + config.autoPageAnimationType + '" is not of ' +
+          'type function, but ' + typeof(onoPager.autopageAnimation[config.autoPageAnimationType]));
+      }
+      config.root.addClass('onoPager_onoPager.autopageAnimation_' + config.autoPageAnimationType);
+
+      var animation = onoPager.autopageAnimation[config.autoPageAnimationType](config);
+
+      interfaceCheck(
+        animation,
+        [
+          'init',
+          'start'
+        ]
+      );
+
+      return animation;
+    }
+  };
+})();
+
+
+
+
+
+
+/**
+ * @namespace Base component of all autopage animation objects. All properties
+ * and methods defined here are available to all animation objects. All private
+ * properties and methods are designated by an underscore prefix.
+ *
+ * @constructor
+ * @param {Object} newConfig Standard configuration object.
+ */
+onoPager.autopageAnimation._standard = function(newConfig) {
+  this._config = {
+    listContainer: null,
+    animationSpeed: 0,
+    orientation: null,
+    root: null,
+    autoPageInterval: 0
+  };
+  jQuery.extend(true, this._config, newConfig);
+
+  /**
+   * This method is run when the animation object is initialized. This method
+   * is not implemented in the base animation object, but is part of the
+   * interface. Failing to implement this method will result in an error.
+   */
+  this.init = function() {}
+  delete this.init;
+
+  this._init = function() {
+    this.init();
+  }
+
+  /**
+   * Starts the page animation. This method is not implemented in the base
+   * animation object, but is part of the interface. Failing to implement this
+   * method will result in an error.
+   */
+  this.start = function() {}
+  delete this.page;
+
+  this._start = function() {
+    this.start();
+  }
+};
+
+
+
+
+
+
+/**
+ * @namespace Autopage animation object. This object will create a simple
+ * timeline
+ *
+ * @param {Object} newConfig Standard configuration object.
+ * @return {Object} instance of an animation object.
+ */
+onoPager.autopageAnimation.timeline = function(newConfig) {
+  /**
+   * New animation object.
+   * @memberOf onoPager.autopageAnimation.timeline
+   */
+  var timelineInstance = new onoPager.autopageAnimation._standard(newConfig);
+  var tools = onoPager.tools;
+  var bar = jQuery([]);
+  var root = timelineInstance._config.root;
+  var listContainer = timelineInstance._config.listContainer;
+
+  /**
+   * @see onoPager.autopageAnimation._standard#init
+   * @memberOf onoPager.autopageAnimation.timeline
+   * @this
+   */
+  timelineInstance.init = function() {
+    root.html('<div class="onoPager_autoPageBar"></div>');
+    bar = root.find('div.onoPager_autoPageBar');
+    root.css(
+      {
+        width: listContainer.innerWidth(),
+        position: 'absolute',
+        left: listContainer.position().left +'px',
+        top: listContainer.position().top + listContainer.innerHeight(true) + 'px'
+      }
+    );
+
+    bar.css('width', 0);
+    bar.animate(
+      {
+        width: listContainer.innerWidth() + 'px'
+      },
+      {
+        duration: this._config.autoPageInterval,
+        easing: 'linear'
+      }
+    );
+  }
+
+  /**
+   * @see onoPager.autopageAnimation._standard#start
+   * @memberOf onoPager.autopageAnimation.timeline
+   * @this
+   */
+  timelineInstance.start = function() {
+    var interval = this._config.autoPageInterval - this._config.animationSpeed;
+
+    bar.stop(true, true);
+    bar.css('width', 0);
+    bar.delay(this._config.animationSpeed).animate(
+      {
+        width: listContainer.innerWidth() + 'px'
+      },
+      {
+        duration: interval,
+        easing: 'linear'
+      }
+    );
+  }
+
+  return timelineInstance;
+};
 /**
  * @namespace Animation namespace
  */
@@ -2075,12 +2239,6 @@ onoPager.animation.linearScroller = function(newConfig, extraConfig) {
 
   return linearScrollerInstance;
 };
-
-
-
-
-
-
 /**
  * @namespace Helper methods for the animation objects.
  */
@@ -2175,153 +2333,3 @@ onoPager.tools = (function() {
     }
   };
 })();
-
-
-
-
-
-
-/**
- * @namespace Handles animation that gives a time indication of the intervals
- *    between paging. 
- */
-onoPager.autopageAnimation = (function() {
-  // Throws an error if the created animation object does not comply to the
-  // interface.
-  function interfaceCheck(animation, publicMethods) {
-    var hasMethod;
-    for (var i = 0; i < publicMethods.length; i++) {
-      hasMethod = false;
-      for (object in animation) {
-        if (object == publicMethods[i]) {
-          hasMethod = true;
-        }
-      }
-      if (hasMethod == false) {
-        throw new Error('Animation object does not implement ' +
-          'public method "' + publicMethods[i] + '"');
-      }
-      if (typeof(animation[object]) != 'function') {
-        throw new Error('animation.' + publicMethods[i] + ' is not of type' +
-          '"function", but "' + typeof(animation[object]) + '"');
-      }
-    }
-  }
-
-  return {
-    /**
-     * This method creates and returns an animation object.
-     *
-     * @param {String} animationType Name of the animation that must be loaded.
-     * @param {Object} config Configuration object.
-     *   animation object.
-     */
-    createAnimation: function(config) {
-      if (typeof(onoPager.autopageAnimation[config.autoPageAnimationType]) != 'function') {
-        throw new Error('autoPageAnimationType "' + config.autoPageAnimationType + '" is not of ' +
-          'type function, but ' + typeof(onoPager.autopageAnimation[config.autoPageAnimationType]));
-      }
-      config.root.addClass('onoPager_onoPager.autopageAnimation_' + config.autoPageAnimationType);
-
-      var animation = onoPager.autopageAnimation[config.autoPageAnimationType](config);
-
-      interfaceCheck(
-        animation,
-        [
-          'init',
-          'start'
-        ]
-      );
-
-      return animation;
-    }
-  };
-})();
-
-
-
-
-
-
-/**
- * @namespace Base component of all autopage animation objects. All properties
- * and methods defined here are available to all animation objects. All private
- * properties and methods are designated by an underscore prefix.
- *
- * @constructor
- * @param {Object} newConfig Standard configuration object.
- */
-onoPager.autopageAnimation._standard = function(newConfig) {
-  this._config = {
-    listContainer: null,
-    animationSpeed: 0,
-    orientation: null,
-    root: null
-  };
-  jQuery.extend(true, this._config, newConfig);
-
-  /**
-   * This method is run when the animation object is initialized. This method
-   * is not implemented in the base animation object, but is part of the
-   * interface. Failing to implement this method will result in an error.
-   */
-  this.init = function() {}
-  delete this.init;
-
-  this._init = function() {
-    this.init();
-  }
-
-  /**
-   * Starts the page animation. This method is not implemented in the base
-   * animation object, but is part of the interface. Failing to implement this
-   * method will result in an error.
-   */
-  this.start = function() {}
-  delete this.page;
-
-  this._start = function() {
-    this.start();
-  }
-};
-
-
-
-
-
-
-/**
- * @namespace Autopage animation object. This object will create a simple
- * timeline
- *
- * @param {Object} newConfig Standard configuration object.
- * @return {Object} instance of an animation object.
- */
-onoPager.autopageAnimation.timeline = function(newConfig) {
-  /**
-   * New animation object.
-   * @memberOf onoPager.autopageAnimation.timeline
-   */
-  var timelineInstance = new onoPager.autopageAnimation._standard(newConfig);
-  var tools = onoPager.tools;
-
-  /**
-   * @see onoPager.autopageAnimation._standard#init
-   * @memberOf onoPager.autopageAnimation.timeline
-   * @this
-   */
-  timelineInstance.init = function() {
-    this._config.root.html('ok');
-  }
-
-  /**
-   * @see onoPager.autopageAnimation._standard#start
-   * @memberOf onoPager.autopageAnimation.timeline
-   * @this
-   */
-  timelineInstance.start = function() {
-    //
-  }
-
-  return timelineInstance;
-};

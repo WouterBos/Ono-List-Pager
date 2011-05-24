@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
-		<title>onoPager.animation.linear | OnoPager reference</title>
+		<title>onoPager.autopageAnimation.timeline | OnoPager reference</title>
 
 		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;" />
 		<meta name="mobileoptimized" content="0" />
@@ -92,12 +92,12 @@
 			<header>
 				<h1 class="classTitle">
 					
-					Function Namespace <span>onoPager.animation.linear</span>
+					Function Namespace <span>onoPager.autopageAnimation.timeline</span>
 				</h1>
 				
 				<div class="intro">
 					<p class="description summary">
-						Animation object. Moves through the list item in a linear manner.
+						Autopage animation object. This object will create a simpletimeline
 					</p>
 						
 					
@@ -105,7 +105,7 @@
 							
 							
 							
-								<li>Defined in: <a href="../symbols/src/Website_javaScript_jquery.onopager.animation.js.html">jquery.onopager.animation.js</a></li>
+								<li>Defined in: <a href="../symbols/src/Website_javaScript_jquery.onopager.pager.js.html">jquery.onopager.pager.js</a></li>
 							
 							
 						</ul>
@@ -116,7 +116,7 @@
 			
 				<section>
 					<div class="props">
-						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class onoPager.animation.linear.">
+						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class onoPager.autopageAnimation.timeline.">
 							<caption class="sectionTitle">Function Namespace Summary</caption>
 							<thead>
 								<tr>
@@ -129,7 +129,7 @@
 									<td class="attributes">&nbsp;</td>
 									<td class="nameDescription" >
 										<div class="fixedFont">
-											<b><a href="../symbols/onoPager.animation.linear.html#constructor">onoPager.animation.linear</a></b>(newConfig, extraConfig)
+											<b><a href="../symbols/onoPager.autopageAnimation.timeline.html#constructor">onoPager.autopageAnimation.timeline</a></b>(newConfig)
 										</div>
 										<div class="description"></div>
 									</td>
@@ -146,7 +146,7 @@
 					
 						<nav>
 							<div class="props">
-								<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class onoPager.animation.linear.">
+								<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class onoPager.autopageAnimation.timeline.">
 									<caption class="sectionTitle">Field Summary</caption>
 									
 									<thead>
@@ -162,7 +162,7 @@
 												<td class="attributes">&lt;inner&gt; &lt;static&gt; &nbsp;</td>
 												<td class="nameDescription">
 													<div class="fixedFont">
-													onoPager.animation.linear.<b><a href="../symbols/onoPager.animation.linear.html#.linearInstance">linearInstance</a></b>
+													onoPager.autopageAnimation.timeline.<b><a href="../symbols/onoPager.autopageAnimation.timeline.html#.timelineInstance">timelineInstance</a></b>
 													</div>
 													<div class="description">New animation object.</div>
 												</td>
@@ -189,7 +189,7 @@
 						
 						
 							<nav>
-								<table class="summaryTable" id="MethodsList" cellspacing="0" summary="A summary of the methods documented in the class onoPager.animation.linear.">
+								<table class="summaryTable" id="MethodsList" cellspacing="0" summary="A summary of the methods documented in the class onoPager.autopageAnimation.timeline.">
 									<thead>
 										<tr>
 											<th scope="col">Method Attributes</th>
@@ -205,7 +205,7 @@
 											>
 												<td class="attributes">&lt;static&gt; &nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont">onoPager.animation.linear.<b><a href="../symbols/onoPager.animation.linear.html#.linearInstance.init">linearInstance.init</a></b>()
+													<div class="fixedFont">onoPager.autopageAnimation.timeline.<b><a href="../symbols/onoPager.autopageAnimation.timeline.html#.timelineInstance.init">timelineInstance.init</a></b>()
 													</div>
 													<div class="description"></div>
 												</td>
@@ -216,18 +216,7 @@
 											>
 												<td class="attributes">&lt;static&gt; &nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont">onoPager.animation.linear.<b><a href="../symbols/onoPager.animation.linear.html#.linearInstance.page">linearInstance.page</a></b>(oldIndex, newIndex)
-													</div>
-													<div class="description"></div>
-												</td>
-											</tr>
-										
-											<tr
-												 class='item2'
-											>
-												<td class="attributes">&lt;static&gt; &nbsp;</td>
-												<td class="nameDescription">
-													<div class="fixedFont">onoPager.animation.linear.<b><a href="../symbols/onoPager.animation.linear.html#.linearInstance.pagerHover">linearInstance.pagerHover</a></b>(move)
+													<div class="fixedFont">onoPager.autopageAnimation.timeline.<b><a href="../symbols/onoPager.autopageAnimation.timeline.html#.timelineInstance.start">timelineInstance.start</a></b>()
 													</div>
 													<div class="description"></div>
 												</td>
@@ -259,7 +248,7 @@
 							</h2>
 							
 							<div class="fixedFont">
-								<b>onoPager.animation.linear</b>(newConfig, extraConfig)
+								<b>onoPager.autopageAnimation.timeline</b>(newConfig)
 							</div>
 							
 							<div class="description">
@@ -278,12 +267,6 @@
 											
 										</dt>
 										<dd>Standard configuration object.</dd>
-									
-										<dt>
-											<span class="light fixedFont">{Object|Null}</span>  <b>extraConfig</b>
-											
-										</dt>
-										<dd>Optional extra configuration object.</dd>
 									
 								</dl>
 							
@@ -324,14 +307,14 @@
 							</h2>
 							
 							
-								<div class="fixedFont heading" id=".linearInstance">
+								<div class="fixedFont heading" id=".timelineInstance">
 									<span class='lighter'>
 									&lt;inner&gt; &lt;static&gt; 
 									</span>
 									
 									
 									
-									<span class="light">onoPager.animation.linear.</span><b>linearInstance</b>							
+									<span class="light">onoPager.autopageAnimation.timeline.</span><b>timelineInstance</b>							
 								</div>
 								
 								<div class="description">
@@ -367,14 +350,14 @@
 									<li 
 										 class='item0'
 									>
-										<div class="fixedFont heading" id=".linearInstance.init">
+										<div class="fixedFont heading" id=".timelineInstance.init">
 											<span class='lighter'>
 											&lt;static&gt; 
 											</span>
 											
 											
 											
-											<span class="light">onoPager.animation.linear.</span><b>linearInstance.init</b>()
+											<span class="light">onoPager.autopageAnimation.timeline.</span><b>timelineInstance.init</b>()
 										</div>
 										
 										<div class="description">
@@ -405,7 +388,7 @@
 												
 													<dt class="heading">See:</dt>
 													
-														<dd><a href="../symbols/onoPager.animation._standard.html#init">onoPager.animation._standard#init</a></dd>
+														<dd><a href="../symbols/onoPager.autopageAnimation._standard.html#init">onoPager.autopageAnimation._standard#init</a></dd>
 													
 												
 											
@@ -417,14 +400,14 @@
 									<li 
 										 class='item1'
 									>
-										<div class="fixedFont heading" id=".linearInstance.page">
+										<div class="fixedFont heading" id=".timelineInstance.start">
 											<span class='lighter'>
 											&lt;static&gt; 
 											</span>
 											
 											
 											
-											<span class="light">onoPager.animation.linear.</span><b>linearInstance.page</b>(oldIndex, newIndex)
+											<span class="light">onoPager.autopageAnimation.timeline.</span><b>timelineInstance.start</b>()
 										</div>
 										
 										<div class="description">
@@ -437,23 +420,6 @@
 										
 										
 										
-										
-											<dl class="detailList params">
-												<dt class="heading">Parameters:</dt>
-												
-													<dt>
-														<b>oldIndex</b>
-														
-													</dt>
-													<dd></dd>
-												
-													<dt>
-														<b>newIndex</b>
-														
-													</dt>
-													<dd></dd>
-												
-											</dl>
 										
 										
 										
@@ -472,68 +438,7 @@
 												
 													<dt class="heading">See:</dt>
 													
-														<dd><a href="../symbols/onoPager.animation._standard.html#init">onoPager.animation._standard#init</a></dd>
-													
-												
-											
-											</dl>
-										
-										<div class="hr"></div>
-									</li>
-								
-									<li 
-										 class='item2'
-									>
-										<div class="fixedFont heading" id=".linearInstance.pagerHover">
-											<span class='lighter'>
-											&lt;static&gt; 
-											</span>
-											
-											
-											
-											<span class="light">onoPager.animation.linear.</span><b>linearInstance.pagerHover</b>(move)
-										</div>
-										
-										<div class="description">
-											
-											
-											
-											
-											
-										</div>
-										
-										
-										
-										
-											<dl class="detailList params">
-												<dt class="heading">Parameters:</dt>
-												
-													<dt>
-														<b>move</b>
-														
-													</dt>
-													<dd></dd>
-												
-											</dl>
-										
-										
-										
-											<dl class="detailList nomargin">
-											
-												
-												
-												
-												
-												
-												
-												
-												
-												
-												
-												
-													<dt class="heading">See:</dt>
-													
-														<dd><a href="../symbols/onoPager.animation._standard.html#pagerHover">onoPager.animation._standard#pagerHover</a></dd>
+														<dd><a href="../symbols/onoPager.autopageAnimation._standard.html#start">onoPager.autopageAnimation._standard#start</a></dd>
 													
 												
 											

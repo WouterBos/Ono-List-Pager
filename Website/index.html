@@ -240,7 +240,13 @@
 
   <script src="javascript/jquery.min.js"></script>
   <script src="javascript/jquery.easing.1.3.js"></script>
-  <script src="javascript/jquery.onopager.js"></script>
+  <!--<script src="javascript/jquery.onopager.min.js"></script>-->
+  <script src="javascript/jquery.onopager.core.js"></script>
+  <script src="javascript/jquery.onopagerswipe.js"></script>
+  <script src="javascript/jquery.onopager.scroller.js"></script>
+  <script src="javascript/jquery.onopager.pager.js"></script>
+  <script src="javascript/jquery.onopager.animation.js"></script>
+  <script src="javascript/jquery.onopager.tools.js"></script>
   <script type="text/javascript">
     jQuery('#runCode').click(function() {
       jQuery('#editDemo_result').html(jQuery('#editDemo_html').val());
@@ -339,7 +345,7 @@
       },
       autoPage: {
         active: true,
-        interval: 2000,
+        interval: 4000,
         autoPageAnimationType: 'timeline'
       },
       animationType: 'linearContinous',
