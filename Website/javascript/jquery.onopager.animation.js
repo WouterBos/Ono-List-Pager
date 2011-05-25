@@ -32,6 +32,7 @@ onoPager.animation = (function() {
      * @param {Object} config Configuration object.
      * @param {Object} extraConfig Extra, custom configuration object for the
      *   animation object.
+     * @return {object} The animation object.
      */
     createAnimation: function(animationType, config, extraConfig) {
       if (typeof(onoPager.animation[animationType]) != 'function') {
@@ -678,6 +679,8 @@ onoPager.animation.linearContinous = function(newConfig, extraConfig) {
       }
     );
 
+    // To create the appearence of a list that repeats itself infinitely, the
+    // list is repositioned just before it threatens to get out of bounds. 
     function resetPosition(oldIndex, newIndex) {
       var listSize = linearContinousInstance._config.listItems.size();
       var topLeft = tools.getTopLeft(
@@ -707,6 +710,7 @@ onoPager.animation.linearContinous = function(newConfig, extraConfig) {
         //      linearContinousInstance._config.listItems[newIndex]
         //    ).index();
         //}
+        return jQuery(newListItems[firstIndex - 1]);
       }
 
       // If user pages from the first item to last item, position on the item
@@ -731,6 +735,7 @@ onoPager.animation.linearContinous = function(newConfig, extraConfig) {
         //    linearContinousInstance._config.listItems[newIndex]
         //  ).index();
         //}
+        return jQuery(newListItems[lastIndex + 1]);
       }
 
       if (offset) {

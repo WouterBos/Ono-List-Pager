@@ -79,7 +79,7 @@
 			Documentation generator: <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.3.2<br />
 			Template: <a href="http://www.thebrightlines.com/2010/05/06/new-template-for-jsdoctoolkit-codeview/" target="_blank">Codeview</a> 1.2<br />
 			Generated on:
-			<time datetime='2011-4-24' pubdate>2011-4-24 22:13</time>
+			<time datetime='2011-4-25' pubdate>2011-4-25 18:57</time>
 		</footer>
 	</div>
 </div>
@@ -180,7 +180,7 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/onoPager.pager.html#initAutopager">initAutopager</a></b>(arg_autoPageConfig, arg_animation, orientation, listContainer, list, arg_list, arg_autoPageContainer)
+													<div class="fixedFont"><b><a href="../symbols/onoPager.pager.html#initAutopager">initAutopager</a></b>(arg_autoPageConfig, arg_animationSpeed, arg_animation, arg_orientation, arg_listContainer, arg_list, arg_autoPageContainer)
 													</div>
 													<div class="description">Sets index adding move value to index</div>
 												</td>
@@ -260,19 +260,19 @@
 									<dt class="heading">Parameters:</dt>
 									
 										<dt>
-											<span class="light fixedFont">{Number|Null}</span>  <b>arg_index</b>
+											<span class="light fixedFont">{Number}</span>  <b>arg_index</b>
 											
 										</dt>
 										<dd>Initial index position.</dd>
 									
 										<dt>
-											<span class="light fixedFont">{Number|Null}</span>  <b>arg_length</b>
+											<span class="light fixedFont">{Number}</span>  <b>arg_length</b>
 											
 										</dt>
 										<dd>Number of items in list.</dd>
 									
 										<dt>
-											<span class="light fixedFont">{Boolean|Null}</span>  <b>arg_pageLoop</b>
+											<span class="light fixedFont">{Boolean}</span>  <b>arg_doesLoop</b>
 											
 										</dt>
 										<dd>If set to true, the pager will loop from the last item back to the first.</dd>
@@ -375,7 +375,7 @@
 											
 											
 											
-											<b>initAutopager</b>(arg_autoPageConfig, arg_animation, orientation, listContainer, list, arg_list, arg_autoPageContainer)
+											<b>initAutopager</b>(arg_autoPageConfig, arg_animationSpeed, arg_animation, arg_orientation, arg_listContainer, arg_list, arg_autoPageContainer)
 										</div>
 										
 										<div class="description">
@@ -403,40 +403,40 @@
 													<dd>AutoPage configuration.</dd>
 												
 													<dt>
+														<span class="light fixedFont">{Number}</span> <b>arg_animationSpeed</b>
+														
+													</dt>
+													<dd>The time a transition will take in   milliseconds.</dd>
+												
+													<dt>
 														<span class="light fixedFont">{Object}</span> <b>arg_animation</b>
 														
 													</dt>
 													<dd>Animation instance.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{Object}</span> <b>orientation</b>
+														<span class="light fixedFont">{Object}</span> <b>arg_orientation</b>
 														
 													</dt>
 													<dd>Determines on what axis the   animation moves. Possible values are 'horizontal' and 'vertical' though   it's possible to use other values as long as the animation object   supports that value. Default value is 'horizontal'.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{Object}</span> <b>listContainer</b>
+														<span class="light fixedFont">{Object}</span> <b>arg_listContainer</b>
 														
 													</dt>
 													<dd>Element that holds the list.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{Object}</span> <b>list</b>
+														<span class="light fixedFont">{Object}</span> <b>arg_list</b>
 														
 													</dt>
 													<dd>Element that is the root of the list. That's the &lt;ul&gt; most of the time.</dd>
 												
 													<dt>
-														<b>arg_list</b>
+														<span class="light fixedFont">{Object}</span> <b>arg_autoPageContainer</b>
 														
 													</dt>
-													<dd></dd>
-												
-													<dt>
-														<b>arg_autoPageContainer</b>
-														
-													</dt>
-													<dd></dd>
+													<dd>The element in which the auto page   animation will take place.</dd>
 												
 											</dl>
 										

@@ -5,9 +5,3 @@ java -jar jsdoc-toolkit\jsrun.jar jsdoc-toolkit\app\run.js -d=..\Documentation\o
 echo .
 echo Batch is done.
 pause
-
-
-
-
-
-

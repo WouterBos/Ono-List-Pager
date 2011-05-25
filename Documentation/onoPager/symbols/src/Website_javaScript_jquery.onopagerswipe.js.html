@@ -10,7 +10,7 @@
 <span class='line'>  3</span>    * Handles swipe events on mobile phones and desktops. The code is based on
 <span class='line'>  4</span>    * the QuickGestures jQuery plugin of Anders Zakrisson.
 <span class='line'>  5</span>    *
-<span class='line'>  6</span>    * @return {jQuery} chainable jQuery class.
+<span class='line'>  6</span>    * @return {Object} chainable jQuery class.
 <span class='line'>  7</span>    * @memberOf jQuery.fn
 <span class='line'>  8</span>    * @param {Object|Null} arg_config Swipe config.
 <span class='line'>  9</span>    * @param {Function} arg_config.dragLeft Handles drag left event.
@@ -25,7 +25,7 @@
 <span class='line'> 18</span>    *    desktop. Swiping on the desktop is done with mouse gestures. Default
 <span class='line'> 19</span>    *    value is 'touch'.
 <span class='line'> 20</span>    */</span><span class="WHIT">
-<span class='line'> 21</span> </span><span class="WHIT">  </span><span class="NAME">$.fn.onoPagerSwipe</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">arg_config</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="WHIT">  </span><span class="NAME">jQuery.fn.onoPagerSwipe</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">arg_config</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'> 22</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">config</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'> 23</span> </span><span class="WHIT">      </span><span class="NAME">dragLeft</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 24</span> </span><span class="WHIT">      </span><span class="NAME">dragRight</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">

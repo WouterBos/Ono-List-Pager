@@ -47,7 +47,7 @@
    * @param {Object} animationConfig Optional extra configuration object for
    *    the animation object.
    * @param {Boolean} animationConfig.pagePerItem Page per item.
-   * @param {Boolean} animationConfig.pageLoop If true, the pager scrolls back
+   * @param {Boolean} animationConfig.doesLoop If true, the pager scrolls back
    *    to the first item after the last item.
    * @param {String} animationConfig.ListContainer.width Width of list
    *    container, like '200px'.
@@ -62,6 +62,8 @@
    * @param {Boolean} animationConfig.autoPage.active Activates auto pager.
    * @param {Number} animationConfig.autoPage.interval The interval between
    *    autopaging. Time value is set in milliseconds.
+   * @param {String} animationConfig.autoPage.autoPageAnimationType The type
+   *    of animation that will indicate the time the time between transitions.
    * @param {String} animationConfig.labels.next text for the 'next'-button.
    * @param {String} animationConfig.labels.previous Text for the
    *    'previous'-button.
@@ -74,12 +76,19 @@
    *    the total pages number.
    * @param {Boolean} animationConfig.scroller.active Activates a Javascript
    *    scrollbar. Default is true.
-   * @param {Boolean} animationConfig.scroller.active Activates a Javascript
-   *    scrollbar. Default is true.
-   * @param {Boolean} animationConfig.pixelMove The amount of pixels the pager
+   * @param {Number} animationConfig.pixelMove The amount of pixels the pager
    *    scrolls after each frame.
    * @param {Boolean} animationConfig.pageByNumber.active Activates the bar with
    *    all pages, defined by number. Default is true.
+   * @param {Boolean} animationConfig.pageByNumber.enableClick Disables paging
+   *    behaviour onclick. The makes the 'Page by number'-box essentially a
+   *    status box rather than a navigation control. Default is true.
+   * @param {Boolean} animationConfig.pageByArrowKey.active Enables paging by
+   *    using the keyboard arrow keys. Default is false.
+   * @param {Boolean} animationConfig.pageByArrowKey.preventDefault Disables or
+   *    activates the default behaviour of the arrow key. If set to true, the
+   *    user won't be able to scroll the page or a textarea with the arrow keys.
+   *    Default is false for that reason.
    * @param {Boolean} animationConfig.swipeTriggersPage Activates page
    *    navigation by swiping on the screen. Default is false.
    * @param {String} animationConfig.swipePlatforms Determines on what platforms
@@ -90,7 +99,8 @@
    * @param {String} animationConfig.animationType Determines which animation
    *    object will be used. The following animation types are available by
    *    default: 'linear', 'linearScroller' and 'slides'. Custom animation
-   *    objects can be created and used after the plugin is loaded.
+   *    objects can be created and used after the plugin is loaded. Default
+   *    value is 'linear'.
    * @param {String} animationConfig.animationEasing Determines the easing type
    *    to be used by the animation object. Default value is 'linear'.
    * @param {String} animationConfig.orientation Determines on what axis the
@@ -119,7 +129,7 @@
    * // Advanced example:
    * jQuery('#list1').onoPager({
    *    pagePerItem: true,
-   *    pageLoop: true,
+   *    doesLoop: true,
    *    listContainer: {
    *      width: '300px',
    *      height: '100px'
@@ -151,7 +161,10 @@
    *      active: true,
    *      enableClick: true
    *    },
-   *    keyTriggersPage: false,
+   *    pageByArrowKey: {
+   *      active: false,
+   *      preventDefault: false
+   *    },
    *    swipeTriggersPage: false,
    *    swipePlatforms: 'touch',
    *    animationType: 'linear',
@@ -160,10 +173,10 @@
    *    animationSpeed: 1000
    * });
    */
-  $.fn.onoPager = function(arg_config, animationConfig) {
+  jQuery.fn.onoPager = function(arg_config, animationConfig) {
     var config = {
       pagePerItem: true,
-      pageLoop: true,
+      doesLoop: true,
       listContainer: {
         width: '',
         height: ''
@@ -196,7 +209,10 @@
         active: true,
         enableClick: true
       },
-      keyTriggersPage: false,
+      pageByArrowKey: {
+        active: false,
+        preventDefault: false
+      },
       swipeTriggersPage: false,
       swipePlatforms: 'touch',
       animationType: 'linear',
@@ -315,7 +331,7 @@
         pager = new onoPager.pager(
           config.activeIndex,
           pageTotal,
-          config.pageLoop,
+          config.doesLoop,
           {
             next: pageNext,
             previous: pagePrevious,
@@ -397,7 +413,7 @@
       });
 
       // Page with arrow keys on keyboard
-      if (config.keyTriggersPage == true) {
+      if (config.pageByArrowKey.active == true) {
         $(document).keydown(function(event) {
           var key = event.which;
           var UP = 38;
@@ -408,15 +424,17 @@
           if ((config.orientation == VERTICAL && key == UP) ||
             (config.orientation == HORIZONTAL && key == LEFT)) {
             page(pager.getIndex() - 1);
-            event.preventDefault();
-            event.stopPropagation();
+            if (config.pageByArrowKey.preventDefault == true) {
+              event.preventDefault();
+            }
           }
           // Page forward
           if ((config.orientation == VERTICAL && key == DOWN) ||
             (config.orientation == HORIZONTAL && key == RIGHT)) {
             page(pager.getIndex() + 1);
-            event.preventDefault();
-            event.stopPropagation();
+            if (config.pageByArrowKey.preventDefault == true) {
+              event.preventDefault();
+            }
           }
         });
       }

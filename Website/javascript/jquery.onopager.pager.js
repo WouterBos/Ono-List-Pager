@@ -2,9 +2,9 @@
  * @namespace Paging logic.
  *
  * @constructor
- * @param {Number|Null} arg_index Initial index position.
- * @param {Number|Null} arg_length Number of items in list.
- * @param {Boolean|Null} arg_pageLoop If set to true, the pager will loop
+ * @param {Number} arg_index Initial index position.
+ * @param {Number} arg_length Number of items in list.
+ * @param {Boolean} arg_doesLoop If set to true, the pager will loop
  *  from the last item back to the first.
  * @param {Object} arg_controls Object that contains certain elements in the
  *  pager, wrapped in a jQuery object.
@@ -12,21 +12,21 @@
  */
 onoPager.pager = function(arg_index,
                           arg_length,
-                          arg_pageLoop,
+                          arg_doesLoop,
                           arg_controls,
                           arg_status) {
   var index = arg_index || 0;
   var length = arg_length || 0;
-  var pageLoop = (typeof(arg_pageLoop) == 'boolean') ? arg_pageLoop : true;
+  var doesLoop = (typeof(arg_doesLoop) == 'boolean') ? arg_doesLoop : true;
 
   // Set autopager variables
-  var autoPageConfig = {};
-  var autoPageInterval;
-  var autoPageAnimation;
-  var autoPageContainer;
-  var listContainer;
-  var animationSpeed;
-  var orientation;
+  var autoPageConfig = {};  // Autopage configuration object
+  var autoPageInterval;     // The interval between transitions in milliseconds
+  var autoPageAnimation;    // The auto page animation object
+  var autoPageContainer;    // The element in which the page animation happens
+  var listContainer;        // The element that holds the list
+  var animationSpeed;       // The speed of the transitions in milliseconds
+  var orientation;          // The orientation
 
   // Set pager controls
   var controls = {
@@ -49,7 +49,7 @@ onoPager.pager = function(arg_index,
 
   // Handle index values that are out of bounds
   function indexCheckBounds(arg_index) {
-    if (pageLoop == true) {
+    if (doesLoop == true) {
       return indexCheckBounds_loop(arg_index);
     } else {
       return indexCheckBounds_noLoop(arg_index);
@@ -87,14 +87,14 @@ onoPager.pager = function(arg_index,
       activeLink.addClass('onoPager_active');
     }
 
-    if (controls.previous && pageLoop == false) {
+    if (controls.previous && doesLoop == false) {
       if (index == 0) {
         controls.previous.addClass(DISABLED);
       } else {
         controls.previous.removeClass(DISABLED);
       }
     }
-    if (controls.next && pageLoop == false) {
+    if (controls.next && doesLoop == false) {
       if (index == (length - 1)) {
         controls.next.addClass(DISABLED);
       } else {
@@ -109,13 +109,14 @@ onoPager.pager = function(arg_index,
     }
   }
 
+  // Set active index and check if the it's out of bounds
   function setIndex(arg_index) {
-    index = arg_index;
-    index = indexCheckBounds(index);
+    index = indexCheckBounds(arg_index);
     setPagerButtons(index);
     return index;
   }
 
+  // Set index by adding or substracting to the active item index
   function move(move) {
     index += move;
     index = indexCheckBounds(index);
@@ -123,19 +124,22 @@ onoPager.pager = function(arg_index,
     return index;
   }
 
+  // Initializes autopage
   function startAutopager() {
-    autoPageInterval = setInterval(autoPager, autoPageConfig.interval);
     autoPageAnimation = setAnimation();
+    autoPageInterval = setInterval(autoPager, autoPageConfig.interval);
   }
 
+  // Starts a page transition (triggered by interval)
   function autoPager() {
-    if (pageLoop == false && (index == (length - 1))) {
+    if (doesLoop == false && (index == (length - 1))) {
       clearInterval(autoPageInterval);
     }
     autoPageConfig.animation._page(index, move(1));
     autoPageAnimation._start();
   }
 
+  // Create autopage animation object
   function setAnimation() {
     if (autoPageConfig.autoPageAnimationType != '') {
       var newAnimation = onoPager.autopageAnimation.createAnimation(
@@ -186,14 +190,18 @@ onoPager.pager = function(arg_index,
   /**
    * Sets index adding move value to index
    * @param {Object} arg_autoPageConfig AutoPage configuration.
+   * @param {Number} arg_animationSpeed The time a transition will take in
+   *    milliseconds.
    * @param {Object} arg_animation Animation instance.
-   * @param {Object} orientation Determines on what axis the
+   * @param {Object} arg_orientation Determines on what axis the
    *    animation moves. Possible values are 'horizontal' and 'vertical' though
    *    it's possible to use other values as long as the animation object
    *    supports that value. Default value is 'horizontal'.
-   * @param {Object} listContainer Element that holds the list.
-   * @param {Object} list Element that is the root of the list. That's the
+   * @param {Object} arg_listContainer Element that holds the list.
+   * @param {Object} arg_list Element that is the root of the list. That's the
    *  &lt;ul&gt; most of the time.
+   * @param {Object} arg_autoPageContainer The element in which the auto page
+   *    animation will take place.
    * @example
    * instance.initAutoPager(
    *    {
@@ -210,16 +218,19 @@ onoPager.pager = function(arg_index,
                                 arg_list,
                                 arg_autoPageContainer) {
     var tools = onoPager.tools;
+
+    // Setting local private variables
     animationSpeed = arg_animationSpeed;
     listContainer = arg_listContainer;
     orientation = arg_orientation;
     autoPageContainer = arg_autoPageContainer;
-    var overflow = tools.getInnerSize(orientation, listContainer) -
-                     tools.getInnerSize(orientation, arg_list);
     jQuery.extend(true,
                   autoPageConfig,
                   arg_autoPageConfig,
                   {animation: arg_animation});
+
+    var overflow = tools.getInnerSize(orientation, listContainer) -
+                     tools.getInnerSize(orientation, arg_list);
     if (overflow < 0) {
       startAutopager();
     }
@@ -277,18 +288,22 @@ onoPager.autopageAnimation = (function() {
     /**
      * This method creates and returns an animation object.
      *
-     * @param {String} animationType Name of the animation that must be loaded.
      * @param {Object} config Configuration object.
-     *   animation object.
+     * @return {object} The animation object.
      */
     createAnimation: function(config) {
-      if (typeof(onoPager.autopageAnimation[config.autoPageAnimationType]) != 'function') {
-        throw new Error('autoPageAnimationType "' + config.autoPageAnimationType + '" is not of ' +
-          'type function, but ' + typeof(onoPager.autopageAnimation[config.autoPageAnimationType]));
+      if (typeof(onoPager.autopageAnimation[config.autoPageAnimationType]) !=
+          'function') {
+        throw new Error('autoPageAnimationType "' +
+          config.autoPageAnimationType + '" is not of type function, but ' +
+          typeof(onoPager.autopageAnimation[config.autoPageAnimationType])
+        );
       }
-      config.root.addClass('onoPager_onoPager.autopageAnimation_' + config.autoPageAnimationType);
+      config.root.addClass('onoPager_onoPager.autopageAnimation_' +
+        config.autoPageAnimationType);
 
-      var animation = onoPager.autopageAnimation[config.autoPageAnimationType](config);
+      var animation = onoPager.autopageAnimation[
+        config.autoPageAnimationType](config);
 
       interfaceCheck(
         animation,
@@ -387,7 +402,8 @@ onoPager.autopageAnimation.timeline = function(newConfig) {
         width: listContainer.innerWidth(),
         position: 'absolute',
         left: listContainer.position().left + 'px',
-        top: listContainer.position().top + listContainer.innerHeight(true) + 'px'
+        top: listContainer.position().top +
+               listContainer.innerHeight(true) + 'px'
       }
     );
 

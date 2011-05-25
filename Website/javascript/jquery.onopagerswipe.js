@@ -3,7 +3,7 @@
    * Handles swipe events on mobile phones and desktops. The code is based on
    * the QuickGestures jQuery plugin of Anders Zakrisson.
    *
-   * @return {jQuery} chainable jQuery class.
+   * @return {Object} chainable jQuery class.
    * @memberOf jQuery.fn
    * @param {Object|Null} arg_config Swipe config.
    * @param {Function} arg_config.dragLeft Handles drag left event.
@@ -18,7 +18,7 @@
    *    desktop. Swiping on the desktop is done with mouse gestures. Default
    *    value is 'touch'.
    */
-  $.fn.onoPagerSwipe = function(arg_config) {
+  jQuery.fn.onoPagerSwipe = function(arg_config) {
     var config = {
       dragLeft: null,
       dragRight: null,

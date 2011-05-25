@@ -79,7 +79,7 @@
 			Documentation generator: <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.3.2<br />
 			Template: <a href="http://www.thebrightlines.com/2010/05/06/new-template-for-jsdoctoolkit-codeview/" target="_blank">Codeview</a> 1.2<br />
 			Generated on:
-			<time datetime='2011-4-24' pubdate>2011-4-24 22:13</time>
+			<time datetime='2011-4-25' pubdate>2011-4-25 18:57</time>
 		</footer>
 	</div>
 </div>
@@ -169,7 +169,7 @@
 											>
 												<td class="attributes">&lt;static&gt; &nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont">jQuery.fn.<b><a href="../symbols/jQuery.fn.html#.$.fn.onoPager">$.fn.onoPager</a></b>(arg_config, animationConfig)
+													<div class="fixedFont">jQuery.fn.<b><a href="../symbols/jQuery.fn.html#.onoPager">onoPager</a></b>(arg_config, animationConfig)
 													</div>
 													<div class="description">Creates a widget that enables the user to navigate through a list ofelements (like an <code>&lt;ul&gt;</code>).</div>
 												</td>
@@ -180,7 +180,7 @@
 											>
 												<td class="attributes">&lt;static&gt; &nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont">jQuery.fn.<b><a href="../symbols/jQuery.fn.html#.$.fn.onoPagerSwipe">$.fn.onoPagerSwipe</a></b>(arg_config)
+													<div class="fixedFont">jQuery.fn.<b><a href="../symbols/jQuery.fn.html#.onoPagerSwipe">onoPagerSwipe</a></b>(arg_config)
 													</div>
 													<div class="description">Handles swipe events on mobile phones and desktops.</div>
 												</td>
@@ -250,14 +250,14 @@
 									<li 
 										 class='item0'
 									>
-										<div class="fixedFont heading" id=".$.fn.onoPager">
+										<div class="fixedFont heading" id=".onoPager">
 											<span class='lighter'>
 											&lt;static&gt; 
 											</span>
 											
 											<span class="light">{<a href="../symbols/jQuery.html">jQuery</a>}</span>
 											
-											<span class="light">jQuery.fn.</span><b>$.fn.onoPager</b>(arg_config, animationConfig)
+											<span class="light">jQuery.fn.</span><b>onoPager</b>(arg_config, animationConfig)
 										</div>
 										
 										<div class="description">
@@ -270,7 +270,7 @@
 										
 										
 											
-												<pre class="code">// Simple example:jQuery('#list1').onoPager({  pagePerItem: false,  listContainer: {    width: '700px',    height: '100px'  },  listItems: {    width: '300px'  },  animationType: 'linear',  animationSpeed: 1000});// Advanced example:jQuery('#list1').onoPager({   pagePerItem: true,   pageLoop: true,   listContainer: {     width: '300px',     height: '100px'   },   listItems: {     width: '300px',     height: '100px'   },   activeIndex: 2,   autoPage: {     active: true,     interval: 2000,   },   labels: {     next: 'next',     previous: 'previous'   },   status: {     active: true,     prependText: 'page ',     seperationText: ' of ',     appendText: ' pages'   },   scroller: {     active: false,     pixelMove: 2   },   pageByNumber: {     active: true,     enableClick: true   },   keyTriggersPage: false,   swipeTriggersPage: false,   swipePlatforms: 'touch',   animationType: 'linear',   animationEasing: 'linear',   orientation: 'horizontal',   animationSpeed: 1000});</pre>
+												<pre class="code">// Simple example:jQuery('#list1').onoPager({  pagePerItem: false,  listContainer: {    width: '700px',    height: '100px'  },  listItems: {    width: '300px'  },  animationType: 'linear',  animationSpeed: 1000});// Advanced example:jQuery('#list1').onoPager({   pagePerItem: true,   doesLoop: true,   listContainer: {     width: '300px',     height: '100px'   },   listItems: {     width: '300px',     height: '100px'   },   activeIndex: 2,   autoPage: {     active: true,     interval: 2000,   },   labels: {     next: 'next',     previous: 'previous'   },   status: {     active: true,     prependText: 'page ',     seperationText: ' of ',     appendText: ' pages'   },   scroller: {     active: false,     pixelMove: 2   },   pageByNumber: {     active: true,     enableClick: true   },   pageByArrowKey: {     active: false,     preventDefault: false   },   swipeTriggersPage: false,   swipePlatforms: 'touch',   animationType: 'linear',   animationEasing: 'linear',   orientation: 'horizontal',   animationSpeed: 1000});</pre>
 											
 										
 										
@@ -297,7 +297,7 @@
 													<dd>Page per item.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{Boolean}</span> <b>animationConfig.pageLoop</b>
+														<span class="light fixedFont">{Boolean}</span> <b>animationConfig.doesLoop</b>
 														
 													</dt>
 													<dd>If true, the pager scrolls back   to the first item after the last item.</dd>
@@ -345,6 +345,12 @@
 													<dd>The interval between   autopaging. Time value is set in milliseconds.</dd>
 												
 													<dt>
+														<span class="light fixedFont">{String}</span> <b>animationConfig.autoPage.autoPageAnimationType</b>
+														
+													</dt>
+													<dd>The type   of animation that will indicate the time the time between transitions.</dd>
+												
+													<dt>
 														<span class="light fixedFont">{String}</span> <b>animationConfig.labels.next</b>
 														
 													</dt>
@@ -387,13 +393,7 @@
 													<dd>Activates a Javascript   scrollbar. Default is true.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{Boolean}</span> <b>animationConfig.scroller.active</b>
-														
-													</dt>
-													<dd>Activates a Javascript   scrollbar. Default is true.</dd>
-												
-													<dt>
-														<span class="light fixedFont">{Boolean}</span> <b>animationConfig.pixelMove</b>
+														<span class="light fixedFont">{Number}</span> <b>animationConfig.pixelMove</b>
 														
 													</dt>
 													<dd>The amount of pixels the pager   scrolls after each frame.</dd>
@@ -403,6 +403,24 @@
 														
 													</dt>
 													<dd>Activates the bar with   all pages, defined by number. Default is true.</dd>
+												
+													<dt>
+														<span class="light fixedFont">{Boolean}</span> <b>animationConfig.pageByNumber.enableClick</b>
+														
+													</dt>
+													<dd>Disables paging   behaviour onclick. The makes the 'Page by number'-box essentially a   status box rather than a navigation control. Default is true.</dd>
+												
+													<dt>
+														<span class="light fixedFont">{Boolean}</span> <b>animationConfig.pageByArrowKey.active</b>
+														
+													</dt>
+													<dd>Enables paging by   using the keyboard arrow keys. Default is false.</dd>
+												
+													<dt>
+														<span class="light fixedFont">{Boolean}</span> <b>animationConfig.pageByArrowKey.preventDefault</b>
+														
+													</dt>
+													<dd>Disables or   activates the default behaviour of the arrow key. If set to true, the   user won't be able to scroll the page or a textarea with the arrow keys.   Default is false for that reason.</dd>
 												
 													<dt>
 														<span class="light fixedFont">{Boolean}</span> <b>animationConfig.swipeTriggersPage</b>
@@ -420,7 +438,7 @@
 														<span class="light fixedFont">{String}</span> <b>animationConfig.animationType</b>
 														
 													</dt>
-													<dd>Determines which animation   object will be used. The following animation types are available by   default: 'linear', 'linearScroller' and 'slides'. Custom animation   objects can be created and used after the plugin is loaded.</dd>
+													<dd>Determines which animation   object will be used. The following animation types are available by   default: 'linear', 'linearScroller' and 'slides'. Custom animation   objects can be created and used after the plugin is loaded. Default   value is 'linear'.</dd>
 												
 													<dt>
 														<span class="light fixedFont">{String}</span> <b>animationConfig.animationEasing</b>
@@ -471,14 +489,14 @@
 									<li 
 										 class='item1'
 									>
-										<div class="fixedFont heading" id=".$.fn.onoPagerSwipe">
+										<div class="fixedFont heading" id=".onoPagerSwipe">
 											<span class='lighter'>
 											&lt;static&gt; 
 											</span>
 											
-											<span class="light">{<a href="../symbols/jQuery.html">jQuery</a>}</span>
+											<span class="light">{Object}</span>
 											
-											<span class="light">jQuery.fn.</span><b>$.fn.onoPagerSwipe</b>(arg_config)
+											<span class="light">jQuery.fn.</span><b>onoPagerSwipe</b>(arg_config)
 										</div>
 										
 										<div class="description">
@@ -555,7 +573,7 @@
 												
 													<dt class="heading">Returns:</dt>
 													
-														<dd><span class="light fixedFont">{<a href="../symbols/jQuery.html">jQuery</a>}</span> chainable jQuery class.</dd>
+														<dd><span class="light fixedFont">{Object}</span> chainable jQuery class.</dd>
 													
 												
 												

@@ -119,7 +119,7 @@
           code
           <pre>jQuery('#list3').onoPager({
   pagePerItem: true,
-  pageLoop: false,
+  doesLoop: false,
   orientation: 'vertical',
   listContainer: {
     width: '250px',
@@ -189,13 +189,43 @@
         </div>
       </div>
 
-      <div id="list5" class="onoPager_noJs">
-        <div class="onoPager_listItem">1 Lorem ipsum dolor sit.</div>
-        <div class="onoPager_listItem">2 Aliquam arcu odio, sollicitudin..</div>
-        <div class="onoPager_listItem">3 Lorem ipsum dolor sit</div>
-        <div class="onoPager_listItem">4 Aliquam arcu odio, sollicitudin.</div>
-        <div class="onoPager_listItem">5 Lorem ipsum dolor sit amet site</div>
-        <div class="onoPager_listItem">6 Aliquam arcu odio, sollicitudin.</div>
+      <ul id="list5" class="onoPager_noJs">
+        <li>
+          <div class="onoPager_linearContinuous_background"></div>
+          <div class="onoPager_linearContinuous_content">
+            1 Lorem ipsum dolor sit.
+          </div>
+        </li>
+        <li>
+          <div class="onoPager_linearContinuous_background"></div>
+          <div class="onoPager_linearContinuous_content">
+            2 Aliquam arcu odio, sollicitudin.
+          </div>
+        </li>
+        <li>
+          <div class="onoPager_linearContinuous_background"></div>
+          <div class="onoPager_linearContinuous_content">
+            3 Lorem ipsum dolor sit
+          </div>
+        </li>
+        <li>
+          <div class="onoPager_linearContinuous_background"></div>
+          <div class="onoPager_linearContinuous_content">
+            4 Aliquam arcu odio, sollicitudin.
+          </div>
+        </li>
+        <li>
+          <div class="onoPager_linearContinuous_background"></div>
+          <div class="onoPager_linearContinuous_content">
+            5 Lorem ipsum dolor sit amet site.
+          </div>
+        </li>
+        <li>
+          <div class="onoPager_linearContinuous_background"></div>
+          <div class="onoPager_linearContinuous_content">
+            6 Aliquam arcu odio, sollicitudin.
+          </div>
+        </li>
       </div>
     </li>
   </ul>
@@ -301,7 +331,7 @@
 
     jQuery('#list3').onoPager({
       pagePerItem: true,
-      pageLoop: false,
+      doesLoop: false,
       orientation: 'vertical',
       listContainer: {
         width: '250px',
