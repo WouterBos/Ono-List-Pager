@@ -1,6 +1,6 @@
 ABOUT
 
-Creates a widget that enables the user to navigate through a list of elements (like an <ul>). It provides different types of paging navigation. These are called animation objects and reside in the onoPager.animation namespace. The onoPager library consist now of 3 types of animations: "slides", "linear" and "linearScroller". The onoPager is built in such a way that it's easy to add your own animation objects without having to rewrite the basic paging functionality. 
+The Ono List Pager Creates a widget that enables the user to navigate through a list of elements (like an <ul>). It provides different types of paging navigation. These are called animation objects and reside in the onoPager.animation namespace. The onoPager library consist now of 3 types of animations: "slides", "linear" and "linearScroller". The onoPager is built in such a way that it's easy to add your own animation objects without having to rewrite the basic paging functionality. 
 
 
 
