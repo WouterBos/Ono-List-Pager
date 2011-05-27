@@ -66,6 +66,15 @@ div.onoPager_autoPageBar {
 
 
 
+div.onoPager_animation_linearContinuous {
+  overflow: hidden;
+}
+
+div.onoPager_animation_linearContinuous *.onoPager_listContainer {
+  margin: 0 auto;
+  overflow: visible;
+}
+
 div.onoPager_animation_linearContinuous *.onoPager_listItem {
   position: relative;
   overflow: hidden;  
