@@ -574,12 +574,10 @@ onoPager.animation.linearContinous = function(newConfig, extraConfig) {
       for (var i = 1; i <= listItems.size(); i++) {
         if (prependSpace < idleSpace) {
           prependItemsArray.push(jQuery(listItems.get(-i)).clone(true));
-          if (i > 1) {
-            prependSpace += tools.getInnerSize(
-              linearContinousInstance._config.orientation,
-              jQuery(listItems.get(-i))
-            );
-          }
+          prependSpace += tools.getInnerSize(
+            linearContinousInstance._config.orientation,
+            jQuery(listItems.get(-i))
+          );
         } else {
           break;
         }
@@ -597,12 +595,10 @@ onoPager.animation.linearContinous = function(newConfig, extraConfig) {
       for (var i = 0; i < listItems.size(); i++) {
         if (appendSpace < idleSpace) {
           appendItems = appendItems.add(jQuery(listItems.get(i)).clone(true));
-          if (i > 0) {
-            appendSpace += tools.getInnerSize(
-              linearContinousInstance._config.orientation,
-              jQuery(listItems.get(i))
-            );
-          }
+          appendSpace += tools.getInnerSize(
+            linearContinousInstance._config.orientation,
+            jQuery(listItems.get(i))
+          );
         } else {
           break;
         }
@@ -661,13 +657,13 @@ onoPager.animation.linearContinous = function(newConfig, extraConfig) {
         this._config.orientation,
         jQuery(this._config.listItems[newIndex])
       );
-    }// else {
-    //  var size = tools.getInnerSize(
-    //    linearContinousInstance._config.orientation,
-    //    this._config.listContainer
-    //  );
-    //  offset = size * jQuery(this._config.listItems[newIndex]).index();
-    //}
+    } else {
+      var size = tools.getInnerSize(
+        linearContinousInstance._config.orientation,
+        this._config.listContainer
+      );
+      offset = size * jQuery(this._config.listItems[newIndex]).index();
+    }
 
     offset = this._checkMaxScroll(offset);
 
@@ -690,12 +686,17 @@ onoPager.animation.linearContinous = function(newConfig, extraConfig) {
     );
 
     function animateBackground(oldIndex, newIndex, oldItem) {
+      if (linearContinousInstance._config.pagePerItem == false) {
+        // Background animation only works if paging is done per list item.
+        return;
+      }
+      
       var move = 0; // -1 is a move to the left, +1 is a move to the right.
 
       // Determine move direction
       var maxItems = linearContinousInstance._config.listItems.size();
       if ((oldIndex < newIndex) ||
-          (newIndex == 0 && newIndex == (maxItems - 1))) {
+          (newIndex == 0 && oldIndex == (maxItems - 1))) {
         move = 1;
       } else {
         move = -1;
@@ -768,7 +769,7 @@ onoPager.animation.linearContinous = function(newConfig, extraConfig) {
         linearContinousInstance._config.orientation
       );
       var offset;
-      var oldItem;
+      var oldItem = jQuery(linearContinousInstance._config.listItems[oldIndex]);
 
       if (oldIndex == (listSize - 1) && newIndex == 0) {
         // If user pages from last item to first item, position on the item
@@ -816,8 +817,6 @@ onoPager.animation.linearContinous = function(newConfig, extraConfig) {
         //    linearContinousInstance._config.listItems[newIndex]
         //  ).index();
         //}
-      } else {
-        oldItem = jQuery(linearContinousInstance._config.listItems[oldIndex]);
       }
 
       if (offset) {
@@ -847,7 +846,7 @@ onoPager.animation.linearContinous = function(newConfig, extraConfig) {
       linearContinousInstance._config.orientation,
       this._config.listContainer
     );
-    var idleSpace = (rootSize - listContainerSize) / 2;
+    var idleSpace = (rootSize / 2) + listContainerSize;
     var listBounds = 0;
 
     // Creates extra items to fill the idle space in the list container.
