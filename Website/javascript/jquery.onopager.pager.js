@@ -410,7 +410,7 @@ onoPager.autopageAnimation.timeline = function(newConfig) {
     bar.css('width', 0);
     bar.animate(
       {
-        width: listContainer.innerWidth() + 'px'
+        width: root.innerWidth() + 'px'
       },
       {
         duration: this._config.autoPageInterval,
@@ -431,7 +431,7 @@ onoPager.autopageAnimation.timeline = function(newConfig) {
     bar.css('width', 0);
     bar.delay(this._config.animationSpeed).animate(
       {
-        width: listContainer.innerWidth() + 'px'
+        width: root.innerWidth() + 'px'
       },
       {
         duration: interval,
