@@ -1,4 +1,3 @@
-/* Start base */
 div.onoPager {
     position: relative;
 }
@@ -12,8 +11,8 @@ div.onoPager {
     margin: 0;
     padding: 10px;
     overflow: hidden;
-    -webkit-box-shadow: inset 0 0 2px 2px #cccccc;
-    box-shadow: inset 0 0 2px 2px #cccccc;
+    -webkit-box-shadow: inset 0 0 10px 2px #cccccc;
+    box-shadow: inset 0 0 10px 2px #cccccc;
 }
 
 a.onoPager_previous,
@@ -64,9 +63,9 @@ div.onoPager_autoPageBar {
 	height: 2px;
 	background: #0000ff;
 }
-/* End base */
 
-/* Start linearContinuous animation */
+
+
 div.onoPager_animation_linearContinous *.onoPager_listItem {
   position: relative;
   overflow: hidden;  
@@ -89,4 +88,3 @@ div.onoPager_animation_linearContinous *.onoPager_listItem:nth-child(2n) *.onoPa
 div.onoPager_animation_linearContinous *.onoPager_linearContinuous_content {
   position: relative;
 }
-/* End linearContinuous animation */
