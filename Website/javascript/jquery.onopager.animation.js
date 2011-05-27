@@ -556,6 +556,7 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
   var hasCenterBackground = false;
   var newListItems; // contains the new list of items, after duplication
                     // takes place in onPagerCreated
+  var BACKGROUND_SELECTOR = '*.onoPager_linearContinuous_background';
 
   // Appends and prepends items until the list always fills the screen.
   function fillIdleSpace(idleSpace) {
@@ -694,64 +695,90 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
 
       // Determine move direction
       var maxItems = linearContinuousInstance._config.listItems.size();
-      if ((oldIndex < newIndex) ||
-          (newIndex == 0 && newIndex == (maxItems - 1))) {
+      if ((oldIndex == (newIndex - 1)) ||
+          (newIndex == 0 && oldIndex == (maxItems - 1))) {
         move = 1;
       } else {
         move = -1;
       }
 
-      // Animate backgrounds
+      // Set variables and styling
       var newItem = jQuery(linearContinuousInstance._config.listItems[newIndex]);
       var oldItem2 = jQuery(
                        linearContinuousInstance._config.listItems[oldIndex]);
       var containerWidth =
             linearContinuousInstance._config.listContainer.innerWidth();
       if (oldItem.index() != oldItem2.index()) {
-        oldItem2.find('*.onoPager_linearContinuous_background').css(
-          {left: containerWidth + 'px'}
+        oldItem2.find(BACKGROUND_SELECTOR).css(
+          {width: 0}
         );
       }
+      
+      // Animate backgrounds
+      linearContinuousInstance._config.list.each(function(index) {
+        jQuery(this).find(BACKGROUND_SELECTOR).stop(true, true);
+        if (index != newItem.index()) {
+          jQuery(this).find(BACKGROUND_SELECTOR).css({width: 0});
+        }
+      });
 
       if (move > 0) {
-        console.log('forward');
-        oldItem.find('*.onoPager_linearContinuous_background').css(
-          {left: 0}
+        oldItem.find(BACKGROUND_SELECTOR).css(
+          {
+            left: 'auto',
+            right: 0,
+            width: containerWidth + 'px',
+            backgroundPosition: 'top right'
+          }
         );
-        oldItem.find('*.onoPager_linearContinuous_background').animate(
-          {left: containerWidth + 'px'},
+        oldItem.find(BACKGROUND_SELECTOR).animate(
+          {width: 0},
           {
             duration: 1000,
             easing: linearContinuousInstance._config.animationEasing
           }
         );
-        newItem.find('*.onoPager_linearContinuous_background').css(
-          {left: -containerWidth + 'px'}
+        newItem.find(BACKGROUND_SELECTOR).css(
+          {
+            left: 0,
+            right: 'auto',
+            width: 0,
+            backgroundPosition: 'top left'
+          }
         );
-        newItem.find('*.onoPager_linearContinuous_background').animate(
-          {left: 0},
+        newItem.find(BACKGROUND_SELECTOR).animate(
+          {width: containerWidth + 'px'},
           {
             duration: 1000,
             easing: linearContinuousInstance._config.animationEasing
           }
         );
       } else {
-        console.log('backward');
-        oldItem.find('*.onoPager_linearContinuous_background').css(
-          {left: 0}
+        oldItem.find(BACKGROUND_SELECTOR).css(
+          {
+            left: 0,
+            right: 'auto',
+            width: containerWidth + 'px',
+            backgroundPosition: 'top left'
+          }
         );
-        oldItem.find('*.onoPager_linearContinuous_background').animate(
-          {left: -containerWidth + 'px'},
+        oldItem.find(BACKGROUND_SELECTOR).animate(
+          {width: 0},
           {
             duration: 1000,
             easing: linearContinuousInstance._config.animationEasing
           }
         );
-        newItem.find('*.onoPager_linearContinuous_background').css(
-          {left: containerWidth + 'px'}
+        newItem.find(BACKGROUND_SELECTOR).css(
+          {
+            left: 'auto',
+            right: 0,
+            width: 0,
+            backgroundPosition: 'top right'
+          }
         );
-        newItem.find('*.onoPager_linearContinuous_background').animate(
-          {left: 0},
+        newItem.find(BACKGROUND_SELECTOR).animate(
+          {width: containerWidth + 'px'},
           {
             duration: 1000,
             easing: linearContinuousInstance._config.animationEasing
@@ -879,7 +906,8 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
     this._config.listContainer.css({
         'position': 'relative'
     });
-
+    
+    // Position list
     var offset = tools.getPosition(
       this._config.orientation,
       jQuery(this._config.listItems[this._config.activeIndex])
@@ -889,6 +917,14 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
     } else {
       this._config.list.css({ 'top': '-' + offset + 'px' });
     }
+    jQuery(this._config.listItems[this._config.activeIndex])
+      .find(BACKGROUND_SELECTOR).css(
+        {
+          left: 0,
+          right: 'auto',
+          width: '100%'
+        }
+      );
   }
 
   return linearContinuousInstance;
