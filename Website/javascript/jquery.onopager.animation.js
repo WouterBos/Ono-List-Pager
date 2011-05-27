@@ -582,7 +582,7 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
             );
           }
           prependSpace += tools.getInnerSize(
-            linearContinousInstance._config.orientation,
+            linearContinuousInstance._config.orientation,
             jQuery(listItems.get(-i))
           );
         } else {
@@ -661,16 +661,9 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
         this._config.orientation,
         jQuery(this._config.listItems[newIndex])
       );
-    }// else {
-    //  var size = tools.getInnerSize(
-    //    linearContinuousInstance._config.orientation,
-    //    this._config.listContainer
-    //  );
-    //  offset = size * jQuery(this._config.listItems[newIndex]).index();
-    //}
     } else {
       var size = tools.getInnerSize(
-        linearContinousInstance._config.orientation,
+        linearContinuousInstance._config.orientation,
         this._config.listContainer
       );
       offset = size * jQuery(this._config.listItems[newIndex]).index();
@@ -697,7 +690,7 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
     );
 
     function animateBackground(oldIndex, newIndex, oldItem) {
-      if (linearContinousInstance._config.pagePerItem == false) {
+      if (linearContinuousInstance._config.pagePerItem == false) {
         // Background animation only works if paging is done per list item.
         return;
       }
@@ -706,8 +699,6 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
 
       // Determine move direction
       if ((oldIndex == (newIndex - 1)) ||
-          (newIndex == 0 && oldIndex == (maxItems - 1))) {
-      if ((oldIndex < newIndex) ||
           (newIndex == 0 && oldIndex == (maxItems - 1))) {
         move = 1;
       } else {
@@ -807,7 +798,7 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
         linearContinuousInstance._config.orientation
       );
       var offset;
-      var oldItem = jQuery(linearContinousInstance._config.listItems[oldIndex]);
+      var oldItem = jQuery(linearContinuousInstance._config.listItems[oldIndex]);
 
       if (oldIndex == (listSize - 1) && newIndex == 0) {
         // If user pages from last item to first item, position on the item
@@ -930,7 +921,7 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
       this._config.list.css({ 'top': '-' + offset + 'px' });
     }
     jQuery(this._config.listItems[this._config.activeIndex])
-      .find(BACKGROUND_SELECTOR).css(
+.find(BACKGROUND_SELECTOR).css(
         {
           left: 0,
           right: 'auto',
