@@ -66,12 +66,12 @@ div.onoPager_autoPageBar {
 
 
 
-div.onoPager_animation_linearContinous *.onoPager_listItem {
+div.onoPager_animation_linearContinuous *.onoPager_listItem {
   position: relative;
   overflow: hidden;  
 }
 
-div.onoPager_animation_linearContinous *.onoPager_linearContinuous_background {
+div.onoPager_animation_linearContinuous *.onoPager_linearContinuous_background {
   position: absolute;
   left: -9999em;
   top: 0;
@@ -81,10 +81,10 @@ div.onoPager_animation_linearContinous *.onoPager_linearContinuous_background {
   background: #e368df;
 }
 
-div.onoPager_animation_linearContinous *.onoPager_listItem:nth-child(2n) *.onoPager_linearContinuous_background {
+div.onoPager_animation_linearContinuous *.onoPager_listItem:nth-child(2n) *.onoPager_linearContinuous_background {
   background: #7fe368;
 }
 
-div.onoPager_animation_linearContinous *.onoPager_linearContinuous_content {
+div.onoPager_animation_linearContinuous *.onoPager_linearContinuous_content {
   position: relative;
 }
