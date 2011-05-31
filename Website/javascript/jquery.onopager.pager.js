@@ -136,7 +136,9 @@ onoPager.pager = function(arg_index,
       clearInterval(autoPageInterval);
     }
     autoPageConfig.animation._page(index, move(1));
-    autoPageAnimation._start();
+    if (autoPageAnimation) {
+      autoPageAnimation._start();
+    }
   }
 
   // Create autopage animation object

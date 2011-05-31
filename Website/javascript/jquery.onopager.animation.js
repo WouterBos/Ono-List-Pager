@@ -124,7 +124,12 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
   this._checkMaxScroll = function(arg_scroll) {
     var tools = onoPager.tools;
     var orientation = this._config.orientation;
-    var listSize = tools.getInnerSize(orientation, this._config.list);
+    var listSize
+    if (linearContinuousInstance._config.pagePerItem == true) {
+      listSize = tools.getInnerSize(orientation, this._config.list);
+    } else {
+      listSize = tools.getInnerSize(orientation, this._config.list);
+    }
     var listContainerSize = tools.getInnerSize(
       orientation,
       this._config.listContainer
@@ -557,6 +562,7 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
   var newListItems; // contains the new list of items, after duplication
                     // takes place in onPagerCreated
   var BACKGROUND_SELECTOR = '*.onoPager_linearContinuous_background';
+  var prependFill = 0;
 
   // Appends and prepends items until the list always fills the screen.
   function fillIdleSpace(idleSpace) {
@@ -571,15 +577,18 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
       var prependItems = jQuery([]);
       var prependItemsArray = [];
       var prependSpace = 0;
+      var itemSize = 0;
 
       for (var i = 1; i <= listItems.size(); i++) {
         if (prependSpace < idleSpace) {
           prependItemsArray.push(jQuery(listItems.get(-i)).clone(true));
+          itemSize = tools.getInnerSize(
+            linearContinuousInstance._config.orientation,
+            jQuery(listItems.get(-i))
+          );
+          prependFill += itemSize;
           if (i > 1) {
-            prependSpace += tools.getInnerSize(
-              linearContinuousInstance._config.orientation,
-              jQuery(listItems.get(-i))
-            );
+            prependSpace += itemSize;
           }
           prependSpace += tools.getInnerSize(
             linearContinuousInstance._config.orientation,
@@ -666,14 +675,10 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
         linearContinuousInstance._config.orientation,
         this._config.listContainer
       );
-      offset = size * jQuery(this._config.listItems[newIndex]).index();
+      offset = (size * newIndex) + prependFill;
     }
 
-    offset = this._checkMaxScroll(offset);
-
-    if (hasCenterBackground) {
-      animateBackground(oldIndex, newIndex, oldItem);
-    }
+    animateBackground(oldIndex, newIndex, oldItem);
 
     var cssObj = {};
     var topLeft = tools.getTopLeft(this._config.orientation);
@@ -690,7 +695,8 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
     );
 
     function animateBackground(oldIndex, newIndex, oldItem) {
-      if (linearContinuousInstance._config.pagePerItem == false) {
+      if (linearContinuousInstance._config.pagePerItem == false ||
+          hasCenterBackground == false) {
         // Background animation only works if paging is done per list item.
         return;
       }
@@ -793,16 +799,16 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
     // To create the appearence of a list that repeats itself infinitely, the
     // list is repositioned just before it threatens to get out of bounds.
     function resetPosition(oldIndex, newIndex) {
-      var listSize = linearContinuousInstance._config.listItems.size();
+      var listSize = linearContinuousInstance.getPagesLength();
       var topLeft = tools.getTopLeft(
         linearContinuousInstance._config.orientation
       );
       var offset;
       var oldItem = jQuery(linearContinuousInstance._config.listItems[oldIndex]);
-
+      
       if (oldIndex == (listSize - 1) && newIndex == 0) {
-        // If user pages from last item to first item, position on the item
-        // *before* the first item.
+        // If user pages from last page to first page, position to the page
+        // *before* the first page.
         var firstIndex = newListItems.index(
           linearContinuousInstance._config.listItems[newIndex]
         );
@@ -814,15 +820,13 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
           );
           offset = Math.round(offset);
           oldItem = jQuery(newListItems[firstIndex - 1]);
-        }// else {
-        //  var size = tools.getInnerSize(
-        //    linearContinuousInstance._config.orientation,
-        //    linearContinuousInstance._config.listContainer
-        //  );
-        //  offset = size * jQuery(
-        //      linearContinuousInstance._config.listItems[newIndex]
-        //    ).index();
-        //}
+        } else {
+          offset = (listSize - 1) * tools.getInnerSize(
+            linearContinuousInstance._config.orientation,
+            linearContinuousInstance._config.listContainer
+          );
+          offset -= prependFill
+        }
       } else if (oldIndex == 0 && newIndex == (listSize - 1)) {
         // If user pages from the first item to last item, position on the item
         // *after* the last item.
@@ -837,21 +841,17 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
           );
           offset = Math.round(offset);
           oldItem = jQuery(newListItems[lastIndex + 1]);
-        }// else {
-        //  var size = tools.getInnerSize(
-        //    linearContinuousInstance._config.orientation,
-        //    linearContinuousInstance._config.listContainer
-        //  );
-        //  offset = size * jQuery(
-        //    linearContinuousInstance._config.listItems[newIndex]
-        //  ).index();
-        //}
+        } else {
+          alert('not implemented yet');
+        }
       } else {
         oldItem = jQuery(linearContinuousInstance._config.listItems[oldIndex]);
       }
-
+      
       if (offset) {
+        //console.log('set offset');
         linearContinuousInstance._config.list.css(topLeft, '-' + offset + 'px');
+        //alert('')
       }
 
       return oldItem;
@@ -882,6 +882,7 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
 
     // Creates extra items to fill the idle space in the list container.
     fillIdleSpace(idleSpace);
+    //console.log(prependFill);
 
     // Set active item
     linearContinuousInstance._setActiveClass(
@@ -920,14 +921,16 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
     } else {
       this._config.list.css({ 'top': '-' + offset + 'px' });
     }
-    jQuery(this._config.listItems[this._config.activeIndex])
-.find(BACKGROUND_SELECTOR).css(
+    if (this._config.pagePerItem == true) {
+	    jQuery(this._config.listItems[this._config.activeIndex])
+        .find(BACKGROUND_SELECTOR).css(
         {
           left: 0,
           right: 'auto',
           width: '100%'
         }
       );
+    }
   }
 
   return linearContinuousInstance;
