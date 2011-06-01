@@ -82,7 +82,7 @@ div.onoPager_animation_linearContinuous {
 div.onoPager_animation_linearContinuous *.onoPager_listContainer {
   margin: 0 auto;
   overflow: visible;
-  background: rgba(50,50,50,0.1);
+  background: rgba(50,50,50,0.3);
 }
 
 div.onoPager_animation_linearContinuous *.onoPager_listItem {
@@ -107,4 +107,9 @@ div.onoPager_animation_linearContinuous *.onoPager_listItem:nth-child(2n) *.onoP
 div.onoPager_animation_linearContinuous *.onoPager_linearContinuous_content {
   position: relative;
 }
+
+div.onoPager_animation_linearContinuous *.onoPager_listItem:nth-child(2n) {
+  background: rgba(255,50,255,0.2);
+}
+
 /* End linearContinuous animation */

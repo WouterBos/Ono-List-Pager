@@ -1032,7 +1032,9 @@ onoPager.pager = function(arg_index,
       clearInterval(autoPageInterval);
     }
     autoPageConfig.animation._page(index, move(1));
-    autoPageAnimation._start();
+    if (autoPageAnimation) {
+      autoPageAnimation._start();
+    }
   }
 
   // Create autopage animation object
@@ -1306,7 +1308,7 @@ onoPager.autopageAnimation.timeline = function(newConfig) {
     bar.css('width', 0);
     bar.animate(
       {
-        width: listContainer.innerWidth() + 'px'
+        width: root.innerWidth() + 'px'
       },
       {
         duration: this._config.autoPageInterval,
@@ -1327,7 +1329,7 @@ onoPager.autopageAnimation.timeline = function(newConfig) {
     bar.css('width', 0);
     bar.delay(this._config.animationSpeed).animate(
       {
-        width: listContainer.innerWidth() + 'px'
+        width: root.innerWidth() + 'px'
       },
       {
         duration: interval,
@@ -1464,7 +1466,12 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
   this._checkMaxScroll = function(arg_scroll) {
     var tools = onoPager.tools;
     var orientation = this._config.orientation;
-    var listSize = tools.getInnerSize(orientation, this._config.list);
+    var listSize
+    if (linearContinuousInstance._config.pagePerItem == true) {
+      listSize = tools.getInnerSize(orientation, this._config.list);
+    } else {
+      listSize = tools.getInnerSize(orientation, this._config.list);
+    }
     var listContainerSize = tools.getInnerSize(
       orientation,
       this._config.listContainer
@@ -1847,7 +1854,7 @@ onoPager.animation.linear = function(newConfig, extraConfig) {
     this._config.list.animate(
       cssObj,
       {
-        duration: 1000,
+        duration: this._config.animationSpeed,
         easing: this._config.animationEasing,
         complete: function() {
           linearInstance._setActiveClass(newIndex, true);
@@ -1880,27 +1887,30 @@ onoPager.animation.linear = function(newConfig, extraConfig) {
  * @param {Object|Null} extraConfig Optional extra configuration object.
  * @return {Object} instance of an animation object.
  */
-onoPager.animation.linearContinous = function(newConfig, extraConfig) {
+onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
   /**
    * New animation object.
-   * @memberOf onoPager.animation.linearContinous
+   * @memberOf onoPager.animation.linearContinuous
    * @this
    */
-  var linearContinousInstance = new onoPager.animation._standard(newConfig,
+  var linearContinuousInstance = new onoPager.animation._standard(newConfig,
                                                                  extraConfig);
   var tools = onoPager.tools;
   var listItemSize = tools.getInnerSize(
-    linearContinousInstance._config.orientation,
-    linearContinousInstance._config.listItems
+    linearContinuousInstance._config.orientation,
+    linearContinuousInstance._config.listItems
   );
   var hasCenterBackground = false;
   var newListItems; // contains the new list of items, after duplication
                     // takes place in onPagerCreated
+  var BACKGROUND_SELECTOR = '*.onoPager_linearContinuous_background';
+  var prependFill = 0;
+  var pageOverflow = 0;
 
   // Appends and prepends items until the list always fills the screen.
   function fillIdleSpace(idleSpace) {
-    var list = linearContinousInstance._config.list;
-    var listItems = linearContinousInstance._config.listItems;
+    var list = linearContinuousInstance._config.list;
+    var listItems = linearContinuousInstance._config.listItems;
 
     fillBefore();
     fillAfter();
@@ -1910,16 +1920,23 @@ onoPager.animation.linearContinous = function(newConfig, extraConfig) {
       var prependItems = jQuery([]);
       var prependItemsArray = [];
       var prependSpace = 0;
+      var itemSize = 0;
 
       for (var i = 1; i <= listItems.size(); i++) {
         if (prependSpace < idleSpace) {
           prependItemsArray.push(jQuery(listItems.get(-i)).clone(true));
+          itemSize = tools.getInnerSize(
+            linearContinuousInstance._config.orientation,
+            jQuery(listItems.get(-i))
+          );
+          prependFill += itemSize;
           if (i > 1) {
-            prependSpace += tools.getInnerSize(
-              linearContinousInstance._config.orientation,
-              jQuery(listItems.get(-i))
-            );
+            prependSpace += itemSize;
           }
+          prependSpace += tools.getInnerSize(
+            linearContinuousInstance._config.orientation,
+            jQuery(listItems.get(-i))
+          );
         } else {
           break;
         }
@@ -1937,12 +1954,7 @@ onoPager.animation.linearContinous = function(newConfig, extraConfig) {
       for (var i = 0; i < listItems.size(); i++) {
         if (appendSpace < idleSpace) {
           appendItems = appendItems.add(jQuery(listItems.get(i)).clone(true));
-          if (i > 0) {
-            appendSpace += tools.getInnerSize(
-              linearContinousInstance._config.orientation,
-              jQuery(listItems.get(i))
-            );
-          }
+
         } else {
           break;
         }
@@ -1951,7 +1963,7 @@ onoPager.animation.linearContinous = function(newConfig, extraConfig) {
     }
   }
 
-  linearContinousInstance._setListContainerHeight = function(listContainer,
+  linearContinuousInstance._setListContainerHeight = function(listContainer,
                                                              listItems) {
     if (listItems.size() > 1) {
       var maxHeight = 0;
@@ -1966,10 +1978,10 @@ onoPager.animation.linearContinous = function(newConfig, extraConfig) {
 
   /**
    * @see onoPager.animation._standard#init
-   * @memberOf onoPager.animation.linearContinous
+   * @memberOf onoPager.animation.linearContinuous
    * @this
    */
-  linearContinousInstance.init = function() {
+  linearContinuousInstance.init = function() {
     if (this._config.orientation != 'horizontal' &&
         this._config.orientation != 'vertical') {
       throw new Error('Orientation must be either horizontal ' +
@@ -1984,15 +1996,16 @@ onoPager.animation.linearContinous = function(newConfig, extraConfig) {
 
   /**
    * @see onoPager.animation._standard#init
-   * @memberOf onoPager.animation.linearContinous
+   * @memberOf onoPager.animation.linearContinuous
    * @this
    */
-  linearContinousInstance.page = function(oldIndex, newIndex) {
+  linearContinuousInstance.page = function(oldIndex, newIndex) {
     if (oldIndex != newIndex) {
-      linearContinousInstance._setActiveClass(oldIndex, false);
+      linearContinuousInstance._setActiveClass(oldIndex, false);
     }
     this._config.list.stop(true, false);
 
+    var topLeft = tools.getTopLeft(this._config.orientation);
     var oldItem = resetPosition(oldIndex, newIndex);
 
     var offset;
@@ -2001,100 +2014,130 @@ onoPager.animation.linearContinous = function(newConfig, extraConfig) {
         this._config.orientation,
         jQuery(this._config.listItems[newIndex])
       );
-    }// else {
-    //  var size = tools.getInnerSize(
-    //    linearContinousInstance._config.orientation,
-    //    this._config.listContainer
-    //  );
-    //  offset = size * jQuery(this._config.listItems[newIndex]).index();
-    //}
-
-    offset = this._checkMaxScroll(offset);
-
-    if (hasCenterBackground) {
-      animateBackground(oldIndex, newIndex, oldItem);
+    } else {
+      var size = tools.getInnerSize(
+        linearContinuousInstance._config.orientation,
+        this._config.listContainer
+      );
+      var currentOffset = this._config.list.css(topLeft).replace('px', '');
+      currentOffset = parseInt(currentOffset);
+      offset = currentOffset - size;
+      offset = -offset
+      console.log(offset + ' = ' + currentOffset + ' - ' + size);
     }
 
+    animateBackground(oldIndex, newIndex, oldItem);
+
     var cssObj = {};
-    var topLeft = tools.getTopLeft(this._config.orientation);
     cssObj[topLeft] = '-' + offset + 'px';
     this._config.list.animate(
       cssObj,
       {
-        duration: 1000,
+        duration: this._config.animationSpeed,
         easing: this._config.animationEasing,
         complete: function() {
-          linearContinousInstance._setActiveClass(newIndex, true);
+          linearContinuousInstance._setActiveClass(newIndex, true);
         }
       }
     );
 
     function animateBackground(oldIndex, newIndex, oldItem) {
+      if (linearContinuousInstance._config.pagePerItem == false ||
+          hasCenterBackground == false) {
+        // Background animation only works if paging is done per list item.
+        return;
+      }
+      
       var move = 0; // -1 is a move to the left, +1 is a move to the right.
-
       // Determine move direction
-      var maxItems = linearContinousInstance._config.listItems.size();
-      if ((oldIndex < newIndex) ||
-          (newIndex == 0 && newIndex == (maxItems - 1))) {
+      var maxItems = linearContinuousInstance._config.listItems.size();
+      if ((oldIndex == (newIndex - 1)) ||
+          (newIndex == 0 && oldIndex == (maxItems - 1))) {
         move = 1;
       } else {
         move = -1;
       }
 
-      // Animate backgrounds
-      var newItem = jQuery(linearContinousInstance._config.listItems[newIndex]);
+      // Set variables and styling
+      var newItem = jQuery(linearContinuousInstance._config.listItems[newIndex]);
       var oldItem2 = jQuery(
-                       linearContinousInstance._config.listItems[oldIndex]);
+                       linearContinuousInstance._config.listItems[oldIndex]);
       var containerWidth =
-            linearContinousInstance._config.listContainer.innerWidth();
+            linearContinuousInstance._config.listContainer.innerWidth();
       if (oldItem.index() != oldItem2.index()) {
-        oldItem2.find('*.onoPager_linearContinuous_background').css(
-          {left: containerWidth + 'px'}
+        oldItem2.find(BACKGROUND_SELECTOR).css(
+          {width: 0}
         );
       }
+      
+      // Animate backgrounds
+      linearContinuousInstance._config.list.each(function(index) {
+        jQuery(this).find(BACKGROUND_SELECTOR).stop(true, true);
+        if (index != newItem.index()) {
+          jQuery(this).find(BACKGROUND_SELECTOR).css({width: 0});
+        }
+      });
 
       if (move > 0) {
-        console.log('forward');
-        oldItem.find('*.onoPager_linearContinuous_background').css(
-          {left: 0}
-        );
-        oldItem.find('*.onoPager_linearContinuous_background').animate(
-          {left: containerWidth + 'px'},
+        oldItem.find(BACKGROUND_SELECTOR).css(
           {
-            duration: 1000,
-            easing: linearContinousInstance._config.animationEasing
+            left: 'auto',
+            right: 0,
+            width: containerWidth + 'px',
+            backgroundPosition: 'top right'
           }
         );
-        newItem.find('*.onoPager_linearContinuous_background').css(
-          {left: -containerWidth + 'px'}
-        );
-        newItem.find('*.onoPager_linearContinuous_background').animate(
-          {left: 0},
+        oldItem.find(BACKGROUND_SELECTOR).animate(
+          {width: 0},
           {
-            duration: 1000,
-            easing: linearContinousInstance._config.animationEasing
+            duration: linearContinuousInstance._config.animationSpeed,
+            easing: linearContinuousInstance._config.animationEasing
+          }
+        );
+        newItem.find(BACKGROUND_SELECTOR).css(
+          {
+            left: 0,
+            right: 'auto',
+            width: 0,
+            backgroundPosition: 'top left'
+          }
+        );
+        newItem.find(BACKGROUND_SELECTOR).animate(
+          {width: containerWidth + 'px'},
+          {
+            duration: linearContinuousInstance._config.animationSpeed,
+            easing: linearContinuousInstance._config.animationEasing
           }
         );
       } else {
-        console.log('backward');
-        oldItem.find('*.onoPager_linearContinuous_background').css(
-          {left: 0}
-        );
-        oldItem.find('*.onoPager_linearContinuous_background').animate(
-          {left: -containerWidth + 'px'},
+        oldItem.find(BACKGROUND_SELECTOR).css(
           {
-            duration: 1000,
-            easing: linearContinousInstance._config.animationEasing
+            left: 0,
+            right: 'auto',
+            width: containerWidth + 'px',
+            backgroundPosition: 'top left'
           }
         );
-        newItem.find('*.onoPager_linearContinuous_background').css(
-          {left: containerWidth + 'px'}
-        );
-        newItem.find('*.onoPager_linearContinuous_background').animate(
-          {left: 0},
+        oldItem.find(BACKGROUND_SELECTOR).animate(
+          {width: 0},
           {
-            duration: 1000,
-            easing: linearContinousInstance._config.animationEasing
+            duration: linearContinuousInstance._config.animationSpeed,
+            easing: linearContinuousInstance._config.animationEasing
+          }
+        );
+        newItem.find(BACKGROUND_SELECTOR).css(
+          {
+            left: 'auto',
+            right: 0,
+            width: 0,
+            backgroundPosition: 'top right'
+          }
+        );
+        newItem.find(BACKGROUND_SELECTOR).animate(
+          {width: containerWidth + 'px'},
+          {
+            duration: linearContinuousInstance._config.animationSpeed,
+            easing: linearContinuousInstance._config.animationEasing
           }
         );
       }
@@ -2103,65 +2146,87 @@ onoPager.animation.linearContinous = function(newConfig, extraConfig) {
     // To create the appearence of a list that repeats itself infinitely, the
     // list is repositioned just before it threatens to get out of bounds.
     function resetPosition(oldIndex, newIndex) {
-      var listSize = linearContinousInstance._config.listItems.size();
+      var listSize = linearContinuousInstance.getPagesLength();
       var topLeft = tools.getTopLeft(
-        linearContinousInstance._config.orientation
+        linearContinuousInstance._config.orientation
       );
       var offset;
-      var oldItem;
-
+      var oldItem = jQuery(linearContinuousInstance._config.listItems[oldIndex]);
+      
+      /*function resetNeeded() {
+        if (linearContinuousInstance._config.pagePerItem == true) {
+          if (oldIndex == (listSize - 1) && newIndex == 0) {
+            return '' 
+          }
+        }
+      }*/
+     
+      //console.log(oldIndex + ' == ' + (listSize - 1) + ' && ' + newIndex + ' == ' + 0)
+      
       if (oldIndex == (listSize - 1) && newIndex == 0) {
-        // If user pages from last item to first item, position on the item
-        // *before* the first item.
+        // If user pages from last page to first page, position to the page
+        // *before* the first page.
+        console.log('reset')
         var firstIndex = newListItems.index(
-          linearContinousInstance._config.listItems[newIndex]
+          linearContinuousInstance._config.listItems[newIndex]
         );
 
-        if (linearContinousInstance._config.pagePerItem == true) {
+        if (linearContinuousInstance._config.pagePerItem == true) {
           offset = tools.getPosition(
-            linearContinousInstance._config.orientation,
+            linearContinuousInstance._config.orientation,
             jQuery(newListItems[firstIndex - 1])
           );
           offset = Math.round(offset);
           oldItem = jQuery(newListItems[firstIndex - 1]);
-        }// else {
-        //  var size = tools.getInnerSize(
-        //    linearContinousInstance._config.orientation,
-        //    linearContinousInstance._config.listContainer
-        //  );
-        //  offset = size * jQuery(
-        //      linearContinousInstance._config.listItems[newIndex]
-        //    ).index();
-        //}
+        } else {
+          var containerSize = tools.getInnerSize(
+            linearContinuousInstance._config.orientation,
+            linearContinuousInstance._config.listContainer
+          );
+          var listItemsSize = 0;
+          linearContinuousInstance._config.listItems.each(
+            function() {
+              listItemsSize += tools.getInnerSize(
+                linearContinuousInstance._config.orientation,
+                jQuery(this)
+              );
+            }
+          );
+          
+          offset = ((listSize - 1) * containerSize) - prependFill;
+          var maxOffset = prependFill + listItemsSize - containerSize;
+          var currentOffset = containerSize + tools.getPosition(
+            linearContinuousInstance._config.orientation,
+            linearContinuousInstance._config.list
+          );
+          pageOverflow = currentOffset - -maxOffset;
+          //console.log(currentOffset +' - '+ -maxOffset + ' = ' + pageOverflow);
+        }
       } else if (oldIndex == 0 && newIndex == (listSize - 1)) {
         // If user pages from the first item to last item, position on the item
         // *after* the last item.
         var lastIndex = newListItems.index(
-          linearContinousInstance._config.listItems[newIndex]
+          linearContinuousInstance._config.listItems[newIndex]
         );
 
-        if (linearContinousInstance._config.pagePerItem == true) {
+        if (linearContinuousInstance._config.pagePerItem == true) {
           offset = tools.getPosition(
-            linearContinousInstance._config.orientation,
+            linearContinuousInstance._config.orientation,
             jQuery(newListItems[lastIndex + 1])
           );
           offset = Math.round(offset);
           oldItem = jQuery(newListItems[lastIndex + 1]);
-        }// else {
-        //  var size = tools.getInnerSize(
-        //    linearContinousInstance._config.orientation,
-        //    linearContinousInstance._config.listContainer
-        //  );
-        //  offset = size * jQuery(
-        //    linearContinousInstance._config.listItems[newIndex]
-        //  ).index();
-        //}
+        } else {
+          alert('not implemented yet');
+        }
       } else {
-        oldItem = jQuery(linearContinousInstance._config.listItems[oldIndex]);
+        oldItem = jQuery(linearContinuousInstance._config.listItems[oldIndex]);
       }
-
+      
       if (offset) {
-        linearContinousInstance._config.list.css(topLeft, '-' + offset + 'px');
+        //console.log('set offset');
+        linearContinuousInstance._config.list.css(topLeft, '-' + offset + 'px');
+        //alert('offset')
       }
 
       return oldItem;
@@ -2170,32 +2235,38 @@ onoPager.animation.linearContinous = function(newConfig, extraConfig) {
 
   /**
    * @see onoPager.animation._standard#pagerHover
-   * @memberOf onoPager.animation.linearContinous
+   * @memberOf onoPager.animation.linearContinuous
    * @this
    */
-  linearContinousInstance.pagerHover = function(move) {
+  linearContinuousInstance.pagerHover = function(move) {
     // Not implemented
   }
 
-  linearContinousInstance.onPagerCreated = function(move) {
+  linearContinuousInstance.onPagerCreated = function(move) {
     var root = this._config.listContainer.parent();
     var rootSize = tools.getInnerSize(
-      linearContinousInstance._config.orientation,
+      linearContinuousInstance._config.orientation,
       root
     );
     var listContainerSize = tools.getInnerSize(
-      linearContinousInstance._config.orientation,
+      linearContinuousInstance._config.orientation,
       this._config.listContainer
     );
-    var idleSpace = (rootSize - listContainerSize) / 2;
+    var idleSpace
+    if (this._config.pagePerItem == true) {
+      idleSpace = (rootSize / 2) + listContainerSize;
+    } else {
+      idleSpace = (rootSize / 2) + (listContainerSize * 2);
+    }
     var listBounds = 0;
 
     // Creates extra items to fill the idle space in the list container.
     fillIdleSpace(idleSpace);
+    //console.log(prependFill);
 
     // Set active item
-    linearContinousInstance._setActiveClass(
-      linearContinousInstance._config.activeIndex,
+    linearContinuousInstance._setActiveClass(
+      linearContinuousInstance._config.activeIndex,
       true
     );
 
@@ -2203,7 +2274,7 @@ onoPager.animation.linearContinous = function(newConfig, extraConfig) {
     newListItems = this._config.list.find('> .onoPager_listItem');
     newListItems.each(function(index) {
       listBounds += tools.getOuterSize(
-        linearContinousInstance._config.orientation,
+        linearContinuousInstance._config.orientation,
         jQuery(this)
       );
     });
@@ -2219,7 +2290,8 @@ onoPager.animation.linearContinous = function(newConfig, extraConfig) {
     this._config.listContainer.css({
         'position': 'relative'
     });
-
+    
+    // Position list
     var offset = tools.getPosition(
       this._config.orientation,
       jQuery(this._config.listItems[this._config.activeIndex])
@@ -2229,9 +2301,19 @@ onoPager.animation.linearContinous = function(newConfig, extraConfig) {
     } else {
       this._config.list.css({ 'top': '-' + offset + 'px' });
     }
+    if (this._config.pagePerItem == true) {
+	    jQuery(this._config.listItems[this._config.activeIndex])
+        .find(BACKGROUND_SELECTOR).css(
+        {
+          left: 0,
+          right: 'auto',
+          width: '100%'
+        }
+      );
+    }
   }
 
-  return linearContinousInstance;
+  return linearContinuousInstance;
 };
 
 
