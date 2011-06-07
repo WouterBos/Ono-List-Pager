@@ -17,6 +17,12 @@
   <link href="css/page.css" rel="stylesheet" type="text/css" />
   <link href="css/onoPager-basic.css" rel="stylesheet" type="text/css" />
   <link href="css/onoPager-examples.css" rel="stylesheet" type="text/css" />
+  <style>
+    .list1, .list2, .list3, .wide {
+      display: none
+    }
+    
+  </style>
 </head>
 <body>
 	<h1>Ono pager demos</h1>
@@ -189,41 +195,41 @@
         </div>
       </div>
 
-      <ul id="list5" class="onoPager_noJs">
+      <ul id="list5" class="onoPager_noJs" style="font-size: 60px">
         <li>
           <div class="onoPager_linearContinuous_background"></div>
           <div class="onoPager_linearContinuous_content">
-            1 Lorem ipsum dolor sit.
+            1111
           </div>
         </li>
         <li>
           <div class="onoPager_linearContinuous_background"></div>
           <div class="onoPager_linearContinuous_content">
-            2 Aliquam arcu odio, sollicitudin.
+            2222
           </div>
         </li>
         <li>
           <div class="onoPager_linearContinuous_background"></div>
           <div class="onoPager_linearContinuous_content">
-            3 Lorem ipsum dolor sit
+            3333
           </div>
         </li>
         <li>
           <div class="onoPager_linearContinuous_background"></div>
           <div class="onoPager_linearContinuous_content">
-            4 Aliquam arcu odio, sollicitudin.
+            4444
           </div>
         </li>
         <li>
           <div class="onoPager_linearContinuous_background"></div>
           <div class="onoPager_linearContinuous_content">
-            5 Lorem ipsum dolor sit amet site.
+            5555
           </div>
         </li>
         <li>
           <div class="onoPager_linearContinuous_background"></div>
           <div class="onoPager_linearContinuous_content">
-            6 Aliquam arcu odio, sollicitudin.
+            6666
           </div>
         </li>
       </div>
@@ -283,7 +289,7 @@
       eval('var onoConfig = ' + jQuery('#editDemo_js').val());
       jQuery('#editDemo_result ul').onoPager(onoConfig);
     });
-    
+    /*
     jQuery('#list1').onoPager({
       pagePerItem: true,
       listContainer: {
@@ -362,9 +368,9 @@
       orientation: 'horizontal',
       animationSpeed: 1000
     });
-
+*/
     jQuery('#list5').onoPager({
-      pagePerItem: true,
+      pagePerItem: false,
       listContainer: {
         width: '500px',
         height: '100px'
@@ -375,13 +381,13 @@
       },
       autoPage: {
         active: true,
-        interval: 4000,
+        interval: 1500,
         autoPageAnimationType: ''
       },
       animationType: 'linearContinuous',
-      animationEasing: 'easeOutCubic',
+      animationEasing: 'linear',
       orientation: 'horizontal',
-      animationSpeed: 2000
+      animationSpeed: 500
     });
   </script>
 </body>
