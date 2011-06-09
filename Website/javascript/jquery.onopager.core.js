@@ -278,7 +278,7 @@
         newHTML += '<div class="' + ONOPAGER + '_scroller"><div class="' +
           ONOPAGER + '_scrollerHandle"></div></div>';
       }
-      if (config.autoPage.autoPageAnimationType) {
+      if (config.autoPage.autoPageAnimationType && config.autoPage.active) {
         newHTML += '<div class="' + ONOPAGER + '_autoPageContainer"></div>';
       }
       root.append(
@@ -378,7 +378,9 @@
       if (config.pageByNumber.enableClick == true) {
         pageByNumber.find('a').each(function(index) {
           $(this).click(function() {
-            page(index);
+            if ($(this).hasClass('onoPager_active') == false) {
+              page(index);
+            }
           });
         });
       } else {

@@ -438,6 +438,27 @@
     });
 
     jQuery('#list6').onoPager({
+      pagePerItem: true,
+      listContainer: {
+        width: '230px',
+        height: '100px'
+      },
+      listItems: {
+          width: '210px',
+          height: '80px'
+      },
+      autoPage: {
+        active: false,
+        interval: 3000,
+        autoPageAnimationType: 'timeline'
+      },
+      animationType: 'linearContinuous',
+      animationEasing: 'linear',
+      orientation: 'horizontal',
+      animationSpeed: 1000
+    });
+/*
+    jQuery('#list6').onoPager({
       pagePerItem: false,
       listContainer: {
         width: '500px',
@@ -457,6 +478,7 @@
       orientation: 'horizontal',
       animationSpeed: 250
     });
+*/
   </script>
 </body>
 </html>

@@ -278,7 +278,7 @@
         newHTML += '<div class="' + ONOPAGER + '_scroller"><div class="' +
           ONOPAGER + '_scrollerHandle"></div></div>';
       }
-      if (config.autoPage.autoPageAnimationType) {
+      if (config.autoPage.autoPageAnimationType && config.autoPage.active) {
         newHTML += '<div class="' + ONOPAGER + '_autoPageContainer"></div>';
       }
       root.append(
@@ -378,7 +378,9 @@
       if (config.pageByNumber.enableClick == true) {
         pageByNumber.find('a').each(function(index) {
           $(this).click(function() {
-            page(index);
+            if ($(this).hasClass('onoPager_active') == false) {
+              page(index);
+            }
           });
         });
       } else {
@@ -1823,7 +1825,13 @@ onoPager.animation.fade = function(newConfig, extraConfig) {
     });
 
     // Set order stack for animation.
-    oldItem.css('z-index', 1);
+    oldItem.css(
+      {
+        zIndex: 1,
+        display: 'block',
+        opacity: 1
+      }
+    );
     newItem.css(
       {
         zIndex: 2,
@@ -2329,7 +2337,7 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
             linearContinuousInstance._config.orientation,
             jQuery(newListItems[firstIndex - 1])
           );
-          offset = Math.round(offset);
+          offset = -Math.round(offset);
           oldItem = jQuery(newListItems[firstIndex - 1]);
         } else {
           var maxOffset = prependFill + listItemsSize;
@@ -2356,7 +2364,7 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
             linearContinuousInstance._config.orientation,
             jQuery(newListItems[lastIndex + 1])
           );
-          offset = Math.round(offset);
+          offset = -Math.round(offset);
           oldItem = jQuery(newListItems[lastIndex + 1]);
         } else {
           var currentOffset = tools.getPosition(
