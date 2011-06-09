@@ -381,14 +381,23 @@ onoPager.animation.slides = function(newConfig, extraConfig) {
     oldAni[topLeft] = newItemLeft + 'px';
     jQuery(this._config.listItems[oldIndex]).animate(
       oldAni,
-      this._config.animationSpeed
+      {
+        duration: this._config.animationSpeed,
+        easing: this._config.animationEasing
+      }
     );
 
     var newAni = {};
     newAni[topLeft] = '0';
     jQuery(this._config.listItems[newIndex])
       .delay(this._config.animationSpeed / 8)
-      .animate(newAni, this._config.animationSpeed);
+      .animate(
+        newAni,
+        {
+          duration: this._config.animationSpeed,
+          easing: this._config.animationEasing
+        }
+      );
   }
 
   /**
@@ -449,7 +458,7 @@ onoPager.animation.fade = function(newConfig, extraConfig) {
   fadeInstance.page = function(oldIndex, newIndex) {
     var oldItem = jQuery(this._config.listItems[oldIndex]);
     var newItem = jQuery(this._config.listItems[newIndex]);
-    
+
     // End all current animations.
     oldItem.stop(true, true);
     newItem.stop(true, true);
@@ -462,13 +471,38 @@ onoPager.animation.fade = function(newConfig, extraConfig) {
         item.css('z-index', 0);
       }
     });
-    
+
     // Set order stack for animation.
     oldItem.css('z-index', 1);
-    newItem.css('z-index', 2);
-    
-    oldItem.fadeOut(this._config.animationSpeed);
-    newItem.fadeIn(this._config.animationSpeed);
+    newItem.css(
+      {
+        zIndex: 2,
+        display: 'block',
+        opacity: 0
+      }
+    );
+
+    oldItem.animate(
+      {
+        opacity: 0
+      },
+      {
+        duration: this._config.animationSpeed,
+        easing: this._config.animationEasing,
+        complete: function() {
+          jQuery(this).hide();
+        }
+      }
+    );
+    newItem.animate(
+      {
+        opacity: 1
+      },
+      {
+        duration: this._config.animationSpeed,
+        easing: this._config.animationEasing
+      }
+    );
   }
 
   /**

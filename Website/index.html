@@ -186,6 +186,22 @@
         <div class="code">
           code
           <pre>jQuery('#list5').onoPager({
+  pagePerItem: false,
+  listContainer: {
+    width: '250px',
+    height: '100px'
+  },
+  listItems: {
+      width: '230px',
+      height: '80px'
+  },
+  pageByNumber: {
+    labels: ['Lorem', 'ipsum', 'dolor', 'sit', 'amet', 'site']
+  },
+  animationType: 'fade',
+  animationEasing: 'easeOutCubic',
+  orientation: 'horizontal',
+  animationSpeed: 1000
 });</pre>
         </div>
       </div>
@@ -205,7 +221,26 @@
         <h4>List 6: "linear continuous"</h4>
         <div class="code">
           code
-          <pre>TODO</pre>
+          <pre>jQuery('#list6').onoPager({
+      pagePerItem: false,
+      listContainer: {
+        width: '500px',
+        height: '100px'
+      },
+      listItems: {
+          width: '210px',
+          height: '80px'
+      },
+      autoPage: {
+        active: false,
+        interval: 1500,
+        autoPageAnimationType: ''
+      },
+      animationType: 'linearContinuous',
+      animationEasing: 'linear',
+      orientation: 'horizontal',
+      animationSpeed: 250
+});</pre>
         </div>
       </div>
 
