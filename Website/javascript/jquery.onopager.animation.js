@@ -125,7 +125,7 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
     var tools = onoPager.tools;
     var orientation = this._config.orientation;
     var listSize;
-    if (linearContinuousInstance._config.pagePerItem == true) {
+    if (this._config.pagePerItem == true) {
       listSize = tools.getInnerSize(orientation, this._config.list);
     } else {
       listSize = tools.getInnerSize(orientation, this._config.list);
@@ -409,6 +409,86 @@ onoPager.animation.slides = function(newConfig, extraConfig) {
 
 
 /**
+ * @namespace Animation object. The old item fades away, while the new one fades
+ * in at the same time.
+ *
+ * @param {Object} newConfig Standard configuration object.
+ * @param {Object|Null} extraConfig Optional extra configuration object.
+ * @return {Object} instance of an animation object.
+ */
+onoPager.animation.fade = function(newConfig, extraConfig) {
+  /**
+   * New animation object.
+   * @memberOf onoPager.animation.fade
+   */
+  var fadeInstance = new onoPager.animation._standard(newConfig, extraConfig);
+  var tools = onoPager.tools;
+
+  /**
+   * @see onoPager.animation._standard#init
+   * @memberOf onoPager.animation.fade
+   * @this
+   */
+  fadeInstance.init = function() {
+    this._config.listItems.hide();
+    this._config.listItems.css(
+      {
+        position: 'absolute',
+        top: 0,
+        left: 0
+      }
+    );
+    jQuery(this._config.listItems[0]).show();
+  }
+
+  /**
+   * @see onoPager.animation._standard#page
+   * @memberOf onoPager.animation.fade
+   * @this
+   */
+  fadeInstance.page = function(oldIndex, newIndex) {
+    var oldItem = jQuery(this._config.listItems[oldIndex]);
+    var newItem = jQuery(this._config.listItems[newIndex]);
+    
+    // End all current animations.
+    oldItem.stop(true, true);
+    newItem.stop(true, true);
+
+    // Hide all items except the two that will animate in the page transition.
+    this._config.listItems.each(function(index) {
+      if (index != oldIndex && index != newIndex) {
+        var item = jQuery(this);
+        item.hide();
+        item.css('z-index', 0);
+      }
+    });
+    
+    // Set order stack for animation.
+    oldItem.css('z-index', 1);
+    newItem.css('z-index', 2);
+    
+    oldItem.fadeOut(this._config.animationSpeed);
+    newItem.fadeIn(this._config.animationSpeed);
+  }
+
+  /**
+   * @see onoPager.animation._standard#pagerHover
+   * @memberOf onoPager.animation.fade
+   * @this
+   */
+  fadeInstance.pagerHover = function(move) {
+    // Not implemented
+  }
+
+  return fadeInstance;
+};
+
+
+
+
+
+
+/**
  * @namespace Animation object. Moves through the list item in a linear manner.
  *
  * @param {Object} newConfig Standard configuration object.
@@ -540,6 +620,7 @@ onoPager.animation.linear = function(newConfig, extraConfig) {
 
 /**
  * @namespace Animation object. Moves through the list item in a linear manner.
+ * Many private variables are defined in the onPagerCreated method.
  *
  * @param {Object} newConfig Standard configuration object.
  * @param {Object|Null} extraConfig Optional extra configuration object.
@@ -551,36 +632,51 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
    * @memberOf onoPager.animation.linearContinuous
    * @this
    */
+  // Create animation object instance.
   var linearContinuousInstance = new onoPager.animation._standard(newConfig,
                                                                  extraConfig);
+  // Shortcut to tools.
   var tools = onoPager.tools;
-  
+
   // Width or height of all unique list items, so bar the items that are
   // prepended and appended.
   var listItemSize = tools.getInnerSize(
     linearContinuousInstance._config.orientation,
     linearContinuousInstance._config.listItems
   );
-  
+
   // If list items have a div with the class
   // 'onoPager_linearContinuous_background', this value will be set to true.
   var hasCenterBackground = false;
-                                   
-  var newListItems; // contains the new list of items, after duplication
-                    // takes place in onPagerCreated
+
+  // Contains the list items, after duplication took place in onPagerCreated.
+  var newListItems;
+
   var BACKGROUND_SELECTOR = '*.onoPager_linearContinuous_background';
-  
+
   // The width or height of extra items that are prepended to the list.
   var prependFill = 0;
-  var pageOverflow = 0;
+
+  // The width or height of the original set of items before duplication.
   var listItemsSize = 0;
+
+  // The width or height of the box that is a container for the list.
   var containerSize = tools.getInnerSize(
     linearContinuousInstance._config.orientation,
     linearContinuousInstance._config.listContainer
   );
+
+  // The space in pixels between the left border of the container box and the
+  // left border of its parent box.
   var idleSpace = 0;
+
+  // The total amount of page action a user has to make to reach the end
   var listSize = linearContinuousInstance.getPagesLength();
+
+  // Reference to the parent of the list container.
   var rootSize;
+
+
 
   // Appends and prepends items until the list always fills the screen.
   function fillIdleSpace(idleSpace) {
@@ -705,6 +801,7 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
 
     animateBackground(oldIndex, newIndex, oldItem);
 
+    // Start paging animation
     var cssObj = {};
     cssObj[topLeft] = '-' + offset + 'px';
     this._config.list.animate(
@@ -718,6 +815,8 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
       }
     );
 
+    // Show the item's background if the item dead centered in the
+    // list container.
     function animateBackground(oldIndex, newIndex, oldItem) {
       if (linearContinuousInstance._config.pagePerItem == false ||
           hasCenterBackground == false) {
@@ -825,6 +924,7 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
     // To create the appearence of a list that repeats itself infinitely, the
     // list is repositioned just before it threatens to get out of bounds.
     function resetPosition(oldIndex, newIndex) {
+      var pageOverflow = 0;
       var topLeft = tools.getTopLeft(
         linearContinuousInstance._config.orientation
       );

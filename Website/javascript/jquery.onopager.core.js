@@ -3,7 +3,7 @@
  * @author Wouter Bos, Web developer at Estate Internet (www.estate.nl). Code
  *    for swiping based on the QuickGestures jQuery plugin of Anders Zakrisson.
  * @since 0.1 - 2011-3-28
- * @version 0.4 - 2011-5-20
+ * @version 0.5 - 2011-6-9
  */
 
 // TODO:
@@ -207,7 +207,8 @@
       },
       pageByNumber: {
         active: true,
-        enableClick: true
+        enableClick: true,
+        labels: []
       },
       pageByArrowKey: {
         active: false,
@@ -360,9 +361,16 @@
     function setPageByNumber() {
       var pageTotal = animation.getPagesLength();
       var html = '';
+      var label;
 
       for (var i = 0; i < pageTotal; i++) {
-        html += '<a' + EMPTY_HREF + '>' + (i + 1) + '</a>';
+        if (config.pageByNumber.labels &&
+            config.pageByNumber.labels.length > i) {
+          label = config.pageByNumber.labels[i];
+        } else {
+          label = i + 1;
+        }
+        html += '<a' + EMPTY_HREF + '>' + label + '</a>';
       }
 
       pageByNumber.html(html);
