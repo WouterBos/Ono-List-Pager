@@ -232,7 +232,7 @@ onoPager.pager = function(arg_index,
                   {animation: arg_animation});
     var listSize = 0;
     arg_list.find('*.onoPager_listItem').each(function() {
-	  listSize += tools.getInnerSize(orientation, jQuery(this));
+      listSize += tools.getInnerSize(orientation, jQuery(this));
     });
     var overflow = tools.getInnerSize(orientation, listContainer) - listSize;
     if (overflow < 0) {

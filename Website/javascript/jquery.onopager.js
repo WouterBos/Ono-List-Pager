@@ -1136,9 +1136,11 @@ onoPager.pager = function(arg_index,
                   autoPageConfig,
                   arg_autoPageConfig,
                   {animation: arg_animation});
-
-    var overflow = tools.getInnerSize(orientation, listContainer) -
-                     tools.getInnerSize(orientation, arg_list);
+    var listSize = 0;
+    arg_list.find('*.onoPager_listItem').each(function() {
+      listSize += tools.getInnerSize(orientation, jQuery(this));
+    });
+    var overflow = tools.getInnerSize(orientation, listContainer) - listSize;
     if (overflow < 0) {
       startAutopager();
     }
