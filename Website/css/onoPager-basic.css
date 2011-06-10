@@ -16,8 +16,6 @@ div.onoPager {
     margin: 0;
     padding: 10px;
     overflow: hidden;
-    -webkit-box-shadow: inset 0 0 2px 2px #cccccc;
-    box-shadow: inset 0 0 2px 2px #cccccc;
 }
 /* End pager */
 
@@ -45,6 +43,12 @@ div.onoPager_scroller {
   position: relative;
   height: 20px;
   background: #cccccc;
+}
+
+*.list2 div.onoPager_scroller {
+  position: absolute;
+  top: 0;
+  left: 250px;
 }
 
 div.onoPager_scrollerHandle {

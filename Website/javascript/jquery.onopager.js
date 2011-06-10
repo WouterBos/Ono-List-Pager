@@ -46,68 +46,71 @@
    * @param {Object} arg_config Configuration object.
    * @param {Object} animationConfig Optional extra configuration object for
    *    the animation object.
-   * @param {Boolean} animationConfig.pagePerItem Page per item.
-   * @param {Boolean} animationConfig.doesLoop If true, the pager scrolls back
+   * @param {String} arg_config.cssClass Ads CSS class to the root of the pager.
+   * @param {Boolean} arg_config.pagePerItem Page per item.
+   * @param {Boolean} arg_config.doesLoop If true, the pager scrolls back
    *    to the first item after the last item.
-   * @param {String} animationConfig.ListContainer.width Width of list
+   * @param {String} arg_config.ListContainer.width Width of list
    *    container, like '200px'.
-   * @param {String} animationConfig.ListContainer.height Height of list
+   * @param {String} arg_config.ListContainer.height Height of list
    *    container, like '200px'.
-   * @param {String} animationConfig.ListItems.width Width of list items, like
+   * @param {String} arg_config.ListItems.width Width of list items, like
    *    '200px'.
-   * @param {String} animationConfig.ListItems.height Height of list items,
+   * @param {String} arg_config.ListItems.height Height of list items,
    *    like '200px'.
-   * @param {Number} animationConfig.activeIndex Sets initial visible page. By
+   * @param {Number} arg_config.activeIndex Sets initial visible page. By
    *    default the pager starts at index 0.
-   * @param {Boolean} animationConfig.autoPage.active Activates auto pager.
-   * @param {Number} animationConfig.autoPage.interval The interval between
+   * @param {Boolean} arg_config.autoPage.active Activates auto pager.
+   * @param {Number} arg_config.autoPage.interval The interval between
    *    autopaging. Time value is set in milliseconds.
-   * @param {String} animationConfig.autoPage.autoPageAnimationType The type
+   * @param {String} arg_config.autoPage.autoPageAnimationType The type
    *    of animation that will indicate the time the time between transitions.
-   * @param {String} animationConfig.labels.next text for the 'next'-button.
-   * @param {String} animationConfig.labels.previous Text for the
+   * @param {String} arg_config.labels.next text for the 'next'-button.
+   * @param {String} arg_config.labels.previous Text for the
    *    'previous'-button.
-   * @param {Boolean} animationConfig.status.active Activates the status box.
-   * @param {String} animationConfig.status.prependText Text that appears before
+   * @param {Boolean} arg_config.status.active Activates the status box.
+   * @param {String} arg_config.status.prependText Text that appears before
    *    the page index number.
-   * @param {String} animationConfig.status.seperationText Text that appears
+   * @param {String} arg_config.status.seperationText Text that appears
    *    between the page index number and the total pages number.
-   * @param {String} animationConfig.status.appendText Text that appears after
+   * @param {String} arg_config.status.appendText Text that appears after
    *    the total pages number.
-   * @param {Boolean} animationConfig.scroller.active Activates a Javascript
+   * @param {Boolean} arg_config.scroller.active Activates a Javascript
    *    scrollbar. Default is true.
-   * @param {Number} animationConfig.pixelMove The amount of pixels the pager
+   * @param {Number} arg_config.pixelMove The amount of pixels the pager
    *    scrolls after each frame.
-   * @param {Boolean} animationConfig.pageByNumber.active Activates the bar with
+   * @param {Boolean} arg_config.pageByNumber.active Activates the bar with
    *    all pages, defined by number. Default is true.
-   * @param {Boolean} animationConfig.pageByNumber.enableClick Disables paging
+   * @param {Boolean} arg_config.pageByNumber.enableClick Disables paging
    *    behaviour onclick. The makes the 'Page by number'-box essentially a
    *    status box rather than a navigation control. Default is true.
-   * @param {Boolean} animationConfig.pageByArrowKey.active Enables paging by
+   * @param {Array} arg_config.pageByNumber.labels Replaces the default
+   *    content of the page-by-number links with the string values in the array.
+   * @param {Boolean} arg_config.pageByArrowKey.active Enables paging by
    *    using the keyboard arrow keys. Default is false.
-   * @param {Boolean} animationConfig.pageByArrowKey.preventDefault Disables or
+   * @param {Boolean} arg_config.pageByArrowKey.preventDefault Disables or
    *    activates the default behaviour of the arrow key. If set to true, the
    *    user won't be able to scroll the page or a textarea with the arrow keys.
    *    Default is false for that reason.
-   * @param {Boolean} animationConfig.swipeTriggersPage Activates page
+   * @param {Boolean} arg_config.swipeTriggersPage Activates page
    *    navigation by swiping on the screen. Default is false.
-   * @param {String} animationConfig.swipePlatforms Determines on what platforms
+   * @param {String} arg_config.swipePlatforms Determines on what platforms
    *    the user is able to page by swiping. 'touch' activates swiping only on
    *    touch devices. 'all' will activates swiping on touch devices and
    *    desktop. Swiping on the desktop is done with mouse gestures. Default
    *    value is 'touch'.
-   * @param {String} animationConfig.animationType Determines which animation
+   * @param {String} arg_config.animationType Determines which animation
    *    object will be used. The following animation types are available by
    *    default: 'linear', 'linearScroller' and 'slides'. Custom animation
    *    objects can be created and used after the plugin is loaded. Default
    *    value is 'linear'.
-   * @param {String} animationConfig.animationEasing Determines the easing type
+   * @param {String} arg_config.animationEasing Determines the easing type
    *    to be used by the animation object. Default value is 'linear'.
-   * @param {String} animationConfig.orientation Determines on what axis the
+   * @param {String} arg_config.orientation Determines on what axis the
    *    animation moves. Possible values are 'horizontal' and 'vertical' though
    *    it's possible to use other values as long as the animation object
    *    supports that value. Default value is 'horizontal'.
-   * @param {Number} animationConfig.animationSpeed Determines the speed at
+   * @param {Number} arg_config.animationSpeed Determines the speed at
    *    which the animations take place.
    * @return {jQuery} chainable jQuery class.
    * @memberOf jQuery.fn
@@ -128,6 +131,7 @@
    *
    * // Advanced example:
    * jQuery('#list1').onoPager({
+   *    cssClass: 'onopager_theme1',
    *    pagePerItem: true,
    *    doesLoop: true,
    *    listContainer: {
@@ -159,7 +163,8 @@
    *    },
    *    pageByNumber: {
    *      active: true,
-   *      enableClick: true
+   *      enableClick: true,
+   *      labels: []
    *    },
    *    pageByArrowKey: {
    *      active: false,
@@ -175,6 +180,7 @@
    */
   jQuery.fn.onoPager = function(arg_config, animationConfig) {
     var config = {
+      cssClass: '',
       pagePerItem: true,
       doesLoop: true,
       listContainer: {
@@ -293,6 +299,14 @@
       autoPageContainer = root.find(
         '> * > div.' + ONOPAGER + '_autoPageContainer'
       );
+      if (config.listContainer.width) {
+        root.find('.' + ONOPAGER + '_controls').css(
+          'width',
+          config.listContainer.width
+        );
+        pageByNumber.css('width', config.listContainer.width);
+        pageStatus.css('width', config.listContainer.width);
+      }
     }
 
     // Initialize the animation object.
@@ -510,7 +524,8 @@
       list.addClass(ONOPAGER + '_list');
       list.wrap('<div class="' + ONOPAGER + '_listContainer"></div>');
       listContainer = list.parent();
-      listContainer.wrap('<div class="' + ONOPAGER + '"/>');
+      listContainer.wrap('<div class="' + ONOPAGER + ' ' +
+                         config.cssClass + '"/>');
       root = listContainer.parent();
       root.addClass(config.animationType);
       listItems = $(this).find(' > li, .' + ONOPAGER + '_listItem');

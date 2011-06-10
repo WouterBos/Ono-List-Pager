@@ -81,7 +81,7 @@
 			Documentation generator: <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.3.2<br />
 			Template: <a href="http://www.thebrightlines.com/2010/05/06/new-template-for-jsdoctoolkit-codeview/" target="_blank">Codeview</a> 1.2<br />
 			Generated on:
-			<time datetime='2011-5-9' pubdate>2011-5-9 17:37</time>
+			<time datetime='2011-5-10' pubdate>2011-5-10 22:34</time>
 		</footer>
 	</div>
 </div>
@@ -272,7 +272,7 @@
 										
 										
 											
-												<pre class="code">// Simple example:jQuery('#list1').onoPager({  pagePerItem: false,  listContainer: {    width: '700px',    height: '100px'  },  listItems: {    width: '300px'  },  animationType: 'linear',  animationSpeed: 1000});// Advanced example:jQuery('#list1').onoPager({   pagePerItem: true,   doesLoop: true,   listContainer: {     width: '300px',     height: '100px'   },   listItems: {     width: '300px',     height: '100px'   },   activeIndex: 2,   autoPage: {     active: true,     interval: 2000,   },   labels: {     next: 'next',     previous: 'previous'   },   status: {     active: true,     prependText: 'page ',     seperationText: ' of ',     appendText: ' pages'   },   scroller: {     active: false,     pixelMove: 2   },   pageByNumber: {     active: true,     enableClick: true   },   pageByArrowKey: {     active: false,     preventDefault: false   },   swipeTriggersPage: false,   swipePlatforms: 'touch',   animationType: 'linear',   animationEasing: 'linear',   orientation: 'horizontal',   animationSpeed: 1000});</pre>
+												<pre class="code">// Simple example:jQuery('#list1').onoPager({  pagePerItem: false,  listContainer: {    width: '700px',    height: '100px'  },  listItems: {    width: '300px'  },  animationType: 'linear',  animationSpeed: 1000});// Advanced example:jQuery('#list1').onoPager({   cssClass: 'onopager_theme1',   pagePerItem: true,   doesLoop: true,   listContainer: {     width: '300px',     height: '100px'   },   listItems: {     width: '300px',     height: '100px'   },   activeIndex: 2,   autoPage: {     active: true,     interval: 2000,   },   labels: {     next: 'next',     previous: 'previous'   },   status: {     active: true,     prependText: 'page ',     seperationText: ' of ',     appendText: ' pages'   },   scroller: {     active: false,     pixelMove: 2   },   pageByNumber: {     active: true,     enableClick: true,     labels: []   },   pageByArrowKey: {     active: false,     preventDefault: false   },   swipeTriggersPage: false,   swipePlatforms: 'touch',   animationType: 'linear',   animationEasing: 'linear',   orientation: 'horizontal',   animationSpeed: 1000});</pre>
 											
 										
 										
@@ -293,169 +293,181 @@
 													<dd>Optional extra configuration object for   the animation object.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{Boolean}</span> <b>animationConfig.pagePerItem</b>
+														<span class="light fixedFont">{String}</span> <b>arg_config.cssClass</b>
+														
+													</dt>
+													<dd>Ads CSS class to the root of the pager.</dd>
+												
+													<dt>
+														<span class="light fixedFont">{Boolean}</span> <b>arg_config.pagePerItem</b>
 														
 													</dt>
 													<dd>Page per item.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{Boolean}</span> <b>animationConfig.doesLoop</b>
+														<span class="light fixedFont">{Boolean}</span> <b>arg_config.doesLoop</b>
 														
 													</dt>
 													<dd>If true, the pager scrolls back   to the first item after the last item.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{String}</span> <b>animationConfig.ListContainer.width</b>
+														<span class="light fixedFont">{String}</span> <b>arg_config.ListContainer.width</b>
 														
 													</dt>
 													<dd>Width of list   container, like '200px'.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{String}</span> <b>animationConfig.ListContainer.height</b>
+														<span class="light fixedFont">{String}</span> <b>arg_config.ListContainer.height</b>
 														
 													</dt>
 													<dd>Height of list   container, like '200px'.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{String}</span> <b>animationConfig.ListItems.width</b>
+														<span class="light fixedFont">{String}</span> <b>arg_config.ListItems.width</b>
 														
 													</dt>
 													<dd>Width of list items, like   '200px'.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{String}</span> <b>animationConfig.ListItems.height</b>
+														<span class="light fixedFont">{String}</span> <b>arg_config.ListItems.height</b>
 														
 													</dt>
 													<dd>Height of list items,   like '200px'.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{Number}</span> <b>animationConfig.activeIndex</b>
+														<span class="light fixedFont">{Number}</span> <b>arg_config.activeIndex</b>
 														
 													</dt>
 													<dd>Sets initial visible page. By   default the pager starts at index 0.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{Boolean}</span> <b>animationConfig.autoPage.active</b>
+														<span class="light fixedFont">{Boolean}</span> <b>arg_config.autoPage.active</b>
 														
 													</dt>
 													<dd>Activates auto pager.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{Number}</span> <b>animationConfig.autoPage.interval</b>
+														<span class="light fixedFont">{Number}</span> <b>arg_config.autoPage.interval</b>
 														
 													</dt>
 													<dd>The interval between   autopaging. Time value is set in milliseconds.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{String}</span> <b>animationConfig.autoPage.autoPageAnimationType</b>
+														<span class="light fixedFont">{String}</span> <b>arg_config.autoPage.autoPageAnimationType</b>
 														
 													</dt>
 													<dd>The type   of animation that will indicate the time the time between transitions.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{String}</span> <b>animationConfig.labels.next</b>
+														<span class="light fixedFont">{String}</span> <b>arg_config.labels.next</b>
 														
 													</dt>
 													<dd>text for the 'next'-button.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{String}</span> <b>animationConfig.labels.previous</b>
+														<span class="light fixedFont">{String}</span> <b>arg_config.labels.previous</b>
 														
 													</dt>
 													<dd>Text for the   'previous'-button.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{Boolean}</span> <b>animationConfig.status.active</b>
+														<span class="light fixedFont">{Boolean}</span> <b>arg_config.status.active</b>
 														
 													</dt>
 													<dd>Activates the status box.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{String}</span> <b>animationConfig.status.prependText</b>
+														<span class="light fixedFont">{String}</span> <b>arg_config.status.prependText</b>
 														
 													</dt>
 													<dd>Text that appears before   the page index number.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{String}</span> <b>animationConfig.status.seperationText</b>
+														<span class="light fixedFont">{String}</span> <b>arg_config.status.seperationText</b>
 														
 													</dt>
 													<dd>Text that appears   between the page index number and the total pages number.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{String}</span> <b>animationConfig.status.appendText</b>
+														<span class="light fixedFont">{String}</span> <b>arg_config.status.appendText</b>
 														
 													</dt>
 													<dd>Text that appears after   the total pages number.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{Boolean}</span> <b>animationConfig.scroller.active</b>
+														<span class="light fixedFont">{Boolean}</span> <b>arg_config.scroller.active</b>
 														
 													</dt>
 													<dd>Activates a Javascript   scrollbar. Default is true.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{Number}</span> <b>animationConfig.pixelMove</b>
+														<span class="light fixedFont">{Number}</span> <b>arg_config.pixelMove</b>
 														
 													</dt>
 													<dd>The amount of pixels the pager   scrolls after each frame.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{Boolean}</span> <b>animationConfig.pageByNumber.active</b>
+														<span class="light fixedFont">{Boolean}</span> <b>arg_config.pageByNumber.active</b>
 														
 													</dt>
 													<dd>Activates the bar with   all pages, defined by number. Default is true.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{Boolean}</span> <b>animationConfig.pageByNumber.enableClick</b>
+														<span class="light fixedFont">{Boolean}</span> <b>arg_config.pageByNumber.enableClick</b>
 														
 													</dt>
 													<dd>Disables paging   behaviour onclick. The makes the 'Page by number'-box essentially a   status box rather than a navigation control. Default is true.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{Boolean}</span> <b>animationConfig.pageByArrowKey.active</b>
+														<span class="light fixedFont">{Array}</span> <b>arg_config.pageByNumber.labels</b>
+														
+													</dt>
+													<dd>Replaces the default   content of the page-by-number links with the string values in the array.</dd>
+												
+													<dt>
+														<span class="light fixedFont">{Boolean}</span> <b>arg_config.pageByArrowKey.active</b>
 														
 													</dt>
 													<dd>Enables paging by   using the keyboard arrow keys. Default is false.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{Boolean}</span> <b>animationConfig.pageByArrowKey.preventDefault</b>
+														<span class="light fixedFont">{Boolean}</span> <b>arg_config.pageByArrowKey.preventDefault</b>
 														
 													</dt>
 													<dd>Disables or   activates the default behaviour of the arrow key. If set to true, the   user won't be able to scroll the page or a textarea with the arrow keys.   Default is false for that reason.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{Boolean}</span> <b>animationConfig.swipeTriggersPage</b>
+														<span class="light fixedFont">{Boolean}</span> <b>arg_config.swipeTriggersPage</b>
 														
 													</dt>
 													<dd>Activates page   navigation by swiping on the screen. Default is false.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{String}</span> <b>animationConfig.swipePlatforms</b>
+														<span class="light fixedFont">{String}</span> <b>arg_config.swipePlatforms</b>
 														
 													</dt>
 													<dd>Determines on what platforms   the user is able to page by swiping. 'touch' activates swiping only on   touch devices. 'all' will activates swiping on touch devices and   desktop. Swiping on the desktop is done with mouse gestures. Default   value is 'touch'.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{String}</span> <b>animationConfig.animationType</b>
+														<span class="light fixedFont">{String}</span> <b>arg_config.animationType</b>
 														
 													</dt>
 													<dd>Determines which animation   object will be used. The following animation types are available by   default: 'linear', 'linearScroller' and 'slides'. Custom animation   objects can be created and used after the plugin is loaded. Default   value is 'linear'.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{String}</span> <b>animationConfig.animationEasing</b>
+														<span class="light fixedFont">{String}</span> <b>arg_config.animationEasing</b>
 														
 													</dt>
 													<dd>Determines the easing type   to be used by the animation object. Default value is 'linear'.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{String}</span> <b>animationConfig.orientation</b>
+														<span class="light fixedFont">{String}</span> <b>arg_config.orientation</b>
 														
 													</dt>
 													<dd>Determines on what axis the   animation moves. Possible values are 'horizontal' and 'vertical' though   it's possible to use other values as long as the animation object   supports that value. Default value is 'horizontal'.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{Number}</span> <b>animationConfig.animationSpeed</b>
+														<span class="light fixedFont">{Number}</span> <b>arg_config.animationSpeed</b>
 														
 													</dt>
 													<dd>Determines the speed at   which the animations take place.</dd>

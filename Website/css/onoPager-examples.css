@@ -1,5 +1,4 @@
-.list2 div.onoPager_scroller {
-  position: absolute;
-  top: 0;
-  left: 250px;
+*.onoPager_listItem {
+  -webkit-box-shadow: inset 0 0 2px 2px #cccccc;
+  box-shadow: inset 0 0 2px 2px #cccccc;
 }

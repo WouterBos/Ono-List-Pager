@@ -16,18 +16,19 @@
 
   <link href="css/page.css" rel="stylesheet" type="text/css" />
   <link href="css/onoPager-basic.css" rel="stylesheet" type="text/css" />
-  <link href="css/onoPager-examples.css" rel="stylesheet" type="text/css" />
+  <link href="css/onoPager-theme1.css" rel="stylesheet" type="text/css" />
+  <!--<link href="css/onoPager-examples.css" rel="stylesheet" type="text/css" />-->
 </head>
 <body>
-	<h1>Ono pager demos</h1>
-	<h2>Read more about the Ono pager in this article on: <a href="#TODO">TODO</a></h2>
+	<h1>Ono List Pager demos</h1>
+	<h2>Read more about the Ono List Pager on <a href="http://plugins.jquery.com/project/OnoListPager">plugins.jquery.com/project/OnoListPager</a></h2>
 
 	<div id="debug" style="font-size: 3em; display: none">debug</div>
   
   <h3>Websites that use the Ono List Pager</h3>
   <ul class="simpleList">
-    <li><a href="http://estate15jaar.nl/">15 years Estate Internet</a> (Dutch)</li>
-    <li><a href="http://socialize2011.nl/">#Socialize2011 event</a> (Dutch)</li>
+    <li><a href="http://estate15jaar.nl/">15 years Estate Internet</a> (in Dutch)</li>
+    <li><a href="http://socialize2011.nl/">#Socialize2011 event</a> (in Dutch)</li>
   </ul>
   
   <h3>Demos</h3>
@@ -340,7 +341,9 @@
     });
 
     jQuery('#list1').onoPager({
+      cssClass: 'onoPager_theme1',
       pagePerItem: true,
+      doesLoop: false,
       listContainer: {
         width: '250px',
         height: '100px'
@@ -348,6 +351,9 @@
       listItems: {
           width: '230px',
           height: '80px'
+      },
+      status: {
+        active: false
       },
       keyTriggersPage: true,
       swipeTriggersPage: true,
@@ -358,6 +364,7 @@
     });
 
     jQuery('#list2').onoPager({
+      cssClass: 'onoPager_theme1',
       pagePerItem: true,
       orientation: 'vertical',
       listContainer: {
@@ -366,7 +373,7 @@
       },
       listItems: {
           width: '230px',
-          height: '80px'
+          height: '82px'
       },
       status: {
         active: false
@@ -385,6 +392,7 @@
     });
 
     jQuery('#list3').onoPager({
+      cssClass: 'onoPager_theme1',
       pagePerItem: true,
       doesLoop: false,
       orientation: 'vertical',
@@ -403,6 +411,7 @@
     })
 
     jQuery('#list4').onoPager({
+      cssClass: 'onoPager_theme1',
       pagePerItem: false,
       listContainer: {
         width: '100%',
@@ -411,6 +420,9 @@
       listItems: {
           width: '230px',
           height: '80px'
+      },
+      status: {
+        active: false
       },
       animationType: 'linear',
       animationEasing: 'easeOutCubic',
@@ -453,7 +465,7 @@
         autoPageAnimationType: 'timeline'
       },
       animationType: 'linearContinuous',
-      animationEasing: 'linear',
+      animationEasing: 'easeOutCubic',
       orientation: 'horizontal',
       animationSpeed: 1000
     });
