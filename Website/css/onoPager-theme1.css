@@ -1,0 +1,185 @@
+/**
+ * 	Ono pager theme 1
+ */
+
+div.onoPager_theme1 {
+  padding-bottom: 10px; 
+}
+
+div.onoPager_theme1 div.onoPager_listContainer {
+  position: relative;
+  -moz-transition: all 0.2s ease-out;  
+  -o-transition: all 0.2s ease-out;  
+  -webkit-transition: all 0.2s ease-out;  
+  -ms-transition: all 0.2s ease-out;  
+  transition: all 0.2s ease-out;  
+  margin-bottom: 15px; 
+  -moz-border-radius: 3px; 
+  -webkit-border-radius: 3px; 
+  border-radius: 3px; 
+  -moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box; 
+  border: 1px solid #aaaaaa;
+  box-shadow: 1px 1px 3px 1px #ccc;
+  background-color: #ffffff;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#eeeeee)); 
+  background-image: -webkit-linear-gradient(top, #ffffff, #eeeeee); 
+  background-image:    -moz-linear-gradient(top, #ffffff, #eeeeee); 
+  background-image:     -ms-linear-gradient(top, #ffffff, #eeeeee); 
+  background-image:      -o-linear-gradient(top, #ffffff, #eeeeee); 
+  background-image:         linear-gradient(top, #ffffff, #eeeeee);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff', EndColorStr='#eeeeee'); 
+}
+
+div.onoPager_theme1:hover div.onoPager_listContainer {
+  top: -2px;
+  box-shadow: 2px 2px 8px 1px #CCC;
+}
+
+
+
+div.onoPager_theme1 *.onoPager_listItem {
+}
+
+
+
+div.onoPager_theme1 div.onoPager_controls {
+  opacity: 0.5;
+  min-height: 0;
+  -moz-transition: all 0.2s ease-out;  
+  -o-transition: all 0.2s ease-out;  
+  -webkit-transition: all 0.2s ease-out;  
+  -ms-transition: all 0.2s ease-out;  
+  transition: all 0.2s ease-out;  
+  font-size: 0.9em;
+}
+div.onoPager_theme1 div.onoPager_controls:after {
+  clear: both;
+  display: block;
+  content: "";
+}
+div.onoPager_theme1:hover div.onoPager_controls {
+  opacity: 1;
+}
+
+div.onoPager_theme1 div.onoPager_controls a {
+  color: #666666;
+  text-decoration: none;
+  -moz-transition: all 0.2s ease-out;  
+  -o-transition: all 0.2s ease-out;  
+  -webkit-transition: all 0.2s ease-out;  
+  -ms-transition: all 0.2s ease-out;  
+  transition: all 0.2s ease-out;  
+}
+div.onoPager_theme1:hover div.onoPager_controls a {
+  text-decoration: none;
+  color: #0000ff;
+}
+div.onoPager_theme1 div.onoPager_controls a:hover {
+  text-decoration: underline;
+}
+
+div.onoPager_theme1 a.onoPager_step {
+  position: relative;
+  z-index: 1;
+  top: -10px;
+}
+div.onoPager_theme1:hover a.onoPager_step {
+  top: 0;
+}
+
+div.onoPager_theme1.onoPager_animation_linearScroller a.onoPager_step {
+  margin-top: -8px;
+  outline: 0;
+  font-size: 3em;
+  line-height: 0.7em;
+  text-decoration: none !important;
+}
+div.onoPager_theme1.onoPager_animation_linearScroller a.onoPager_step:hover {
+  color: #ff0000;
+}
+
+div.onoPager_theme1 a.onoPager_step.disabled {
+  opacity: 0.3;
+  cursor: default;
+  text-decoration: none !important;
+}
+
+div.onoPager_theme1 a.onoPager_previous {
+  float: left;
+} 
+
+div.onoPager_theme1 a.onoPager_next {
+  float: right;
+}
+
+div.onoPager_theme1 div.onoPager_pageByNumber {
+  position: absolute;
+  margin-top: -10px;
+  text-align: center;
+  -moz-transition: all 0.2s ease-out;  
+  -o-transition: all 0.2s ease-out;  
+  -webkit-transition: all 0.2s ease-out;  
+  -ms-transition: all 0.2s ease-out;  
+  transition: all 0.2s ease-out;  
+}
+div.onoPager_theme1:hover div.onoPager_pageByNumber {
+  margin-top: 0;
+}
+
+div.onoPager_theme1 div.onoPager_pageByNumber a {
+  margin: 0;
+  padding: 4px 4px;
+}
+div.onoPager_theme1 div.onoPager_pageByNumber a.onoPager_active {
+  cursor: default;
+  padding-top: 0;
+  padding-bottom: 0;
+  color: #ffffff;
+  font-weight: normal;
+  text-decoration: none !important;
+  background: #999999;
+}
+
+div.onoPager_theme1 div.onoPager_status {
+  position: absolute;
+  margin-top: -10px;
+  text-align: center;
+  -moz-transition: all 0.2s ease-out;  
+  -o-transition: all 0.2s ease-out;  
+  -webkit-transition: all 0.2s ease-out;  
+  -ms-transition: all 0.2s ease-out;  
+  transition: all 0.2s ease-out;  
+}
+div.onoPager_theme1:hover div.onoPager_status {
+  margin-top: 0;
+}
+
+
+
+div.onoPager_theme1 div.onoPager_scroller {
+  margin-left: 1px;
+  opacity: 0;
+  background: rgba(0, 0, 0, 0.05);
+}
+div.onoPager_theme1:hover div.onoPager_scroller {
+  opacity: 1;
+  box-shadow: 1px 1px 3px 1px #ccc;
+}
+
+div.onoPager_theme1 div.onoPager_scrollerHandle {
+  width: 10px;
+  height: 10px;
+}
+div.onoPager_theme1 div.onoPager_scrollerHandle:hover {
+}
+
+
+
+div.onoPager_theme1.onoPager_animation_linearContinuous:hover div.onoPager_listContainer {
+  top: 0;  
+}
+
+div.onoPager_theme1.onoPager_animation_linearContinuous div.onoPager_listContainer {
+  outline: 0 solid #aaaaaa;
+  background: none;
+}

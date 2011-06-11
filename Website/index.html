@@ -212,8 +212,6 @@
         <li>2 Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>
         <li>3 Lorem ipsum dolor sit amet site amet site amet. Etiam vitae massa</li>
         <li>4 Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>
-        <li>5 Lorem ipsum dolor sit amet site amet site amet. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. Donec vel risus diam. Vestibulum posuere tristique vulputate neque ut leo aliquet scelerisque Etiam vitae massa</li>
-        <li>6 Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>
       </ul>
     </li>
   
@@ -431,6 +429,7 @@
     });
 
     jQuery('#list5').onoPager({
+      cssClass: 'onoPager_theme1',
       pagePerItem: false,
       listContainer: {
         width: '250px',
@@ -441,7 +440,10 @@
           height: '80px'
       },
       pageByNumber: {
-        labels: ['Lorem', 'ipsum', 'dolor', 'sit', 'amet', 'site']
+        labels: ['One', 'Two', 'Three', 'Four']
+      },
+      status: {
+        active: false
       },
       animationType: 'fade',
       animationEasing: 'easeOutCubic',
@@ -450,6 +452,7 @@
     });
 
     jQuery('#list6').onoPager({
+      cssClass: 'onoPager_theme1',
       pagePerItem: true,
       listContainer: {
         width: '230px',
@@ -464,10 +467,13 @@
         interval: 3000,
         autoPageAnimationType: 'timeline'
       },
+      status: {
+        active: false
+      },
       animationType: 'linearContinuous',
       animationEasing: 'easeOutCubic',
       orientation: 'horizontal',
-      animationSpeed: 1000
+      animationSpeed: 1500
     });
 /*
     jQuery('#list6').onoPager({

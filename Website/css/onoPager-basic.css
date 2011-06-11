@@ -83,12 +83,6 @@ div.onoPager_animation_linearContinuous {
   overflow: hidden;
 }
 
-div.onoPager_animation_linearContinuous *.onoPager_listContainer {
-  margin: 0 auto;
-  overflow: visible;
-  background: rgba(50,50,50,0.3);
-}
-
 div.onoPager_animation_linearContinuous *.onoPager_listItem {
   position: relative;
   overflow: hidden;  
@@ -104,16 +98,22 @@ div.onoPager_animation_linearContinuous *.onoPager_linearContinuous_background {
   background: #e368df;
 }
 
-div.onoPager_animation_linearContinuous *.onoPager_listItem:nth-child(2n) *.onoPager_linearContinuous_background {
-  background: #7fe368;
-}
-
 div.onoPager_animation_linearContinuous *.onoPager_linearContinuous_content {
   position: relative;
 }
 
-div.onoPager_animation_linearContinuous *.onoPager_listItem:nth-child(2n) {
-  background: rgba(255,50,255,0.2);
+div.onoPager_animation_linearContinuous *.onoPager_listContainer {
+  margin: 0 auto;
+  overflow: visible;
+}
+
+div.onoPager_animation_linearContinuous div.onoPager_controls {
+  margin: 0 auto;
+}
+
+
+div.onoPager_animation_linearContinuous *.onoPager_listItem:nth-child(2n) *.onoPager_linearContinuous_background {
+  background: #7fe368;
 }
 
 /* End linearContinuous animation */

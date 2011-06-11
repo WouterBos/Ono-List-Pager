@@ -2,3 +2,11 @@
   -webkit-box-shadow: inset 0 0 2px 2px #cccccc;
   box-shadow: inset 0 0 2px 2px #cccccc;
 }
+
+div.onoPager_animation_linearContinuous *.onoPager_listItem:nth-child(2n) {
+  background: rgba(255,50,255,0.2);
+}
+
+div.onoPager_animation_linearContinuous *.onoPager_listContainer {
+  background: rgba(50,50,50,0.3);
+}
