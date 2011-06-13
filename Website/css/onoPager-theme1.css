@@ -31,7 +31,6 @@ div.onoPager_theme1 div.onoPager_listContainer {
 }
 
 div.onoPager_theme1:hover div.onoPager_listContainer {
-  top: -2px;
   box-shadow: 2px 2px 8px 1px #CCC;
 }
 

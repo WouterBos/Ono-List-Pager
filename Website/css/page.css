@@ -58,9 +58,14 @@ html {
 
 
 body {
+  margin: 0;
+  padding: 0;
 	font-family: Arial, sans-serif;
 	font-size: 14px;
-  margin: 15px;
+}
+
+div.body {
+  padding: 20px;
 }
 
 h1 {
@@ -118,25 +123,25 @@ div.break {
 }
 
 div.code {
+  cursor: default;
   float: right;
   margin: 0 15px 0 0;
   position: relative;
   color: #0000ff;
   font-size: 12px;
-  text-decoration: underline;
 }
 
 div.code pre {
   position: absolute;
-  top: -10px;
-  right: -25px;
-  z-index: 100;
+  right: auto;
+  left: -9999em;
+  z-index: 10000000000000;
   opacity: 0;
-  -moz-transition: all 0.3s ease-out;  
-  -o-transition: all 0.3s ease-out;  
-  -webkit-transition: all 0.3s ease-out;  
-  -ms-transition: all 0.3s ease-out;  
-  transition: all 0.3s ease-out;  
+  -moz-transition: height 0.3s ease-out;  
+  -o-transition: height 0.3s ease-out;  
+  -webkit-transition: height 0.3s ease-out;  
+  -ms-transition: height 0.3s ease-out;  
+  transition: height 0.3s ease-out;  
   border: 5px solid #dddddd;
   -moz-outline-radius: 4px; 
   -webkit-outline-radius: 4px; 
@@ -154,6 +159,9 @@ div.code pre {
   background: #dddddd;
 }
 div.code:hover pre {
+  top: -10px;
+  right: -25px;
+  left: auto;
   opacity: 1;
   width: 300px;
   height: 210px;
