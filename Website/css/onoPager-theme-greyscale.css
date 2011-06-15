@@ -1,12 +1,15 @@
 /**
- * 	Ono pager theme 1
+ * 	Ono pager theme greyscale
  */
 
-div.onoPager_theme1 {
+div.onoPager_greyscale {
   padding-bottom: 10px; 
 }
 
-div.onoPager_theme1 div.onoPager_listContainer {
+
+
+/* List container */
+div.onoPager_greyscale div.onoPager_listContainer {
   position: relative;
   -moz-transition: all 0.2s ease-out;  
   -o-transition: all 0.2s ease-out;  
@@ -30,18 +33,20 @@ div.onoPager_theme1 div.onoPager_listContainer {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff', EndColorStr='#eeeeee'); 
 }
 
-div.onoPager_theme1:hover div.onoPager_listContainer {
+div.onoPager_greyscale:hover div.onoPager_listContainer {
   box-shadow: 2px 2px 8px 1px #CCC;
 }
 
 
 
-div.onoPager_theme1 *.onoPager_listItem {
+/* List items */
+div.onoPager_greyscale *.onoPager_listItem {
 }
 
 
 
-div.onoPager_theme1 div.onoPager_controls {
+/* Controls - Base */
+div.onoPager_greyscale div.onoPager_controls {
   opacity: 0.5;
   min-height: 0;
   -moz-transition: all 0.2s ease-out;  
@@ -51,16 +56,17 @@ div.onoPager_theme1 div.onoPager_controls {
   transition: all 0.2s ease-out;  
   font-size: 0.9em;
 }
-div.onoPager_theme1 div.onoPager_controls:after {
+div.onoPager_greyscale div.onoPager_controls:after {
   clear: both;
   display: block;
   content: "";
 }
-div.onoPager_theme1:hover div.onoPager_controls {
+div.onoPager_greyscale:hover div.onoPager_controls,
+div.onoPager_greyscale div.onoPager_controls.active {
   opacity: 1;
 }
 
-div.onoPager_theme1 div.onoPager_controls a {
+div.onoPager_greyscale div.onoPager_controls a {
   color: #666666;
   text-decoration: none;
   -moz-transition: all 0.2s ease-out;  
@@ -69,49 +75,57 @@ div.onoPager_theme1 div.onoPager_controls a {
   -ms-transition: all 0.2s ease-out;  
   transition: all 0.2s ease-out;  
 }
-div.onoPager_theme1:hover div.onoPager_controls a {
+div.onoPager_greyscale:hover div.onoPager_controls a,
+div.onoPager_greyscale div.onoPager_controls.active a {
   text-decoration: none;
   color: #0000ff;
 }
-div.onoPager_theme1 div.onoPager_controls a:hover {
+div.onoPager_greyscale div.onoPager_controls a:hover {
   text-decoration: underline;
 }
 
-div.onoPager_theme1 a.onoPager_step {
+
+
+/* Controls - Previous and next */
+div.onoPager_greyscale a.onoPager_step {
   position: relative;
   z-index: 1;
   top: -10px;
 }
-div.onoPager_theme1:hover a.onoPager_step {
+div.onoPager_greyscale:hover a.onoPager_step,
+div.onoPager_greyscale div.onoPager_controls.active a.onoPager_step {
   top: 0;
 }
 
-div.onoPager_theme1.onoPager_animation_linearScroller a.onoPager_step {
+div.onoPager_greyscale.onoPager_animation_linearScroller a.onoPager_step {
   margin-top: -8px;
   outline: 0;
   font-size: 3em;
   line-height: 0.7em;
   text-decoration: none !important;
 }
-div.onoPager_theme1.onoPager_animation_linearScroller a.onoPager_step:hover {
+div.onoPager_greyscale.onoPager_animation_linearScroller a.onoPager_step:hover {
   color: #ff0000;
 }
 
-div.onoPager_theme1 a.onoPager_step.disabled {
+div.onoPager_greyscale a.onoPager_step.disabled {
   opacity: 0.3;
   cursor: default;
   text-decoration: none !important;
 }
 
-div.onoPager_theme1 a.onoPager_previous {
+div.onoPager_greyscale a.onoPager_previous {
   float: left;
 } 
 
-div.onoPager_theme1 a.onoPager_next {
+div.onoPager_greyscale a.onoPager_next {
   float: right;
 }
 
-div.onoPager_theme1 div.onoPager_pageByNumber {
+
+
+/* Controls - Page by number */
+div.onoPager_greyscale div.onoPager_pageByNumber {
   position: absolute;
   margin-top: -10px;
   text-align: center;
@@ -121,15 +135,16 @@ div.onoPager_theme1 div.onoPager_pageByNumber {
   -ms-transition: all 0.2s ease-out;  
   transition: all 0.2s ease-out;  
 }
-div.onoPager_theme1:hover div.onoPager_pageByNumber {
+div.onoPager_greyscale:hover div.onoPager_pageByNumber,
+div.onoPager_greyscale div.onoPager_controls.active div.onoPager_pageByNumber {
   margin-top: 0;
 }
 
-div.onoPager_theme1 div.onoPager_pageByNumber a {
+div.onoPager_greyscale div.onoPager_pageByNumber a {
   margin: 0;
   padding: 4px 4px;
 }
-div.onoPager_theme1 div.onoPager_pageByNumber a.onoPager_active {
+div.onoPager_greyscale div.onoPager_pageByNumber a.onoPager_active {
   cursor: default;
   padding-top: 0;
   padding-bottom: 0;
@@ -139,7 +154,10 @@ div.onoPager_theme1 div.onoPager_pageByNumber a.onoPager_active {
   background: #999999;
 }
 
-div.onoPager_theme1 div.onoPager_status {
+
+
+/* Controls - Status */
+div.onoPager_greyscale div.onoPager_status {
   position: absolute;
   margin-top: -10px;
   text-align: center;
@@ -149,36 +167,42 @@ div.onoPager_theme1 div.onoPager_status {
   -ms-transition: all 0.2s ease-out;  
   transition: all 0.2s ease-out;  
 }
-div.onoPager_theme1:hover div.onoPager_status {
+div.onoPager_greyscale:hover div.onoPager_status,
+div.onoPager_greyscale div.onoPager_controls.active div.onoPager_status {
   margin-top: 0;
 }
 
 
 
-div.onoPager_theme1 div.onoPager_scroller {
+/* Controls - Scrollbar */
+div.onoPager_greyscale div.onoPager_scroller {
   margin-left: 1px;
   opacity: 0;
   background: rgba(0, 0, 0, 0.05);
 }
-div.onoPager_theme1:hover div.onoPager_scroller {
+div.onoPager_greyscale:hover div.onoPager_scroller,
+div.onoPager_greyscale div.onoPager_scroller.active {
   opacity: 1;
   box-shadow: 1px 1px 3px 1px #ccc;
 }
 
-div.onoPager_theme1 div.onoPager_scrollerHandle {
+div.onoPager_greyscale div.onoPager_scrollerHandle {
   width: 10px;
   height: 10px;
 }
-div.onoPager_theme1 div.onoPager_scrollerHandle:hover {
+div.onoPager_greyscale div.onoPager_scrollerHandle:hover,
+div.onoPager_greyscale div.onoPager_scroller.active div.onoPager_scrollerHandle {
+  background: #333333;
 }
 
 
 
-div.onoPager_theme1.onoPager_animation_linearContinuous:hover div.onoPager_listContainer {
+/* Animation type - List container */
+div.onoPager_greyscale.onoPager_animation_linearContinuous:hover div.onoPager_listContainer {
   top: 0;  
 }
 
-div.onoPager_theme1.onoPager_animation_linearContinuous div.onoPager_listContainer {
+div.onoPager_greyscale.onoPager_animation_linearContinuous div.onoPager_listContainer {
   outline: 0 solid #aaaaaa;
   background: none;
 }

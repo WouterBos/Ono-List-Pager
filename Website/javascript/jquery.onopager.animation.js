@@ -118,7 +118,7 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
    *
    * @param {Number} arg_scroll The offset of the list in pixels.
    * @return {Number} Returns either arg_scroll or the maximum or minimum scroll
-   * value.
+   *    value.
    * @this
    */
   this._checkMaxScroll = function(arg_scroll) {
@@ -150,7 +150,7 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
    * Calculates how many times a user must page to reach the end.
    *
    * @return {Number} Total number of available pages. Most of the times the
-   * return value is calculated with the private function _getPagesLength().
+   *    return value is calculated with the private function _getPagesLength().
    * @this
    */
   this.getPagesLength = function() {
@@ -209,7 +209,7 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
    * Extend config object
    *
    * @param {Object} arg_newconfig The new config object that has to extend the
-   * existing config object.
+   *    existing config object.
    * @this
    */
   this.extendConfig = function(arg_newconfig) {
@@ -258,12 +258,14 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
    *
    * @param {Number} oldIndex Index of the current active item.
    * @param {Number} newIndex Index of the item that will be active.
+   * @param {Number} direction The direction the pager will move to. Valid
+   *    values are 1, 0 and -1.
    */
-  this.page = function(oldIndex, newIndex) {}
+  this.page = function(oldIndex, newIndex, direction) {}
   delete this.page;
 
-  this._page = function(oldIndex, newIndex) {
-    this.page(oldIndex, newIndex);
+  this._page = function(oldIndex, newIndex, direction) {
+    this.page(oldIndex, newIndex, direction);
   }
 
   /**
@@ -286,7 +288,7 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
    * the interface. Failing to implement this method will result in an error.
    *
    * @param {Number} move Suggested move integer if this method will do some
-   * animation.
+   *    animation.
    */
   this.pagerHover = function(move) {}
   delete this.pagerHover;
@@ -342,7 +344,7 @@ onoPager.animation.slides = function(newConfig, extraConfig) {
    * @memberOf onoPager.animation.slides
    * @this
    */
-  slidesInstance.page = function(oldIndex, newIndex) {
+  slidesInstance.page = function(oldIndex, newIndex, direction) {
     var oldItemLeft = 0;
     var newItemLeft = 0;
     var pageSize = tools.getInnerSize(
@@ -455,7 +457,7 @@ onoPager.animation.fade = function(newConfig, extraConfig) {
    * @memberOf onoPager.animation.fade
    * @this
    */
-  fadeInstance.page = function(oldIndex, newIndex) {
+  fadeInstance.page = function(oldIndex, newIndex, direction) {
     var oldItem = jQuery(this._config.listItems[oldIndex]);
     var newItem = jQuery(this._config.listItems[newIndex]);
 
@@ -605,7 +607,7 @@ onoPager.animation.linear = function(newConfig, extraConfig) {
    * @memberOf onoPager.animation.linear
    * @this
    */
-  linearInstance.page = function(oldIndex, newIndex) {
+  linearInstance.page = function(oldIndex, newIndex, direction) {
     if (oldIndex != newIndex) {
       linearInstance._setActiveClass(oldIndex, false);
     }
@@ -809,7 +811,7 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
    * @memberOf onoPager.animation.linearContinuous
    * @this
    */
-  linearContinuousInstance.page = function(oldIndex, newIndex) {
+  linearContinuousInstance.page = function(oldIndex, newIndex, direction) {
     if (oldIndex != newIndex) {
       linearContinuousInstance._setActiveClass(oldIndex, false);
     }
@@ -864,16 +866,6 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
         return;
       }
 
-      var move = 0; // -1 is a move to the left, +1 is a move to the right.
-      // Determine move direction
-      var maxItems = linearContinuousInstance._config.listItems.size();
-      if ((oldIndex == (newIndex - 1)) ||
-          (newIndex == 0 && oldIndex == (maxItems - 1))) {
-        move = 1;
-      } else {
-        move = -1;
-      }
-
       // Set variables and styling
       var newItem = jQuery(
         linearContinuousInstance._config.listItems[newIndex]
@@ -896,7 +888,7 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
         }
       });
 
-      if (move > 0) {
+      if (direction > 0) {
         oldItem.find(BACKGROUND_SELECTOR).css(
           {
             left: 'auto',
@@ -972,8 +964,12 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
       var oldItem = jQuery(
         linearContinuousInstance._config.listItems[oldIndex]
       );
-
-      if (oldIndex == (listSize - 1) && newIndex == 0) {
+      
+      console.log({ oldIndex: oldIndex, newIndex: newIndex, listSize: (listSize - 1) });
+      
+      if (oldIndex == (listSize - 1) && newIndex == 0 && direction == 1) {
+        console.log(oldIndex + ' == ' + (listSize - 1) + ' && ' + newIndex + ' == 0')
+        console.log('forward');
         // If user pages from last page to first page, position to the page
         // *before* the first page.
         var firstIndex = newListItems.index(
@@ -1000,7 +996,9 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
             offset += listItemsSize;
           }
         }
-      } else if (oldIndex == 0 && newIndex == (listSize - 1)) {
+      } else if (oldIndex == 0 && newIndex == (listSize - 1) && direction == -1) {
+        console.log(oldIndex + ' == 0' + ' && ' + newIndex + ' == ' + (listSize - 1))
+        console.log('back');
         // If user pages from the first item to last item, position on the item
         // *after* the last item.
         var lastIndex = newListItems.index(
@@ -1026,8 +1024,6 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
             offset -= listItemsSize;
           }
         }
-      } else {
-        oldItem = jQuery(linearContinuousInstance._config.listItems[oldIndex]);
       }
 
       if (offset) {
@@ -1227,7 +1223,7 @@ onoPager.animation.linearScroller = function(newConfig, extraConfig) {
    * @memberOf onoPager.animation.linearScroller
    * @this
    */
-  linearScrollerInstance.page = function(oldIndex, newIndex) {
+  linearScrollerInstance.page = function(oldIndex, newIndex, direction) {
     // Not implemented
   }
 

@@ -393,7 +393,7 @@
         pageByNumber.find('a').each(function(index) {
           $(this).click(function() {
             if ($(this).hasClass('onoPager_active') == false) {
-              page(index);
+              page(index, 0);
             }
           });
         });
@@ -416,10 +416,10 @@
 
       // Page by clicking on paging button
       pageNext.click(function() {
-        page(pager.getIndex() + 1);
+        page((pager.getIndex() + 1), 1);
       });
       pagePrevious.click(function() {
-        page(pager.getIndex() - 1);
+        page((pager.getIndex() - 1), -1);
       });
 
       // Set hover events on paging buttons
@@ -447,7 +447,7 @@
           // Page back
           if ((config.orientation == VERTICAL && key == UP) ||
             (config.orientation == HORIZONTAL && key == LEFT)) {
-            page(pager.getIndex() - 1);
+            page((pager.getIndex() - 1), -1);
             if (config.pageByArrowKey.preventDefault == true) {
               event.preventDefault();
             }
@@ -455,7 +455,7 @@
           // Page forward
           if ((config.orientation == VERTICAL && key == DOWN) ||
             (config.orientation == HORIZONTAL && key == RIGHT)) {
-            page(pager.getIndex() + 1);
+            page((pager.getIndex() + 1), 1);
             if (config.pageByArrowKey.preventDefault == true) {
               event.preventDefault();
             }
@@ -469,10 +469,10 @@
           listContainer.onoPagerSwipe(
             {
               dragRight: function() {
-                page(pager.getIndex() - 1);
+                page((pager.getIndex() - 1), -1);
               },
               dragLeft: function() {
-                page(pager.getIndex() + 1);
+                page((pager.getIndex() + 1), 1);
               },
               platform: config.swipePlatforms
             }
@@ -481,10 +481,10 @@
           listContainer.onoPagerSwipe(
             {
               dragDown: function() {
-                page(pager.getIndex() - 1);
+                page((pager.getIndex() - 1), -1);
               },
               dragUp: function() {
-                page(pager.getIndex() + 1);
+                page((pager.getIndex() + 1), 1);
               },
               platform: config.swipePlatforms
             }
@@ -493,13 +493,13 @@
       }
     }
 
-    function page(arg_newIndex) {
+    function page(arg_newIndex, arg_direction) {
       if (config.autoPage.active == true) {
         pager.resetAutopager();
       }
       var oldIndex = pager.getIndex();
       var newIndex = pager.setIndex(arg_newIndex);
-      animation._page(oldIndex, newIndex);
+      animation._page(oldIndex, newIndex, arg_direction);
     }
 
     function pagerHover(moveIndex) {
