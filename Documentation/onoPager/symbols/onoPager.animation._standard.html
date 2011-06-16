@@ -81,7 +81,7 @@
 			Documentation generator: <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.3.2<br />
 			Template: <a href="http://www.thebrightlines.com/2010/05/06/new-template-for-jsdoctoolkit-codeview/" target="_blank">Codeview</a> 1.2<br />
 			Generated on:
-			<time datetime='2011-5-10' pubdate>2011-5-10 22:34</time>
+			<time datetime='2011-5-16' pubdate>2011-5-16 23:15</time>
 		</footer>
 	</div>
 </div>
@@ -259,7 +259,7 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/onoPager.animation._standard.html#page">page</a></b>(oldIndex, newIndex)
+													<div class="fixedFont"><b><a href="../symbols/onoPager.animation._standard.html#page">page</a></b>(oldIndex, newIndex, direction)
 													</div>
 													<div class="description">Makes the transition from one slide to the next.</div>
 												</td>
@@ -402,7 +402,7 @@
 												
 													<dt class="heading">Returns:</dt>
 													
-														<dd><span class="light fixedFont">{Number}</span> Returns either arg_scroll or the maximum or minimum scrollvalue.</dd>
+														<dd><span class="light fixedFont">{Number}</span> Returns either arg_scroll or the maximum or minimum scroll   value.</dd>
 													
 												
 												
@@ -538,7 +538,7 @@
 														<span class="light fixedFont">{Object}</span> <b>arg_newconfig</b>
 														
 													</dt>
-													<dd>The new config object that has to extend theexisting config object.</dd>
+													<dd>The new config object that has to extend the   existing config object.</dd>
 												
 											</dl>
 										
@@ -584,7 +584,7 @@
 												
 													<dt class="heading">Returns:</dt>
 													
-														<dd><span class="light fixedFont">{Number}</span> Total number of available pages. Most of the times thereturn value is calculated with the private function _getPagesLength().</dd>
+														<dd><span class="light fixedFont">{Number}</span> Total number of available pages. Most of the times the   return value is calculated with the private function _getPagesLength().</dd>
 													
 												
 												
@@ -705,7 +705,7 @@
 											
 											
 											
-											<b>page</b>(oldIndex, newIndex)
+											<b>page</b>(oldIndex, newIndex, direction)
 										</div>
 										
 										<div class="description">
@@ -733,6 +733,12 @@
 														
 													</dt>
 													<dd>Index of the item that will be active.</dd>
+												
+													<dt>
+														<span class="light fixedFont">{Number}</span> <b>direction</b>
+														
+													</dt>
+													<dd>The direction the pager will move to. Valid   values are 1, 0 and -1.</dd>
 												
 											</dl>
 										
@@ -772,7 +778,7 @@
 														<span class="light fixedFont">{Number}</span> <b>move</b>
 														
 													</dt>
-													<dd>Suggested move integer if this method will do someanimation.</dd>
+													<dd>Suggested move integer if this method will do some   animation.</dd>
 												
 											</dl>
 										

@@ -78,15 +78,15 @@ h1 {
 h2 {
 	margin: 0 0 2em 0;
 	font-family: "Lucida Sans Unicode","Lucida Grande",sans-serif;
-	font-size: 16px;
+	font-size: 14px;
 	font-weight: normal;
 }
 
 h3 {
   clear: both;
-	margin: 1em 0 0.5em 0;
+	margin: 3em 0 0.5em 0;
   font-family: "Lucida Sans Unicode","Lucida Grande",sans-serif;
-	font-size: 16px;
+	font-size: 18px;
 }
 h3 a {
   font-family: Arial, sans-serif;
@@ -189,6 +189,7 @@ ul.demos > li {
 
 ul.demos > li.wide {
   width: 425px;
+  padding-right: 45px;
 }
 
 ul.demos > li.fullWidth {
@@ -202,6 +203,13 @@ ul.demos h4 {
   height: 3em;
 }
 
+ul.demos > li.wide h4 {
+  width: 350px;
+}
+
+ul.demos > li.fullWidth h4 {
+  width: 80%;
+}
 
 
 ul.editDemo {

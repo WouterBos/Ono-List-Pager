@@ -197,12 +197,17 @@ div.onoPager_greyscale div.onoPager_scroller.active div.onoPager_scrollerHandle 
 
 
 
-/* Animation type - List container */
+/* Animation type - linearContinuous */
 div.onoPager_greyscale.onoPager_animation_linearContinuous:hover div.onoPager_listContainer {
   top: 0;  
 }
 
 div.onoPager_greyscale.onoPager_animation_linearContinuous div.onoPager_listContainer {
+}
+
+div.onoPager_greyscale.onoPager_animation_linearContinuous div.onoPager_listContainer.onoPager_backgroundAnimation {
   outline: 0 solid #aaaaaa;
+  border-width: 0;
   background: none;
+  filter: none;
 }

@@ -804,6 +804,11 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
     if (this._config.list.find(BACKGROUND_SELECTOR).size() > 0) {
       hasCenterBackground = true;
     }
+
+    if (linearContinuousInstance._config.pagePerItem == true &&
+        hasCenterBackground == true) {
+      this._config.listContainer.addClass('onoPager_backgroundAnimation');
+    }
   }
 
   /**
@@ -871,9 +876,10 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
         linearContinuousInstance._config.listItems[newIndex]
       );
       var oldItem2 = jQuery(
-                       linearContinuousInstance._config.listItems[oldIndex]);
-      var containerWidth =
-            linearContinuousInstance._config.listContainer.innerWidth();
+        linearContinuousInstance._config.listItems[oldIndex]
+      );
+      var containerWidth = linearContinuousInstance.
+                             _config.listContainer.innerWidth();
       if (oldItem.index() != oldItem2.index()) {
         oldItem2.find(BACKGROUND_SELECTOR).css(
           {width: 0}
@@ -964,12 +970,8 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
       var oldItem = jQuery(
         linearContinuousInstance._config.listItems[oldIndex]
       );
-      
-      console.log({ oldIndex: oldIndex, newIndex: newIndex, listSize: (listSize - 1) });
-      
+
       if (oldIndex == (listSize - 1) && newIndex == 0 && direction == 1) {
-        console.log(oldIndex + ' == ' + (listSize - 1) + ' && ' + newIndex + ' == 0')
-        console.log('forward');
         // If user pages from last page to first page, position to the page
         // *before* the first page.
         var firstIndex = newListItems.index(
@@ -996,9 +998,9 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
             offset += listItemsSize;
           }
         }
-      } else if (oldIndex == 0 && newIndex == (listSize - 1) && direction == -1) {
-        console.log(oldIndex + ' == 0' + ' && ' + newIndex + ' == ' + (listSize - 1))
-        console.log('back');
+      } else if (oldIndex == 0 &&
+                 newIndex == (listSize - 1) &&
+                 direction == -1) {
         // If user pages from the first item to last item, position on the item
         // *after* the last item.
         var lastIndex = newListItems.index(

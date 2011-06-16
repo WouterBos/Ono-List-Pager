@@ -147,9 +147,9 @@ onoPager.scroller.dragHandle = function(arg_handle,
       handle[0].ondragstart = function() {return false;};
       //document.body.focus();
       jQuery(handle[0]).closest('div.onoPager_scroller')
-                       .addClass('active')
+                       .addClass('active');
       jQuery(handle[0]).closest('div.onoPager_controls')
-                       .addClass('active')
+                       .addClass('active');
 
       return false;
     }
@@ -190,10 +190,10 @@ onoPager.scroller.dragHandle = function(arg_handle,
     jQuery(document).unbind('mousemove.scroller', onMouseMove);
     jQuery(document).unbind('mouseup.scroller', onMouseUp);
     jQuery(handle[0]).closest('div.onoPager_scroller')
-                     .removeClass('active')
+                     .removeClass('active');
     jQuery(handle[0]).closest('div.onoPager_controls')
-                     .removeClass('active')
-                     
+                     .removeClass('active');
+
   }
 
   function extractNumber(value) {

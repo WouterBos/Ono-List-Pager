@@ -221,7 +221,7 @@
     
       <li class="fullWidth">
         <div class="title">
-          <h4>List 6: "linear continuous"</h4>
+          <h4>List 6: "linear continuous" with autopage and a faux background animation</h4>
           <div class="code">
             code
           <pre>jQuery('#list6').onoPager({
@@ -284,7 +284,75 @@
               6666
             </div>
           </li>
+        </ul>
+      </li>
+
+      <li class="fullWidth">
+        <div class="title">
+          <h4>List 7: "linear continuous"</h4>
+          <div class="code">
+            code
+          <pre>jQuery('#list7').onoPager({
+      pagePerItem: false,
+      listContainer: {
+        width: '500px',
+        height: '100px'
+      },
+      listItems: {
+          width: '210px',
+          height: '80px'
+      },
+      autoPage: {
+        active: false,
+        interval: 1500,
+        autoPageAnimationType: ''
+      },
+      animationType: 'linearContinuous',
+      animationEasing: 'linear',
+      orientation: 'horizontal',
+      animationSpeed: 250
+});</pre>
+          </div>
         </div>
+  
+        <ul id="list7" class="onoPager_noJs" style="font-size: 60px">
+          <li>
+            <div class="onoPager_linearContinuous_background"></div>
+            <div class="onoPager_linearContinuous_content">
+              1111
+            </div>
+          </li>
+          <li>
+            <div class="onoPager_linearContinuous_background"></div>
+            <div class="onoPager_linearContinuous_content">
+              2222
+            </div>
+          </li>
+         <li>
+            <div class="onoPager_linearContinuous_background"></div>
+            <div class="onoPager_linearContinuous_content">
+              3333
+            </div>
+          </li>
+          <li>
+            <div class="onoPager_linearContinuous_background"></div>
+            <div class="onoPager_linearContinuous_content">
+              4444
+            </div>
+          </li>
+          <li>
+            <div class="onoPager_linearContinuous_background"></div>
+            <div class="onoPager_linearContinuous_content">
+              5555
+            </div>
+          </li>
+          <li>
+            <div class="onoPager_linearContinuous_background"></div>
+            <div class="onoPager_linearContinuous_content">
+              6666
+            </div>
+          </li>
+        </ul>
       </li>
     </ul>
   
@@ -396,7 +464,9 @@
         active: true,
         pixelMove: 2
       },
-      pageByNumber: false,
+      pageByNumber: {
+        active: false
+      },
       animationType: 'linearScroller',
       animationSpeed: 1000
     });
@@ -466,8 +536,37 @@
     jQuery('#list6').onoPager({
       cssClass: 'onoPager_greyscale',
       pagePerItem: true,
+      lockDuringTransition: true,
       listContainer: {
         width: '230px',
+        height: '100px'
+      },
+      listItems: {
+          width: '210px',
+          height: '80px'
+      },
+      autoPage: {
+        active: true,
+        interval: 3000,
+        autoPageAnimationType: 'timeline'
+      },
+      status: {
+        active: false
+      },
+      pageByNumber: {
+        active: false
+      },
+      animationType: 'linearContinuous',
+      animationEasing: 'easeOutCubic',
+      orientation: 'horizontal',
+      animationSpeed: 1000
+    });
+
+    jQuery('#list7').onoPager({
+      cssClass: 'onoPager_greyscale',
+      pagePerItem: false,
+      listContainer: {
+        width: '500px',
         height: '100px'
       },
       listItems: {
@@ -482,33 +581,14 @@
       status: {
         active: false
       },
+      pageByNumber: {
+        active: false
+      },
       animationType: 'linearContinuous',
       animationEasing: 'easeOutCubic',
       orientation: 'horizontal',
-      animationSpeed: 1500
+      animationSpeed: 1000
     });
-/*
-    jQuery('#list6').onoPager({
-      pagePerItem: false,
-      listContainer: {
-        width: '500px',
-        height: '100px'
-      },
-      listItems: {
-          width: '210px',
-          height: '80px'
-      },
-      autoPage: {
-        active: false,
-        interval: 1500,
-        autoPageAnimationType: ''
-      },
-      animationType: 'linearContinuous',
-      animationEasing: 'linear',
-      orientation: 'horizontal',
-      animationSpeed: 250
-    });
-*/
   </script>
 </body>
 </html>

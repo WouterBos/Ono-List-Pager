@@ -81,7 +81,7 @@
 			Documentation generator: <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.3.2<br />
 			Template: <a href="http://www.thebrightlines.com/2010/05/06/new-template-for-jsdoctoolkit-codeview/" target="_blank">Codeview</a> 1.2<br />
 			Generated on:
-			<time datetime='2011-5-10' pubdate>2011-5-10 22:34</time>
+			<time datetime='2011-5-16' pubdate>2011-5-16 23:15</time>
 		</footer>
 	</div>
 </div>
@@ -272,7 +272,7 @@
 										
 										
 											
-												<pre class="code">// Simple example:jQuery('#list1').onoPager({  pagePerItem: false,  listContainer: {    width: '700px',    height: '100px'  },  listItems: {    width: '300px'  },  animationType: 'linear',  animationSpeed: 1000});// Advanced example:jQuery('#list1').onoPager({   cssClass: 'onopager_theme1',   pagePerItem: true,   doesLoop: true,   listContainer: {     width: '300px',     height: '100px'   },   listItems: {     width: '300px',     height: '100px'   },   activeIndex: 2,   autoPage: {     active: true,     interval: 2000,   },   labels: {     next: 'next',     previous: 'previous'   },   status: {     active: true,     prependText: 'page ',     seperationText: ' of ',     appendText: ' pages'   },   scroller: {     active: false,     pixelMove: 2   },   pageByNumber: {     active: true,     enableClick: true,     labels: []   },   pageByArrowKey: {     active: false,     preventDefault: false   },   swipeTriggersPage: false,   swipePlatforms: 'touch',   animationType: 'linear',   animationEasing: 'linear',   orientation: 'horizontal',   animationSpeed: 1000});</pre>
+												<pre class="code">// Simple example:jQuery('#list1').onoPager({  pagePerItem: false,  listContainer: {    width: '700px',    height: '100px'  },  listItems: {    width: '300px'  },  animationType: 'linear',  animationSpeed: 1000});// Advanced example:jQuery('#list1').onoPager({   cssClass: 'onopager_theme1',   pagePerItem: true,   lockDuringTransition: false,   doesLoop: true,   listContainer: {     width: '300px',     height: '100px'   },   listItems: {     width: '300px',     height: '100px'   },   activeIndex: 2,   autoPage: {     active: true,     interval: 2000,   },   labels: {     next: 'next',     previous: 'previous'   },   status: {     active: true,     prependText: 'page ',     seperationText: ' of ',     appendText: ' pages'   },   scroller: {     active: false,     pixelMove: 2   },   pageByNumber: {     active: true,     enableClick: true,     labels: []   },   pageByArrowKey: {     active: false,     preventDefault: false   },   swipeTriggersPage: false,   swipePlatforms: 'touch',   animationType: 'linear',   animationEasing: 'linear',   orientation: 'horizontal',   animationSpeed: 1000});</pre>
 											
 										
 										
@@ -303,6 +303,12 @@
 														
 													</dt>
 													<dd>Page per item.</dd>
+												
+													<dt>
+														<span class="light fixedFont">{Boolean}</span> <b>arg_config.lockDuringTransition</b>
+														
+													</dt>
+													<dd>Disable paging controls   during a transition when true. Default is false.</dd>
 												
 													<dt>
 														<span class="light fixedFont">{Boolean}</span> <b>arg_config.doesLoop</b>

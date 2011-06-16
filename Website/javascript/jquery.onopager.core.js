@@ -11,14 +11,12 @@
 // - Build support for scroll wheel
 // - Highlight arrow key when pressing an arrow key on keyboard
 // - onHandleDrag assumes margin-*. Must handle possible left/top as well
-//  - Should 'page' still be mandatory?
 //  - Do something with handleResize()
 //    - Standard: Run method when either list container or list has dynamic size
 //    - Standard: Wait until resize is finished
 //    - Ani object: Reposition list
 //    - Redraw paging by numbers links
 //  - Temporary disable pager by adding class onoPager_disabled
-//  - Make other animation objects like the linear scroller
 
 (function($) {
   /**
@@ -48,6 +46,8 @@
    *    the animation object.
    * @param {String} arg_config.cssClass Ads CSS class to the root of the pager.
    * @param {Boolean} arg_config.pagePerItem Page per item.
+   * @param {Boolean} arg_config.lockDuringTransition Disable paging controls
+   *    during a transition when true. Default is false.
    * @param {Boolean} arg_config.doesLoop If true, the pager scrolls back
    *    to the first item after the last item.
    * @param {String} arg_config.ListContainer.width Width of list
@@ -133,6 +133,7 @@
    * jQuery('#list1').onoPager({
    *    cssClass: 'onopager_theme1',
    *    pagePerItem: true,
+   *    lockDuringTransition: false,
    *    doesLoop: true,
    *    listContainer: {
    *      width: '300px',
@@ -182,6 +183,7 @@
     var config = {
       cssClass: '',
       pagePerItem: true,
+      lockDuringTransition: false,
       doesLoop: true,
       listContainer: {
         width: '',
@@ -494,12 +496,17 @@
     }
 
     function page(arg_newIndex, arg_direction) {
-      if (config.autoPage.active == true) {
-        pager.resetAutopager();
+      if (config.lockDuringTransition == false ||
+          config.lockDuringTransition == true &&
+          list.is(':animated') == false &&
+          listItems.is(':animated') == false) {
+        if (config.autoPage.active == true) {
+          pager.resetAutopager();
+        }
+        var oldIndex = pager.getIndex();
+        var newIndex = pager.setIndex(arg_newIndex);
+        animation._page(oldIndex, newIndex, arg_direction);
       }
-      var oldIndex = pager.getIndex();
-      var newIndex = pager.setIndex(arg_newIndex);
-      animation._page(oldIndex, newIndex, arg_direction);
     }
 
     function pagerHover(moveIndex) {

@@ -11,14 +11,12 @@
 // - Build support for scroll wheel
 // - Highlight arrow key when pressing an arrow key on keyboard
 // - onHandleDrag assumes margin-*. Must handle possible left/top as well
-//  - Should 'page' still be mandatory?
 //  - Do something with handleResize()
 //    - Standard: Run method when either list container or list has dynamic size
 //    - Standard: Wait until resize is finished
 //    - Ani object: Reposition list
 //    - Redraw paging by numbers links
 //  - Temporary disable pager by adding class onoPager_disabled
-//  - Make other animation objects like the linear scroller
 
 (function($) {
   /**
@@ -48,6 +46,8 @@
    *    the animation object.
    * @param {String} arg_config.cssClass Ads CSS class to the root of the pager.
    * @param {Boolean} arg_config.pagePerItem Page per item.
+   * @param {Boolean} arg_config.lockDuringTransition Disable paging controls
+   *    during a transition when true. Default is false.
    * @param {Boolean} arg_config.doesLoop If true, the pager scrolls back
    *    to the first item after the last item.
    * @param {String} arg_config.ListContainer.width Width of list
@@ -133,6 +133,7 @@
    * jQuery('#list1').onoPager({
    *    cssClass: 'onopager_theme1',
    *    pagePerItem: true,
+   *    lockDuringTransition: false,
    *    doesLoop: true,
    *    listContainer: {
    *      width: '300px',
@@ -182,6 +183,7 @@
     var config = {
       cssClass: '',
       pagePerItem: true,
+      lockDuringTransition: false,
       doesLoop: true,
       listContainer: {
         width: '',
@@ -393,7 +395,7 @@
         pageByNumber.find('a').each(function(index) {
           $(this).click(function() {
             if ($(this).hasClass('onoPager_active') == false) {
-              page(index);
+              page(index, 0);
             }
           });
         });
@@ -416,10 +418,10 @@
 
       // Page by clicking on paging button
       pageNext.click(function() {
-        page(pager.getIndex() + 1);
+        page((pager.getIndex() + 1), 1);
       });
       pagePrevious.click(function() {
-        page(pager.getIndex() - 1);
+        page((pager.getIndex() - 1), -1);
       });
 
       // Set hover events on paging buttons
@@ -447,7 +449,7 @@
           // Page back
           if ((config.orientation == VERTICAL && key == UP) ||
             (config.orientation == HORIZONTAL && key == LEFT)) {
-            page(pager.getIndex() - 1);
+            page((pager.getIndex() - 1), -1);
             if (config.pageByArrowKey.preventDefault == true) {
               event.preventDefault();
             }
@@ -455,7 +457,7 @@
           // Page forward
           if ((config.orientation == VERTICAL && key == DOWN) ||
             (config.orientation == HORIZONTAL && key == RIGHT)) {
-            page(pager.getIndex() + 1);
+            page((pager.getIndex() + 1), 1);
             if (config.pageByArrowKey.preventDefault == true) {
               event.preventDefault();
             }
@@ -469,10 +471,10 @@
           listContainer.onoPagerSwipe(
             {
               dragRight: function() {
-                page(pager.getIndex() - 1);
+                page((pager.getIndex() - 1), -1);
               },
               dragLeft: function() {
-                page(pager.getIndex() + 1);
+                page((pager.getIndex() + 1), 1);
               },
               platform: config.swipePlatforms
             }
@@ -481,10 +483,10 @@
           listContainer.onoPagerSwipe(
             {
               dragDown: function() {
-                page(pager.getIndex() - 1);
+                page((pager.getIndex() - 1), -1);
               },
               dragUp: function() {
-                page(pager.getIndex() + 1);
+                page((pager.getIndex() + 1), 1);
               },
               platform: config.swipePlatforms
             }
@@ -493,13 +495,18 @@
       }
     }
 
-    function page(arg_newIndex) {
-      if (config.autoPage.active == true) {
-        pager.resetAutopager();
+    function page(arg_newIndex, arg_direction) {
+      if (config.lockDuringTransition == false ||
+          config.lockDuringTransition == true &&
+          list.is(':animated') == false &&
+          listItems.is(':animated') == false) {
+        if (config.autoPage.active == true) {
+          pager.resetAutopager();
+        }
+        var oldIndex = pager.getIndex();
+        var newIndex = pager.setIndex(arg_newIndex);
+        animation._page(oldIndex, newIndex, arg_direction);
       }
-      var oldIndex = pager.getIndex();
-      var newIndex = pager.setIndex(arg_newIndex);
-      animation._page(oldIndex, newIndex);
     }
 
     function pagerHover(moveIndex) {
@@ -862,6 +869,11 @@ onoPager.scroller.dragHandle = function(arg_handle,
       document.onselectstart = function() {return false;};
       handle[0].ondragstart = function() {return false;};
       //document.body.focus();
+      jQuery(handle[0]).closest('div.onoPager_scroller')
+                       .addClass('active');
+      jQuery(handle[0]).closest('div.onoPager_controls')
+                       .addClass('active');
+
       return false;
     }
   }
@@ -900,6 +912,11 @@ onoPager.scroller.dragHandle = function(arg_handle,
     document.onselectstart = null;
     jQuery(document).unbind('mousemove.scroller', onMouseMove);
     jQuery(document).unbind('mouseup.scroller', onMouseUp);
+    jQuery(handle[0]).closest('div.onoPager_scroller')
+                     .removeClass('active');
+    jQuery(handle[0]).closest('div.onoPager_controls')
+                     .removeClass('active');
+
   }
 
   function extractNumber(value) {
@@ -1056,7 +1073,7 @@ onoPager.pager = function(arg_index,
     if (doesLoop == false && (index == (length - 1))) {
       clearInterval(autoPageInterval);
     }
-    autoPageConfig.animation._page(index, move(1));
+    autoPageConfig.animation._page(index, move(1), 1);
     if (autoPageAnimation) {
       autoPageAnimation._start();
     }
@@ -1487,7 +1504,7 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
    *
    * @param {Number} arg_scroll The offset of the list in pixels.
    * @return {Number} Returns either arg_scroll or the maximum or minimum scroll
-   * value.
+   *    value.
    * @this
    */
   this._checkMaxScroll = function(arg_scroll) {
@@ -1519,7 +1536,7 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
    * Calculates how many times a user must page to reach the end.
    *
    * @return {Number} Total number of available pages. Most of the times the
-   * return value is calculated with the private function _getPagesLength().
+   *    return value is calculated with the private function _getPagesLength().
    * @this
    */
   this.getPagesLength = function() {
@@ -1578,7 +1595,7 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
    * Extend config object
    *
    * @param {Object} arg_newconfig The new config object that has to extend the
-   * existing config object.
+   *    existing config object.
    * @this
    */
   this.extendConfig = function(arg_newconfig) {
@@ -1627,12 +1644,14 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
    *
    * @param {Number} oldIndex Index of the current active item.
    * @param {Number} newIndex Index of the item that will be active.
+   * @param {Number} direction The direction the pager will move to. Valid
+   *    values are 1, 0 and -1.
    */
-  this.page = function(oldIndex, newIndex) {}
+  this.page = function(oldIndex, newIndex, direction) {}
   delete this.page;
 
-  this._page = function(oldIndex, newIndex) {
-    this.page(oldIndex, newIndex);
+  this._page = function(oldIndex, newIndex, direction) {
+    this.page(oldIndex, newIndex, direction);
   }
 
   /**
@@ -1655,7 +1674,7 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
    * the interface. Failing to implement this method will result in an error.
    *
    * @param {Number} move Suggested move integer if this method will do some
-   * animation.
+   *    animation.
    */
   this.pagerHover = function(move) {}
   delete this.pagerHover;
@@ -1711,7 +1730,7 @@ onoPager.animation.slides = function(newConfig, extraConfig) {
    * @memberOf onoPager.animation.slides
    * @this
    */
-  slidesInstance.page = function(oldIndex, newIndex) {
+  slidesInstance.page = function(oldIndex, newIndex, direction) {
     var oldItemLeft = 0;
     var newItemLeft = 0;
     var pageSize = tools.getInnerSize(
@@ -1824,7 +1843,7 @@ onoPager.animation.fade = function(newConfig, extraConfig) {
    * @memberOf onoPager.animation.fade
    * @this
    */
-  fadeInstance.page = function(oldIndex, newIndex) {
+  fadeInstance.page = function(oldIndex, newIndex, direction) {
     var oldItem = jQuery(this._config.listItems[oldIndex]);
     var newItem = jQuery(this._config.listItems[newIndex]);
 
@@ -1974,7 +1993,7 @@ onoPager.animation.linear = function(newConfig, extraConfig) {
    * @memberOf onoPager.animation.linear
    * @this
    */
-  linearInstance.page = function(oldIndex, newIndex) {
+  linearInstance.page = function(oldIndex, newIndex, direction) {
     if (oldIndex != newIndex) {
       linearInstance._setActiveClass(oldIndex, false);
     }
@@ -2171,6 +2190,11 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
     if (this._config.list.find(BACKGROUND_SELECTOR).size() > 0) {
       hasCenterBackground = true;
     }
+
+    if (linearContinuousInstance._config.pagePerItem == true &&
+        hasCenterBackground == true) {
+      this._config.listContainer.addClass('onoPager_backgroundAnimation');
+    }
   }
 
   /**
@@ -2178,7 +2202,7 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
    * @memberOf onoPager.animation.linearContinuous
    * @this
    */
-  linearContinuousInstance.page = function(oldIndex, newIndex) {
+  linearContinuousInstance.page = function(oldIndex, newIndex, direction) {
     if (oldIndex != newIndex) {
       linearContinuousInstance._setActiveClass(oldIndex, false);
     }
@@ -2233,24 +2257,15 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
         return;
       }
 
-      var move = 0; // -1 is a move to the left, +1 is a move to the right.
-      // Determine move direction
-      var maxItems = linearContinuousInstance._config.listItems.size();
-      if ((oldIndex == (newIndex - 1)) ||
-          (newIndex == 0 && oldIndex == (maxItems - 1))) {
-        move = 1;
-      } else {
-        move = -1;
-      }
-
       // Set variables and styling
       var newItem = jQuery(
         linearContinuousInstance._config.listItems[newIndex]
       );
       var oldItem2 = jQuery(
-                       linearContinuousInstance._config.listItems[oldIndex]);
-      var containerWidth =
-            linearContinuousInstance._config.listContainer.innerWidth();
+        linearContinuousInstance._config.listItems[oldIndex]
+      );
+      var containerWidth = linearContinuousInstance.
+                             _config.listContainer.innerWidth();
       if (oldItem.index() != oldItem2.index()) {
         oldItem2.find(BACKGROUND_SELECTOR).css(
           {width: 0}
@@ -2265,7 +2280,7 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
         }
       });
 
-      if (move > 0) {
+      if (direction > 0) {
         oldItem.find(BACKGROUND_SELECTOR).css(
           {
             left: 'auto',
@@ -2342,7 +2357,7 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
         linearContinuousInstance._config.listItems[oldIndex]
       );
 
-      if (oldIndex == (listSize - 1) && newIndex == 0) {
+      if (oldIndex == (listSize - 1) && newIndex == 0 && direction == 1) {
         // If user pages from last page to first page, position to the page
         // *before* the first page.
         var firstIndex = newListItems.index(
@@ -2369,7 +2384,9 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
             offset += listItemsSize;
           }
         }
-      } else if (oldIndex == 0 && newIndex == (listSize - 1)) {
+      } else if (oldIndex == 0 &&
+                 newIndex == (listSize - 1) &&
+                 direction == -1) {
         // If user pages from the first item to last item, position on the item
         // *after* the last item.
         var lastIndex = newListItems.index(
@@ -2395,8 +2412,6 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
             offset -= listItemsSize;
           }
         }
-      } else {
-        oldItem = jQuery(linearContinuousInstance._config.listItems[oldIndex]);
       }
 
       if (offset) {
@@ -2596,7 +2611,7 @@ onoPager.animation.linearScroller = function(newConfig, extraConfig) {
    * @memberOf onoPager.animation.linearScroller
    * @this
    */
-  linearScrollerInstance.page = function(oldIndex, newIndex) {
+  linearScrollerInstance.page = function(oldIndex, newIndex, direction) {
     // Not implemented
   }
 
