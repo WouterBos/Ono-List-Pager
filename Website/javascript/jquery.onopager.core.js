@@ -115,68 +115,68 @@
    * @return {jQuery} chainable jQuery class.
    * @memberOf jQuery.fn
    * @example
-   * // Simple example:
-   * jQuery('#list1').onoPager({
-   *   pagePerItem: false,
-   *   listContainer: {
-   *     width: '700px',
-   *     height: '100px'
-   *   },
-   *   listItems: {
-   *     width: '300px'
-   *   },
-   *   animationType: 'linear',
-   *   animationSpeed: 1000
-   * });
-   *
-   * // Advanced example:
-   * jQuery('#list1').onoPager({
-   *    cssClass: 'onopager_theme1',
-   *    pagePerItem: true,
-   *    lockDuringTransition: false,
-   *    doesLoop: true,
-   *    listContainer: {
-   *      width: '300px',
-   *      height: '100px'
-   *    },
-   *    listItems: {
-   *      width: '300px',
-   *      height: '100px'
-   *    },
-   *    activeIndex: 2,
-   *    autoPage: {
-   *      active: true,
-   *      interval: 2000,
-   *    },
-   *    labels: {
-   *      next: 'next',
-   *      previous: 'previous'
-   *    },
-   *    status: {
-   *      active: true,
-   *      prependText: 'page ',
-   *      seperationText: ' of ',
-   *      appendText: ' pages'
-   *    },
-   *    scroller: {
-   *      active: false,
-   *      pixelMove: 2
-   *    },
-   *    pageByNumber: {
-   *      active: true,
-   *      enableClick: true,
-   *      labels: []
-   *    },
-   *    pageByArrowKey: {
-   *      active: false,
-   *      preventDefault: false
-   *    },
-   *    swipeTriggersPage: false,
-   *    swipePlatforms: 'touch',
-   *    animationType: 'linear',
-   *    animationEasing: 'linear',
-   *    orientation: 'horizontal',
-   *    animationSpeed: 1000
+   * // Simple example:<br />
+   * jQuery('#list1').onoPager({<br />
+   *   pagePerItem: false,<br />
+   *   listContainer: {<br />
+   *     width: '700px',<br />
+   *     height: '100px'<br />
+   *   },<br />
+   *   listItems: {<br />
+   *     width: '300px'<br />
+   *   },<br />
+   *   animationType: 'linear',<br />
+   *   animationSpeed: 1000<br />
+   * });<br />
+   *<br />
+   * // Advanced example:<br />
+   * jQuery('#list1').onoPager({<br />
+   *    cssClass: 'onopager_theme1',<br />
+   *    pagePerItem: true,<br />
+   *    lockDuringTransition: false,<br />
+   *    doesLoop: true,<br />
+   *    listContainer: {<br />
+   *      width: '300px',<br />
+   *      height: '100px'<br />
+   *    },<br />
+   *    listItems: {<br />
+   *      width: '300px',<br />
+   *      height: '100px'<br />
+   *    },<br />
+   *    activeIndex: 2,<br />
+   *    autoPage: {<br />
+   *      active: true,<br />
+   *      interval: 2000,<br />
+   *    },<br />
+   *    labels: {<br />
+   *      next: 'next',<br />
+   *      previous: 'previous'<br />
+   *    },<br />
+   *    status: {<br />
+   *      active: true,<br />
+   *      prependText: 'page ',<br />
+   *      seperationText: ' of ',<br />
+   *      appendText: ' pages'<br />
+   *    },<br />
+   *    scroller: {<br />
+   *      active: false,<br />
+   *      pixelMove: 2<br />
+   *    },<br />
+   *    pageByNumber: {<br />
+   *      active: true,<br />
+   *      enableClick: true,<br />
+   *      labels: []<br />
+   *    },<br />
+   *    pageByArrowKey: {<br />
+   *      active: false,<br />
+   *      preventDefault: false<br />
+   *    },<br />
+   *    swipeTriggersPage: false,<br />
+   *    swipePlatforms: 'touch',<br />
+   *    animationType: 'linear',<br />
+   *    animationEasing: 'linear',<br />
+   *    orientation: 'horizontal',<br />
+   *    animationSpeed: 1000<br />
    * });
    */
   jQuery.fn.onoPager = function(arg_config, animationConfig) {

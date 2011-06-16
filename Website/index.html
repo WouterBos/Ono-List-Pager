@@ -41,7 +41,9 @@
           <div class="code">
             code
             <pre>jQuery('#list1').onoPager({
+  cssClass: 'onoPager_greyscale',
   pagePerItem: true,
+  doesLoop: false,
   listContainer: {
     width: '250px',
     height: '100px'
@@ -49,6 +51,9 @@
   listItems: {
       width: '230px',
       height: '80px'
+  },
+  status: {
+    active: false
   },
   pageByArrowKey: {
     active: true,
@@ -79,6 +84,7 @@
           <div class="code">
             code
             <pre>jQuery('#list2').onoPager({
+  cssClass: 'onoPager_greyscale',
   pagePerItem: true,
   orientation: 'vertical',
   listContainer: {
@@ -87,7 +93,7 @@
   },
   listItems: {
       width: '230px',
-      height: '80px'
+      height: '82px'
   },
   status: {
     active: false
@@ -100,7 +106,9 @@
     active: true,
     pixelMove: 2
   },
-  pageByNumber: false,
+  pageByNumber: {
+    active: false
+  },
   animationType: 'linearScroller',
   animationSpeed: 1000
 });</pre>
@@ -123,6 +131,7 @@
           <div class="code">
             code
             <pre>jQuery('#list3').onoPager({
+  cssClass: 'onoPager_greyscale',
   pagePerItem: true,
   doesLoop: false,
   orientation: 'vertical',
@@ -158,6 +167,7 @@
           <div class="code">
             code
             <pre>jQuery('#list4').onoPager({
+  cssClass: 'onoPager_greyscale',
   pagePerItem: false,
   listContainer: {
     width: '100%',
@@ -166,6 +176,9 @@
   listItems: {
       width: '230px',
       height: '80px'
+  },
+  status: {
+    active: false
   },
   animationType: 'linear',
   animationEasing: 'easeOutCubic',
@@ -191,6 +204,7 @@
           <div class="code">
             code
             <pre>jQuery('#list5').onoPager({
+  cssClass: 'onoPager_greyscale',
   pagePerItem: false,
   listContainer: {
     width: '250px',
@@ -200,8 +214,11 @@
       width: '230px',
       height: '80px'
   },
+  status: {
+    active: false
+  },
   pageByNumber: {
-    labels: ['Lorem', 'ipsum', 'dolor', 'sit', 'amet', 'site']
+    labels: ['Sed', 'Elit', 'Dui', 'Non']
   },
   animationType: 'fade',
   animationEasing: 'easeOutCubic',
@@ -225,24 +242,32 @@
           <div class="code">
             code
           <pre>jQuery('#list6').onoPager({
-      pagePerItem: false,
-      listContainer: {
-        width: '500px',
-        height: '100px'
-      },
-      listItems: {
-          width: '210px',
-          height: '80px'
-      },
-      autoPage: {
-        active: false,
-        interval: 1500,
-        autoPageAnimationType: ''
-      },
-      animationType: 'linearContinuous',
-      animationEasing: 'linear',
-      orientation: 'horizontal',
-      animationSpeed: 250
+  cssClass: 'onoPager_greyscale',
+  pagePerItem: true,
+  lockDuringTransition: true,
+  listContainer: {
+    width: '230px',
+    height: '100px'
+  },
+  listItems: {
+      width: '210px',
+      height: '80px'
+  },
+  autoPage: {
+    active: true,
+    interval: 3000,
+    autoPageAnimationType: 'timeline'
+  },
+  status: {
+    active: false
+  },
+  pageByNumber: {
+    active: false
+  },
+  animationType: 'linearContinuous',
+  animationEasing: 'easeOutCubic',
+  orientation: 'horizontal',
+  animationSpeed: 1000
 });</pre>
           </div>
         </div>
@@ -293,24 +318,31 @@
           <div class="code">
             code
           <pre>jQuery('#list7').onoPager({
-      pagePerItem: false,
-      listContainer: {
-        width: '500px',
-        height: '100px'
-      },
-      listItems: {
-          width: '210px',
-          height: '80px'
-      },
-      autoPage: {
-        active: false,
-        interval: 1500,
-        autoPageAnimationType: ''
-      },
-      animationType: 'linearContinuous',
-      animationEasing: 'linear',
-      orientation: 'horizontal',
-      animationSpeed: 250
+  cssClass: 'onoPager_greyscale',
+  pagePerItem: false,
+  listContainer: {
+    width: '500px',
+    height: '100px'
+  },
+  listItems: {
+      width: '210px',
+      height: '80px'
+  },
+  autoPage: {
+    active: false,
+    interval: 3000,
+    autoPageAnimationType: 'timeline'
+  },
+  status: {
+    active: false
+  },
+  pageByNumber: {
+    active: false
+  },
+  animationType: 'linearContinuous',
+  animationEasing: 'easeOutCubic',
+  orientation: 'horizontal',
+  animationSpeed: 1000
 });</pre>
           </div>
         </div>
