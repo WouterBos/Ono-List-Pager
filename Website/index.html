@@ -59,6 +59,9 @@
     active: true,
     preventDefault: false
   },
+  pageByNumber: {
+    hideThreshold: 1
+  },
   swipeTriggersPage: true,
   animationType: 'linear',
   animationEasing: 'easeOutCubic',
@@ -161,7 +164,7 @@
         </ul>
       </li>
     
-      <li class="wide">
+      <li class="wide list4">
         <div class="title">
           <h4>List 4: Wide with DIVs instead of UL</h4>
           <div class="code">
@@ -236,7 +239,7 @@
         </ul>
       </li>
     
-      <li class="fullWidth">
+      <li class="fullWidth list6">
         <div class="title">
           <h4>List 6: "linear continuous" with autopage and a faux background animation</h4>
           <div class="code">
@@ -312,7 +315,7 @@
         </ul>
       </li>
 
-      <li class="fullWidth">
+      <li class="fullWidth list7">
         <div class="title">
           <h4>List 7: "linear continuous"</h4>
           <div class="code">
@@ -447,180 +450,13 @@
       jQuery('#editDemo_result ul').onoPager(onoConfig);
     });
 
-    jQuery('#list1').onoPager({
-      cssClass: 'onoPager_greyscale',
-      pagePerItem: true,
-      doesLoop: false,
-      listContainer: {
-        width: '250px',
-        height: '100px'
-      },
-      listItems: {
-          width: '230px',
-          height: '80px'
-      },
-      status: {
-        active: false
-      },
-      pageByArrowKey: {
-        active: true,
-        preventDefault: false
-      },
-      swipeTriggersPage: true,
-      animationType: 'linear',
-      animationEasing: 'easeOutCubic',
-      orientation: 'horizontal',
-      animationSpeed: 1000
-    });
-
-    jQuery('#list2').onoPager({
-      cssClass: 'onoPager_greyscale',
-      pagePerItem: true,
-      orientation: 'vertical',
-      listContainer: {
-        width: '250px',
-        height: '100px'
-      },
-      listItems: {
-          width: '230px',
-          height: '82px'
-      },
-      status: {
-        active: false
-      },
-      labels: {
-        next: '&raquo;',
-        previous: '&laquo;'
-      },
-      scroller: {
-        active: true,
-        pixelMove: 2
-      },
-      pageByNumber: {
-        active: false
-      },
-      animationType: 'linearScroller',
-      animationSpeed: 1000
-    });
-
-    jQuery('#list3').onoPager({
-      cssClass: 'onoPager_greyscale',
-      pagePerItem: true,
-      doesLoop: false,
-      orientation: 'vertical',
-      listContainer: {
-        width: '250px',
-        height: '100px'
-      },
-      listItems: {
-        width: '230px',
-        height: '80px'
-      },
-      pageByNumber: false,
-      animationType: 'slides',
-      animationEasing: 'easeOutCubic',
-      animationSpeed: 1000
-    })
-
-    jQuery('#list4').onoPager({
-      cssClass: 'onoPager_greyscale',
-      pagePerItem: false,
-      listContainer: {
-        width: '100%',
-        height: '100px'
-      },
-      listItems: {
-          width: '230px',
-          height: '80px'
-      },
-      status: {
-        active: false
-      },
-      animationType: 'linear',
-      animationEasing: 'easeOutCubic',
-      orientation: 'horizontal',
-      animationSpeed: 1000
-    });
-
-    jQuery('#list5').onoPager({
-      cssClass: 'onoPager_greyscale',
-      pagePerItem: false,
-      listContainer: {
-        width: '250px',
-        height: '100px'
-      },
-      listItems: {
-          width: '230px',
-          height: '80px'
-      },
-      status: {
-        active: false
-      },
-      pageByNumber: {
-        labels: ['Sed', 'Elit', 'Dui', 'Non']
-      },
-      animationType: 'fade',
-      animationEasing: 'easeOutCubic',
-      orientation: 'horizontal',
-      animationSpeed: 1000
-    });
-
-    jQuery('#list6').onoPager({
-      cssClass: 'onoPager_greyscale',
-      pagePerItem: true,
-      lockDuringTransition: true,
-      listContainer: {
-        width: '230px',
-        height: '100px'
-      },
-      listItems: {
-          width: '210px',
-          height: '80px'
-      },
-      autoPage: {
-        active: true,
-        interval: 3000,
-        autoPageAnimationType: 'timeline'
-      },
-      status: {
-        active: false
-      },
-      pageByNumber: {
-        active: false
-      },
-      animationType: 'linearContinuous',
-      animationEasing: 'easeOutCubic',
-      orientation: 'horizontal',
-      animationSpeed: 1000
-    });
-
-    jQuery('#list7').onoPager({
-      cssClass: 'onoPager_greyscale',
-      pagePerItem: false,
-      listContainer: {
-        width: '500px',
-        height: '100px'
-      },
-      listItems: {
-          width: '210px',
-          height: '80px'
-      },
-      autoPage: {
-        active: false,
-        interval: 3000,
-        autoPageAnimationType: 'timeline'
-      },
-      status: {
-        active: false
-      },
-      pageByNumber: {
-        active: false
-      },
-      animationType: 'linearContinuous',
-      animationEasing: 'easeOutCubic',
-      orientation: 'horizontal',
-      animationSpeed: 1000
-    });
+    eval(jQuery('.list1 pre').text());
+    eval(jQuery('.list2 pre').text());
+    eval(jQuery('.list3 pre').text());
+    eval(jQuery('.list4 pre').text());
+    eval(jQuery('.list5 pre').text());
+    eval(jQuery('.list6 pre').text());
+    eval(jQuery('.list7 pre').text());
   </script>
 </body>
 </html>

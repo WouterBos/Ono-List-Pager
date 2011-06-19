@@ -5,19 +5,23 @@
  * @param {Number} arg_index Initial index position.
  * @param {Number} arg_length Number of items in list.
  * @param {Boolean} arg_doesLoop If set to true, the pager will loop
- *  from the last item back to the first.
+ *    from the last item back to the first.
  * @param {Object} arg_controls Object that contains certain elements in the
- *  pager, wrapped in a jQuery object.
+ *    pager, wrapped in a jQuery object.
  * @param {Object} arg_status Configuration object for the status box.
+ * @param {Number} arg_gotoLinks_hideThreshold Controls the number of links
+ *    before and after the active link that are visible.
  */
 onoPager.pager = function(arg_index,
                           arg_length,
                           arg_doesLoop,
                           arg_controls,
-                          arg_status) {
+                          arg_status,
+                          arg_gotoLinks_hideThreshold) {
   var index = arg_index || 0;
   var length = arg_length || 0;
   var doesLoop = (typeof(arg_doesLoop) == 'boolean') ? arg_doesLoop : true;
+  var gotoLinks_hideThreshold = arg_gotoLinks_hideThreshold || -1;
 
   // Set autopager variables
   var autoPageConfig = {};  // Autopage configuration object
@@ -85,6 +89,9 @@ onoPager.pager = function(arg_index,
       var activeLink = controls.gotoLinks.find('a:eq(' + index + ')');
       activeLink.siblings().removeClass('onoPager_active');
       activeLink.addClass('onoPager_active');
+      if (gotoLinks_hideThreshold >= 0) {
+        toggleGotoLinks()
+      }
     }
 
     if (controls.previous && doesLoop == false) {
@@ -106,6 +113,24 @@ onoPager.pager = function(arg_index,
         status.prependText + (index + 1) + status.seperationText +
         length + status.appendText
       );
+    }
+    
+    function toggleGotoLinks() {
+      controls.gotoLinks.find('a').hide();
+      //activeLink.show();
+      
+      var firstVisibleItem = index - gotoLinks_hideThreshold;
+      var totalVisibleItems = (gotoLinks_hideThreshold * 2) + 1;
+      if (firstVisibleItem < 0) {
+        firstVisibleItem = 0;
+      }
+      if (firstVisibleItem > (length - totalVisibleItems)) {
+        firstVisibleItem = (length - totalVisibleItems);
+      }
+      
+      for (var i = firstVisibleItem; i < firstVisibleItem + totalVisibleItems; i++) {
+        controls.gotoLinks.find('a:eq(' + i + ')').show();
+      };
     }
   }
 

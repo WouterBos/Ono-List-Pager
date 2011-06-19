@@ -216,7 +216,8 @@
       pageByNumber: {
         active: true,
         enableClick: true,
-        labels: []
+        labels: [],
+        hideThreshold: -1
       },
       pageByArrowKey: {
         active: false,
@@ -355,7 +356,8 @@
             gotoLinks: pageByNumber,
             status: pageStatus
           },
-          config.status
+          config.status,
+          config.pageByNumber.hideThreshold
         );
       } else {
         pageNext.hide();
