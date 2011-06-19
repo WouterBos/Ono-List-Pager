@@ -12,445 +12,472 @@
 <span class='line'>  5</span>  * @param {Number} arg_index Initial index position.
 <span class='line'>  6</span>  * @param {Number} arg_length Number of items in list.
 <span class='line'>  7</span>  * @param {Boolean} arg_doesLoop If set to true, the pager will loop
-<span class='line'>  8</span>  *  from the last item back to the first.
+<span class='line'>  8</span>  *    from the last item back to the first.
 <span class='line'>  9</span>  * @param {Object} arg_controls Object that contains certain elements in the
-<span class='line'> 10</span>  *  pager, wrapped in a jQuery object.
+<span class='line'> 10</span>  *    pager, wrapped in a jQuery object.
 <span class='line'> 11</span>  * @param {Object} arg_status Configuration object for the status box.
-<span class='line'> 12</span>  */</span><span class="WHIT">
-<span class='line'> 13</span> </span><span class="NAME">onoPager.pager</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">arg_index</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 14</span> </span><span class="WHIT">                          </span><span class="NAME">arg_length</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 15</span> </span><span class="WHIT">                          </span><span class="NAME">arg_doesLoop</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 16</span> </span><span class="WHIT">                          </span><span class="NAME">arg_controls</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 17</span> </span><span class="WHIT">                          </span><span class="NAME">arg_status</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 18</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">index</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">arg_index</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 19</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">length</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">arg_length</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 20</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">doesLoop</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">arg_doesLoop</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">'boolean'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">arg_doesLoop</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 21</span> 
-<span class='line'> 22</span> </span><span class="WHIT">  </span><span class="COMM">// Set autopager variables</span><span class="WHIT">
-<span class='line'> 23</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">autoPageConfig</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">  </span><span class="COMM">// Autopage configuration object</span><span class="WHIT">
-<span class='line'> 24</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">autoPageInterval</span><span class="PUNC">;</span><span class="WHIT">     </span><span class="COMM">// The interval between transitions in milliseconds</span><span class="WHIT">
-<span class='line'> 25</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">autoPageAnimation</span><span class="PUNC">;</span><span class="WHIT">    </span><span class="COMM">// The auto page animation object</span><span class="WHIT">
-<span class='line'> 26</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">autoPageContainer</span><span class="PUNC">;</span><span class="WHIT">    </span><span class="COMM">// The element in which the page animation happens</span><span class="WHIT">
-<span class='line'> 27</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">listContainer</span><span class="PUNC">;</span><span class="WHIT">        </span><span class="COMM">// The element that holds the list</span><span class="WHIT">
-<span class='line'> 28</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">animationSpeed</span><span class="PUNC">;</span><span class="WHIT">       </span><span class="COMM">// The speed of the transitions in milliseconds</span><span class="WHIT">
-<span class='line'> 29</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">orientation</span><span class="PUNC">;</span><span class="WHIT">          </span><span class="COMM">// The orientation</span><span class="WHIT">
-<span class='line'> 30</span> 
-<span class='line'> 31</span> </span><span class="WHIT">  </span><span class="COMM">// Set pager controls</span><span class="WHIT">
-<span class='line'> 32</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">controls</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 33</span> </span><span class="WHIT">    </span><span class="NAME">previous</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 34</span> </span><span class="WHIT">    </span><span class="NAME">next</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 35</span> </span><span class="WHIT">    </span><span class="NAME">gotoLinks</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 36</span> </span><span class="WHIT">    </span><span class="NAME">status</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT">
-<span class='line'> 37</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 38</span> </span><span class="WHIT">  </span><span class="NAME">jQuery.extend</span><span class="PUNC">(</span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">controls</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arg_controls</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 39</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">status</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 40</span> </span><span class="WHIT">    </span><span class="NAME">active</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 41</span> </span><span class="WHIT">    </span><span class="NAME">prependText</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 42</span> </span><span class="WHIT">    </span><span class="NAME">seperationText</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 43</span> </span><span class="WHIT">    </span><span class="NAME">appendText</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT">
-<span class='line'> 44</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 45</span> </span><span class="WHIT">  </span><span class="NAME">jQuery.extend</span><span class="PUNC">(</span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">status</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arg_status</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 46</span> </span><span class="WHIT">  </span><span class="NAME">setPagerButtons</span><span class="PUNC">(</span><span class="NAME">index</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 47</span> 
-<span class='line'> 48</span> 
-<span class='line'> 49</span> 
-<span class='line'> 50</span> </span><span class="WHIT">  </span><span class="COMM">// Handle index values that are out of bounds</span><span class="WHIT">
-<span class='line'> 51</span> </span><span class="WHIT">  </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">indexCheckBounds</span><span class="PUNC">(</span><span class="NAME">arg_index</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 52</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">doesLoop</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 53</span> </span><span class="WHIT">      </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">indexCheckBounds_loop</span><span class="PUNC">(</span><span class="NAME">arg_index</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 54</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 55</span> </span><span class="WHIT">      </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">indexCheckBounds_noLoop</span><span class="PUNC">(</span><span class="NAME">arg_index</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 56</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 57</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 58</span> 
-<span class='line'> 59</span> </span><span class="WHIT">  </span><span class="COMM">// Handle index values that are out of bounds in a looping pager</span><span class="WHIT">
-<span class='line'> 60</span> </span><span class="WHIT">  </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">indexCheckBounds_loop</span><span class="PUNC">(</span><span class="NAME">arg_index</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 61</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">arg_index</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 62</span> </span><span class="WHIT">      </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">length</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 63</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">arg_index</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">length</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 64</span> </span><span class="WHIT">      </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 65</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 66</span> </span><span class="WHIT">      </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">arg_index</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 67</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 68</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 69</span> 
-<span class='line'> 70</span> </span><span class="WHIT">  </span><span class="COMM">// Handle index values that are out of bounds pager without looping</span><span class="WHIT">
-<span class='line'> 71</span> </span><span class="WHIT">  </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">indexCheckBounds_noLoop</span><span class="PUNC">(</span><span class="NAME">arg_index</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 72</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">arg_index</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 73</span> </span><span class="WHIT">      </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 74</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">arg_index</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">length</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 75</span> </span><span class="WHIT">      </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">length</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 76</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 77</span> </span><span class="WHIT">      </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">arg_index</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 78</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 79</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 80</span> 
-<span class='line'> 81</span> </span><span class="WHIT">  </span><span class="COMM">// Update the paging controls</span><span class="WHIT">
-<span class='line'> 82</span> </span><span class="WHIT">  </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">setPagerButtons</span><span class="PUNC">(</span><span class="NAME">index</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 83</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">DISABLED</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'disabled'</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 84</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">controls.gotoLinks</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 85</span> </span><span class="WHIT">      </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">activeLink</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">controls.gotoLinks.find</span><span class="PUNC">(</span><span class="STRN">'a:eq('</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">index</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">')'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 86</span> </span><span class="WHIT">      </span><span class="NAME">activeLink.siblings</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">removeClass</span><span class="PUNC">(</span><span class="STRN">'onoPager_active'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 87</span> </span><span class="WHIT">      </span><span class="NAME">activeLink.addClass</span><span class="PUNC">(</span><span class="STRN">'onoPager_active'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 88</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 89</span> 
-<span class='line'> 90</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">controls.previous</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">doesLoop</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 91</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">index</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 92</span> </span><span class="WHIT">        </span><span class="NAME">controls.previous.addClass</span><span class="PUNC">(</span><span class="NAME">DISABLED</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 93</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 94</span> </span><span class="WHIT">        </span><span class="NAME">controls.previous.removeClass</span><span class="PUNC">(</span><span class="NAME">DISABLED</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 95</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 96</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 97</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">controls.next</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">doesLoop</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 98</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">index</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">length</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 99</span> </span><span class="WHIT">        </span><span class="NAME">controls.next.addClass</span><span class="PUNC">(</span><span class="NAME">DISABLED</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 12</span>  * @param {Number} arg_gotoLinks_hideThreshold Controls the number of links
+<span class='line'> 13</span>  *    before and after the active link that are visible.
+<span class='line'> 14</span>  */</span><span class="WHIT">
+<span class='line'> 15</span> </span><span class="NAME">onoPager.pager</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">arg_index</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 16</span> </span><span class="WHIT">                          </span><span class="NAME">arg_length</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 17</span> </span><span class="WHIT">                          </span><span class="NAME">arg_doesLoop</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 18</span> </span><span class="WHIT">                          </span><span class="NAME">arg_controls</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 19</span> </span><span class="WHIT">                          </span><span class="NAME">arg_status</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 20</span> </span><span class="WHIT">                          </span><span class="NAME">arg_gotoLinks_hideThreshold</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">index</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">arg_index</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">length</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">arg_length</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">doesLoop</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">arg_doesLoop</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">'boolean'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">arg_doesLoop</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">gotoLinks_hideThreshold</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">arg_gotoLinks_hideThreshold</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 25</span> 
+<span class='line'> 26</span> </span><span class="WHIT">  </span><span class="COMM">// Set autopager variables</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">autoPageConfig</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">  </span><span class="COMM">// Autopage configuration object</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">autoPageInterval</span><span class="PUNC">;</span><span class="WHIT">     </span><span class="COMM">// The interval between transitions in milliseconds</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">autoPageAnimation</span><span class="PUNC">;</span><span class="WHIT">    </span><span class="COMM">// The auto page animation object</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">autoPageContainer</span><span class="PUNC">;</span><span class="WHIT">    </span><span class="COMM">// The element in which the page animation happens</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">listContainer</span><span class="PUNC">;</span><span class="WHIT">        </span><span class="COMM">// The element that holds the list</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">animationSpeed</span><span class="PUNC">;</span><span class="WHIT">       </span><span class="COMM">// The speed of the transitions in milliseconds</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">orientation</span><span class="PUNC">;</span><span class="WHIT">          </span><span class="COMM">// The orientation</span><span class="WHIT">
+<span class='line'> 34</span> 
+<span class='line'> 35</span> </span><span class="WHIT">  </span><span class="COMM">// Set pager controls</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">controls</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="WHIT">    </span><span class="NAME">previous</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">    </span><span class="NAME">next</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">    </span><span class="NAME">gotoLinks</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">    </span><span class="NAME">status</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">  </span><span class="NAME">jQuery.extend</span><span class="PUNC">(</span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">controls</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arg_controls</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 43</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">status</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">    </span><span class="NAME">active</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="WHIT">    </span><span class="NAME">prependText</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">    </span><span class="NAME">seperationText</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="WHIT">    </span><span class="NAME">appendText</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">  </span><span class="NAME">jQuery.extend</span><span class="PUNC">(</span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">status</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arg_status</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="WHIT">  </span><span class="NAME">setPagerButtons</span><span class="PUNC">(</span><span class="NAME">index</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 51</span> 
+<span class='line'> 52</span> 
+<span class='line'> 53</span> 
+<span class='line'> 54</span> </span><span class="WHIT">  </span><span class="COMM">// Handle index values that are out of bounds</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="WHIT">  </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">indexCheckBounds</span><span class="PUNC">(</span><span class="NAME">arg_index</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">doesLoop</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">      </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">indexCheckBounds_loop</span><span class="PUNC">(</span><span class="NAME">arg_index</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">      </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">indexCheckBounds_noLoop</span><span class="PUNC">(</span><span class="NAME">arg_index</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 62</span> 
+<span class='line'> 63</span> </span><span class="WHIT">  </span><span class="COMM">// Handle index values that are out of bounds in a looping pager</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">  </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">indexCheckBounds_loop</span><span class="PUNC">(</span><span class="NAME">arg_index</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">arg_index</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">      </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">length</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">arg_index</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">length</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">      </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="WHIT">      </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">arg_index</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 71</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 72</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 73</span> 
+<span class='line'> 74</span> </span><span class="WHIT">  </span><span class="COMM">// Handle index values that are out of bounds pager without looping</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="WHIT">  </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">indexCheckBounds_noLoop</span><span class="PUNC">(</span><span class="NAME">arg_index</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">arg_index</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">      </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">arg_index</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">length</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="WHIT">      </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">length</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 81</span> </span><span class="WHIT">      </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">arg_index</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 82</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 84</span> 
+<span class='line'> 85</span> </span><span class="WHIT">  </span><span class="COMM">// Update the paging controls</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="WHIT">  </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">setPagerButtons</span><span class="PUNC">(</span><span class="NAME">index</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">DISABLED</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'disabled'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">controls.gotoLinks</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">      </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">activeLink</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">controls.gotoLinks.find</span><span class="PUNC">(</span><span class="STRN">'a:eq('</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">index</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">')'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="WHIT">      </span><span class="NAME">activeLink.siblings</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">removeClass</span><span class="PUNC">(</span><span class="STRN">'onoPager_active'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="WHIT">      </span><span class="NAME">activeLink.addClass</span><span class="PUNC">(</span><span class="STRN">'onoPager_active'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">gotoLinks_hideThreshold</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="WHIT">        </span><span class="NAME">toggleGotoLinks</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 96</span> 
+<span class='line'> 97</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">controls.previous</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">doesLoop</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">index</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="WHIT">        </span><span class="NAME">controls.previous.addClass</span><span class="PUNC">(</span><span class="NAME">DISABLED</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>100</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>101</span> </span><span class="WHIT">        </span><span class="NAME">controls.next.removeClass</span><span class="PUNC">(</span><span class="NAME">DISABLED</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">        </span><span class="NAME">controls.previous.removeClass</span><span class="PUNC">(</span><span class="NAME">DISABLED</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>102</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'>103</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>104</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">controls.status</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>105</span> </span><span class="WHIT">      </span><span class="NAME">controls.status.html</span><span class="PUNC">(</span><span class="WHIT">
-<span class='line'>106</span> </span><span class="WHIT">        </span><span class="NAME">status.prependText</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">index</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">status.seperationText</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
-<span class='line'>107</span> </span><span class="WHIT">        </span><span class="NAME">length</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">status.appendText</span><span class="WHIT">
-<span class='line'>108</span> </span><span class="WHIT">      </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>109</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>110</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>111</span> 
-<span class='line'>112</span> </span><span class="WHIT">  </span><span class="COMM">// Set active index and check if the it's out of bounds</span><span class="WHIT">
-<span class='line'>113</span> </span><span class="WHIT">  </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">setIndex</span><span class="PUNC">(</span><span class="NAME">arg_index</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>114</span> </span><span class="WHIT">    </span><span class="NAME">index</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">indexCheckBounds</span><span class="PUNC">(</span><span class="NAME">arg_index</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>115</span> </span><span class="WHIT">    </span><span class="NAME">setPagerButtons</span><span class="PUNC">(</span><span class="NAME">index</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>116</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">index</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>117</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>118</span> 
-<span class='line'>119</span> </span><span class="WHIT">  </span><span class="COMM">// Set index by adding or substracting to the active item index</span><span class="WHIT">
-<span class='line'>120</span> </span><span class="WHIT">  </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">move</span><span class="PUNC">(</span><span class="NAME">move</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>121</span> </span><span class="WHIT">    </span><span class="NAME">index</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">move</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>122</span> </span><span class="WHIT">    </span><span class="NAME">index</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">indexCheckBounds</span><span class="PUNC">(</span><span class="NAME">index</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>123</span> </span><span class="WHIT">    </span><span class="NAME">setPagerButtons</span><span class="PUNC">(</span><span class="NAME">index</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>124</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">index</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>125</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>126</span> 
-<span class='line'>127</span> </span><span class="WHIT">  </span><span class="COMM">// Initializes autopage</span><span class="WHIT">
-<span class='line'>128</span> </span><span class="WHIT">  </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">startAutopager</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>129</span> </span><span class="WHIT">    </span><span class="NAME">autoPageAnimation</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">setAnimation</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>130</span> </span><span class="WHIT">    </span><span class="NAME">autoPageInterval</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">setInterval</span><span class="PUNC">(</span><span class="NAME">autoPager</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">autoPageConfig.interval</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>131</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>132</span> 
-<span class='line'>133</span> </span><span class="WHIT">  </span><span class="COMM">// Starts a page transition (triggered by interval)</span><span class="WHIT">
-<span class='line'>134</span> </span><span class="WHIT">  </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">autoPager</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>135</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">doesLoop</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">index</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">length</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>136</span> </span><span class="WHIT">      </span><span class="NAME">clearInterval</span><span class="PUNC">(</span><span class="NAME">autoPageInterval</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>137</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>138</span> </span><span class="WHIT">    </span><span class="NAME">autoPageConfig.animation._page</span><span class="PUNC">(</span><span class="NAME">index</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">move</span><span class="PUNC">(</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>139</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">autoPageAnimation</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>140</span> </span><span class="WHIT">      </span><span class="NAME">autoPageAnimation._start</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>141</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>142</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>143</span> 
-<span class='line'>144</span> </span><span class="WHIT">  </span><span class="COMM">// Create autopage animation object</span><span class="WHIT">
-<span class='line'>145</span> </span><span class="WHIT">  </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">setAnimation</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>146</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">autoPageConfig.autoPageAnimationType</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>147</span> </span><span class="WHIT">      </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">newAnimation</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">onoPager.autopageAnimation.createAnimation</span><span class="PUNC">(</span><span class="WHIT">
-<span class='line'>148</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>149</span> </span><span class="WHIT">          </span><span class="NAME">listContainer</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">listContainer</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>150</span> </span><span class="WHIT">          </span><span class="NAME">animationSpeed</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">animationSpeed</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>151</span> </span><span class="WHIT">          </span><span class="NAME">orientation</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">orientation</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>152</span> </span><span class="WHIT">          </span><span class="NAME">root</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">autoPageContainer</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>153</span> </span><span class="WHIT">          </span><span class="NAME">autoPageAnimationType</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">autoPageConfig.autoPageAnimationType</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>154</span> </span><span class="WHIT">          </span><span class="NAME">autoPageInterval</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">autoPageConfig.interval</span><span class="WHIT">
-<span class='line'>155</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>156</span> </span><span class="WHIT">      </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>157</span> </span><span class="WHIT">      </span><span class="NAME">newAnimation._init</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>158</span> </span><span class="WHIT">      </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">newAnimation</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>159</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>160</span> </span><span class="WHIT">      </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>161</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>162</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>163</span> 
-<span class='line'>164</span> 
-<span class='line'>165</span> 
-<span class='line'>166</span> </span><span class="WHIT">  </span><span class="COMM">/**
-<span class='line'>167</span>    * Returns index of currently active page
-<span class='line'>168</span>    * @return {Number} Index of currently active page.
-<span class='line'>169</span>    */</span><span class="WHIT">
-<span class='line'>170</span> </span><span class="WHIT">  </span><span class="NAME">this.getIndex</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>171</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">index</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>172</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>173</span> 
-<span class='line'>174</span> </span><span class="WHIT">  </span><span class="COMM">/**
-<span class='line'>175</span>    * Sets index by assigning it.
-<span class='line'>176</span>    * @param {Number} arg_index The new index.
-<span class='line'>177</span>    * @return {Number} Returns the current index.
-<span class='line'>178</span>    */</span><span class="WHIT">
-<span class='line'>179</span> </span><span class="WHIT">  </span><span class="NAME">this.setIndex</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">arg_index</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>180</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">setIndex</span><span class="PUNC">(</span><span class="NAME">arg_index</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>181</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>182</span> 
-<span class='line'>183</span> </span><span class="WHIT">  </span><span class="COMM">/**
-<span class='line'>184</span>    * Sets index adding move value to index
-<span class='line'>185</span>    * @param {Number} arg_move The number the pager has to move.
-<span class='line'>186</span>    * @return {Number} index Returns the current index.
-<span class='line'>187</span>    */</span><span class="WHIT">
-<span class='line'>188</span> </span><span class="WHIT">  </span><span class="NAME">this.move</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">arg_move</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>189</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">move</span><span class="PUNC">(</span><span class="NAME">arg_move</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>190</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">controls.next</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">doesLoop</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">index</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">length</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="WHIT">        </span><span class="NAME">controls.next.addClass</span><span class="PUNC">(</span><span class="NAME">DISABLED</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">        </span><span class="NAME">controls.next.removeClass</span><span class="PUNC">(</span><span class="NAME">DISABLED</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">controls.status</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>112</span> </span><span class="WHIT">      </span><span class="NAME">controls.status.html</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="WHIT">        </span><span class="NAME">status.prependText</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">index</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">status.seperationText</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>114</span> </span><span class="WHIT">        </span><span class="NAME">length</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">status.appendText</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="WHIT">      </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>117</span> 
+<span class='line'>118</span> </span><span class="WHIT">    </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">toggleGotoLinks</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">      </span><span class="NAME">controls.gotoLinks.find</span><span class="PUNC">(</span><span class="STRN">'a'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">hide</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="WHIT">      </span><span class="COMM">//activeLink.show();</span><span class="WHIT">
+<span class='line'>121</span> 
+<span class='line'>122</span> </span><span class="WHIT">      </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">firstVisibleItem</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">index</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">gotoLinks_hideThreshold</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>123</span> </span><span class="WHIT">      </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">totalVisibleItems</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">gotoLinks_hideThreshold</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>124</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">firstVisibleItem</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>125</span> </span><span class="WHIT">        </span><span class="NAME">firstVisibleItem</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>126</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">firstVisibleItem</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">length</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">totalVisibleItems</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">        </span><span class="NAME">firstVisibleItem</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">length</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">totalVisibleItems</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>130</span> 
+<span class='line'>131</span> </span><span class="WHIT">      </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">firstVisibleItem</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>132</span> </span><span class="WHIT">           </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">firstVisibleItem</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">totalVisibleItems</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="WHIT">           </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="WHIT">        </span><span class="NAME">controls.gotoLinks.find</span><span class="PUNC">(</span><span class="STRN">'a:eq('</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">')'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">show</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>135</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>136</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>138</span> 
+<span class='line'>139</span> </span><span class="WHIT">  </span><span class="COMM">// Set active index and check if the it's out of bounds</span><span class="WHIT">
+<span class='line'>140</span> </span><span class="WHIT">  </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">setIndex</span><span class="PUNC">(</span><span class="NAME">arg_index</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>141</span> </span><span class="WHIT">    </span><span class="NAME">index</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">indexCheckBounds</span><span class="PUNC">(</span><span class="NAME">arg_index</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">    </span><span class="NAME">setPagerButtons</span><span class="PUNC">(</span><span class="NAME">index</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">index</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>145</span> 
+<span class='line'>146</span> </span><span class="WHIT">  </span><span class="COMM">// Set index by adding or substracting to the active item index</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">  </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">move</span><span class="PUNC">(</span><span class="NAME">move</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="WHIT">    </span><span class="NAME">index</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">move</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>149</span> </span><span class="WHIT">    </span><span class="NAME">index</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">indexCheckBounds</span><span class="PUNC">(</span><span class="NAME">index</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="WHIT">    </span><span class="NAME">setPagerButtons</span><span class="PUNC">(</span><span class="NAME">index</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">index</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>153</span> 
+<span class='line'>154</span> </span><span class="WHIT">  </span><span class="COMM">// Initializes autopage</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="WHIT">  </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">startAutopager</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="WHIT">    </span><span class="NAME">autoPageAnimation</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">setAnimation</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>157</span> </span><span class="WHIT">    </span><span class="NAME">autoPageInterval</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">setInterval</span><span class="PUNC">(</span><span class="NAME">autoPager</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">autoPageConfig.interval</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>158</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>159</span> 
+<span class='line'>160</span> </span><span class="WHIT">  </span><span class="COMM">// Starts a page transition (triggered by interval)</span><span class="WHIT">
+<span class='line'>161</span> </span><span class="WHIT">  </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">autoPager</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>162</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">doesLoop</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">index</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">length</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>163</span> </span><span class="WHIT">      </span><span class="NAME">clearInterval</span><span class="PUNC">(</span><span class="NAME">autoPageInterval</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>164</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>165</span> </span><span class="WHIT">    </span><span class="NAME">autoPageConfig.animation._page</span><span class="PUNC">(</span><span class="NAME">index</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">move</span><span class="PUNC">(</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>166</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">autoPageAnimation</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>167</span> </span><span class="WHIT">      </span><span class="NAME">autoPageAnimation._start</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>170</span> 
+<span class='line'>171</span> </span><span class="WHIT">  </span><span class="COMM">// Create autopage animation object</span><span class="WHIT">
+<span class='line'>172</span> </span><span class="WHIT">  </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">setAnimation</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>173</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">autoPageConfig.autoPageAnimationType</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>174</span> </span><span class="WHIT">      </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">newAnimation</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">onoPager.autopageAnimation.createAnimation</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>175</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>176</span> </span><span class="WHIT">          </span><span class="NAME">listContainer</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">listContainer</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>177</span> </span><span class="WHIT">          </span><span class="NAME">animationSpeed</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">animationSpeed</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>178</span> </span><span class="WHIT">          </span><span class="NAME">orientation</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">orientation</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>179</span> </span><span class="WHIT">          </span><span class="NAME">root</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">autoPageContainer</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>180</span> </span><span class="WHIT">          </span><span class="NAME">autoPageAnimationType</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">autoPageConfig.autoPageAnimationType</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="WHIT">          </span><span class="NAME">autoPageInterval</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">autoPageConfig.interval</span><span class="WHIT">
+<span class='line'>182</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>183</span> </span><span class="WHIT">      </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>184</span> </span><span class="WHIT">      </span><span class="NAME">newAnimation._init</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>185</span> </span><span class="WHIT">      </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">newAnimation</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>186</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>187</span> </span><span class="WHIT">      </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>188</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>189</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>190</span> 
 <span class='line'>191</span> 
-<span class='line'>192</span> </span><span class="WHIT">  </span><span class="COMM">/**
-<span class='line'>193</span>    * Sets index adding move value to index
-<span class='line'>194</span>    * @param {Object} arg_autoPageConfig AutoPage configuration.
-<span class='line'>195</span>    * @param {Number} arg_animationSpeed The time a transition will take in
-<span class='line'>196</span>    *    milliseconds.
-<span class='line'>197</span>    * @param {Object} arg_animation Animation instance.
-<span class='line'>198</span>    * @param {Object} arg_orientation Determines on what axis the
-<span class='line'>199</span>    *    animation moves. Possible values are 'horizontal' and 'vertical' though
-<span class='line'>200</span>    *    it's possible to use other values as long as the animation object
-<span class='line'>201</span>    *    supports that value. Default value is 'horizontal'.
-<span class='line'>202</span>    * @param {Object} arg_listContainer Element that holds the list.
-<span class='line'>203</span>    * @param {Object} arg_list Element that is the root of the list. That's the
-<span class='line'>204</span>    *  &lt;ul&gt; most of the time.
-<span class='line'>205</span>    * @param {Object} arg_autoPageContainer The element in which the auto page
-<span class='line'>206</span>    *    animation will take place.
-<span class='line'>207</span>    * @example
-<span class='line'>208</span>    * instance.initAutoPager(
-<span class='line'>209</span>    *    {
-<span class='line'>210</span>    *      active: true,
-<span class='line'>211</span>    *      interval: 2000
-<span class='line'>212</span>    *    }
-<span class='line'>213</span>    * );
+<span class='line'>192</span> 
+<span class='line'>193</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>194</span>    * Returns index of currently active page
+<span class='line'>195</span>    * @return {Number} Index of currently active page.
+<span class='line'>196</span>    */</span><span class="WHIT">
+<span class='line'>197</span> </span><span class="WHIT">  </span><span class="NAME">this.getIndex</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>198</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">index</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>199</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>200</span> 
+<span class='line'>201</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>202</span>    * Sets index by assigning it.
+<span class='line'>203</span>    * @param {Number} arg_index The new index.
+<span class='line'>204</span>    * @return {Number} Returns the current index.
+<span class='line'>205</span>    */</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="WHIT">  </span><span class="NAME">this.setIndex</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">arg_index</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>207</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">setIndex</span><span class="PUNC">(</span><span class="NAME">arg_index</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>208</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>209</span> 
+<span class='line'>210</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>211</span>    * Sets index adding move value to index
+<span class='line'>212</span>    * @param {Number} arg_move The number the pager has to move.
+<span class='line'>213</span>    * @return {Number} index Returns the current index.
 <span class='line'>214</span>    */</span><span class="WHIT">
-<span class='line'>215</span> </span><span class="WHIT">  </span><span class="NAME">this.initAutopager</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">arg_autoPageConfig</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>216</span> </span><span class="WHIT">                                </span><span class="NAME">arg_animationSpeed</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>217</span> </span><span class="WHIT">                                </span><span class="NAME">arg_animation</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>218</span> </span><span class="WHIT">                                </span><span class="NAME">arg_orientation</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>219</span> </span><span class="WHIT">                                </span><span class="NAME">arg_listContainer</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>220</span> </span><span class="WHIT">                                </span><span class="NAME">arg_list</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>221</span> </span><span class="WHIT">                                </span><span class="NAME">arg_autoPageContainer</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>222</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tools</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">onoPager.tools</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>223</span> 
-<span class='line'>224</span> </span><span class="WHIT">    </span><span class="COMM">// Setting local private variables</span><span class="WHIT">
-<span class='line'>225</span> </span><span class="WHIT">    </span><span class="NAME">animationSpeed</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">arg_animationSpeed</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>226</span> </span><span class="WHIT">    </span><span class="NAME">listContainer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">arg_listContainer</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>227</span> </span><span class="WHIT">    </span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">arg_orientation</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>228</span> </span><span class="WHIT">    </span><span class="NAME">autoPageContainer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">arg_autoPageContainer</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>229</span> </span><span class="WHIT">    </span><span class="NAME">jQuery.extend</span><span class="PUNC">(</span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>230</span> </span><span class="WHIT">                  </span><span class="NAME">autoPageConfig</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>231</span> </span><span class="WHIT">                  </span><span class="NAME">arg_autoPageConfig</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>232</span> </span><span class="WHIT">                  </span><span class="PUNC">{</span><span class="NAME">animation</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">arg_animation</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>233</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">listSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>234</span> </span><span class="WHIT">    </span><span class="NAME">arg_list.find</span><span class="PUNC">(</span><span class="STRN">'*.onoPager_listItem'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">each</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>235</span> </span><span class="WHIT">      </span><span class="NAME">listSize</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">tools.getInnerSize</span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>236</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>237</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">overflow</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">tools.getInnerSize</span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">listContainer</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">listSize</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>238</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">overflow</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>239</span> </span><span class="WHIT">      </span><span class="NAME">startAutopager</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>240</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>241</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>242</span> 
-<span class='line'>243</span> </span><span class="WHIT">  </span><span class="COMM">/**
-<span class='line'>244</span>    * Sets index adding move value to index
-<span class='line'>245</span>    * @example
-<span class='line'>246</span>    * instance.initAutoPager(
-<span class='line'>247</span>    *    {
-<span class='line'>248</span>    *      active: true,
-<span class='line'>249</span>    *      interval: 2000
-<span class='line'>250</span>    *    }
-<span class='line'>251</span>    * );
-<span class='line'>252</span>    */</span><span class="WHIT">
-<span class='line'>253</span> </span><span class="WHIT">  </span><span class="NAME">this.resetAutopager</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>254</span> </span><span class="WHIT">    </span><span class="NAME">clearInterval</span><span class="PUNC">(</span><span class="NAME">autoPageInterval</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>255</span> </span><span class="WHIT">    </span><span class="NAME">startAutopager</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>256</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>257</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>258</span> 
-<span class='line'>259</span> 
-<span class='line'>260</span> 
-<span class='line'>261</span> 
-<span class='line'>262</span> 
-<span class='line'>263</span> 
-<span class='line'>264</span> </span><span class="COMM">/**
-<span class='line'>265</span>  * @namespace Handles animation that gives a time indication of the intervals
-<span class='line'>266</span>  *    between paging.
-<span class='line'>267</span>  */</span><span class="WHIT">
-<span class='line'>268</span> </span><span class="NAME">onoPager.autopageAnimation</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>269</span> </span><span class="WHIT">  </span><span class="COMM">// Throws an error if the created animation object does not comply to the</span><span class="WHIT">
-<span class='line'>270</span> </span><span class="WHIT">  </span><span class="COMM">// interface.</span><span class="WHIT">
-<span class='line'>271</span> </span><span class="WHIT">  </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">interfaceCheck</span><span class="PUNC">(</span><span class="NAME">animation</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">publicMethods</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>272</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">hasMethod</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>273</span> </span><span class="WHIT">    </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">publicMethods.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>274</span> </span><span class="WHIT">      </span><span class="NAME">hasMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>275</span> </span><span class="WHIT">      </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">object</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">animation</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>276</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">object</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">publicMethods</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>277</span> </span><span class="WHIT">          </span><span class="NAME">hasMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>278</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>279</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>280</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">hasMethod</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>281</span> </span><span class="WHIT">        </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Error</span><span class="PUNC">(</span><span class="STRN">'Animation object does not implement '</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
-<span class='line'>282</span> </span><span class="WHIT">          </span><span class="STRN">'public method "'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">publicMethods</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'"'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>283</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>284</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">animation</span><span class="PUNC">[</span><span class="NAME">object</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">'function'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>285</span> </span><span class="WHIT">        </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Error</span><span class="PUNC">(</span><span class="STRN">'animation.'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">publicMethods</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">' is not of type'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
-<span class='line'>286</span> </span><span class="WHIT">          </span><span class="STRN">'"function", but "'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">animation</span><span class="PUNC">[</span><span class="NAME">object</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'"'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>287</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>288</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>289</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>215</span> </span><span class="WHIT">  </span><span class="NAME">this.move</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">arg_move</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>216</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">move</span><span class="PUNC">(</span><span class="NAME">arg_move</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>217</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>218</span> 
+<span class='line'>219</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>220</span>    * Sets index adding move value to index
+<span class='line'>221</span>    * @param {Object} arg_autoPageConfig AutoPage configuration.
+<span class='line'>222</span>    * @param {Number} arg_animationSpeed The time a transition will take in
+<span class='line'>223</span>    *    milliseconds.
+<span class='line'>224</span>    * @param {Object} arg_animation Animation instance.
+<span class='line'>225</span>    * @param {Object} arg_orientation Determines on what axis the
+<span class='line'>226</span>    *    animation moves. Possible values are 'horizontal' and 'vertical' though
+<span class='line'>227</span>    *    it's possible to use other values as long as the animation object
+<span class='line'>228</span>    *    supports that value. Default value is 'horizontal'.
+<span class='line'>229</span>    * @param {Object} arg_listContainer Element that holds the list.
+<span class='line'>230</span>    * @param {Object} arg_list Element that is the root of the list. That's the
+<span class='line'>231</span>    *  &lt;ul&gt; most of the time.
+<span class='line'>232</span>    * @param {Object} arg_autoPageContainer The element in which the auto page
+<span class='line'>233</span>    *    animation will take place.
+<span class='line'>234</span>    * @example
+<span class='line'>235</span>    * instance.initAutoPager(
+<span class='line'>236</span>    *    {
+<span class='line'>237</span>    *      active: true,
+<span class='line'>238</span>    *      interval: 2000
+<span class='line'>239</span>    *    }
+<span class='line'>240</span>    * );
+<span class='line'>241</span>    */</span><span class="WHIT">
+<span class='line'>242</span> </span><span class="WHIT">  </span><span class="NAME">this.initAutopager</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">arg_autoPageConfig</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>243</span> </span><span class="WHIT">                                </span><span class="NAME">arg_animationSpeed</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>244</span> </span><span class="WHIT">                                </span><span class="NAME">arg_animation</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>245</span> </span><span class="WHIT">                                </span><span class="NAME">arg_orientation</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>246</span> </span><span class="WHIT">                                </span><span class="NAME">arg_listContainer</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>247</span> </span><span class="WHIT">                                </span><span class="NAME">arg_list</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>248</span> </span><span class="WHIT">                                </span><span class="NAME">arg_autoPageContainer</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>249</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tools</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">onoPager.tools</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>250</span> 
+<span class='line'>251</span> </span><span class="WHIT">    </span><span class="COMM">// Setting local private variables</span><span class="WHIT">
+<span class='line'>252</span> </span><span class="WHIT">    </span><span class="NAME">animationSpeed</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">arg_animationSpeed</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>253</span> </span><span class="WHIT">    </span><span class="NAME">listContainer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">arg_listContainer</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>254</span> </span><span class="WHIT">    </span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">arg_orientation</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>255</span> </span><span class="WHIT">    </span><span class="NAME">autoPageContainer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">arg_autoPageContainer</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>256</span> </span><span class="WHIT">    </span><span class="NAME">jQuery.extend</span><span class="PUNC">(</span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>257</span> </span><span class="WHIT">                  </span><span class="NAME">autoPageConfig</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>258</span> </span><span class="WHIT">                  </span><span class="NAME">arg_autoPageConfig</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>259</span> </span><span class="WHIT">                  </span><span class="PUNC">{</span><span class="NAME">animation</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">arg_animation</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>260</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">listSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>261</span> </span><span class="WHIT">    </span><span class="NAME">arg_list.find</span><span class="PUNC">(</span><span class="STRN">'*.onoPager_listItem'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">each</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>262</span> </span><span class="WHIT">      </span><span class="NAME">listSize</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">tools.getInnerSize</span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>263</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>264</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">overflow</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">tools.getInnerSize</span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">listContainer</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">listSize</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>265</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">overflow</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>266</span> </span><span class="WHIT">      </span><span class="NAME">startAutopager</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>267</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>268</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>269</span> 
+<span class='line'>270</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>271</span>    * Sets index adding move value to index
+<span class='line'>272</span>    * @example
+<span class='line'>273</span>    * instance.initAutoPager(
+<span class='line'>274</span>    *    {
+<span class='line'>275</span>    *      active: true,
+<span class='line'>276</span>    *      interval: 2000
+<span class='line'>277</span>    *    }
+<span class='line'>278</span>    * );
+<span class='line'>279</span>    */</span><span class="WHIT">
+<span class='line'>280</span> </span><span class="WHIT">  </span><span class="NAME">this.resetAutopager</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>281</span> </span><span class="WHIT">    </span><span class="NAME">clearInterval</span><span class="PUNC">(</span><span class="NAME">autoPageInterval</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>282</span> </span><span class="WHIT">    </span><span class="NAME">startAutopager</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>283</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>284</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>285</span> 
+<span class='line'>286</span> 
+<span class='line'>287</span> 
+<span class='line'>288</span> 
+<span class='line'>289</span> 
 <span class='line'>290</span> 
-<span class='line'>291</span> </span><span class="WHIT">  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>292</span> </span><span class="WHIT">    </span><span class="COMM">/**
-<span class='line'>293</span>      * This method creates and returns an animation object.
-<span class='line'>294</span>      *
-<span class='line'>295</span>      * @param {Object} config Configuration object.
-<span class='line'>296</span>      * @return {object} The animation object.
-<span class='line'>297</span>      */</span><span class="WHIT">
-<span class='line'>298</span> </span><span class="WHIT">    </span><span class="NAME">createAnimation</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">config</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>299</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">onoPager.autopageAnimation</span><span class="PUNC">[</span><span class="NAME">config.autoPageAnimationType</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT">
-<span class='line'>300</span> </span><span class="WHIT">          </span><span class="STRN">'function'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>301</span> </span><span class="WHIT">        </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Error</span><span class="PUNC">(</span><span class="STRN">'autoPageAnimationType "'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
-<span class='line'>302</span> </span><span class="WHIT">          </span><span class="NAME">config.autoPageAnimationType</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'" is not of type function, but '</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
-<span class='line'>303</span> </span><span class="WHIT">          </span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">onoPager.autopageAnimation</span><span class="PUNC">[</span><span class="NAME">config.autoPageAnimationType</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT">
-<span class='line'>304</span> </span><span class="WHIT">        </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>305</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>306</span> </span><span class="WHIT">      </span><span class="NAME">config.root.addClass</span><span class="PUNC">(</span><span class="STRN">'onoPager_onoPager.autopageAnimation_'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
-<span class='line'>307</span> </span><span class="WHIT">        </span><span class="NAME">config.autoPageAnimationType</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>308</span> 
-<span class='line'>309</span> </span><span class="WHIT">      </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">animation</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">onoPager.autopageAnimation</span><span class="PUNC">[</span><span class="WHIT">
-<span class='line'>310</span> </span><span class="WHIT">        </span><span class="NAME">config.autoPageAnimationType</span><span class="PUNC">]</span><span class="PUNC">(</span><span class="NAME">config</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>311</span> 
-<span class='line'>312</span> </span><span class="WHIT">      </span><span class="NAME">interfaceCheck</span><span class="PUNC">(</span><span class="WHIT">
-<span class='line'>313</span> </span><span class="WHIT">        </span><span class="NAME">animation</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>314</span> </span><span class="WHIT">        </span><span class="PUNC">[</span><span class="WHIT">
-<span class='line'>315</span> </span><span class="WHIT">          </span><span class="STRN">'init'</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>316</span> </span><span class="WHIT">          </span><span class="STRN">'start'</span><span class="WHIT">
-<span class='line'>317</span> </span><span class="WHIT">        </span><span class="PUNC">]</span><span class="WHIT">
-<span class='line'>318</span> </span><span class="WHIT">      </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>319</span> 
-<span class='line'>320</span> </span><span class="WHIT">      </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">animation</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>321</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>322</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>323</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>324</span> 
-<span class='line'>325</span> 
-<span class='line'>326</span> 
-<span class='line'>327</span> 
-<span class='line'>328</span> 
-<span class='line'>329</span> 
-<span class='line'>330</span> </span><span class="COMM">/**
-<span class='line'>331</span>  * @namespace Base component of all autopage animation objects. All properties
-<span class='line'>332</span>  * and methods defined here are available to all animation objects. All private
-<span class='line'>333</span>  * properties and methods are designated by an underscore prefix.
-<span class='line'>334</span>  *
-<span class='line'>335</span>  * @constructor
-<span class='line'>336</span>  * @param {Object} newConfig Standard configuration object.
-<span class='line'>337</span>  */</span><span class="WHIT">
-<span class='line'>338</span> </span><span class="NAME">onoPager.autopageAnimation._standard</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">newConfig</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>339</span> </span><span class="WHIT">  </span><span class="NAME">this._config</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>340</span> </span><span class="WHIT">    </span><span class="NAME">listContainer</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>341</span> </span><span class="WHIT">    </span><span class="NAME">animationSpeed</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>342</span> </span><span class="WHIT">    </span><span class="NAME">orientation</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>343</span> </span><span class="WHIT">    </span><span class="NAME">root</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>344</span> </span><span class="WHIT">    </span><span class="NAME">autoPageInterval</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT">
-<span class='line'>345</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>346</span> </span><span class="WHIT">  </span><span class="NAME">jQuery.extend</span><span class="PUNC">(</span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this._config</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">newConfig</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>347</span> 
-<span class='line'>348</span> </span><span class="WHIT">  </span><span class="COMM">/**
-<span class='line'>349</span>    * This method is run when the animation object is initialized. This method
-<span class='line'>350</span>    * is not implemented in the base animation object, but is part of the
-<span class='line'>351</span>    * interface. Failing to implement this method will result in an error.
-<span class='line'>352</span>    */</span><span class="WHIT">
-<span class='line'>353</span> </span><span class="WHIT">  </span><span class="NAME">this.init</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>354</span> </span><span class="WHIT">  </span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">this.init</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>291</span> </span><span class="COMM">/**
+<span class='line'>292</span>  * @namespace Handles animation that gives a time indication of the intervals
+<span class='line'>293</span>  *    between paging.
+<span class='line'>294</span>  */</span><span class="WHIT">
+<span class='line'>295</span> </span><span class="NAME">onoPager.autopageAnimation</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>296</span> </span><span class="WHIT">  </span><span class="COMM">// Throws an error if the created animation object does not comply to the</span><span class="WHIT">
+<span class='line'>297</span> </span><span class="WHIT">  </span><span class="COMM">// interface.</span><span class="WHIT">
+<span class='line'>298</span> </span><span class="WHIT">  </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">interfaceCheck</span><span class="PUNC">(</span><span class="NAME">animation</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">publicMethods</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>299</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">hasMethod</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>300</span> </span><span class="WHIT">    </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">publicMethods.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>301</span> </span><span class="WHIT">      </span><span class="NAME">hasMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>302</span> </span><span class="WHIT">      </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">object</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">animation</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>303</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">object</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">publicMethods</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>304</span> </span><span class="WHIT">          </span><span class="NAME">hasMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>305</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>306</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>307</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">hasMethod</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>308</span> </span><span class="WHIT">        </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Error</span><span class="PUNC">(</span><span class="STRN">'Animation object does not implement '</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>309</span> </span><span class="WHIT">          </span><span class="STRN">'public method "'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">publicMethods</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'"'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>310</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>311</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">animation</span><span class="PUNC">[</span><span class="NAME">object</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">'function'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>312</span> </span><span class="WHIT">        </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Error</span><span class="PUNC">(</span><span class="STRN">'animation.'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">publicMethods</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">' is not of type'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>313</span> </span><span class="WHIT">          </span><span class="STRN">'"function", but "'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">animation</span><span class="PUNC">[</span><span class="NAME">object</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'"'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>314</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>315</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>316</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>317</span> 
+<span class='line'>318</span> </span><span class="WHIT">  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>319</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>320</span>      * This method creates and returns an animation object.
+<span class='line'>321</span>      *
+<span class='line'>322</span>      * @param {Object} config Configuration object.
+<span class='line'>323</span>      * @return {object} The animation object.
+<span class='line'>324</span>      */</span><span class="WHIT">
+<span class='line'>325</span> </span><span class="WHIT">    </span><span class="NAME">createAnimation</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">config</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>326</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">onoPager.autopageAnimation</span><span class="PUNC">[</span><span class="NAME">config.autoPageAnimationType</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT">
+<span class='line'>327</span> </span><span class="WHIT">          </span><span class="STRN">'function'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>328</span> </span><span class="WHIT">        </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Error</span><span class="PUNC">(</span><span class="STRN">'autoPageAnimationType "'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>329</span> </span><span class="WHIT">          </span><span class="NAME">config.autoPageAnimationType</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'" is not of type function, but '</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>330</span> </span><span class="WHIT">          </span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">onoPager.autopageAnimation</span><span class="PUNC">[</span><span class="NAME">config.autoPageAnimationType</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>331</span> </span><span class="WHIT">        </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>332</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>333</span> </span><span class="WHIT">      </span><span class="NAME">config.root.addClass</span><span class="PUNC">(</span><span class="STRN">'onoPager_onoPager.autopageAnimation_'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>334</span> </span><span class="WHIT">        </span><span class="NAME">config.autoPageAnimationType</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>335</span> 
+<span class='line'>336</span> </span><span class="WHIT">      </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">animation</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">onoPager.autopageAnimation</span><span class="PUNC">[</span><span class="WHIT">
+<span class='line'>337</span> </span><span class="WHIT">        </span><span class="NAME">config.autoPageAnimationType</span><span class="PUNC">]</span><span class="PUNC">(</span><span class="NAME">config</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>338</span> 
+<span class='line'>339</span> </span><span class="WHIT">      </span><span class="NAME">interfaceCheck</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>340</span> </span><span class="WHIT">        </span><span class="NAME">animation</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>341</span> </span><span class="WHIT">        </span><span class="PUNC">[</span><span class="WHIT">
+<span class='line'>342</span> </span><span class="WHIT">          </span><span class="STRN">'init'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>343</span> </span><span class="WHIT">          </span><span class="STRN">'start'</span><span class="WHIT">
+<span class='line'>344</span> </span><span class="WHIT">        </span><span class="PUNC">]</span><span class="WHIT">
+<span class='line'>345</span> </span><span class="WHIT">      </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>346</span> 
+<span class='line'>347</span> </span><span class="WHIT">      </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">animation</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>348</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>349</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>350</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>351</span> 
+<span class='line'>352</span> 
+<span class='line'>353</span> 
+<span class='line'>354</span> 
 <span class='line'>355</span> 
-<span class='line'>356</span> </span><span class="WHIT">  </span><span class="NAME">this._init</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>357</span> </span><span class="WHIT">    </span><span class="NAME">this.init</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>358</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>359</span> 
-<span class='line'>360</span> </span><span class="WHIT">  </span><span class="COMM">/**
-<span class='line'>361</span>    * Starts the page animation. This method is not implemented in the base
-<span class='line'>362</span>    * animation object, but is part of the interface. Failing to implement this
-<span class='line'>363</span>    * method will result in an error.
-<span class='line'>364</span>    */</span><span class="WHIT">
-<span class='line'>365</span> </span><span class="WHIT">  </span><span class="NAME">this.start</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>366</span> </span><span class="WHIT">  </span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">this.page</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>367</span> 
-<span class='line'>368</span> </span><span class="WHIT">  </span><span class="NAME">this._start</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>369</span> </span><span class="WHIT">    </span><span class="NAME">this.start</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>370</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>371</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>372</span> 
-<span class='line'>373</span> 
+<span class='line'>356</span> 
+<span class='line'>357</span> </span><span class="COMM">/**
+<span class='line'>358</span>  * @namespace Base component of all autopage animation objects. All properties
+<span class='line'>359</span>  * and methods defined here are available to all animation objects. All private
+<span class='line'>360</span>  * properties and methods are designated by an underscore prefix.
+<span class='line'>361</span>  *
+<span class='line'>362</span>  * @constructor
+<span class='line'>363</span>  * @param {Object} newConfig Standard configuration object.
+<span class='line'>364</span>  */</span><span class="WHIT">
+<span class='line'>365</span> </span><span class="NAME">onoPager.autopageAnimation._standard</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">newConfig</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>366</span> </span><span class="WHIT">  </span><span class="NAME">this._config</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>367</span> </span><span class="WHIT">    </span><span class="NAME">listContainer</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>368</span> </span><span class="WHIT">    </span><span class="NAME">animationSpeed</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>369</span> </span><span class="WHIT">    </span><span class="NAME">orientation</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>370</span> </span><span class="WHIT">    </span><span class="NAME">root</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>371</span> </span><span class="WHIT">    </span><span class="NAME">autoPageInterval</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT">
+<span class='line'>372</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>373</span> </span><span class="WHIT">  </span><span class="NAME">jQuery.extend</span><span class="PUNC">(</span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this._config</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">newConfig</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>374</span> 
-<span class='line'>375</span> 
-<span class='line'>376</span> 
-<span class='line'>377</span> 
-<span class='line'>378</span> </span><span class="COMM">/**
-<span class='line'>379</span>  * @namespace Autopage animation object. This object will create a simple
-<span class='line'>380</span>  * timeline
-<span class='line'>381</span>  *
-<span class='line'>382</span>  * @param {Object} newConfig Standard configuration object.
-<span class='line'>383</span>  * @return {Object} instance of an animation object.
-<span class='line'>384</span>  */</span><span class="WHIT">
-<span class='line'>385</span> </span><span class="NAME">onoPager.autopageAnimation.timeline</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">newConfig</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>386</span> </span><span class="WHIT">  </span><span class="COMM">/**
-<span class='line'>387</span>    * New animation object.
-<span class='line'>388</span>    * @memberOf onoPager.autopageAnimation.timeline
-<span class='line'>389</span>    */</span><span class="WHIT">
-<span class='line'>390</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">timelineInstance</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">onoPager.autopageAnimation._standard</span><span class="PUNC">(</span><span class="NAME">newConfig</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>391</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tools</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">onoPager.tools</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>392</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">bar</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>393</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">root</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">timelineInstance._config.root</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>394</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">listContainer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">timelineInstance._config.listContainer</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>395</span> 
-<span class='line'>396</span> </span><span class="WHIT">  </span><span class="COMM">/**
-<span class='line'>397</span>    * @see onoPager.autopageAnimation._standard#init
-<span class='line'>398</span>    * @memberOf onoPager.autopageAnimation.timeline
-<span class='line'>399</span>    * @this
-<span class='line'>400</span>    */</span><span class="WHIT">
-<span class='line'>401</span> </span><span class="WHIT">  </span><span class="NAME">timelineInstance.init</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>402</span> </span><span class="WHIT">    </span><span class="NAME">root.html</span><span class="PUNC">(</span><span class="STRN">'&lt;div class="onoPager_autoPageBar">&lt;/div>'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>403</span> </span><span class="WHIT">    </span><span class="NAME">bar</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">root.find</span><span class="PUNC">(</span><span class="STRN">'div.onoPager_autoPageBar'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>404</span> </span><span class="WHIT">    </span><span class="NAME">root.css</span><span class="PUNC">(</span><span class="WHIT">
-<span class='line'>405</span> </span><span class="WHIT">      </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>406</span> </span><span class="WHIT">        </span><span class="NAME">width</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">listContainer.innerWidth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>407</span> </span><span class="WHIT">        </span><span class="NAME">position</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'absolute'</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>408</span> </span><span class="WHIT">        </span><span class="NAME">left</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">listContainer.position</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">left</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'px'</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>409</span> </span><span class="WHIT">        </span><span class="NAME">top</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">listContainer.position</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">top</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
-<span class='line'>410</span> </span><span class="WHIT">               </span><span class="NAME">listContainer.innerHeight</span><span class="PUNC">(</span><span class="KEYW">true</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'px'</span><span class="WHIT">
-<span class='line'>411</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>412</span> </span><span class="WHIT">    </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>413</span> 
-<span class='line'>414</span> </span><span class="WHIT">    </span><span class="NAME">bar.css</span><span class="PUNC">(</span><span class="STRN">'width'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>415</span> </span><span class="WHIT">    </span><span class="NAME">bar.animate</span><span class="PUNC">(</span><span class="WHIT">
-<span class='line'>416</span> </span><span class="WHIT">      </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>417</span> </span><span class="WHIT">        </span><span class="NAME">width</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">root.innerWidth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'px'</span><span class="WHIT">
-<span class='line'>418</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>419</span> </span><span class="WHIT">      </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>420</span> </span><span class="WHIT">        </span><span class="NAME">duration</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this._config.autoPageInterval</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>421</span> </span><span class="WHIT">        </span><span class="NAME">easing</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'linear'</span><span class="WHIT">
-<span class='line'>422</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>423</span> </span><span class="WHIT">    </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>424</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>425</span> 
-<span class='line'>426</span> </span><span class="WHIT">  </span><span class="COMM">/**
-<span class='line'>427</span>    * @see onoPager.autopageAnimation._standard#start
-<span class='line'>428</span>    * @memberOf onoPager.autopageAnimation.timeline
-<span class='line'>429</span>    * @this
-<span class='line'>430</span>    */</span><span class="WHIT">
-<span class='line'>431</span> </span><span class="WHIT">  </span><span class="NAME">timelineInstance.start</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>432</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">interval</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._config.autoPageInterval</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">this._config.animationSpeed</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>433</span> 
-<span class='line'>434</span> </span><span class="WHIT">    </span><span class="NAME">bar.stop</span><span class="PUNC">(</span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>435</span> </span><span class="WHIT">    </span><span class="NAME">bar.css</span><span class="PUNC">(</span><span class="STRN">'width'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>436</span> </span><span class="WHIT">    </span><span class="NAME">bar.delay</span><span class="PUNC">(</span><span class="NAME">this._config.animationSpeed</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">animate</span><span class="PUNC">(</span><span class="WHIT">
-<span class='line'>437</span> </span><span class="WHIT">      </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>438</span> </span><span class="WHIT">        </span><span class="NAME">width</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">root.innerWidth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'px'</span><span class="WHIT">
-<span class='line'>439</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>440</span> </span><span class="WHIT">      </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>441</span> </span><span class="WHIT">        </span><span class="NAME">duration</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">interval</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>442</span> </span><span class="WHIT">        </span><span class="NAME">easing</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'linear'</span><span class="WHIT">
-<span class='line'>443</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>444</span> </span><span class="WHIT">    </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>445</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>446</span> 
-<span class='line'>447</span> </span><span class="WHIT">  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">timelineInstance</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>448</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>449</span> </span></pre></body></html>
+<span class='line'>375</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>376</span>    * This method is run when the animation object is initialized. This method
+<span class='line'>377</span>    * is not implemented in the base animation object, but is part of the
+<span class='line'>378</span>    * interface. Failing to implement this method will result in an error.
+<span class='line'>379</span>    */</span><span class="WHIT">
+<span class='line'>380</span> </span><span class="WHIT">  </span><span class="NAME">this.init</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>381</span> </span><span class="WHIT">  </span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">this.init</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>382</span> 
+<span class='line'>383</span> </span><span class="WHIT">  </span><span class="NAME">this._init</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>384</span> </span><span class="WHIT">    </span><span class="NAME">this.init</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>385</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>386</span> 
+<span class='line'>387</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>388</span>    * Starts the page animation. This method is not implemented in the base
+<span class='line'>389</span>    * animation object, but is part of the interface. Failing to implement this
+<span class='line'>390</span>    * method will result in an error.
+<span class='line'>391</span>    */</span><span class="WHIT">
+<span class='line'>392</span> </span><span class="WHIT">  </span><span class="NAME">this.start</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>393</span> </span><span class="WHIT">  </span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">this.page</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>394</span> 
+<span class='line'>395</span> </span><span class="WHIT">  </span><span class="NAME">this._start</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>396</span> </span><span class="WHIT">    </span><span class="NAME">this.start</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>397</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>398</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>399</span> 
+<span class='line'>400</span> 
+<span class='line'>401</span> 
+<span class='line'>402</span> 
+<span class='line'>403</span> 
+<span class='line'>404</span> 
+<span class='line'>405</span> </span><span class="COMM">/**
+<span class='line'>406</span>  * @namespace Autopage animation object. This object will create a simple
+<span class='line'>407</span>  * timeline
+<span class='line'>408</span>  *
+<span class='line'>409</span>  * @param {Object} newConfig Standard configuration object.
+<span class='line'>410</span>  * @return {Object} instance of an animation object.
+<span class='line'>411</span>  */</span><span class="WHIT">
+<span class='line'>412</span> </span><span class="NAME">onoPager.autopageAnimation.timeline</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">newConfig</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>413</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>414</span>    * New animation object.
+<span class='line'>415</span>    * @memberOf onoPager.autopageAnimation.timeline
+<span class='line'>416</span>    */</span><span class="WHIT">
+<span class='line'>417</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">timelineInstance</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">onoPager.autopageAnimation._standard</span><span class="PUNC">(</span><span class="NAME">newConfig</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>418</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tools</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">onoPager.tools</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>419</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">bar</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>420</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">root</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">timelineInstance._config.root</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>421</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">listContainer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">timelineInstance._config.listContainer</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>422</span> 
+<span class='line'>423</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>424</span>    * @see onoPager.autopageAnimation._standard#init
+<span class='line'>425</span>    * @memberOf onoPager.autopageAnimation.timeline
+<span class='line'>426</span>    * @this
+<span class='line'>427</span>    */</span><span class="WHIT">
+<span class='line'>428</span> </span><span class="WHIT">  </span><span class="NAME">timelineInstance.init</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>429</span> </span><span class="WHIT">    </span><span class="NAME">root.html</span><span class="PUNC">(</span><span class="STRN">'&lt;div class="onoPager_autoPageBar">&lt;/div>'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>430</span> </span><span class="WHIT">    </span><span class="NAME">bar</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">root.find</span><span class="PUNC">(</span><span class="STRN">'div.onoPager_autoPageBar'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>431</span> </span><span class="WHIT">    </span><span class="NAME">root.css</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>432</span> </span><span class="WHIT">      </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>433</span> </span><span class="WHIT">        </span><span class="NAME">width</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">listContainer.innerWidth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>434</span> </span><span class="WHIT">        </span><span class="NAME">position</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'absolute'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>435</span> </span><span class="WHIT">        </span><span class="NAME">left</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">listContainer.position</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">left</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'px'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>436</span> </span><span class="WHIT">        </span><span class="NAME">top</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">listContainer.position</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">top</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>437</span> </span><span class="WHIT">               </span><span class="NAME">listContainer.innerHeight</span><span class="PUNC">(</span><span class="KEYW">true</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'px'</span><span class="WHIT">
+<span class='line'>438</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>439</span> </span><span class="WHIT">    </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>440</span> 
+<span class='line'>441</span> </span><span class="WHIT">    </span><span class="NAME">bar.css</span><span class="PUNC">(</span><span class="STRN">'width'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>442</span> </span><span class="WHIT">    </span><span class="NAME">bar.animate</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>443</span> </span><span class="WHIT">      </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>444</span> </span><span class="WHIT">        </span><span class="NAME">width</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">root.innerWidth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'px'</span><span class="WHIT">
+<span class='line'>445</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>446</span> </span><span class="WHIT">      </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>447</span> </span><span class="WHIT">        </span><span class="NAME">duration</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this._config.autoPageInterval</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>448</span> </span><span class="WHIT">        </span><span class="NAME">easing</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'linear'</span><span class="WHIT">
+<span class='line'>449</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>450</span> </span><span class="WHIT">    </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>451</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>452</span> 
+<span class='line'>453</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>454</span>    * @see onoPager.autopageAnimation._standard#start
+<span class='line'>455</span>    * @memberOf onoPager.autopageAnimation.timeline
+<span class='line'>456</span>    * @this
+<span class='line'>457</span>    */</span><span class="WHIT">
+<span class='line'>458</span> </span><span class="WHIT">  </span><span class="NAME">timelineInstance.start</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>459</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">interval</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._config.autoPageInterval</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">this._config.animationSpeed</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>460</span> 
+<span class='line'>461</span> </span><span class="WHIT">    </span><span class="NAME">bar.stop</span><span class="PUNC">(</span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>462</span> </span><span class="WHIT">    </span><span class="NAME">bar.css</span><span class="PUNC">(</span><span class="STRN">'width'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>463</span> </span><span class="WHIT">    </span><span class="NAME">bar.delay</span><span class="PUNC">(</span><span class="NAME">this._config.animationSpeed</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">animate</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>464</span> </span><span class="WHIT">      </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>465</span> </span><span class="WHIT">        </span><span class="NAME">width</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">root.innerWidth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'px'</span><span class="WHIT">
+<span class='line'>466</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>467</span> </span><span class="WHIT">      </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>468</span> </span><span class="WHIT">        </span><span class="NAME">duration</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">interval</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>469</span> </span><span class="WHIT">        </span><span class="NAME">easing</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'linear'</span><span class="WHIT">
+<span class='line'>470</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>471</span> </span><span class="WHIT">    </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>472</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>473</span> 
+<span class='line'>474</span> </span><span class="WHIT">  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">timelineInstance</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>475</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>476</span> </span></pre></body></html>

@@ -86,6 +86,10 @@
    *    status box rather than a navigation control. Default is true.
    * @param {Array} arg_config.pageByNumber.labels Replaces the default
    *    content of the page-by-number links with the string values in the array.
+   * @param {Number} arg_config.pageByNumber.hideThreshold Defines how many
+   *    links may appear in the pageByNumber box. If you set the value to 2,
+   *    you'll see 2 links on the left and 2 on the right of the active item. A
+   *    negative value cancels this functionality. Default value is -1.
    * @param {Boolean} arg_config.pageByArrowKey.active Enables paging by
    *    using the keyboard arrow keys. Default is false.
    * @param {Boolean} arg_config.pageByArrowKey.preventDefault Disables or
@@ -115,68 +119,68 @@
    * @return {jQuery} chainable jQuery class.
    * @memberOf jQuery.fn
    * @example
-   * // Simple example:
-   * jQuery('#list1').onoPager({
-   *   pagePerItem: false,
-   *   listContainer: {
-   *     width: '700px',
-   *     height: '100px'
-   *   },
-   *   listItems: {
-   *     width: '300px'
-   *   },
-   *   animationType: 'linear',
-   *   animationSpeed: 1000
-   * });
-   *
-   * // Advanced example:
-   * jQuery('#list1').onoPager({
-   *    cssClass: 'onopager_theme1',
-   *    pagePerItem: true,
-   *    lockDuringTransition: false,
-   *    doesLoop: true,
-   *    listContainer: {
-   *      width: '300px',
-   *      height: '100px'
-   *    },
-   *    listItems: {
-   *      width: '300px',
-   *      height: '100px'
-   *    },
-   *    activeIndex: 2,
-   *    autoPage: {
-   *      active: true,
-   *      interval: 2000,
-   *    },
-   *    labels: {
-   *      next: 'next',
-   *      previous: 'previous'
-   *    },
-   *    status: {
-   *      active: true,
-   *      prependText: 'page ',
-   *      seperationText: ' of ',
-   *      appendText: ' pages'
-   *    },
-   *    scroller: {
-   *      active: false,
-   *      pixelMove: 2
-   *    },
-   *    pageByNumber: {
-   *      active: true,
-   *      enableClick: true,
-   *      labels: []
-   *    },
-   *    pageByArrowKey: {
-   *      active: false,
-   *      preventDefault: false
-   *    },
-   *    swipeTriggersPage: false,
-   *    swipePlatforms: 'touch',
-   *    animationType: 'linear',
-   *    animationEasing: 'linear',
-   *    orientation: 'horizontal',
-   *    animationSpeed: 1000
+   * // Simple example:<br />
+   * jQuery('#list1').onoPager({<br />
+   *   pagePerItem: false,<br />
+   *   listContainer: {<br />
+   *     width: '700px',<br />
+   *     height: '100px'<br />
+   *   },<br />
+   *   listItems: {<br />
+   *     width: '300px'<br />
+   *   },<br />
+   *   animationType: 'linear',<br />
+   *   animationSpeed: 1000<br />
+   * });<br />
+   *<br />
+   * // Advanced example:<br />
+   * jQuery('#list1').onoPager({<br />
+   *    cssClass: 'onopager_theme1',<br />
+   *    pagePerItem: true,<br />
+   *    lockDuringTransition: false,<br />
+   *    doesLoop: true,<br />
+   *    listContainer: {<br />
+   *      width: '300px',<br />
+   *      height: '100px'<br />
+   *    },<br />
+   *    listItems: {<br />
+   *      width: '300px',<br />
+   *      height: '100px'<br />
+   *    },<br />
+   *    activeIndex: 2,<br />
+   *    autoPage: {<br />
+   *      active: true,<br />
+   *      interval: 2000,<br />
+   *    },<br />
+   *    labels: {<br />
+   *      next: 'next',<br />
+   *      previous: 'previous'<br />
+   *    },<br />
+   *    status: {<br />
+   *      active: true,<br />
+   *      prependText: 'page ',<br />
+   *      seperationText: ' of ',<br />
+   *      appendText: ' pages'<br />
+   *    },<br />
+   *    scroller: {<br />
+   *      active: false,<br />
+   *      pixelMove: 2<br />
+   *    },<br />
+   *    pageByNumber: {<br />
+   *      active: true,<br />
+   *      enableClick: true,<br />
+   *      labels: []<br />
+   *    },<br />
+   *    pageByArrowKey: {<br />
+   *      active: false,<br />
+   *      preventDefault: false<br />
+   *    },<br />
+   *    swipeTriggersPage: false,<br />
+   *    swipePlatforms: 'touch',<br />
+   *    animationType: 'linear',<br />
+   *    animationEasing: 'linear',<br />
+   *    orientation: 'horizontal',<br />
+   *    animationSpeed: 1000<br />
    * });
    */
   jQuery.fn.onoPager = function(arg_config, animationConfig) {
@@ -216,7 +220,8 @@
       pageByNumber: {
         active: true,
         enableClick: true,
-        labels: []
+        labels: [],
+        hideThreshold: -1
       },
       pageByArrowKey: {
         active: false,
@@ -355,7 +360,8 @@
             gotoLinks: pageByNumber,
             status: pageStatus
           },
-          config.status
+          config.status,
+          config.pageByNumber.hideThreshold
         );
       } else {
         pageNext.hide();
@@ -943,19 +949,23 @@ onoPager.scroller.dragHandle = function(arg_handle,
  * @param {Number} arg_index Initial index position.
  * @param {Number} arg_length Number of items in list.
  * @param {Boolean} arg_doesLoop If set to true, the pager will loop
- *  from the last item back to the first.
+ *    from the last item back to the first.
  * @param {Object} arg_controls Object that contains certain elements in the
- *  pager, wrapped in a jQuery object.
+ *    pager, wrapped in a jQuery object.
  * @param {Object} arg_status Configuration object for the status box.
+ * @param {Number} arg_gotoLinks_hideThreshold Controls the number of links
+ *    before and after the active link that are visible.
  */
 onoPager.pager = function(arg_index,
                           arg_length,
                           arg_doesLoop,
                           arg_controls,
-                          arg_status) {
+                          arg_status,
+                          arg_gotoLinks_hideThreshold) {
   var index = arg_index || 0;
   var length = arg_length || 0;
   var doesLoop = (typeof(arg_doesLoop) == 'boolean') ? arg_doesLoop : true;
+  var gotoLinks_hideThreshold = arg_gotoLinks_hideThreshold || -1;
 
   // Set autopager variables
   var autoPageConfig = {};  // Autopage configuration object
@@ -1023,6 +1033,9 @@ onoPager.pager = function(arg_index,
       var activeLink = controls.gotoLinks.find('a:eq(' + index + ')');
       activeLink.siblings().removeClass('onoPager_active');
       activeLink.addClass('onoPager_active');
+      if (gotoLinks_hideThreshold >= 0) {
+        toggleGotoLinks();
+      }
     }
 
     if (controls.previous && doesLoop == false) {
@@ -1044,6 +1057,26 @@ onoPager.pager = function(arg_index,
         status.prependText + (index + 1) + status.seperationText +
         length + status.appendText
       );
+    }
+
+    function toggleGotoLinks() {
+      controls.gotoLinks.find('a').hide();
+      //activeLink.show();
+
+      var firstVisibleItem = index - gotoLinks_hideThreshold;
+      var totalVisibleItems = (gotoLinks_hideThreshold * 2) + 1;
+      if (firstVisibleItem < 0) {
+        firstVisibleItem = 0;
+      }
+      if (firstVisibleItem > (length - totalVisibleItems)) {
+        firstVisibleItem = (length - totalVisibleItems);
+      }
+
+      for (var i = firstVisibleItem;
+           i < firstVisibleItem + totalVisibleItems;
+           i++) {
+        controls.gotoLinks.find('a:eq(' + i + ')').show();
+      }
     }
   }
 

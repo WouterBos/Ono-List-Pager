@@ -86,6 +86,10 @@
    *    status box rather than a navigation control. Default is true.
    * @param {Array} arg_config.pageByNumber.labels Replaces the default
    *    content of the page-by-number links with the string values in the array.
+   * @param {Number} arg_config.pageByNumber.hideThreshold Defines how many
+   *    links may appear in the pageByNumber box. If you set the value to 2,
+   *    you'll see 2 links on the left and 2 on the right of the active item. A
+   *    negative value cancels this functionality. Default value is -1.
    * @param {Boolean} arg_config.pageByArrowKey.active Enables paging by
    *    using the keyboard arrow keys. Default is false.
    * @param {Boolean} arg_config.pageByArrowKey.preventDefault Disables or

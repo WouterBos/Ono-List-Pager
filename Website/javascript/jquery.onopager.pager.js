@@ -90,7 +90,7 @@ onoPager.pager = function(arg_index,
       activeLink.siblings().removeClass('onoPager_active');
       activeLink.addClass('onoPager_active');
       if (gotoLinks_hideThreshold >= 0) {
-        toggleGotoLinks()
+        toggleGotoLinks();
       }
     }
 
@@ -114,11 +114,11 @@ onoPager.pager = function(arg_index,
         length + status.appendText
       );
     }
-    
+
     function toggleGotoLinks() {
       controls.gotoLinks.find('a').hide();
       //activeLink.show();
-      
+
       var firstVisibleItem = index - gotoLinks_hideThreshold;
       var totalVisibleItems = (gotoLinks_hideThreshold * 2) + 1;
       if (firstVisibleItem < 0) {
@@ -127,10 +127,12 @@ onoPager.pager = function(arg_index,
       if (firstVisibleItem > (length - totalVisibleItems)) {
         firstVisibleItem = (length - totalVisibleItems);
       }
-      
-      for (var i = firstVisibleItem; i < firstVisibleItem + totalVisibleItems; i++) {
+
+      for (var i = firstVisibleItem;
+           i < firstVisibleItem + totalVisibleItems;
+           i++) {
         controls.gotoLinks.find('a:eq(' + i + ')').show();
-      };
+      }
     }
   }
 
