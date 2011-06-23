@@ -57,7 +57,7 @@
         this.addEventListener(
           'touchstart',
           function(e) {
-            e.preventDefault();
+            //e.preventDefault();
             offsetLeft = ($(window).width() - $(this).outerWidth(true)) / 2;
             offsetTop = ($(window).height() - $(this).outerHeight(true)) / 2;
             data.x = e.targetTouches[0].pageX - offsetLeft;
