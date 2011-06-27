@@ -31,6 +31,10 @@ onoPager.pager = function(arg_index,
   var listContainer;        // The element that holds the list
   var animationSpeed;       // The speed of the transitions in milliseconds
   var orientation;          // The orientation
+  var lockDuringTransition; // Determines of a user can make a page before the
+                            //    current transition is finished
+  var list;                 // The pager list. Most of the time that's a UL.
+  var root;
 
   // Set pager controls
   var controls = {
@@ -159,12 +163,21 @@ onoPager.pager = function(arg_index,
 
   // Starts a page transition (triggered by interval)
   function autoPager() {
-    if (doesLoop == false && (index == (length - 1))) {
-      clearInterval(autoPageInterval);
-    }
-    autoPageConfig.animation._page(index, move(1), 1);
-    if (autoPageAnimation) {
-      autoPageAnimation._start();
+    var canPage = onoPager.tools.canPage(
+      root.closest('div.onoPager'),
+      lockDuringTransition,
+      list,
+      list.find('> *.onoPager_listItem')
+    );
+    
+    if (canPage) {
+      if (doesLoop == false && (index == (length - 1))) {
+        clearInterval(autoPageInterval);
+      }
+      autoPageConfig.animation._page(index, move(1), 1);
+      if (autoPageAnimation) {
+        autoPageAnimation._start();
+      }
     }
   }
 
@@ -231,6 +244,8 @@ onoPager.pager = function(arg_index,
    *  &lt;ul&gt; most of the time.
    * @param {Object} arg_autoPageContainer The element in which the auto page
    *    animation will take place.
+   * @param {Boolean} arg_lockDuringTransition Determines of a user can make a
+   *    page before the current transition is finished
    * @example
    * instance.initAutoPager(
    *    {
@@ -245,7 +260,8 @@ onoPager.pager = function(arg_index,
                                 arg_orientation,
                                 arg_listContainer,
                                 arg_list,
-                                arg_autoPageContainer) {
+                                arg_autoPageContainer,
+                                arg_lockDuringTransition) {
     var tools = onoPager.tools;
 
     // Setting local private variables
@@ -253,12 +269,14 @@ onoPager.pager = function(arg_index,
     listContainer = arg_listContainer;
     orientation = arg_orientation;
     autoPageContainer = arg_autoPageContainer;
+    lockDuringTransition = arg_lockDuringTransition;
+    list = arg_list;
     jQuery.extend(true,
                   autoPageConfig,
                   arg_autoPageConfig,
                   {animation: arg_animation});
     var listSize = 0;
-    arg_list.find('*.onoPager_listItem').each(function() {
+    list.find('*.onoPager_listItem').each(function() {
       listSize += tools.getInnerSize(orientation, jQuery(this));
     });
     var overflow = tools.getInnerSize(orientation, listContainer) - listSize;

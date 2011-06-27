@@ -7,7 +7,6 @@
  */
 
 // TODO:
-// - Manage the number of visible items in pageByNumber
 // - Build support for scroll wheel
 // - Highlight arrow key when pressing an arrow key on keyboard
 // - onHandleDrag assumes margin-*. Must handle possible left/top as well
@@ -16,7 +15,7 @@
 //    - Standard: Wait until resize is finished
 //    - Ani object: Reposition list
 //    - Redraw paging by numbers links
-//  - Temporary disable pager by adding class onoPager_disabled
+// - Page onmouseenter on paging controls
 
 (function($) {
   /**
@@ -376,7 +375,8 @@
                             config.orientation,
                             listContainer,
                             list,
-                            autoPageContainer);
+                            autoPageContainer,
+                            config.lockDuringTransition);
       }
     }
 
@@ -502,10 +502,13 @@
     }
 
     function page(arg_newIndex, arg_direction) {
-      if (config.lockDuringTransition == false ||
-          config.lockDuringTransition == true &&
-          list.is(':animated') == false &&
-          listItems.is(':animated') == false) {
+      var canPage = onoPager.tools.canPage(
+        root,
+        config.lockDuringTransition,
+        list,
+        listItems
+      );
+      if (canPage) {
         if (config.autoPage.active == true) {
           pager.resetAutopager();
         }

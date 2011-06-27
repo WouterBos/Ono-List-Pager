@@ -7,6 +7,31 @@ onoPager.tools = (function() {
 
   return {
     /**
+     * Determines wether a page action is allowed
+     * @return {Boolean} A page action can be done if return value is true.
+     * @param {Object} root The root object of a pager (div.onoPager).
+     * @param {Boolean} arg_lockDuringTransition Determines of a user can make a
+     *    page before the current transition is finished.
+     * @param {Object} list The list, most of the times that's a UL.
+     * @param {Object} listItems The collection of the list items, most of the
+     *    the times it is a collection of LI's
+     */
+    canPage: function(root,
+                      lockDuringTransition,
+                      list,
+                      listItems) {
+      if (root.hasClass('onoPager_disabled') == false &&
+          (lockDuringTransition == false ||
+          lockDuringTransition == true &&
+          list.is(':animated') == false &&
+          listItems.is(':animated') == false)) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+
+    /**
      * Returns either left or top position in pixels relative to the page.
      * @param {Object} orientation Either 'horizontal' or 'vertical'.
      * @param {Object} selector jQuery selector.

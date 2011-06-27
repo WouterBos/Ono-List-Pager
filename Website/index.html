@@ -37,7 +37,10 @@
   	<ul class="demos">
   	  <li class="list1">
       	<div class="title">
-          <h4>List 1: "linear" with support for swiping and keyboard keys ← and →</h4>
+          <h4>
+            List 1: "linear" with support for swiping and keyboard keys ← and →
+            <a href="javascript:void(0);" class="js_toggleDisable">disable</a>
+          </h4>
           <div class="code">
             code
             <pre>jQuery('#list1').onoPager({
@@ -241,7 +244,10 @@
     
       <li class="fullWidth list6">
         <div class="title">
-          <h4>List 6: "linear continuous" with autopage and a faux background animation</h4>
+          <h4>
+            List 6: "linear continuous" with autopage and a faux background animation
+            <a href="javascript:void(0);" class="js_toggleDisable">disable</a>
+          </h4>
           <div class="code">
             code
           <pre>jQuery('#list6').onoPager({
@@ -457,6 +463,19 @@
     eval(jQuery('.list5 pre').text());
     eval(jQuery('.list6 pre').text());
     eval(jQuery('.list7 pre').text());
+    
+    jQuery('a.js_toggleDisable').click(function(event) {
+      event.preventDefault();
+      var toggle = jQuery(this);
+      var pager = toggle.closest('li').find('div.onoPager')
+      if (pager.hasClass('onoPager_disabled')) {
+        toggle.text('disable');
+        pager.removeClass('onoPager_disabled')
+      } else {
+        toggle.text('enable');
+        pager.addClass('onoPager_disabled')
+      }
+    });
   </script>
 </body>
 </html>
