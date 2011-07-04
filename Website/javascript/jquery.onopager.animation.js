@@ -835,9 +835,10 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
       var currentOffset = this._config.list.css(topLeft).replace('px', '');
       currentOffset = parseInt(currentOffset);
       var indexMove = 0;
-      if (oldIndex == 0 && newIndex == (listSize - 1)) {
+      if (oldIndex == 0 && newIndex == (listSize - 1) && direction == -1) {
         indexMove = -1;
-      } else if (oldIndex == (listSize - 1) && newIndex == 0) {
+      } else if (oldIndex == (listSize - 1) &&
+                 newIndex == 0 && direction == 1) {
         indexMove = 1;
       } else {
         indexMove = newIndex - oldIndex;
