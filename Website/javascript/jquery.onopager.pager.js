@@ -348,7 +348,7 @@ onoPager.autopageAnimation = (function() {
           typeof(onoPager.autopageAnimation[config.autoPageAnimationType])
         );
       }
-      config.root.addClass('onoPager_onoPager.autopageAnimation_' +
+      config.root.addClass('onoPager_autopageAnimation_' +
         config.autoPageAnimationType);
 
       var animation = onoPager.autopageAnimation[
