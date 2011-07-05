@@ -450,7 +450,7 @@ onoPager.autopageAnimation.timeline = function(newConfig) {
       {
         width: listContainer.innerWidth(),
         position: 'absolute',
-        left: listContainer.position().left + 'px',
+        /* left: listContainer.position().left + 'px', */
         top: listContainer.position().top +
                listContainer.innerHeight(true) + 'px'
       }
