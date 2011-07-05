@@ -34,7 +34,6 @@ onoPager.pager = function(arg_index,
   var lockDuringTransition; // Determines of a user can make a page before the
                             //    current transition is finished
   var list;                 // The pager list. Most of the time that's a UL.
-  var root;
 
   // Set pager controls
   var controls = {
