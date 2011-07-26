@@ -64,33 +64,14 @@ body {
 	font-size: 14px;
 }
 
-div.body {
-  padding: 20px;
+a {
+	text-decoration: none;
 }
-
-h1 {
-	margin-bottom: 0;
-	font-family: "Lucida Sans Unicode","Lucida Grande",sans-serif;
-	font-size: 24px;
-	font-weight: normal;
+a:hover {
+	text-decoration: underline;
 }
 
 h2 {
-	margin: 0 0 2em 0;
-	font-family: "Lucida Sans Unicode","Lucida Grande",sans-serif;
-	font-size: 14px;
-	font-weight: normal;
-}
-
-h3 {
-  clear: both;
-	margin: 3em 0 0.5em 0;
-  font-family: "Lucida Sans Unicode","Lucida Grande",sans-serif;
-	font-size: 18px;
-}
-h3 a {
-  font-family: Arial, sans-serif;
-  font-size: 12px;
 }
 
 h4 {
@@ -103,6 +84,113 @@ h4 {
 
 
 
+
+div.intro {
+	cursor: default;
+	border-bottom: 1px solid #B44C00;
+	padding: 6px 20px 10px 20px;
+	color: #ffffff;
+	min-height: 0;
+	background: #EA6300;
+}
+div.intro:after {
+  clear: both;
+  display: block;
+  width: 100%;
+  content: "";
+}
+
+div.intro a {
+	text-decoration: underline;
+}
+div.intro a:hover {
+	text-decoration: none;
+}
+
+div.intro,
+div.intro * {
+	color: #ffffff;
+}
+
+div.intro p {
+	margin: 0.5em 0 0 0;
+	font-size: 12px;
+	font-weight: normal;
+}
+
+div.intro span.logo {
+	float: left;
+	margin-top: -13px;
+	font-family: Arial,sans-serif;
+	font-size: 36px;
+	font-weight: bold;
+	text-shadow: 2px 2px 0px #743100;
+	letter-spacing: -1px;
+}
+
+div.intro span.logo > span {
+	position: relative;
+	top: -2px;
+	font-size: 28px;
+}
+
+div.intro div.hgroup {
+	padding-left: 55px;
+}
+
+div.intro h1 {
+	margin-bottom: 0;
+	font-family: "Lucida Sans Unicode","Lucida Grande",sans-serif;
+	font-size: 24px;
+	font-weight: normal;
+	text-shadow: 1px 1px 0px #743100;
+}
+
+div.intro h1,
+div.intro h1 * {
+	line-height: 24px;
+}
+
+
+
+div.intro2 {
+	padding-left: 75px;
+	border-bottom: 1px solid #B44C00;
+	background: #eb7d2c;
+}
+
+div.intro2 h2 {
+	margin-bottom: 5px;
+	font-family: "Lucida Sans Unicode","Lucida Grande",sans-serif;
+	font-size: 15px;
+}
+
+div.intro2 ul {
+	list-style-type: square;
+	font-size: 12px;
+	padding-left: 10px;
+}
+
+div.intro2 li {
+	padding: 2px 0;
+}
+
+
+
+div.content {
+  padding: 20px 20px 20px 75px;
+}
+
+div.content h1 {
+  clear: both;
+	margin: 0 0 0.5em 0;
+  font-family: "Lucida Sans Unicode","Lucida Grande",sans-serif;
+	font-size: 18px;
+}
+div.content h1 a {
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+}
 
 div.title {
   min-height: 0;
@@ -167,6 +255,18 @@ div.code:hover pre {
   height: 210px;
 }
 
+div.content1 {
+  border-bottom: 1px solid #8c8cff;
+  min-height: 0;
+  background: #e6e6ff;
+}
+div.content1:after {
+  clear: both;
+  display: block;
+  width: 100%;
+  content: "";
+}
+
 
 
 ul.simpleList {
@@ -177,30 +277,43 @@ ul.simpleList {
 
 
 ul.demos {
-  margin: 0 0 20px -20px;
+  margin: 0 0 20px -5px;
 }
 
 ul.demos > li {
   float: left;
-  margin: 0 0 20px 20px;
+  margin: 0 0 10px 5px;
   width: 300px;
-  height: 190px;
+  height: 175px;
+  padding-top: 10px;
+  padding-left: 20px;
 }
 
 ul.demos > li.wide {
   width: 425px;
-  padding-right: 45px;
+  padding-right: 20px;
 }
 
 ul.demos > li.fullWidth {
   clear: both;
-  width: 100%;
+  float: none;
+  margin-bottom: 5px;
+  width: auto;
+  border-top: 1px dotted #8C8CFF;
+  border-bottom: 1px dotted #8C8CFF;
 }
 
 ul.demos h4 {
   float: left;
   width: 250px;
   height: 3em;
+  font-weight: normal;
+}
+
+ul.demos h4 span {
+  margin-right: 0.5em;
+  font-weight: bold;
+  font-size: 15px;
 }
 
 ul.demos > li.wide h4 {
@@ -210,6 +323,17 @@ ul.demos > li.wide h4 {
 ul.demos > li.fullWidth h4 {
   width: 80%;
 }
+
+ul.demos li.list1,
+ul.demos li.list1b,
+ul.demos li.list2,
+ul.demos li.list3,
+ul.demos li.list4,
+ul.demos li.list5 {
+	border-right: 1px dotted #8C8CFF;
+	border-left: 1px dotted #8C8CFF; 
+}
+
 
 
 ul.editDemo {

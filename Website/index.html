@@ -21,388 +21,437 @@
 </head>
 <body>
   <div class="body">
-  	<h1>Ono List Pager demos</h1>
-  	<h2>Read more about the Ono List Pager on <a href="http://plugins.jquery.com/project/OnoListPager">plugins.jquery.com/project/OnoListPager</a></h2>
-  
-  	<div id="debug" style="font-size: 3em; display: none">debug</div>
-    
-    <h3>Websites that use the Ono List Pager</h3>
-    <ul class="simpleList">
-      <li><a href="http://estate15jaar.nl/">15 years Estate Internet</a> (in Dutch)</li>
-      <li><a href="http://socialize2011.nl/">#Socialize2011 event</a> (in Dutch)</li>
-    </ul>
-    
-    <h3>Demos</h3>
-    
-  	<ul class="demos">
-  	  <li class="list1">
-      	<div class="title">
-          <h4>
-            List 1: "linear" with support for swiping and keyboard keys ← and →
-            <a href="javascript:void(0);" class="js_toggleDisable">disable</a>
-          </h4>
-          <div class="code">
-            code
-            <pre>jQuery('#list1').onoPager({
-  cssClass: 'onoPager_greyscale',
-  pagePerItem: true,
-  doesLoop: false,
-  listContainer: {
-    width: '250px',
-    height: '100px'
-  },
-  listItems: {
-      width: '230px',
-      height: '80px'
-  },
-  status: {
-    active: false
-  },
-  pageByArrowKey: {
-    active: true,
-    preventDefault: false
-  },
-  pageByNumber: {
-    hideThreshold: 1
-  },
-  swipeTriggersPage: true,
-  animationType: 'linear',
-  animationEasing: 'easeOutCubic',
-  orientation: 'horizontal',
-  animationSpeed: 1000
-});</pre>
-          </div>
-        </div>
-      
-      	<ul id="list1" class="onoPager_noJs">
-      		<li>This basic pager offers paging per item. It also offers a 'previous' and next 'next' button. it also offers direct links to each page item.</li>
-      		<li>Second item Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>
-      		<li>Third item Lorem ipsum dolor sit amet site amet site amet. Etiam vitae massa</li>
-      		<li>Fourth item Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>
-      		<li>Fifth item Lorem ipsum dolor sit amet site amet site amet. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. Donec vel risus diam. Vestibulum posuere tristique vulputate neque ut leo aliquet scelerisque Etiam vitae massa</li>
-      		<li>Sixth item Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>
-      	</ul>
-      </li>
-      
-      <li class="list2">
-        <div class="title">
-          <h4>List 2: "linearScroller"</h4>
-          <div class="code">
-            code
-            <pre>jQuery('#list2').onoPager({
-  cssClass: 'onoPager_greyscale',
-  pagePerItem: true,
-  orientation: 'vertical',
-  listContainer: {
-    width: '250px',
-    height: '100px'
-  },
-  listItems: {
-      width: '230px',
-      height: '82px'
-  },
-  status: {
-    active: false
-  },
-  labels: {
-    next: '&raquo;',
-    previous: '&laquo;'
-  },
-  scroller: {
-    active: true,
-    pixelMove: 2
-  },
-  pageByNumber: {
-    active: false
-  },
-  animationType: 'linearScroller',
-  animationSpeed: 1000
-});</pre>
-          </div>
-        </div>
-        
-        <ul id="list2" class="onoPager_noJs">
-          <li>With the linearScroller the user can either scroll through the list by hovering over the 'next' or 'previous' button or dragging the handler of the scroller.</li>
-          <li>Second item Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>
-          <li>Third item Lorem ipsum dolor sit amet site amet site amet. Etiam vitae massa</li>
-          <li>Fourth item Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>
-          <li>Fifth item Lorem ipsum dolor sit amet site amet site amet. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. Donec vel risus diam. Vestibulum posuere tristique vulputate neque ut leo aliquet scelerisque Etiam vitae massa</li>
-          <li>Sixth item Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>
-        </ul>
-      </li>
-      
-      <li class="list3">
-        <div class="title">
-          <h4>List 3: "slides", orientation vertical</h4>
-          <div class="code">
-            code
-            <pre>jQuery('#list3').onoPager({
-  cssClass: 'onoPager_greyscale',
-  pagePerItem: true,
-  doesLoop: false,
-  orientation: 'vertical',
-  listContainer: {
-    width: '250px',
-    height: '100px'
-  },
-  listItems: {
-    width: '230px',
-    height: '80px'
-  },
-  pageByNumber: false,
-  animationType: 'slides',
-  animationEasing: 'easeOutCubic',
-  animationSpeed: 1000
-});</pre>
-          </div>
-        </div>
-  
-        <ul id="list3" class="onoPager_noJs">
-          <li>1 Lorem ipsum dolor sit amet site amet site amet. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. Donec vel risus diam. Vestibulum posuere tristique Etiam vitae massa</li>
-          <li>2 Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>
-          <li>3 Lorem ipsum dolor sit amet site amet site amet. Etiam vitae massa</li>
-          <li>4 Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>
-          <li>5 Lorem ipsum dolor sit amet site amet site amet. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. Donec vel risus diam. Vestibulum posuere tristique vulputate neque ut leo aliquet scelerisque Etiam vitae massa</li>
-          <li>6 Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>
-        </ul>
-      </li>
-    
-      <li class="wide list4">
-        <div class="title">
-          <h4>List 4: Wide with DIVs instead of UL</h4>
-          <div class="code">
-            code
-            <pre>jQuery('#list4').onoPager({
-  cssClass: 'onoPager_greyscale',
-  pagePerItem: false,
-  listContainer: {
-    width: '100%',
-    height: '100px'
-  },
-  listItems: {
-      width: '230px',
-      height: '80px'
-  },
-  status: {
-    active: false
-  },
-  animationType: 'linear',
-  animationEasing: 'easeOutCubic',
-  orientation: 'horizontal',
-  animationSpeed: 1000
-});</pre>
-          </div>
-        </div>
-  
-      	<div id="list4" class="onoPager_noJs">
-          <div class="onoPager_listItem">Lorem ipsum dolor sit amet site amet site amet. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. Donec vel risus diam. Vestibulum posuere tristique Etiam vitae massa</div>
-          <div class="onoPager_listItem">Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</div>
-          <div class="onoPager_listItem">Lorem ipsum dolor sit amet site amet site amet. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. Donec vel risus diam. Vestibulum posuere tristique Etiam vitae massa</div>
-          <div class="onoPager_listItem">Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</div>
-          <div class="onoPager_listItem">Lorem ipsum dolor sit amet site amet site amet. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. Donec vel risus diam. Vestibulum posuere tristique Etiam vitae massa</div>
-          <div class="onoPager_listItem">Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</div>
-      	</div>
-      </li>
-      
-      <li class="list5">
-        <div class="title">
-          <h4>List 5: "fade"</h4>
-          <div class="code">
-            code
-            <pre>jQuery('#list5').onoPager({
-  cssClass: 'onoPager_greyscale',
-  pagePerItem: false,
-  listContainer: {
-    width: '250px',
-    height: '100px'
-  },
-  listItems: {
-      width: '230px',
-      height: '80px'
-  },
-  status: {
-    active: false
-  },
-  pageByNumber: {
-    labels: ['Sed', 'Elit', 'Dui', 'Non']
-  },
-  animationType: 'fade',
-  animationEasing: 'easeOutCubic',
-  orientation: 'horizontal',
-  animationSpeed: 1000
-});</pre>
-          </div>
-        </div>
-  
-        <ul id="list5" class="onoPager_noJs">
-          <li>1 Lorem ipsum dolor sit amet site amet site amet. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. Donec vel risus diam. Vestibulum posuere tristique Etiam vitae massa</li>
-          <li>2 Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>
-          <li>3 Lorem ipsum dolor sit amet site amet site amet. Etiam vitae massa</li>
-          <li>4 Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>
-        </ul>
-      </li>
-    
-      <li class="fullWidth list6">
-        <div class="title">
-          <h4>
-            List 6: "linear continuous" with autopage and a faux background animation
-            <a href="javascript:void(0);" class="js_toggleDisable">disable</a>
-          </h4>
-          <div class="code">
-            code
-          <pre>jQuery('#list6').onoPager({
-  cssClass: 'onoPager_greyscale',
-  pagePerItem: true,
-  lockDuringTransition: true,
-  listContainer: {
-    width: '230px',
-    height: '100px'
-  },
-  listItems: {
-      width: '210px',
-      height: '80px'
-  },
-  autoPage: {
-    active: true,
-    interval: 3000,
-    autoPageAnimationType: 'timeline'
-  },
-  status: {
-    active: false
-  },
-  pageByNumber: {
-    active: false
-  },
-  animationType: 'linearContinuous',
-  animationEasing: 'easeOutCubic',
-  orientation: 'horizontal',
-  animationSpeed: 1000
-});</pre>
-          </div>
-        </div>
-  
-        <ul id="list6" class="onoPager_noJs" style="font-size: 60px">
-          <li>
-            <div class="onoPager_linearContinuous_background"></div>
-            <div class="onoPager_linearContinuous_content">
-              1111
-            </div>
-          </li>
-          <li>
-            <div class="onoPager_linearContinuous_background"></div>
-            <div class="onoPager_linearContinuous_content">
-              2222
-            </div>
-          </li>
-         <li>
-            <div class="onoPager_linearContinuous_background"></div>
-            <div class="onoPager_linearContinuous_content">
-              3333
-            </div>
-          </li>
-          <li>
-            <div class="onoPager_linearContinuous_background"></div>
-            <div class="onoPager_linearContinuous_content">
-              4444
-            </div>
-          </li>
-          <li>
-            <div class="onoPager_linearContinuous_background"></div>
-            <div class="onoPager_linearContinuous_content">
-              5555
-            </div>
-          </li>
-          <li>
-            <div class="onoPager_linearContinuous_background"></div>
-            <div class="onoPager_linearContinuous_content">
-              6666
-            </div>
-          </li>
-        </ul>
-      </li>
+	<section>
+		<div class="intro">
+			<span class="logo">‹<span>■</span>›</span>
+			<div class="hgroup">
+				<h1>
+					Ono List Pager demos
+				</h1>
+				<p><strong>Downloads</strong> and <strong>more info</strong> available on <a href="http://plugins.jquery.com/project/OnoListPager">plugins.jquery.com</a></p>
+			</div>
+		</div>
+		
+		<div class="intro intro2">
+			<div id="debug" style="font-size: 3em; display: none">debug</div>
+			
+			<h2>Websites that use the Ono List Pager <small>(sorry, all in Dutch)</small></h2>
+			<ul class="simpleList">
+			  <li><a href="http://estate15jaar.nl/">15 years Estate Internet</a></li>
+			  <li><a href="http://socialize2011.nl/">#Socialize2011 event</a></li>
+			</ul>
+		</div>
+	<section>
+	
+	<section>
+		<div class="content content1">
+			<ul class="demos">
+			  <li class="list1">
+				<div class="title">
+				  <h4>
+					<span>Linear</span> with support for swiping and keyboard keys ← and →
+				  </h4>
+				  <div class="code">
+					code
+					<pre>jQuery('#list1').onoPager({
+	  cssClass: 'onoPager_greyscale',
+	  pagePerItem: true,
+	  doesLoop: false,
+	  listContainer: {
+		width: '280px',
+		height: '100px'
+	  },
+	  listItems: {
+		  width: '260px',
+		  height: '80px'
+	  },
+	  status: {
+		active: false
+	  },
+	  pageByArrowKey: {
+		active: true,
+		preventDefault: false
+	  },
+	  pageByNumber: {
+		hideThreshold: 1
+	  },
+	  swipeTriggersPage: true,
+	  animationType: 'linear',
+	  animationEasing: 'easeOutCubic',
+	  orientation: 'horizontal',
+	  animationSpeed: 1000
+	});</pre>
+				  </div>
+				</div>
+			  
+				<ul id="list1" class="onoPager_noJs">
+					<li>This basic pager offers paging per item. It also offers a 'previous' and next 'next' button. it also offers direct links to each page item.</li>
+					<li>Second item Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>
+					<li>Third item Lorem ipsum dolor sit amet site amet site amet. Etiam vitae massa</li>
+					<li>Fourth item Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>
+					<li>Fifth item Lorem ipsum dolor sit amet site amet site amet. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. Donec vel risus diam. Vestibulum posuere tristique vulputate neque ut leo aliquet scelerisque Etiam vitae massa</li>
+					<li>Sixth item Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>
+				</ul>
+			  </li>
+			  
+			  <li class="list1b">
+				<div class="title">
+				  <h4>
+					<span>No styling</span>
+				  </h4>
+				  <div class="code">
+					code
+					<pre>jQuery('#list1b').onoPager({
+	  cssClass: '',
+	  pagePerItem: true,
+	  doesLoop: false,
+	  listContainer: {
+		width: '280px',
+		height: '60px'
+	  },
+	  listItems: {
+		  width: '260px',
+		  height: '40px'
+	  },
+	  animationType: 'linear',
+	  animationEasing: 'easeOutCubic',
+	  orientation: 'horizontal',
+	  animationSpeed: 1000
+	});</pre>
+				  </div>
+				</div>
+			  
+				<ul id="list1b" class="onoPager_noJs">
+					<li>This basic pager offers paging per item. It also offers a 'previous' and next 'next' button. it also offers direct links to each page item.</li>
+					<li>Second item Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>
+					<li>Third item Lorem ipsum dolor sit amet site amet site amet. Etiam vitae massa</li>
+					<li>Fourth item Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>
+					<li>Fifth item Lorem ipsum dolor sit amet site amet site amet. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. Donec vel risus diam. Vestibulum posuere tristique vulputate neque ut leo aliquet scelerisque Etiam vitae massa</li>
+					<li>Sixth item Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>
+				</ul>
+			  </li>
+			  
+			  <li class="list2">
+				<div class="title">
+				  <h4><span>Scroller</span> vertical orientation</h4>
+				  <div class="code">
+					code
+					<pre>jQuery('#list2').onoPager({
+	  cssClass: 'onoPager_greyscale',
+	  pagePerItem: true,
+	  orientation: 'vertical',
+	  listContainer: {
+		width: '280px',
+		height: '100px'
+	  },
+	  listItems: {
+		  width: '260px',
+		  height: '82px'
+	  },
+	  status: {
+		active: false
+	  },
+	  labels: {
+		next: '&raquo;',
+		previous: '&laquo;'
+	  },
+	  scroller: {
+		active: true,
+		pixelMove: 2
+	  },
+	  pageByNumber: {
+		active: false
+	  },
+	  animationType: 'linearScroller',
+	  animationSpeed: 1000
+	});</pre>
+				  </div>
+				</div>
+				
+				<ul id="list2" class="onoPager_noJs">
+				  <li>With the linearScroller the user can either scroll through the list by hovering over the 'next' or 'previous' button or dragging the handler of the scroller.</li>
+				  <li>Second item Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>
+				  <li>Third item Lorem ipsum dolor sit amet site amet site amet. Etiam vitae massa</li>
+				  <li>Fourth item Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>
+				  <li>Fifth item Lorem ipsum dolor sit amet site amet site amet. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. Donec vel risus diam. Vestibulum posuere tristique vulputate neque ut leo aliquet scelerisque Etiam vitae massa</li>
+				  <li>Sixth item Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>
+				</ul>
+			  </li>
+			  
+			  <li class="list3">
+				<div class="title">
+				  <h4><span>Slides</span> vertical orientation</h4>
+				  <div class="code">
+					code
+					<pre>jQuery('#list3').onoPager({
+	  cssClass: 'onoPager_greyscale',
+	  pagePerItem: true,
+	  doesLoop: false,
+	  orientation: 'vertical',
+	  listContainer: {
+		width: '280px',
+		height: '100px'
+	  },
+	  listItems: {
+		width: '260px',
+		height: '80px'
+	  },
+	  pageByNumber: false,
+	  animationType: 'slides',
+	  animationEasing: 'easeOutCubic',
+	  animationSpeed: 1000
+	});</pre>
+				  </div>
+				</div>
+		  
+				<ul id="list3" class="onoPager_noJs">
+				  <li>1 Lorem ipsum dolor sit amet site amet site amet. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. Donec vel risus diam. Vestibulum posuere tristique Etiam vitae massa</li>
+				  <li>2 Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>
+				  <li>3 Lorem ipsum dolor sit amet site amet site amet. Etiam vitae massa</li>
+				  <li>4 Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>
+				  <li>5 Lorem ipsum dolor sit amet site amet site amet. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. Donec vel risus diam. Vestibulum posuere tristique vulputate neque ut leo aliquet scelerisque Etiam vitae massa</li>
+				  <li>6 Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>
+				</ul>
+			  </li>
+			
+			  <li class="wide list4">
+				<div class="title">
+				  <h4><span>Wide</span> with DIVs instead of UL</h4>
+				  <div class="code">
+					code
+					<pre>jQuery('#list4').onoPager({
+	  cssClass: 'onoPager_greyscale',
+	  pagePerItem: false,
+	  listContainer: {
+		width: '100%',
+		height: '100px'
+	  },
+	  listItems: {
+		  width: '260px',
+		  height: '80px'
+	  },
+	  status: {
+		active: false
+	  },
+	  animationType: 'linear',
+	  animationEasing: 'easeOutCubic',
+	  orientation: 'horizontal',
+	  animationSpeed: 1000
+	});</pre>
+				  </div>
+				</div>
+		  
+				<div id="list4" class="onoPager_noJs">
+				  <div class="onoPager_listItem">Lorem ipsum dolor sit amet site amet site amet. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. Donec vel risus diam. Vestibulum posuere tristique Etiam vitae massa</div>
+				  <div class="onoPager_listItem">Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</div>
+				  <div class="onoPager_listItem">Lorem ipsum dolor sit amet site amet site amet. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. Donec vel risus diam. Vestibulum posuere tristique Etiam vitae massa</div>
+				  <div class="onoPager_listItem">Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</div>
+				  <div class="onoPager_listItem">Lorem ipsum dolor sit amet site amet site amet. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. Donec vel risus diam. Vestibulum posuere tristique Etiam vitae massa</div>
+				  <div class="onoPager_listItem">Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</div>
+				</div>
+			  </li>
+			  
+			  <li class="list5">
+				<div class="title">
+				  <h4><span>Fade</span></h4>
+				  <div class="code">
+					code
+					<pre>jQuery('#list5').onoPager({
+	  cssClass: 'onoPager_greyscale',
+	  pagePerItem: false,
+	  listContainer: {
+		width: '280px',
+		height: '100px'
+	  },
+	  listItems: {
+		  width: '260px',
+		  height: '80px'
+	  },
+	  status: {
+		active: false
+	  },
+	  pageByNumber: {
+		labels: ['Sed', 'Elit', 'Dui', 'Non']
+	  },
+	  animationType: 'fade',
+	  animationEasing: 'easeOutCubic',
+	  orientation: 'horizontal',
+	  animationSpeed: 1000
+	});</pre>
+				  </div>
+				</div>
+		  
+				<ul id="list5" class="onoPager_noJs">
+				  <li>1 Lorem ipsum dolor sit amet site amet site amet. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. Donec vel risus diam. Vestibulum posuere tristique Etiam vitae massa</li>
+				  <li>2 Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>
+				  <li>3 Lorem ipsum dolor sit amet site amet site amet. Etiam vitae massa</li>
+				  <li>4 Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>
+				</ul>
+			  </li>
+			
+			  <li class="fullWidth list6">
+				<div class="title">
+				  <h4>
+					<span>Continuous</span> with autopage and a faux background animation.
+					This one is a bit heavy, so maybe you want to <a href="javascript:void(0);" class="js_toggleDisable">disable</a> it.
+				  </h4>
+				  <div class="code">
+					code
+				  <pre>jQuery('#list6').onoPager({
+	  cssClass: 'onoPager_greyscale',
+	  pagePerItem: true,
+	  lockDuringTransition: true,
+	  listContainer: {
+		width: '260px',
+		height: '100px'
+	  },
+	  listItems: {
+		  width: '240px',
+		  height: '80px'
+	  },
+	  autoPage: {
+		active: true,
+		interval: 3000,
+		autoPageAnimationType: 'timeline'
+	  },
+	  status: {
+		active: false
+	  },
+	  pageByNumber: {
+		active: false
+	  },
+	  animationType: 'linearContinuous',
+	  animationEasing: 'easeOutCubic',
+	  orientation: 'horizontal',
+	  animationSpeed: 1000
+	});</pre>
+				  </div>
+				</div>
+		  
+				<ul id="list6" class="onoPager_noJs" style="font-size: 60px">
+				  <li>
+					<div class="onoPager_linearContinuous_background"></div>
+					<div class="onoPager_linearContinuous_content">
+					  1111
+					</div>
+				  </li>
+				  <li>
+					<div class="onoPager_linearContinuous_background"></div>
+					<div class="onoPager_linearContinuous_content">
+					  2222
+					</div>
+				  </li>
+				 <li>
+					<div class="onoPager_linearContinuous_background"></div>
+					<div class="onoPager_linearContinuous_content">
+					  3333
+					</div>
+				  </li>
+				  <li>
+					<div class="onoPager_linearContinuous_background"></div>
+					<div class="onoPager_linearContinuous_content">
+					  4444
+					</div>
+				  </li>
+				  <li>
+					<div class="onoPager_linearContinuous_background"></div>
+					<div class="onoPager_linearContinuous_content">
+					  5555
+					</div>
+				  </li>
+				  <li>
+					<div class="onoPager_linearContinuous_background"></div>
+					<div class="onoPager_linearContinuous_content">
+					  6666
+					</div>
+				  </li>
+				</ul>
+			  </li>
 
-      <li class="fullWidth list7">
-        <div class="title">
-          <h4>List 7: "linear continuous"</h4>
-          <div class="code">
-            code
-          <pre>jQuery('#list7').onoPager({
-  cssClass: 'onoPager_greyscale',
-  pagePerItem: false,
-  listContainer: {
-    width: '500px',
-    height: '100px'
-  },
-  listItems: {
-      width: '210px',
-      height: '80px'
-  },
-  autoPage: {
-    active: false,
-    interval: 3000,
-    autoPageAnimationType: 'timeline'
-  },
-  status: {
-    active: false
-  },
-  pageByNumber: {
-    active: false
-  },
-  animationType: 'linearContinuous',
-  animationEasing: 'easeOutCubic',
-  orientation: 'horizontal',
-  animationSpeed: 1000
-});</pre>
-          </div>
-        </div>
-  
-        <ul id="list7" class="onoPager_noJs" style="font-size: 60px">
-          <li>
-            <div class="onoPager_linearContinuous_background"></div>
-            <div class="onoPager_linearContinuous_content">
-              1111
-            </div>
-          </li>
-          <li>
-            <div class="onoPager_linearContinuous_background"></div>
-            <div class="onoPager_linearContinuous_content">
-              2222
-            </div>
-          </li>
-         <li>
-            <div class="onoPager_linearContinuous_background"></div>
-            <div class="onoPager_linearContinuous_content">
-              3333
-            </div>
-          </li>
-          <li>
-            <div class="onoPager_linearContinuous_background"></div>
-            <div class="onoPager_linearContinuous_content">
-              4444
-            </div>
-          </li>
-          <li>
-            <div class="onoPager_linearContinuous_background"></div>
-            <div class="onoPager_linearContinuous_content">
-              5555
-            </div>
-          </li>
-          <li>
-            <div class="onoPager_linearContinuous_background"></div>
-            <div class="onoPager_linearContinuous_content">
-              6666
-            </div>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  
-    <h3>Play with it yourself <a href="/onopager/documentation/onoPager/symbols/jQuery.fn.html#.$.fn.onoPager">Configuration options</a></h3>
-    
-    <ul class="editDemo">
-      <li>
-        <h4>HTML:</h4>
-        <textarea id="editDemo_html">
+			  <li class="fullWidth list7">
+				<div class="title">
+				  <h4><span>Simple continuous</span></h4>
+				  <div class="code">
+					code
+				  <pre>jQuery('#list7').onoPager({
+	  cssClass: 'onoPager_greyscale',
+	  pagePerItem: false,
+	  listContainer: {
+		width: '500px',
+		height: '100px'
+	  },
+	  listItems: {
+		  width: '210px',
+		  height: '80px'
+	  },
+	  autoPage: {
+		active: false,
+		interval: 3000,
+		autoPageAnimationType: 'timeline'
+	  },
+	  status: {
+		active: false
+	  },
+	  pageByNumber: {
+		active: false
+	  },
+	  animationType: 'linearContinuous',
+	  animationEasing: 'easeOutCubic',
+	  orientation: 'horizontal',
+	  animationSpeed: 1000
+	});</pre>
+				  </div>
+				</div>
+		  
+				<ul id="list7" class="onoPager_noJs" style="font-size: 60px">
+				  <li>
+					<div class="onoPager_linearContinuous_background"></div>
+					<div class="onoPager_linearContinuous_content">
+					  1111
+					</div>
+				  </li>
+				  <li>
+					<div class="onoPager_linearContinuous_background"></div>
+					<div class="onoPager_linearContinuous_content">
+					  2222
+					</div>
+				  </li>
+				 <li>
+					<div class="onoPager_linearContinuous_background"></div>
+					<div class="onoPager_linearContinuous_content">
+					  3333
+					</div>
+				  </li>
+				  <li>
+					<div class="onoPager_linearContinuous_background"></div>
+					<div class="onoPager_linearContinuous_content">
+					  4444
+					</div>
+				  </li>
+				  <li>
+					<div class="onoPager_linearContinuous_background"></div>
+					<div class="onoPager_linearContinuous_content">
+					  5555
+					</div>
+				  </li>
+				  <li>
+					<div class="onoPager_linearContinuous_background"></div>
+					<div class="onoPager_linearContinuous_content">
+					  6666
+					</div>
+				  </li>
+				</ul>
+			  </li>
+			</ul>
+		</div>
+	
+		<div class="content content2">
+			<h3>Play with it yourself <a href="/onopager/documentation/onoPager/symbols/jQuery.fn.html#.$.fn.onoPager">Configuration options</a></h3>
+		
+			<ul class="editDemo">
+			  <li>
+				<h4>HTML:</h4>
+				<textarea id="editDemo_html">
 &lt;ul class="onoPager_noJs">
   &lt;li>1 Lorem ipsum dolor sit amet site amet site amet.&lt;/li>
   &lt;li>2 Aliquam arcu odio, sollicitudin. Curabitur.&lt;/li>
@@ -411,33 +460,34 @@
   &lt;li>5 Lorem ipsum dolor sit amet site amet site amet.&lt;/li>
   &lt;li>6 Aliquam arcu odio, sollicitudin.&lt;/li>
 &lt;/ul>
-      </textarea>
-    </li>
-    <li>
-      <h4>JavaScript:</h4>
-      <textarea id="editDemo_js">{
+				</textarea>
+			</li>
+			<li>
+			  <h4>JavaScript:</h4>
+			  <textarea id="editDemo_js">{
   cssClass: 'onoPager_greyscale',
   pagePerItem: true,
   listContainer: {
-    width: '250px',
-    height: '100px'
+	width: '280px',
+	height: '100px'
   },
   listItems: {
-      width: '230px',
-      height: '80px'
+	  width: '260px',
+	  height: '80px'
   },
   status: {
-    active: false
+	active: false
   },
   animationType: 'linear'
-}</textarea>
-      </li>
-      <li>
-        <h4>Result</h4>
-        <div id="editDemo_result"></div>
-        <input type="button" value="Create pager" id="runCode">
-      </li>
-    </ul>
+		}</textarea>
+			  </li>
+			  <li>
+				<h4>Result</h4>
+				<div id="editDemo_result"></div>
+				<input type="button" value="Create pager" id="runCode">
+			  </li>
+			</ul>
+	  </div>
   </div>
   
   <script src="javascript/jquery.min.js"></script>
@@ -457,6 +507,7 @@
     });
 
     eval(jQuery('.list1 pre').text());
+    eval(jQuery('.list1b pre').text());
     eval(jQuery('.list2 pre').text());
     eval(jQuery('.list3 pre').text());
     eval(jQuery('.list4 pre').text());
@@ -476,6 +527,17 @@
         pager.addClass('onoPager_disabled')
       }
     });
+
+
+
+	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<script type="text/javascript">
+	try {
+	var pageTracker = _gat._getTracker("UA-11198749-1");
+	pageTracker._trackPageview();
+	} catch(err) {}
   </script>
 </body>
 </html>
