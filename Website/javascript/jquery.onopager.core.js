@@ -7,15 +7,12 @@
  */
 
 // TODO:
+// - Click on list item to go to that item
 // - Build support for scroll wheel
+// - Adjust height viewport when height list item is not set
+// - Auto page pie animation with canvas
 // - Highlight arrow key when pressing an arrow key on keyboard
-// - onHandleDrag assumes margin-*. Must handle possible left/top as well
-//  - Do something with handleResize()
-//    - Standard: Run method when either list container or list has dynamic size
-//    - Standard: Wait until resize is finished
-//    - Ani object: Reposition list
-//    - Redraw paging by numbers links
-// - Page onmouseenter on paging controls
+// - Demopage redesign
 
 (function($) {
   /**
