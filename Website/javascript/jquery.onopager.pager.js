@@ -490,3 +490,108 @@ onoPager.autopageAnimation.timeline = function(newConfig) {
 
   return timelineInstance;
 };
+
+
+
+
+
+
+/**
+ * @namespace Autopage animation object. This object will create a pie chart
+ * representing a clock
+ *
+ * @param {Object} newConfig Standard configuration object.
+ * @return {Object} instance of an animation object.
+ */
+onoPager.autopageAnimation.clock = function(newConfig) {
+  /**
+   * New animation object.
+   * @memberOf onoPager.autopageAnimation.clock
+   */
+  var clockInstance = new onoPager.autopageAnimation._standard(newConfig);
+  var extraConfig = {
+    width: 16,
+    height: 16,
+    color: "#ffffff",
+    shadowBlur: 5,
+    shadowOffsetX: 2,
+    shadowOffsetY: 2,
+    shadowBackgroundColor: "#999999"
+  };
+  var canvasWidth = extraConfig.width + extraConfig.shadowBlur
+  if (extraConfig.shadowOffsetX < 0) {
+    canvasWidth += -extraConfig.shadowOffsetX;
+  } else {
+    canvasWidth += extraConfig.shadowOffsetX;
+  }
+
+  var canvasHeight = extraConfig.height + extraConfig.shadowBlur
+  if (extraConfig.shadowOffsetY < 0) {
+    canvasHeight += -extraConfig.shadowOffsetY;
+  } else {
+    canvasHeight += extraConfig.shadowOffsetY;
+  }
+
+  var degrees;
+  var root = clockInstance._config.root;
+  var canvas;
+  var context;
+  var drawClockInterval;
+  var drawClockTimeout;
+  var listContainer = clockInstance._config.listContainer;
+  var interval;
+
+  function drawClock() {
+      degrees++
+
+      var centerX = Math.floor((extraConfig.width / 2) + extraConfig.shadowOffsetX);
+      var centerY = Math.floor((extraConfig.height / 2) + extraConfig.shadowOffsetY);
+      var radius = Math.floor(extraConfig.width / 2);
+      
+      context.clearRect(0, 0, canvasWidth + 10, canvasHeight + 10);
+      context.beginPath();
+      context.moveTo(centerX, centerY);
+      context.arc(centerX, centerY, radius, (Math.PI/180)*-90, (Math.PI/180)*degrees, false);
+      context.lineTo(centerX, centerY);
+      context.closePath();
+   
+      context.fillStyle = extraConfig.color;
+      context.shadowColor = extraConfig.shadowBackgroundColor;
+      context.shadowBlur = extraConfig.shadowBlur;
+      context.shadowOffsetX = extraConfig.shadowOffsetX;
+      context.shadowOffsetY = extraConfig.shadowOffsetY;
+      context.fill();
+  };
+
+  /**
+   * @see onoPager.autopageAnimation._standard#init
+   * @memberOf onoPager.autopageAnimation.timeline
+   * @this
+   */
+  clockInstance.init = function() {
+    interval = this._config.autoPageInterval - this._config.animationSpeed;
+    root.html('<canvas width="' + canvasWidth + '" height="' +
+              canvasHeight +'"></canvas>');
+    canvas = root.find('canvas')[0];
+    context = canvas.getContext("2d");
+    this.start();
+  }
+
+  /**
+   * @see onoPager.autopageAnimation._standard#start
+   * @memberOf onoPager.autopageAnimation.timeline
+   * @this
+   */
+  clockInstance.start = function() {
+    clearInterval(drawClockInterval);
+    degrees = -80;
+    context.clearRect(0, 0, extraConfig.width, extraConfig.height);
+    drawClockTimeout = setTimeout( 
+      function() {
+        drawClockInterval = setInterval(drawClock, Math.floor(interval/360));
+      },
+      this._config.animationSpeed)
+  }
+
+  return clockInstance;
+};

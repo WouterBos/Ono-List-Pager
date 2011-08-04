@@ -327,7 +327,8 @@
           pageNext: pageNext,
           pagePrevious: pagePrevious,
           activeIndex: config.activeIndex,
-          animationEasing: config.animationEasing
+          animationEasing: config.animationEasing,
+          autoPage: config.autoPage
         },
         animationConfig
       );

@@ -63,16 +63,26 @@ div.onoPager_scrollerHandle {
   background: #999999;
 }
 
-div.onoPager_autoPageContainer {
+
+
+div.onoPager_autopageAnimation_timeline {
 	width: 100%;
 	height: 2px;
 	background: #9a9abb;
 }
 
-div.onoPager_autoPageBar {
+div.onoPager_autopageAnimation_timeline div.onoPager_autoPageBar {
 	width: 0;
 	height: 2px;
 	background: #0000ff;
+}
+
+
+
+div.onoPager_autopageAnimation_clock {
+  position: relative;
+  top: -105px;
+  left: 185px;
 }
 /* End controls */
 

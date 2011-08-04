@@ -52,7 +52,8 @@ onoPager.animation = (function() {
           pageNext: config.pageNext,
           pagePrevious: config.pagePrevious,
           activeIndex: config.activeIndex,
-          animationEasing: config.animationEasing
+          animationEasing: config.animationEasing,
+          autoPage: config.autoPage
         },
         extraConfig
       );
@@ -100,6 +101,7 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
     activeIndex: 0,
     pager: {},
     scroller: {},
+    autoPage: {},
     custom: {}
   };
 
