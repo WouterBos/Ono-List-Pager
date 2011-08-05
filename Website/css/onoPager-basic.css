@@ -45,12 +45,6 @@ div.onoPager_scroller {
   background: #cccccc;
 }
 
-*.list2 div.onoPager_scroller {
-  position: absolute;
-  top: 0;
-  left: 281px;
-}
-
 div.onoPager_scrollerHandle {
   cursor: w-resize;
   position: absolute;

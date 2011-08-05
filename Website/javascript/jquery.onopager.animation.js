@@ -102,12 +102,12 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
     pager: {},
     scroller: {},
     autoPage: {},
-    custom: {}
+    extraConfig: {}
   };
 
   jQuery.extend(true, this._config, newConfig);
   if (typeof(extraConfig) == 'object') {
-    jQuery.extend(true, this._config.custom, extraConfig);
+    jQuery.extend(true, this._config.extraConfig, extraConfig);
   }
 
   /**
@@ -394,7 +394,7 @@ onoPager.animation.slides = function(newConfig, extraConfig) {
     var newAni = {};
     newAni[topLeft] = '0';
     jQuery(this._config.listItems[newIndex])
-      .delay(this._config.animationSpeed / 8)
+      .delay(this._config.animationSpeed / this._config.extraConfig.delay)
       .animate(
         newAni,
         {
