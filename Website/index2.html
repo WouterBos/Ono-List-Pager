@@ -49,18 +49,25 @@
   		  <div class="column1">
   		    <select id="examples">
   		      <option value="">Configurations...</option>
-  		      <option value="linear">Basic</option>
-            <option value="vertical">Basic (vertical orientation)</option>
-  		      <option value="basic">Basic (no styling)</option>
-  		      <option value="scroller">Scroller</option>
-  		      <option value="slides">Slides</option>
-  		      <option value="wide">Wide (viewport wider than the list items)</option>
-  		      <option value="fade">With fade transition</option>
-  		      <option value="continuous">Continuous, basic</option>
-  		      <option value="continuous">Continuous, with faux background</option>
-  		      <option value="continuous">Autopage, basic</option>
-  		      <option value="continuous">Autopage, with time indicator 'timeline'</option>
-  		      <option value="continuous">Autopage, with time indicator 'clock'</option>
+  		      <optgroup label="Basic configurations">
+    		      <option value="linear">Basic</option>
+              <option value="vertical">Vertical orientation</option>
+    		      <option value="basic">No styling</option>
+    		      <option value="labels">Alternate labels</option>
+    		    </optgroup>
+    		    <optgroup label="Animation types">
+    		      <option value="scroller">Scroller</option>
+    		      <option value="slides">Slides</option>
+    		      <option value="wide">Wide (viewport wider than the list items)</option>
+    		      <option value="fade">With fade transition</option>
+              <option value="continuous">Continuous, basic</option>
+              <option value="continuous">Continuous, with faux background</option>
+    		    </optgroup>
+    		    <optgroup label="Autopage">
+    		      <option value="continuous">Basic</option>
+    		      <option value="continuous">Time indicator 'timeline'</option>
+    		      <option value="continuous">Time indicator 'clock' (IE9+)</option>
+    		    </optgroup>
   		    </select>
   		  </div>
   		  
@@ -259,6 +266,114 @@
         animationConfig: "{\n" +
                          "  delay: 4\n" +
                          "}\n"
+      },
+      wide: {
+        description: 'In this configuration, the viewport of the pager is as wide as its container. Paging will not be per list item, but the whole viewport content is updated. The code needed for this configuration is <code>pagePerItem: false, listContainer: { width: \'100%\'}</code>', 
+        html: standardHtml,
+        config: "{\n" +
+                "  cssClass: 'onoPager_greyscale',\n" +
+                "  pagePerItem: false,\n" +
+                "  listContainer: {\n" +
+                "    width: '100%',\n" +
+                "    height: '100px'\n" +
+                "  },\n" +
+                "  listItems: {\n" +
+                "    width: '260px',\n" +
+                "    height: '80px'\n" +
+                "  },\n" +
+                "  status: {\n" +
+                "    active: false\n" +
+                "  },\n" +
+                "  animationType: 'linear',\n" +
+                "  animationEasing: 'easeOutCubic',\n" +
+                "  orientation: 'horizontal',\n" +
+                "  animationSpeed: 1000\n" +
+                "}\n",
+        animationConfig: "{}"
+      },
+      fade: {
+        description: '', 
+        html: standardHtml,
+        config: "{\n" +
+                "  cssClass: 'onoPager_greyscale',\n" +
+                "  pagePerItem: false,\n" +
+                "  listContainer: {\n" +
+                "    width: '280px',\n" +
+                "    height: '100px'\n" +
+                "  },\n" +
+                "  listItems: {\n" +
+                "    width: '260px',\n" +
+                "    height: '80px'\n" +
+                "  },\n" +
+                "  status: {\n" +
+                "    active: false\n" +
+                "  },\n" +
+                "  animationType: 'fade',\n" +
+                "  animationEasing: 'easeOutCubic',\n" +
+                "  orientation: 'horizontal',\n" +
+                "  animationSpeed: 1000\n" +
+                "}\n",
+        animationConfig: "{}"
+      },
+      labels: {
+        description: 'In this case the numbers in the navigation controls are replaced with text. To get this you\'ll need the following configuration: <code>pageByNumber: { labels: [\'Sed\', \'Elit\', \'Dui\', \'Non\'] }</code>', 
+        html: '<ul class="onoPager_noJs">\n' +
+              '  <li>This basic pager offers paging per item. It also offers a &ldquo;previous&rdquo; and next &ldquo;next&rdquo; button. it also offers direct links to each page item.</li>\n' +
+              ' <li>Second item Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>\n' +
+              '  <li>Third item Lorem ipsum dolor sit amet site amet site amet. Etiam vitae massa</li>\n' +
+              '  <li>Fourth item Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>\n' +
+              '</ul>',
+        config: "{\n" +
+                "  cssClass: 'onoPager_greyscale',\n" +
+                "  pagePerItem: false,\n" +
+                "  listContainer: {\n" +
+                "    width: '280px',\n" +
+                "    height: '100px'\n" +
+                "  },\n" +
+                "  listItems: {\n" +
+                "    width: '260px',\n" +
+                "    height: '80px'\n" +
+                "  },\n" +
+                "  status: {\n" +
+                "    active: false\n" +
+                "  },\n" +
+                "  pageByNumber: {\n" +
+                "    labels: ['Sed', 'Elit', 'Dui', 'Non']\n" +
+                "  },\n" +
+                "  animationType: 'linear',\n" +
+                "  animationEasing: 'easeOutCubic',\n" +
+                "  orientation: 'horizontal',\n" +
+                "  animationSpeed: 1000\n" +
+                "}\n",
+        animationConfig: "{}"
+      },
+      continuous: {
+        description: 'When using the continuous animation, the pager is larger than its viewport. The selected item is in the middle of the pager and has the CSS class "active"', 
+        html: standardHtml,
+        config: "{\n" +
+                "  cssClass: 'onoPager_greyscale',\n" +
+                "  pagePerItem: true,\n" +
+                "  lockDuringTransition: true,\n" +
+                "  listContainer: {\n" +
+                "    width: '260px',\n" +
+                "    height: '100px'\n" +
+                "  },\n" +
+                "  listItems: {\n" +
+                "    width: '240px',\n" +
+                "    height: '80px'\n" +
+                "  },\n" +
+                "  status: {\n" +
+                "    active: false\n" +
+                "  },\n" +
+                "  pageByNumber: {\n" +
+                "    active: false\n" +
+                "  },\n" +
+                "  animationType: 'linearContinuous',\n" +
+                "  animationEasing: 'easeOutCubic',\n" +
+                "  orientation: 'horizontal',\n" +
+                "  animationSpeed: 1000\n" +
+                "}\n",
+        animationConfig: "{}"
       }
     };
     
