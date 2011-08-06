@@ -61,6 +61,8 @@
    *    autopaging. Time value is set in milliseconds.
    * @param {String} arg_config.autoPage.autoPageAnimationType The type
    *    of animation that will indicate the time the time between transitions.
+   * @param {Object} arg_config.autoPage.extraConfig A configuration object
+   *    for the autopage indicator.
    * @param {String} arg_config.labels.next text for the 'next'-button.
    * @param {String} arg_config.labels.previous Text for the
    *    'previous'-button.
@@ -197,7 +199,8 @@
       autoPage: {
         active: false,
         interval: 2000,
-        autoPageAnimationType: ''
+        autoPageAnimationType: '',
+        extraConfig: {}
       },
       labels: {
         next: 'next',

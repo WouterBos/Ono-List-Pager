@@ -191,7 +191,8 @@ onoPager.pager = function(arg_index,
           root: autoPageContainer,
           autoPageAnimationType: autoPageConfig.autoPageAnimationType,
           autoPageInterval: autoPageConfig.interval
-        }
+        },
+        autoPageConfig.extraConfig
       );
       newAnimation._init();
       return newAnimation;
@@ -339,7 +340,7 @@ onoPager.autopageAnimation = (function() {
      * @param {Object} config Configuration object.
      * @return {object} The animation object.
      */
-    createAnimation: function(config) {
+    createAnimation: function(config, extraConfig) {
       if (typeof(onoPager.autopageAnimation[config.autoPageAnimationType]) !=
           'function') {
         throw new Error('autoPageAnimationType "' +
@@ -351,7 +352,7 @@ onoPager.autopageAnimation = (function() {
         config.autoPageAnimationType);
 
       var animation = onoPager.autopageAnimation[
-        config.autoPageAnimationType](config);
+        config.autoPageAnimationType](config, extraConfig);
 
       interfaceCheck(
         animation,
@@ -501,31 +502,33 @@ onoPager.autopageAnimation.timeline = function(newConfig) {
  * representing a clock
  *
  * @param {Object} newConfig Standard configuration object.
+ * @param {Object} arg_extraConfig Extra configuration options that are
+ *    specific to this animation object.
  * @return {Object} instance of an animation object.
  */
-onoPager.autopageAnimation.clock = function(newConfig) {
+onoPager.autopageAnimation.clock = function(newConfig, arg_extraConfig) {
   /**
    * New animation object.
    * @memberOf onoPager.autopageAnimation.clock
    */
   var clockInstance = new onoPager.autopageAnimation._standard(newConfig);
   var extraConfig = {
-    width: 16,
-    height: 16,
+    widthHeight: 16,
     color: "#ffffff",
     shadowBlur: 5,
     shadowOffsetX: 2,
     shadowOffsetY: 2,
     shadowBackgroundColor: "#999999"
   };
-  var canvasWidth = extraConfig.width + extraConfig.shadowBlur
+  jQuery.extend(true, extraConfig, arg_extraConfig);
+  var canvasWidth = extraConfig.widthHeight + extraConfig.shadowBlur
   if (extraConfig.shadowOffsetX < 0) {
     canvasWidth += -extraConfig.shadowOffsetX;
   } else {
     canvasWidth += extraConfig.shadowOffsetX;
   }
 
-  var canvasHeight = extraConfig.height + extraConfig.shadowBlur
+  var canvasHeight = extraConfig.widthHeight + extraConfig.shadowBlur
   if (extraConfig.shadowOffsetY < 0) {
     canvasHeight += -extraConfig.shadowOffsetY;
   } else {
@@ -540,13 +543,14 @@ onoPager.autopageAnimation.clock = function(newConfig) {
   var drawClockTimeout;
   var listContainer = clockInstance._config.listContainer;
   var interval;
+  var intervalModifyer = 2;
 
   function drawClock() {
-      degrees++
+      degrees += intervalPrecision;
 
-      var centerX = Math.floor((extraConfig.width / 2) + extraConfig.shadowOffsetX);
-      var centerY = Math.floor((extraConfig.height / 2) + extraConfig.shadowOffsetY);
-      var radius = Math.floor(extraConfig.width / 2);
+      var centerX = Math.floor((extraConfig.widthHeight / 2) + extraConfig.shadowOffsetX);
+      var centerY = Math.floor((extraConfig.widthHeight / 2) + extraConfig.shadowOffsetY);
+      var radius = Math.floor(extraConfig.widthHeight / 2);
       
       context.clearRect(0, 0, canvasWidth + 10, canvasHeight + 10);
       context.beginPath();
@@ -588,7 +592,7 @@ onoPager.autopageAnimation.clock = function(newConfig) {
     context.clearRect(0, 0, canvasWidth, canvasHeight);
     drawClockTimeout = setTimeout( 
       function() {
-        drawClockInterval = setInterval(drawClock, Math.floor(interval/360));
+        drawClockInterintervalPrecision = setInterval(drawClock, Math.floor(interval/(360 / intervalPrecision)));
       },
       this._config.animationSpeed)
   }
