@@ -50,11 +50,10 @@ div.onoPager_scrollerHandle {
   position: absolute;
   left: 0;
   top: 0;
-  border-radius: 10px;
+  border-#cccccc: 10px;
   border: 1px solid #333333;
   width: 18px;
   height: 18px;
-  background: #999999;
 }
 
 
