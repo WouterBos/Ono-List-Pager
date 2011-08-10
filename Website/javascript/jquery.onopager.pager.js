@@ -168,7 +168,7 @@ onoPager.pager = function(arg_index,
       list,
       list.find('> *.onoPager_listItem')
     );
-    
+
     if (canPage) {
       if (doesLoop == false && (index == (length - 1))) {
         clearInterval(autoPageInterval);
@@ -245,7 +245,7 @@ onoPager.pager = function(arg_index,
    * @param {Object} arg_autoPageContainer The element in which the auto page
    *    animation will take place.
    * @param {Boolean} arg_lockDuringTransition Determines of a user can make a
-   *    page before the current transition is finished
+   *    page before the current transition is finished.
    * @example
    * instance.initAutoPager(
    *    {
@@ -499,11 +499,31 @@ onoPager.autopageAnimation.timeline = function(newConfig) {
 
 /**
  * @namespace Autopage animation object. This object will create a pie chart
- * representing a clock
+ * representing a clock.
  *
  * @param {Object} newConfig Standard configuration object.
  * @param {Object} arg_extraConfig Extra configuration options that are
  *    specific to this animation object.
+ * @param {Number} arg_extraConfig.widthHeight The width and height of the clock
+ *    in pixels.
+ * @param {Number} arg_extraConfig.widthHeight The width and height of the
+ *    clock.
+ * @param {String} arg_extraConfig.color The hex color of the clock.
+ * @param {Number} arg_extraConfig.shadowBlur The blur range of the shadow in
+ *    pixels. Default value is 5.
+ * @param {Number} arg_extraConfig.shadowOffsetX The X-axis offset of the
+ *    shadow. A positive value will cast a shadow to the right, a negative to
+ *    the left. Default value is 2.
+ * @param {Number} arg_extraConfig.shadowOffsetY The Y-axis offset of the
+ *    shadow. A positive value will cast a shadow above the clock, a negative
+ *    one below. Default value is 2.
+ * @param {String} arg_extraConfig.shadowBackgroundColor The hex color of the
+ *    shadow.
+ * @param {Number} arg_extraConfig.intervalPrecision Determines the number of
+ *    frames in the animation. A value of 1 will give the maximum smoothness
+ *    to the animation, but the clock might then not be able to keep up with
+ *    the pager's speed. A higher number will create a more responsive
+ *    animation, but also creates less frames.. The default value is 4.
  * @return {Object} instance of an animation object.
  */
 onoPager.autopageAnimation.clock = function(newConfig, arg_extraConfig) {
@@ -514,21 +534,22 @@ onoPager.autopageAnimation.clock = function(newConfig, arg_extraConfig) {
   var clockInstance = new onoPager.autopageAnimation._standard(newConfig);
   var extraConfig = {
     widthHeight: 16,
-    color: "#ffffff",
+    color: '#ffffff',
     shadowBlur: 5,
     shadowOffsetX: 2,
     shadowOffsetY: 2,
-    shadowBackgroundColor: "#999999"
+    shadowBackgroundColor: '#999999',
+    intervalPrecision: 4
   };
   jQuery.extend(true, extraConfig, arg_extraConfig);
-  var canvasWidth = extraConfig.widthHeight + extraConfig.shadowBlur
+  var canvasWidth = extraConfig.widthHeight + extraConfig.shadowBlur;
   if (extraConfig.shadowOffsetX < 0) {
     canvasWidth += -extraConfig.shadowOffsetX;
   } else {
     canvasWidth += extraConfig.shadowOffsetX;
   }
 
-  var canvasHeight = extraConfig.widthHeight + extraConfig.shadowBlur
+  var canvasHeight = extraConfig.widthHeight + extraConfig.shadowBlur;
   if (extraConfig.shadowOffsetY < 0) {
     canvasHeight += -extraConfig.shadowOffsetY;
   } else {
@@ -543,22 +564,28 @@ onoPager.autopageAnimation.clock = function(newConfig, arg_extraConfig) {
   var drawClockTimeout;
   var listContainer = clockInstance._config.listContainer;
   var interval;
-  var intervalModifyer = 2;
 
   function drawClock() {
-      degrees += intervalPrecision;
+      degrees += extraConfig.intervalPrecision;
 
-      var centerX = Math.floor((extraConfig.widthHeight / 2) + extraConfig.shadowOffsetX);
-      var centerY = Math.floor((extraConfig.widthHeight / 2) + extraConfig.shadowOffsetY);
+      var centerX = Math.floor((extraConfig.widthHeight / 2) +
+                               extraConfig.shadowOffsetX);
+      var centerY = Math.floor((extraConfig.widthHeight / 2) +
+                               extraConfig.shadowOffsetY);
       var radius = Math.floor(extraConfig.widthHeight / 2);
-      
+
       context.clearRect(0, 0, canvasWidth + 10, canvasHeight + 10);
       context.beginPath();
       context.moveTo(centerX, centerY);
-      context.arc(centerX, centerY, radius, (Math.PI/180)*-90, (Math.PI/180)*degrees, false);
+      context.arc(centerX,
+                  centerY,
+                  radius,
+                  (Math.PI / 180) * -90,
+                  (Math.PI / 180) * degrees,
+                  false);
       context.lineTo(centerX, centerY);
       context.closePath();
-   
+
       context.fillStyle = extraConfig.color;
       context.shadowColor = extraConfig.shadowBackgroundColor;
       context.shadowBlur = extraConfig.shadowBlur;
@@ -575,9 +602,9 @@ onoPager.autopageAnimation.clock = function(newConfig, arg_extraConfig) {
   clockInstance.init = function() {
     interval = this._config.autoPageInterval - this._config.animationSpeed;
     root.html('<canvas width="' + canvasWidth + '" height="' +
-              canvasHeight +'"></canvas>');
+              canvasHeight + '"></canvas>');
     canvas = root.find('canvas')[0];
-    context = canvas.getContext("2d");
+    context = canvas.getContext('2d');
     this.start();
   }
 
@@ -590,11 +617,14 @@ onoPager.autopageAnimation.clock = function(newConfig, arg_extraConfig) {
     clearInterval(drawClockInterval);
     degrees = -80;
     context.clearRect(0, 0, canvasWidth, canvasHeight);
-    drawClockTimeout = setTimeout( 
+    drawClockTimeout = setTimeout(
       function() {
-        drawClockInterintervalPrecision = setInterval(drawClock, Math.floor(interval/(360 / intervalPrecision)));
+        drawClockInterval = setInterval(
+          drawClock,
+          Math.floor(interval / (360 / extraConfig.intervalPrecision))
+        );
       },
-      this._config.animationSpeed)
+      this._config.animationSpeed);
   }
 
   return clockInstance;

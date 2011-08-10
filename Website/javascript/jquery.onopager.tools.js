@@ -14,7 +14,7 @@ onoPager.tools = (function() {
      *    page before the current transition is finished.
      * @param {Object} list The list, most of the times that's a UL.
      * @param {Object} listItems The collection of the list items, most of the
-     *    the times it is a collection of LI's
+     *    the times it is a collection of LI's.
      */
     canPage: function(root,
                       lockDuringTransition,

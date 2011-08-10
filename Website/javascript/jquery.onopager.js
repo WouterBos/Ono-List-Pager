@@ -7,16 +7,12 @@
  */
 
 // TODO:
-// - Manage the number of visible items in pageByNumber
+// - Click on list item to go to that item
 // - Build support for scroll wheel
+// - Adjust height viewport when height list item is not set
+// - Auto page pie animation with canvas
 // - Highlight arrow key when pressing an arrow key on keyboard
-// - onHandleDrag assumes margin-*. Must handle possible left/top as well
-//  - Do something with handleResize()
-//    - Standard: Run method when either list container or list has dynamic size
-//    - Standard: Wait until resize is finished
-//    - Ani object: Reposition list
-//    - Redraw paging by numbers links
-//  - Temporary disable pager by adding class onoPager_disabled
+// - Demopage redesign
 
 (function($) {
   /**
@@ -65,6 +61,8 @@
    *    autopaging. Time value is set in milliseconds.
    * @param {String} arg_config.autoPage.autoPageAnimationType The type
    *    of animation that will indicate the time the time between transitions.
+   * @param {Object} arg_config.autoPage.extraConfig A configuration object
+   *    for the autopage indicator.
    * @param {String} arg_config.labels.next text for the 'next'-button.
    * @param {String} arg_config.labels.previous Text for the
    *    'previous'-button.
@@ -201,7 +199,8 @@
       autoPage: {
         active: false,
         interval: 2000,
-        autoPageAnimationType: ''
+        autoPageAnimationType: '',
+        extraConfig: {}
       },
       labels: {
         next: 'next',
@@ -331,7 +330,8 @@
           pageNext: pageNext,
           pagePrevious: pagePrevious,
           activeIndex: config.activeIndex,
-          animationEasing: config.animationEasing
+          animationEasing: config.animationEasing,
+          autoPage: config.autoPage
         },
         animationConfig
       );
@@ -376,7 +376,8 @@
                             config.orientation,
                             listContainer,
                             list,
-                            autoPageContainer);
+                            autoPageContainer,
+                            config.lockDuringTransition);
       }
     }
 
@@ -502,10 +503,13 @@
     }
 
     function page(arg_newIndex, arg_direction) {
-      if (config.lockDuringTransition == false ||
-          config.lockDuringTransition == true &&
-          list.is(':animated') == false &&
-          listItems.is(':animated') == false) {
+      var canPage = onoPager.tools.canPage(
+        root,
+        config.lockDuringTransition,
+        list,
+        listItems
+      );
+      if (canPage) {
         if (config.autoPage.active == true) {
           pager.resetAutopager();
         }
@@ -624,7 +628,7 @@ var onoPager = {};
         this.addEventListener(
           'touchstart',
           function(e) {
-            e.preventDefault();
+            //e.preventDefault();
             offsetLeft = ($(window).width() - $(this).outerWidth(true)) / 2;
             offsetTop = ($(window).height() - $(this).outerHeight(true)) / 2;
             data.x = e.targetTouches[0].pageX - offsetLeft;
@@ -975,6 +979,9 @@ onoPager.pager = function(arg_index,
   var listContainer;        // The element that holds the list
   var animationSpeed;       // The speed of the transitions in milliseconds
   var orientation;          // The orientation
+  var lockDuringTransition; // Determines of a user can make a page before the
+                            //    current transition is finished
+  var list;                 // The pager list. Most of the time that's a UL.
 
   // Set pager controls
   var controls = {
@@ -1103,12 +1110,21 @@ onoPager.pager = function(arg_index,
 
   // Starts a page transition (triggered by interval)
   function autoPager() {
-    if (doesLoop == false && (index == (length - 1))) {
-      clearInterval(autoPageInterval);
-    }
-    autoPageConfig.animation._page(index, move(1), 1);
-    if (autoPageAnimation) {
-      autoPageAnimation._start();
+    var canPage = onoPager.tools.canPage(
+      autoPageContainer.closest('div.onoPager'),
+      lockDuringTransition,
+      list,
+      list.find('> *.onoPager_listItem')
+    );
+
+    if (canPage) {
+      if (doesLoop == false && (index == (length - 1))) {
+        clearInterval(autoPageInterval);
+      }
+      autoPageConfig.animation._page(index, move(1), 1);
+      if (autoPageAnimation) {
+        autoPageAnimation._start();
+      }
     }
   }
 
@@ -1123,7 +1139,8 @@ onoPager.pager = function(arg_index,
           root: autoPageContainer,
           autoPageAnimationType: autoPageConfig.autoPageAnimationType,
           autoPageInterval: autoPageConfig.interval
-        }
+        },
+        autoPageConfig.extraConfig
       );
       newAnimation._init();
       return newAnimation;
@@ -1175,6 +1192,8 @@ onoPager.pager = function(arg_index,
    *  &lt;ul&gt; most of the time.
    * @param {Object} arg_autoPageContainer The element in which the auto page
    *    animation will take place.
+   * @param {Boolean} arg_lockDuringTransition Determines of a user can make a
+   *    page before the current transition is finished.
    * @example
    * instance.initAutoPager(
    *    {
@@ -1189,7 +1208,8 @@ onoPager.pager = function(arg_index,
                                 arg_orientation,
                                 arg_listContainer,
                                 arg_list,
-                                arg_autoPageContainer) {
+                                arg_autoPageContainer,
+                                arg_lockDuringTransition) {
     var tools = onoPager.tools;
 
     // Setting local private variables
@@ -1197,12 +1217,14 @@ onoPager.pager = function(arg_index,
     listContainer = arg_listContainer;
     orientation = arg_orientation;
     autoPageContainer = arg_autoPageContainer;
+    lockDuringTransition = arg_lockDuringTransition;
+    list = arg_list;
     jQuery.extend(true,
                   autoPageConfig,
                   arg_autoPageConfig,
                   {animation: arg_animation});
     var listSize = 0;
-    arg_list.find('*.onoPager_listItem').each(function() {
+    list.find('*.onoPager_listItem').each(function() {
       listSize += tools.getInnerSize(orientation, jQuery(this));
     });
     var overflow = tools.getInnerSize(orientation, listContainer) - listSize;
@@ -1266,7 +1288,7 @@ onoPager.autopageAnimation = (function() {
      * @param {Object} config Configuration object.
      * @return {object} The animation object.
      */
-    createAnimation: function(config) {
+    createAnimation: function(config, extraConfig) {
       if (typeof(onoPager.autopageAnimation[config.autoPageAnimationType]) !=
           'function') {
         throw new Error('autoPageAnimationType "' +
@@ -1274,11 +1296,11 @@ onoPager.autopageAnimation = (function() {
           typeof(onoPager.autopageAnimation[config.autoPageAnimationType])
         );
       }
-      config.root.addClass('onoPager_onoPager.autopageAnimation_' +
+      config.root.addClass('onoPager_autopageAnimation_' +
         config.autoPageAnimationType);
 
       var animation = onoPager.autopageAnimation[
-        config.autoPageAnimationType](config);
+        config.autoPageAnimationType](config, extraConfig);
 
       interfaceCheck(
         animation,
@@ -1376,7 +1398,7 @@ onoPager.autopageAnimation.timeline = function(newConfig) {
       {
         width: listContainer.innerWidth(),
         position: 'absolute',
-        left: listContainer.position().left + 'px',
+        /* left: listContainer.position().left + 'px', */
         top: listContainer.position().top +
                listContainer.innerHeight(true) + 'px'
       }
@@ -1416,6 +1438,144 @@ onoPager.autopageAnimation.timeline = function(newConfig) {
   }
 
   return timelineInstance;
+};
+
+
+
+
+
+
+/**
+ * @namespace Autopage animation object. This object will create a pie chart
+ * representing a clock.
+ *
+ * @param {Object} newConfig Standard configuration object.
+ * @param {Object} arg_extraConfig Extra configuration options that are
+ *    specific to this animation object.
+ * @param {Number} arg_extraConfig.widthHeight The width and height of the clock
+ *    in pixels.
+ * @param {Number} arg_extraConfig.widthHeight The width and height of the
+ *    clock.
+ * @param {String} arg_extraConfig.color The hex color of the clock.
+ * @param {Number} arg_extraConfig.shadowBlur The blur range of the shadow in
+ *    pixels. Default value is 5.
+ * @param {Number} arg_extraConfig.shadowOffsetX The X-axis offset of the
+ *    shadow. A positive value will cast a shadow to the right, a negative to
+ *    the left. Default value is 2.
+ * @param {Number} arg_extraConfig.shadowOffsetY The Y-axis offset of the
+ *    shadow. A positive value will cast a shadow above the clock, a negative
+ *    one below. Default value is 2.
+ * @param {String} arg_extraConfig.shadowBackgroundColor The hex color of the
+ *    shadow.
+ * @param {Number} arg_extraConfig.intervalPrecision Determines the number of
+ *    frames in the animation. A value of 1 will give the maximum smoothness
+ *    to the animation, but the clock might then not be able to keep up with
+ *    the pager's speed. A higher number will create a more responsive
+ *    animation, but also creates less frames.. The default value is 4.
+ * @return {Object} instance of an animation object.
+ */
+onoPager.autopageAnimation.clock = function(newConfig, arg_extraConfig) {
+  /**
+   * New animation object.
+   * @memberOf onoPager.autopageAnimation.clock
+   */
+  var clockInstance = new onoPager.autopageAnimation._standard(newConfig);
+  var extraConfig = {
+    widthHeight: 16,
+    color: '#ffffff',
+    shadowBlur: 5,
+    shadowOffsetX: 2,
+    shadowOffsetY: 2,
+    shadowBackgroundColor: '#999999',
+    intervalPrecision: 4
+  };
+  jQuery.extend(true, extraConfig, arg_extraConfig);
+  var canvasWidth = extraConfig.widthHeight + extraConfig.shadowBlur;
+  if (extraConfig.shadowOffsetX < 0) {
+    canvasWidth += -extraConfig.shadowOffsetX;
+  } else {
+    canvasWidth += extraConfig.shadowOffsetX;
+  }
+
+  var canvasHeight = extraConfig.widthHeight + extraConfig.shadowBlur;
+  if (extraConfig.shadowOffsetY < 0) {
+    canvasHeight += -extraConfig.shadowOffsetY;
+  } else {
+    canvasHeight += extraConfig.shadowOffsetY;
+  }
+
+  var degrees;
+  var root = clockInstance._config.root;
+  var canvas;
+  var context;
+  var drawClockInterval;
+  var drawClockTimeout;
+  var listContainer = clockInstance._config.listContainer;
+  var interval;
+
+  function drawClock() {
+      degrees += extraConfig.intervalPrecision;
+
+      var centerX = Math.floor((extraConfig.widthHeight / 2) +
+                               extraConfig.shadowOffsetX);
+      var centerY = Math.floor((extraConfig.widthHeight / 2) +
+                               extraConfig.shadowOffsetY);
+      var radius = Math.floor(extraConfig.widthHeight / 2);
+
+      context.clearRect(0, 0, canvasWidth + 10, canvasHeight + 10);
+      context.beginPath();
+      context.moveTo(centerX, centerY);
+      context.arc(centerX,
+                  centerY,
+                  radius,
+                  (Math.PI / 180) * -90,
+                  (Math.PI / 180) * degrees,
+                  false);
+      context.lineTo(centerX, centerY);
+      context.closePath();
+
+      context.fillStyle = extraConfig.color;
+      context.shadowColor = extraConfig.shadowBackgroundColor;
+      context.shadowBlur = extraConfig.shadowBlur;
+      context.shadowOffsetX = extraConfig.shadowOffsetX;
+      context.shadowOffsetY = extraConfig.shadowOffsetY;
+      context.fill();
+  };
+
+  /**
+   * @see onoPager.autopageAnimation._standard#init
+   * @memberOf onoPager.autopageAnimation.timeline
+   * @this
+   */
+  clockInstance.init = function() {
+    interval = this._config.autoPageInterval - this._config.animationSpeed;
+    root.html('<canvas width="' + canvasWidth + '" height="' +
+              canvasHeight + '"></canvas>');
+    canvas = root.find('canvas')[0];
+    context = canvas.getContext('2d');
+    this.start();
+  }
+
+  /**
+   * @see onoPager.autopageAnimation._standard#start
+   * @memberOf onoPager.autopageAnimation.timeline
+   * @this
+   */
+  clockInstance.start = function() {
+    clearInterval(drawClockInterval);
+    degrees = -80;
+    context.clearRect(0, 0, canvasWidth, canvasHeight);
+    drawClockTimeout = setTimeout(
+      function() {
+        drawClockInterval = setInterval(
+          drawClock,
+          Math.floor(interval / (360 / extraConfig.intervalPrecision))
+        );
+      },
+      this._config.animationSpeed);
+  }
+
+  return clockInstance;
 };
 /**
  * @namespace Animation namespace
@@ -1471,7 +1631,8 @@ onoPager.animation = (function() {
           pageNext: config.pageNext,
           pagePrevious: config.pagePrevious,
           activeIndex: config.activeIndex,
-          animationEasing: config.animationEasing
+          animationEasing: config.animationEasing,
+          autoPage: config.autoPage
         },
         extraConfig
       );
@@ -1519,12 +1680,13 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
     activeIndex: 0,
     pager: {},
     scroller: {},
-    custom: {}
+    autoPage: {},
+    extraConfig: {}
   };
 
   jQuery.extend(true, this._config, newConfig);
   if (typeof(extraConfig) == 'object') {
-    jQuery.extend(true, this._config.custom, extraConfig);
+    jQuery.extend(true, this._config.extraConfig, extraConfig);
   }
 
   /**
@@ -1811,7 +1973,7 @@ onoPager.animation.slides = function(newConfig, extraConfig) {
     var newAni = {};
     newAni[topLeft] = '0';
     jQuery(this._config.listItems[newIndex])
-      .delay(this._config.animationSpeed / 8)
+      .delay(this._config.animationSpeed / this._config.extraConfig.delay)
       .animate(
         newAni,
         {
@@ -2254,9 +2416,10 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
       var currentOffset = this._config.list.css(topLeft).replace('px', '');
       currentOffset = parseInt(currentOffset);
       var indexMove = 0;
-      if (oldIndex == 0 && newIndex == (listSize - 1)) {
+      if (oldIndex == 0 && newIndex == (listSize - 1) && direction == -1) {
         indexMove = -1;
-      } else if (oldIndex == (listSize - 1) && newIndex == 0) {
+      } else if (oldIndex == (listSize - 1) &&
+                 newIndex == 0 && direction == 1) {
         indexMove = 1;
       } else {
         indexMove = newIndex - oldIndex;
@@ -2682,6 +2845,31 @@ onoPager.tools = (function() {
   var VERTICAL = 'vertical';
 
   return {
+    /**
+     * Determines wether a page action is allowed
+     * @return {Boolean} A page action can be done if return value is true.
+     * @param {Object} root The root object of a pager (div.onoPager).
+     * @param {Boolean} arg_lockDuringTransition Determines of a user can make a
+     *    page before the current transition is finished.
+     * @param {Object} list The list, most of the times that's a UL.
+     * @param {Object} listItems The collection of the list items, most of the
+     *    the times it is a collection of LI's.
+     */
+    canPage: function(root,
+                      lockDuringTransition,
+                      list,
+                      listItems) {
+      if (root.hasClass('onoPager_disabled') == false &&
+          (lockDuringTransition == false ||
+          lockDuringTransition == true &&
+          list.is(':animated') == false &&
+          listItems.is(':animated') == false)) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+
     /**
      * Returns either left or top position in pixels relative to the page.
      * @param {Object} orientation Either 'horizontal' or 'vertical'.
