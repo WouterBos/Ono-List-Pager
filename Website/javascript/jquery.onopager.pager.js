@@ -504,8 +504,6 @@ onoPager.autopageAnimation.timeline = function(newConfig) {
  * @param {Object} newConfig Standard configuration object.
  * @param {Object} arg_extraConfig Extra configuration options that are
  *    specific to this animation object.
- * @param {Number} arg_extraConfig.widthHeight The width and height of the clock
- *    in pixels.
  * @param {Number} arg_extraConfig.widthHeight The width and height of the
  *    clock.
  * @param {String} arg_extraConfig.color The hex color of the clock.

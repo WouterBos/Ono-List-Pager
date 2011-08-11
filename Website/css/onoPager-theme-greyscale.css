@@ -12,11 +12,11 @@ div.onoPager_greyscale {
 div.onoPager_greyscale div.onoPager_listContainer,
 div.onoPager_greyscale.onoPager_disabled:hover div.onoPager_listContainer {
   position: relative;
-  -moz-transition: all 0.2s ease-out;  
-  -o-transition: all 0.2s ease-out;  
-  -webkit-transition: all 0.2s ease-out;  
-  -ms-transition: all 0.2s ease-out;  
-  transition: all 0.2s ease-out;  
+  -moz-transition: box-shadow 0.2s ease-out;  
+  -o-transition: box-shadow 0.2s ease-out;  
+  -webkit-transition: box-shadow 0.2s ease-out;  
+  -ms-transition: box-shadow 0.2s ease-out;  
+  transition: box-shadow 0.2s ease-out;  
   margin-bottom: 15px; 
   -moz-border-radius: 3px; 
   -webkit-border-radius: 3px; 
@@ -120,7 +120,7 @@ div.onoPager_greyscale.onoPager_animation_linearScroller a.onoPager_step:hover {
 }
 
 div.onoPager_greyscale a.onoPager_step.disabled {
-  opacity: 0.3;
+  opacity: 0.3 !important;
   cursor: default;
   text-decoration: none !important;
 }

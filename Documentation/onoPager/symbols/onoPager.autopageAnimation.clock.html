@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
-		<title>onoPager.autopageAnimation | Ono List Pager Reference</title>
+		<title>onoPager.autopageAnimation.clock | Ono List Pager Reference</title>
 
 		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;" />
 		<meta name="mobileoptimized" content="0" />
@@ -96,12 +96,12 @@
 			<header>
 				<h1 class="classTitle">
 					
-					Namespace <span>onoPager.autopageAnimation</span>
+					Function Namespace <span>onoPager.autopageAnimation.clock</span>
 				</h1>
 				
 				<div class="intro">
 					<p class="description summary">
-						Handles animation that gives a time indication of the intervals   between paging.
+						Autopage animation object. This object will create a pie chartrepresenting a clock.
 					</p>
 						
 					
@@ -120,8 +120,8 @@
 			
 				<section>
 					<div class="props">
-						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class onoPager.autopageAnimation.">
-							<caption class="sectionTitle">Namespace Summary</caption>
+						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class onoPager.autopageAnimation.clock.">
+							<caption class="sectionTitle">Function Namespace Summary</caption>
 							<thead>
 								<tr>
 									<th scope="col">Constructor Attributes</th>
@@ -133,7 +133,7 @@
 									<td class="attributes">&nbsp;</td>
 									<td class="nameDescription" >
 										<div class="fixedFont">
-											<b><a href="../symbols/onoPager.autopageAnimation.html#constructor">onoPager.autopageAnimation</a></b>
+											<b><a href="../symbols/onoPager.autopageAnimation.clock.html#constructor">onoPager.autopageAnimation.clock</a></b>(newConfig, arg_extraConfig)
 										</div>
 										<div class="description"></div>
 									</td>
@@ -145,48 +145,45 @@
 			
 			
 			
-	<!--
-	#### METHODS SUMMARY
-	-->
-			
+				
 				<section>
 					
-					
-					<div class="props">
-						<h2 class="sectionTitle">Method Summary</h2>
-						
-						
-							<nav>
-								<table class="summaryTable" id="MethodsList" cellspacing="0" summary="A summary of the methods documented in the class onoPager.autopageAnimation.">
+						<nav>
+							<div class="props">
+								<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class onoPager.autopageAnimation.clock.">
+									<caption class="sectionTitle">Field Summary</caption>
+									
 									<thead>
 										<tr>
-											<th scope="col">Method Attributes</th>
-											<th scope="col">Method Name and Description</th>
+											<th scope="col">Field Attributes</th>
+											<th scope="col">Field Name and Description</th>
 										</tr>
 									</thead>
 									
 									<tbody>
 										
-										
-											<tr
-												 class='item0'
-											>
-												<td class="attributes">&lt;static&gt; &nbsp;</td>
+											<tr>
+												<td class="attributes">&lt;inner&gt; &lt;static&gt; &nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont">onoPager.autopageAnimation.<b><a href="../symbols/onoPager.autopageAnimation.html#.createAnimation">createAnimation</a></b>(config, extraConfig)
+													<div class="fixedFont">
+													onoPager.autopageAnimation.clock.<b><a href="../symbols/onoPager.autopageAnimation.clock.html#.clockInstance">clockInstance</a></b>
 													</div>
-													<div class="description">This method creates and returns an animation object.</div>
+													<div class="description">New animation object.</div>
 												</td>
 											</tr>
 										
 									</tbody>
 								</table>
-							</nav>
-						
+							</div>
+						</nav>
 					
-						
-					</div>
+					
+					
 				</section>
+			
+	<!--
+	#### METHODS SUMMARY
+	-->
 			
 			
 	<!--
@@ -201,11 +198,11 @@
 					<div class="details props">
 						<div class="innerProps">
 							<h2 class="sectionTitle" id="constructor">
-								Namespace Detail
+								Function Namespace Detail
 							</h2>
 							
 							<div class="fixedFont">
-								<b>onoPager.autopageAnimation</b>
+								<b>onoPager.autopageAnimation.clock</b>(newConfig, arg_extraConfig)
 							</div>
 							
 							<div class="description">
@@ -216,7 +213,85 @@
 							
 						
 							
+								<dl class="detailList params">
+									<dt class="heading">Parameters:</dt>
+									
+										<dt>
+											<span class="light fixedFont">{Object}</span>  <b>newConfig</b>
+											
+										</dt>
+										<dd>Standard configuration object.</dd>
+									
+										<dt>
+											<span class="light fixedFont">{Object}</span>  <b>arg_extraConfig</b>
+											
+										</dt>
+										<dd>Extra configuration options that are   specific to this animation object.</dd>
+									
+										<dt>
+											<span class="light fixedFont">{Number}</span>  <b>arg_extraConfig.widthHeight</b>
+											
+										</dt>
+										<dd>The width and height of the   clock.</dd>
+									
+										<dt>
+											<span class="light fixedFont">{String}</span>  <b>arg_extraConfig.color</b>
+											
+										</dt>
+										<dd>The hex color of the clock.</dd>
+									
+										<dt>
+											<span class="light fixedFont">{Number}</span>  <b>arg_extraConfig.shadowBlur</b>
+											
+										</dt>
+										<dd>The blur range of the shadow in   pixels. Default value is 5.</dd>
+									
+										<dt>
+											<span class="light fixedFont">{Number}</span>  <b>arg_extraConfig.shadowOffsetX</b>
+											
+										</dt>
+										<dd>The X-axis offset of the   shadow. A positive value will cast a shadow to the right, a negative to   the left. Default value is 2.</dd>
+									
+										<dt>
+											<span class="light fixedFont">{Number}</span>  <b>arg_extraConfig.shadowOffsetY</b>
+											
+										</dt>
+										<dd>The Y-axis offset of the   shadow. A positive value will cast a shadow above the clock, a negative   one below. Default value is 2.</dd>
+									
+										<dt>
+											<span class="light fixedFont">{String}</span>  <b>arg_extraConfig.shadowBackgroundColor</b>
+											
+										</dt>
+										<dd>The hex color of the   shadow.</dd>
+									
+										<dt>
+											<span class="light fixedFont">{Number}</span>  <b>arg_extraConfig.intervalPrecision</b>
+											
+										</dt>
+										<dd>Determines the number of   frames in the animation. A value of 1 will give the maximum smoothness   to the animation, but the clock might then not be able to keep up with   the pager's speed. A higher number will create a more responsive   animation, but also creates less frames.. The default value is 4.</dd>
+									
+								</dl>
 							
+							
+							
+								<dl class="detailList nomargin">
+									
+									
+									
+									
+									
+									
+									
+										<dt class="heading">Returns:</dt>
+										
+												<dd><span class="light fixedFont">{Object}</span> instance of an animation object.</dd>
+										
+									
+									
+									
+									
+									
+								</dl>
 							
 						</div>
 					</div>
@@ -226,91 +301,43 @@
 	#### FIELD DETAILS
 	-->
 			
-	<!--
-	#### METHOD DETAILS
-	-->		
-			
 				<section>
 					<div class="details props">
 						<div class="innerProps">
 							<h2 class="sectionTitle">
-								Method Detail
+								Field Detail
 							</h2>
 							
-							<ul class="methodDetail" id="MethodDetail">
+							
+								<div class="fixedFont heading" id=".clockInstance">
+									<span class='lighter'>
+									&lt;inner&gt; &lt;static&gt; 
+									</span>
+									
+									
+									
+									<span class="light">onoPager.autopageAnimation.clock.</span><b>clockInstance</b>							
+								</div>
+								
+								<div class="description">
+									New animation object.
+									
+									
+									
+								</div>
 								
 								
-									<li 
-										 class='item0'
-									>
-										<div class="fixedFont heading" id=".createAnimation">
-											<span class='lighter'>
-											&lt;static&gt; 
-											</span>
-											
-											<span class="light">{object}</span>
-											
-											<span class="light">onoPager.autopageAnimation.</span><b>createAnimation</b>(config, extraConfig)
-										</div>
-										
-										<div class="description">
-											This method creates and returns an animation object.
-											
-											
-											
-											
-										</div>
-										
-										
-										
-										
-											<dl class="detailList params">
-												<dt class="heading">Parameters:</dt>
-												
-													<dt>
-														<span class="light fixedFont">{Object}</span> <b>config</b>
-														
-													</dt>
-													<dd>Configuration object.</dd>
-												
-													<dt>
-														<b>extraConfig</b>
-														
-													</dt>
-													<dd></dd>
-												
-											</dl>
-										
-										
-										
-											<dl class="detailList nomargin">
-											
-												
-												
-												
-												
-												
-												
-												
-													<dt class="heading">Returns:</dt>
-													
-														<dd><span class="light fixedFont">{object}</span> The animation object.</dd>
-													
-												
-												
-												
-												
-												
-											
-											</dl>
-										
-										
-									</li>
+									
 								
-							</ul>
+								
+							
 						</div>
 					</div>
 				</section>
+			
+	<!--
+	#### METHOD DETAILS
+	-->		
 			
 			
 	<!--

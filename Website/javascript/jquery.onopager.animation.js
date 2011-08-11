@@ -45,6 +45,7 @@ onoPager.animation = (function() {
         {
           list: config.list,
           listContainer: config.listContainer,
+          adjustHeightToListItem: config.adjustHeightToListItem,
           listItems: config.listItems,
           animationSpeed: config.animationSpeed,
           orientation: config.orientation,
@@ -92,6 +93,7 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
   this._config = {
     list: null,
     listContainer: null,
+    adjustHeightToListItem: {},
     listItems: null,
     animationSpeed: 1000,
     orientation: null,
@@ -108,6 +110,38 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
   jQuery.extend(true, this._config, newConfig);
   if (typeof(extraConfig) == 'object') {
     jQuery.extend(true, this._config.extraConfig, extraConfig);
+  }
+
+  function setContainerHeight(_config, newIndex) {
+    if (_config.adjustHeightToListItem.active == false) {
+      return false;
+    }
+
+    var itemHeight = 0;
+    if (typeof(newIndex) == 'number') {
+      itemHeight = jQuery(_config.listItems[newIndex]).outerHeight();
+    } else {
+      itemHeight = _config.listItems.filter('.active').outerHeight();
+    }
+
+    if (_config.adjustHeightToListItem.animate) {
+      _config.listContainer.stop(true, true);
+      _config.listContainer.animate(
+        {
+          height: itemHeight
+        },
+        {
+          duration: _config.animationSpeed,
+          easing: _config.animationEasing
+        }
+      );
+    } else {
+      _config.listContainer.css(
+        {
+          height: itemHeight
+        }
+      );
+    }
   }
 
   /**
@@ -249,8 +283,10 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
   this.init = function() {}
   delete this.init;
 
+  // _init is a wrapper method for animationinstance.init()
   this._init = function() {
     this.init();
+    setContainerHeight(this._config);
   }
 
   /**
@@ -266,8 +302,10 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
   this.page = function(oldIndex, newIndex, direction) {}
   delete this.page;
 
+  // _page is a wrapper method for animationinstance.page()
   this._page = function(oldIndex, newIndex, direction) {
     this.page(oldIndex, newIndex, direction);
+    setContainerHeight(this._config, newIndex);
   }
 
   /**
@@ -278,6 +316,7 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
   this.onPagerCreated = function() {}
   delete this.onPagerCreated;
 
+  // _onPagerCreated is a wrapper method for animationinstance.onPagerCreated()
   this._onPagerCreated = function() {
     if (typeof(this.onPagerCreated) == 'function') {
       this.onPagerCreated();
@@ -295,6 +334,7 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
   this.pagerHover = function(move) {}
   delete this.pagerHover;
 
+  // _pagerHover is a wrapper method for animationinstance.pagerHover()
   this._pagerHover = function(move) {
     if (this._config.scroller.updateHandle) {
       // update the handle of the scroller if one exists.

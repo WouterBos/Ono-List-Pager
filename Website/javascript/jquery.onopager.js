@@ -3,16 +3,14 @@
  * @author Wouter Bos, Web developer at Estate Internet (www.estate.nl). Code
  *    for swiping based on the QuickGestures jQuery plugin of Anders Zakrisson.
  * @since 0.1 - 2011-3-28
- * @version 0.6 - 2011-6-16
+ * @version 0.8 - 2011-08-10
  */
 
 // TODO:
 // - Click on list item to go to that item
 // - Build support for scroll wheel
 // - Adjust height viewport when height list item is not set
-// - Auto page pie animation with canvas
 // - Highlight arrow key when pressing an arrow key on keyboard
-// - Demopage redesign
 
 (function($) {
   /**
@@ -46,10 +44,16 @@
    *    during a transition when true. Default is false.
    * @param {Boolean} arg_config.doesLoop If true, the pager scrolls back
    *    to the first item after the last item.
-   * @param {String} arg_config.ListContainer.width Width of list
+   * @param {String} arg_config.listContainer.width Width of list
    *    container, like '200px'.
-   * @param {String} arg_config.ListContainer.height Height of list
+   * @param {String} arg_config.listContainer.height Height of list
    *    container, like '200px'.
+   * @param {String} arg_config.listContainer.adjustHeightToListItem.active If
+   *    you also set pagePerItem to true, the height of the list container will
+   *    adjust to the height of the visible list item. Default value is true.
+   * @param {String} arg_config.listContainer.adjustHeightToListItem.animate If
+   *    true, the container will animatie to its new height. Default value is
+   *    true.
    * @param {String} arg_config.ListItems.width Width of list items, like
    *    '200px'.
    * @param {String} arg_config.ListItems.height Height of list items,
@@ -139,7 +143,11 @@
    *    doesLoop: true,<br />
    *    listContainer: {<br />
    *      width: '300px',<br />
-   *      height: '100px'<br />
+   *      height: '100px',<br />
+   *      adjustHeightToListItem: {<br />
+   *        active: true,<br />
+   *        animate: true<br />
+   *      }<br />
    *    },<br />
    *    listItems: {<br />
    *      width: '300px',<br />
@@ -189,7 +197,11 @@
       doesLoop: true,
       listContainer: {
         width: '',
-        height: ''
+        height: '',
+        adjustHeightToListItem: {
+          active: true,
+          animate: true
+        }
       },
       listItems: {
         width: '',
@@ -323,6 +335,7 @@
           root: root,
           list: list,
           listContainer: listContainer,
+          adjustHeightToListItem: config.listContainer.adjustHeightToListItem,
           listItems: listItems,
           animationSpeed: config.animationSpeed,
           orientation: config.orientation,
@@ -503,12 +516,10 @@
     }
 
     function page(arg_newIndex, arg_direction) {
-      var canPage = onoPager.tools.canPage(
-        root,
-        config.lockDuringTransition,
-        list,
-        listItems
-      );
+      var canPage = onoPager.tools.canPage(root,
+                                           config.lockDuringTransition,
+                                           list,
+                                           listItems);
       if (canPage) {
         if (config.autoPage.active == true) {
           pager.resetAutopager();
@@ -524,13 +535,13 @@
       animation._pagerHover(moveIndex);
     }
 
-    function setResizeEvent() {
-      $(window).resize(handleResize);
-    }
+    //function setResizeEvent() {
+    //  $(window).resize(handleResize);
+    //}
 
-    function handleResize() {
+    //function handleResize() {
       // TODO: code window resizing handling.
-    }
+    //}
 
 
 
@@ -555,7 +566,7 @@
       setPageByNumber();
       setPager();
       setControlEvents();
-      setResizeEvent();
+      //setResizeEvent();
     });
   }
 })(jQuery);
@@ -1452,8 +1463,6 @@ onoPager.autopageAnimation.timeline = function(newConfig) {
  * @param {Object} newConfig Standard configuration object.
  * @param {Object} arg_extraConfig Extra configuration options that are
  *    specific to this animation object.
- * @param {Number} arg_extraConfig.widthHeight The width and height of the clock
- *    in pixels.
  * @param {Number} arg_extraConfig.widthHeight The width and height of the
  *    clock.
  * @param {String} arg_extraConfig.color The hex color of the clock.
@@ -1624,6 +1633,7 @@ onoPager.animation = (function() {
         {
           list: config.list,
           listContainer: config.listContainer,
+          adjustHeightToListItem: config.adjustHeightToListItem,
           listItems: config.listItems,
           animationSpeed: config.animationSpeed,
           orientation: config.orientation,
@@ -1671,6 +1681,7 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
   this._config = {
     list: null,
     listContainer: null,
+    adjustHeightToListItem: {},
     listItems: null,
     animationSpeed: 1000,
     orientation: null,
@@ -1687,6 +1698,38 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
   jQuery.extend(true, this._config, newConfig);
   if (typeof(extraConfig) == 'object') {
     jQuery.extend(true, this._config.extraConfig, extraConfig);
+  }
+
+  function setContainerHeight(_config, newIndex) {
+    if (_config.adjustHeightToListItem.active == false) {
+      return false;
+    }
+
+    var itemHeight = 0;
+    if (typeof(newIndex) == 'number') {
+      itemHeight = jQuery(_config.listItems[newIndex]).outerHeight();
+    } else {
+      itemHeight = _config.listItems.filter('.active').outerHeight();
+    }
+
+    if (_config.adjustHeightToListItem.animate) {
+      _config.listContainer.stop(true, true);
+      _config.listContainer.animate(
+        {
+          height: itemHeight
+        },
+        {
+          duration: _config.animationSpeed,
+          easing: _config.animationEasing
+        }
+      );
+    } else {
+      _config.listContainer.css(
+        {
+          height: itemHeight
+        }
+      );
+    }
   }
 
   /**
@@ -1828,8 +1871,10 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
   this.init = function() {}
   delete this.init;
 
+  // _init is a wrapper method for animationinstance.init()
   this._init = function() {
     this.init();
+    setContainerHeight(this._config);
   }
 
   /**
@@ -1845,8 +1890,10 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
   this.page = function(oldIndex, newIndex, direction) {}
   delete this.page;
 
+  // _page is a wrapper method for animationinstance.page()
   this._page = function(oldIndex, newIndex, direction) {
     this.page(oldIndex, newIndex, direction);
+    setContainerHeight(this._config, newIndex);
   }
 
   /**
@@ -1857,6 +1904,7 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
   this.onPagerCreated = function() {}
   delete this.onPagerCreated;
 
+  // _onPagerCreated is a wrapper method for animationinstance.onPagerCreated()
   this._onPagerCreated = function() {
     if (typeof(this.onPagerCreated) == 'function') {
       this.onPagerCreated();
@@ -1874,6 +1922,7 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
   this.pagerHover = function(move) {}
   delete this.pagerHover;
 
+  // _pagerHover is a wrapper method for animationinstance.pagerHover()
   this._pagerHover = function(move) {
     if (this._config.scroller.updateHandle) {
       // update the handle of the scroller if one exists.
