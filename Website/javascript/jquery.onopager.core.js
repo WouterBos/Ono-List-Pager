@@ -199,8 +199,8 @@
         width: '',
         height: '',
         adjustHeightToListItem: {
-          active: true,
-          animate: true
+          active: false,
+          animate: false
         }
       },
       listItems: {
@@ -269,16 +269,20 @@
 
     // Set initial styling of the list with config values
     function setStyles() {
-      if (config.listItems.width) {
+      if (typeof(config.listItems.width) == 'string' &&
+          config.listItems.width.length > 0) {
         listItems.css('width', config.listItems.width);
       }
-      if (config.listItems.height) {
+      if (typeof(config.listItems.height) == 'string' &&
+          config.listItems.height.length > 0) {
         listItems.css('height', config.listItems.height);
       }
-      if (config.listContainer.width) {
+      if (typeof(config.listContainer.width) == 'string' &&
+          config.listContainer.width.length > 0) {
         listContainer.css('width', config.listContainer.width);
       }
-      if (config.listContainer.height) {
+      if (typeof(config.listContainer.height) == 'string' &&
+          config.listContainer.height.length > 0) {
         listContainer.css('height', config.listContainer.height);
       }
     }
@@ -335,6 +339,7 @@
           root: root,
           list: list,
           listContainer: listContainer,
+          listContainerHeight: config.listContainer.height,
           adjustHeightToListItem: config.listContainer.adjustHeightToListItem,
           listItems: listItems,
           animationSpeed: config.animationSpeed,

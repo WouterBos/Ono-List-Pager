@@ -199,8 +199,8 @@
         width: '',
         height: '',
         adjustHeightToListItem: {
-          active: true,
-          animate: true
+          active: false,
+          animate: false
         }
       },
       listItems: {
@@ -269,16 +269,20 @@
 
     // Set initial styling of the list with config values
     function setStyles() {
-      if (config.listItems.width) {
+      if (typeof(config.listItems.width) == 'string' &&
+          config.listItems.width.length > 0) {
         listItems.css('width', config.listItems.width);
       }
-      if (config.listItems.height) {
+      if (typeof(config.listItems.height) == 'string' &&
+          config.listItems.height.length > 0) {
         listItems.css('height', config.listItems.height);
       }
-      if (config.listContainer.width) {
+      if (typeof(config.listContainer.width) == 'string' &&
+          config.listContainer.width.length > 0) {
         listContainer.css('width', config.listContainer.width);
       }
-      if (config.listContainer.height) {
+      if (typeof(config.listContainer.height) == 'string' &&
+          config.listContainer.height.length > 0) {
         listContainer.css('height', config.listContainer.height);
       }
     }
@@ -335,6 +339,7 @@
           root: root,
           list: list,
           listContainer: listContainer,
+          listContainerHeight: config.listContainer.height,
           adjustHeightToListItem: config.listContainer.adjustHeightToListItem,
           listItems: listItems,
           animationSpeed: config.animationSpeed,
@@ -1633,6 +1638,7 @@ onoPager.animation = (function() {
         {
           list: config.list,
           listContainer: config.listContainer,
+          listContainerHeight: config.listContainerHeight,
           adjustHeightToListItem: config.adjustHeightToListItem,
           listItems: config.listItems,
           animationSpeed: config.animationSpeed,
@@ -1681,6 +1687,7 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
   this._config = {
     list: null,
     listContainer: null,
+    listContainerHeight: '',
     adjustHeightToListItem: {},
     listItems: null,
     animationSpeed: 1000,
@@ -1796,7 +1803,8 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
    * @param {Object} listItems All items in the list (typically &lt;li&gt;).
    */
   this._setListContainerHeight = function(listContainer, listItems) {
-    if (listItems.size() > 1) {
+    console.log(this._config.listContainerHeight);
+    if (listItems.size() > 1 && this._config.listContainerHeight == '') {
       var maxHeight = 0;
       listItems.each(function() {
         if (maxHeight < jQuery(this).innerHeight(true)) {
@@ -2176,18 +2184,6 @@ onoPager.animation.linear = function(newConfig, extraConfig) {
   var linearInstance = new onoPager.animation._standard(newConfig, extraConfig);
   var tools = onoPager.tools;
 
-  linearInstance._setListContainerHeight = function(listContainer, listItems) {
-    if (listItems.size() > 1) {
-      var maxHeight = 0;
-      listItems.each(function() {
-        if (maxHeight < jQuery(this).innerHeight(true)) {
-          maxHeight = jQuery(this).innerHeight(true);
-        }
-      });
-      listContainer.height(maxHeight);
-    }
-  }
-
   /**
    * @see onoPager.animation._standard#init
    * @memberOf onoPager.animation.linear
@@ -2403,19 +2399,6 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
         }
       }
       list.append(appendItems);
-    }
-  }
-
-  linearContinuousInstance._setListContainerHeight = function(listContainer,
-                                                             listItems) {
-    if (listItems.size() > 1) {
-      var maxHeight = 0;
-      listItems.each(function() {
-        if (maxHeight < jQuery(this).innerHeight(true)) {
-          maxHeight = jQuery(this).innerHeight(true);
-        }
-      });
-      listContainer.height(maxHeight);
     }
   }
 
