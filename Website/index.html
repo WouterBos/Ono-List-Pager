@@ -71,7 +71,7 @@
           </select>
         </div>
         
-        <div class="column2" id="editDemo_description"></div>
+        <div class="column2 genericContent" id="editDemo_description"></div>
         
         <div class="column3">
           <div id="editDemo_result"></div>
@@ -128,7 +128,7 @@
                 "  doesLoop: false,\n" +
                 "  listContainer: {\n" +
                 "    width: '280px',\n" +
-                "    height: '200px'\n" +
+                "    height: ''\n" +
                 "  },\n" +
                 "  listItems: {\n" +
                 "    width: '260px',\n" +
@@ -450,19 +450,20 @@
         animationConfig: "{}"
       },
       continuous: {
-        description: 'When using the continuous animation, the pager is larger than its viewport. The selected item is in the middle of the pager and has the CSS class "active"', 
+        description: '<p>When using the continuous animation, the pager is larger than its viewport. The selected item is in the middle of the pager and has the CSS class "active".</p><p>By setting the configuration option <code>listItems.triggersPagingOnClick</code> to true you can navigate through the pager by clicking on the list item itself.</p>', 
         html: standardHtml,
         config: "{\n" +
                 "  cssClass: 'onoPager_greyscale',\n" +
                 "  pagePerItem: true,\n" +
                 "  doesLoop: true,\n" +
                 "  listContainer: {\n" +
-                "    width: '500px',\n" +
+                "    width: '230px',\n" +
                 "    height: '100px'\n" +
                 "  },\n" +
                 "  listItems: {\n" +
                 "    width: '210px',\n" +
-                "    height: '80px'\n" +
+                "    height: '80px',\n" +
+                "    triggersPagingOnClick: true\n" +
                 "  },\n" +
                 "  autoPage: {\n" +
                 "    active: false,\n" +

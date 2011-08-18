@@ -9,7 +9,6 @@
 // TODO:
 // - Click on list item to go to that item
 // - Build support for scroll wheel
-// - Adjust height viewport when height list item is not set
 // - Highlight arrow key when pressing an arrow key on keyboard
 
 (function($) {
@@ -205,7 +204,8 @@
       },
       listItems: {
         width: '',
-        height: ''
+        height: '',
+        triggersPagingOnClick: false
       },
       activeIndex: 0,
       autoPage: {
@@ -290,6 +290,9 @@
     // Create pager controls like 'next' and 'previous'
     function createControls() {
       var newHTML = '';
+      if (config.autoPage.autoPageAnimationType && config.autoPage.active) {
+        newHTML += '<div class="' + ONOPAGER + '_autoPageContainer"></div>';
+      }
       newHTML += '<a' + EMPTY_HREF +
         ' class="' + ONOPAGER + '_previous ' + ONOPAGER + '_step" title="' +
         config.labels.previous + '">' + config.labels.previous + '</a>';
@@ -305,9 +308,6 @@
       if (config.scroller.active == true) {
         newHTML += '<div class="' + ONOPAGER + '_scroller"><div class="' +
           ONOPAGER + '_scrollerHandle"></div></div>';
-      }
-      if (config.autoPage.autoPageAnimationType && config.autoPage.active) {
-        newHTML += '<div class="' + ONOPAGER + '_autoPageContainer"></div>';
       }
       root.append(
         '<div class="' + ONOPAGER + '_controls">' + newHTML + '</div>'
@@ -448,6 +448,19 @@
       pagePrevious.click(function() {
         page((pager.getIndex() - 1), -1);
       });
+      if (config.listItems.triggersPagingOnClick == true) {
+        listContainer.find(' > li, .onoPager_listItem').click(function() {
+          var currentIndex = pager.getIndex();
+          var newIndex = parseInt(jQuery(this).attr('data-onopager-list-index'));
+          var direction = 1;
+          if (jQuery(this).attr('data-onopager-list-direction')) {
+            direction = jQuery(this).attr('data-onopager-list-direction')
+          } else if (newIndex < currentIndex) {
+            direction = -1;
+          }
+          page(newIndex, direction);
+        });
+      }
 
       // Set hover events on paging buttons
       pageNext.mouseenter(function() {
@@ -534,26 +547,44 @@
         animation._page(oldIndex, newIndex, arg_direction);
       }
     }
+    
+    // Detect browser so you can write CSS fallbacks for MSIE. Yeah, I know
+    // browser detection feels dirty, but I know you'll thank me in the end :)
+    function addBrowserClass() {
+      var uaClass = '';
+      if (navigator.appName == 'Microsoft Internet Explorer') {
+        uaClass = 'msie' + getInternetExplorerVersion();
+      }
+      root.addClass(uaClass);
+      
+      function getInternetExplorerVersion() {
+        var rv = -1;
+        if (navigator.appName == 'Microsoft Internet Explorer') {
+          if (document.documentMode) {
+            rv = document.documentMode;
+          } else {
+            var ua = navigator.userAgent;
+            var re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+            if (re.exec(ua) != null) {
+              rv = parseFloat( RegExp.$1 );
+            }
+          }
+        }
+        return rv;
+      }
+    }
 
     function pagerHover(moveIndex) {
       // TODO: update paging index
       animation._pagerHover(moveIndex);
     }
 
-    //function setResizeEvent() {
-    //  $(window).resize(handleResize);
-    //}
-
-    //function handleResize() {
-      // TODO: code window resizing handling.
-    //}
-
 
 
     return this.each(function() {
       // create list wrappers and references
       list = $(this);
-      list.removeClass('' + ONOPAGER + '_noJs');
+      list.removeClass(ONOPAGER + '_noJs');
       list.addClass(ONOPAGER + '_list');
       list.wrap('<div class="' + ONOPAGER + '_listContainer"></div>');
       listContainer = list.parent();
@@ -563,6 +594,9 @@
       root.addClass(config.animationType);
       listItems = $(this).find(' > li, .' + ONOPAGER + '_listItem');
       listItems.addClass(ONOPAGER + '_listItem');
+      listItems.each(function(index) {
+        jQuery(this).attr('data-onopager-list-index', index)
+      });
 
       // Set up ono pager
       setStyles();
@@ -571,7 +605,7 @@
       setPageByNumber();
       setPager();
       setControlEvents();
-      //setResizeEvent();
+      addBrowserClass();
     });
   }
 })(jQuery);

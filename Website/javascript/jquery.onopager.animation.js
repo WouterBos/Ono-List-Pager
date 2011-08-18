@@ -210,7 +210,6 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
    * @param {Object} listItems All items in the list (typically &lt;li&gt;).
    */
   this._setListContainerHeight = function(listContainer, listItems) {
-    console.log(this._config.listContainerHeight);
     if (listItems.size() > 1 && this._config.listContainerHeight == '') {
       var maxHeight = 0;
       listItems.each(function() {
@@ -769,7 +768,7 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
       var itemSize = 0;
 
       for (var i = 1; i <= listItems.size(); i++) {
-        if (prependSpace < idleSpace) {
+        if (prependSpace < (idleSpace * 2)) {
           prependItemsArray.push(jQuery(listItems.get(-i)).clone(true));
           itemSize = tools.getInnerSize(
             linearContinuousInstance._config.orientation,
@@ -788,7 +787,10 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
         }
       }
       for (var i = 0; i < prependItemsArray.length; i++) {
-        list.prepend(jQuery(prependItemsArray[i]).clone(true));
+        list.prepend(
+          jQuery(prependItemsArray[i]).clone(true)
+        );
+        list.find('li:first').attr('data-onopager-list-direction', -1);
       }
     }
 
@@ -798,9 +800,11 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
       var appendSpace = 0;
 
       for (var i = 0; i < listItems.size(); i++) {
-        if (appendSpace < idleSpace) {
-          appendItems = appendItems.add(jQuery(listItems.get(i)).clone(true));
-
+        if (appendSpace < (idleSpace * 2)) {
+          appendItems = appendItems.add(
+            jQuery(listItems.get(i)).clone(true)
+                                    .attr('data-onopager-list-direction', 1)
+          );
         } else {
           break;
         }
@@ -837,6 +841,7 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
    * @this
    */
   linearContinuousInstance.page = function(oldIndex, newIndex, direction) {
+    //console.log(oldIndex, newIndex, direction)
     if (oldIndex != newIndex) {
       linearContinuousInstance._setActiveClass(oldIndex, false);
     }
@@ -991,21 +996,24 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
       var oldItem = jQuery(
         linearContinuousInstance._config.listItems[oldIndex]
       );
-
-      if (oldIndex == (listSize - 1) && newIndex == 0 && direction == 1) {
+      
+      console.log(oldIndex, newIndex, direction);
+      if (oldIndex > newIndex && direction == 1) {
+        console.log('skip');
         // If user pages from last page to first page, position to the page
         // *before* the first page.
         var firstIndex = newListItems.index(
           linearContinuousInstance._config.listItems[newIndex]
         );
+        console.log(firstIndex)
 
         if (linearContinuousInstance._config.pagePerItem == true) {
+          oldItem = jQuery(newListItems[firstIndex - (newIndex + (listSize - oldIndex))]);
           offset = tools.getPosition(
             linearContinuousInstance._config.orientation,
-            jQuery(newListItems[firstIndex - 1])
+            oldItem
           );
           offset = -Math.round(offset);
-          oldItem = jQuery(newListItems[firstIndex - 1]);
         } else {
           var maxOffset = prependFill + listItemsSize;
           var currentOffset = tools.getPosition(
@@ -1019,9 +1027,7 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
             offset += listItemsSize;
           }
         }
-      } else if (oldIndex == 0 &&
-                 newIndex == (listSize - 1) &&
-                 direction == -1) {
+      } else if (newIndex > oldIndex && direction == -1) {
         // If user pages from the first item to last item, position on the item
         // *after* the last item.
         var lastIndex = newListItems.index(
@@ -1029,12 +1035,12 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
         );
 
         if (linearContinuousInstance._config.pagePerItem == true) {
+          oldItem = jQuery(newListItems[lastIndex + ((listSize - newIndex) + oldIndex)]);
           offset = tools.getPosition(
             linearContinuousInstance._config.orientation,
-            jQuery(newListItems[lastIndex + 1])
+            oldItem
           );
           offset = -Math.round(offset);
-          oldItem = jQuery(newListItems[lastIndex + 1]);
         } else {
           var currentOffset = tools.getPosition(
             linearContinuousInstance._config.orientation,

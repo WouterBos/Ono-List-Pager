@@ -50,7 +50,6 @@ div.onoPager_scrollerHandle {
   position: absolute;
   left: 0;
   top: 0;
-  border-#cccccc: 10px;
   border: 1px solid #333333;
   width: 18px;
   height: 18px;
@@ -59,6 +58,7 @@ div.onoPager_scrollerHandle {
 
 
 div.onoPager_autopageAnimation_timeline {
+  left: 0;
 	width: 100%;
 	height: 2px;
 	background: #9a9abb;
@@ -101,8 +101,12 @@ div.onoPager_animation_linearContinuous *.onoPager_listContainer {
   margin: 0 auto;
   overflow: visible;
 }
+div.onoPager_animation_linearContinuous.msie7 *.onoPager_listContainer {
+  position: static !important;
+}
 
 div.onoPager_animation_linearContinuous div.onoPager_controls {
+  position: relative;
   margin: 0 auto;
 }
 
