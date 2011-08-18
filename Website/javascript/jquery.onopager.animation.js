@@ -553,7 +553,10 @@ onoPager.animation.fade = function(newConfig, extraConfig) {
       },
       {
         duration: this._config.animationSpeed,
-        easing: this._config.animationEasing
+        easing: this._config.animationEasing,
+        complete: function() {
+          jQuery(this).css('filter', '');
+        }
       }
     );
   }
