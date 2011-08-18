@@ -9,7 +9,6 @@
 // TODO:
 // - Click on list item to go to that item
 // - Build support for scroll wheel
-// - Adjust height viewport when height list item is not set
 // - Highlight arrow key when pressing an arrow key on keyboard
 
 (function($) {
@@ -205,7 +204,8 @@
       },
       listItems: {
         width: '',
-        height: ''
+        height: '',
+        triggersPagingOnClick: false
       },
       activeIndex: 0,
       autoPage: {
@@ -290,6 +290,9 @@
     // Create pager controls like 'next' and 'previous'
     function createControls() {
       var newHTML = '';
+      if (config.autoPage.autoPageAnimationType && config.autoPage.active) {
+        newHTML += '<div class="' + ONOPAGER + '_autoPageContainer"></div>';
+      }
       newHTML += '<a' + EMPTY_HREF +
         ' class="' + ONOPAGER + '_previous ' + ONOPAGER + '_step" title="' +
         config.labels.previous + '">' + config.labels.previous + '</a>';
@@ -305,9 +308,6 @@
       if (config.scroller.active == true) {
         newHTML += '<div class="' + ONOPAGER + '_scroller"><div class="' +
           ONOPAGER + '_scrollerHandle"></div></div>';
-      }
-      if (config.autoPage.autoPageAnimationType && config.autoPage.active) {
-        newHTML += '<div class="' + ONOPAGER + '_autoPageContainer"></div>';
       }
       root.append(
         '<div class="' + ONOPAGER + '_controls">' + newHTML + '</div>'
@@ -448,6 +448,20 @@
       pagePrevious.click(function() {
         page((pager.getIndex() - 1), -1);
       });
+      if (config.listItems.triggersPagingOnClick == true) {
+        listContainer.find(' > li, .onoPager_listItem').click(function() {
+          var currentIndex = pager.getIndex();
+          var newIndex = parseInt(jQuery(this)
+                                  .attr('data-onopager-list-index'));
+          var direction = 1;
+          if (jQuery(this).attr('data-onopager-list-direction')) {
+            direction = jQuery(this).attr('data-onopager-list-direction');
+          } else if (newIndex < currentIndex) {
+            direction = -1;
+          }
+          page(newIndex, direction);
+        });
+      }
 
       // Set hover events on paging buttons
       pageNext.mouseenter(function() {
@@ -535,25 +549,43 @@
       }
     }
 
+    // Detect browser so you can write CSS fallbacks for MSIE. Yeah, I know
+    // browser detection feels dirty, but I know you'll thank me in the end :)
+    function addBrowserClass() {
+      var uaClass = '';
+      if (navigator.appName == 'Microsoft Internet Explorer') {
+        uaClass = 'msie' + getInternetExplorerVersion();
+      }
+      root.addClass(uaClass);
+
+      function getInternetExplorerVersion() {
+        var rv = -1;
+        if (navigator.appName == 'Microsoft Internet Explorer') {
+          if (document.documentMode) {
+            rv = document.documentMode;
+          } else {
+            var ua = navigator.userAgent;
+            var re = new RegExp('MSIE ([0-9]{1,}[\.0-9]{0,})');
+            if (re.exec(ua) != null) {
+              rv = parseFloat(RegExp.$1);
+            }
+          }
+        }
+        return rv;
+      }
+    }
+
     function pagerHover(moveIndex) {
       // TODO: update paging index
       animation._pagerHover(moveIndex);
     }
-
-    //function setResizeEvent() {
-    //  $(window).resize(handleResize);
-    //}
-
-    //function handleResize() {
-      // TODO: code window resizing handling.
-    //}
 
 
 
     return this.each(function() {
       // create list wrappers and references
       list = $(this);
-      list.removeClass('' + ONOPAGER + '_noJs');
+      list.removeClass(ONOPAGER + '_noJs');
       list.addClass(ONOPAGER + '_list');
       list.wrap('<div class="' + ONOPAGER + '_listContainer"></div>');
       listContainer = list.parent();
@@ -563,6 +595,9 @@
       root.addClass(config.animationType);
       listItems = $(this).find(' > li, .' + ONOPAGER + '_listItem');
       listItems.addClass(ONOPAGER + '_listItem');
+      listItems.each(function(index) {
+        jQuery(this).attr('data-onopager-list-index', index);
+      });
 
       // Set up ono pager
       setStyles();
@@ -571,7 +606,7 @@
       setPageByNumber();
       setPager();
       setControlEvents();
-      //setResizeEvent();
+      addBrowserClass();
     });
   }
 })(jQuery);
@@ -1801,9 +1836,9 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
    *
    * @param {Object} listContainer The list container.
    * @param {Object} listItems All items in the list (typically &lt;li&gt;).
+   * @this
    */
   this._setListContainerHeight = function(listContainer, listItems) {
-    console.log(this._config.listContainerHeight);
     if (listItems.size() > 1 && this._config.listContainerHeight == '') {
       var maxHeight = 0;
       listItems.each(function() {
@@ -2362,7 +2397,7 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
       var itemSize = 0;
 
       for (var i = 1; i <= listItems.size(); i++) {
-        if (prependSpace < idleSpace) {
+        if (prependSpace < (idleSpace * 2)) {
           prependItemsArray.push(jQuery(listItems.get(-i)).clone(true));
           itemSize = tools.getInnerSize(
             linearContinuousInstance._config.orientation,
@@ -2381,7 +2416,10 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
         }
       }
       for (var i = 0; i < prependItemsArray.length; i++) {
-        list.prepend(jQuery(prependItemsArray[i]).clone(true));
+        list.prepend(
+          jQuery(prependItemsArray[i]).clone(true)
+        );
+        list.find('li:first').attr('data-onopager-list-direction', -1);
       }
     }
 
@@ -2391,9 +2429,11 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
       var appendSpace = 0;
 
       for (var i = 0; i < listItems.size(); i++) {
-        if (appendSpace < idleSpace) {
-          appendItems = appendItems.add(jQuery(listItems.get(i)).clone(true));
-
+        if (appendSpace < (idleSpace * 2)) {
+          appendItems = appendItems.add(
+            jQuery(listItems.get(i)).clone(true)
+                                    .attr('data-onopager-list-direction', 1)
+          );
         } else {
           break;
         }
@@ -2430,6 +2470,7 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
    * @this
    */
   linearContinuousInstance.page = function(oldIndex, newIndex, direction) {
+    //console.log(oldIndex, newIndex, direction)
     if (oldIndex != newIndex) {
       linearContinuousInstance._setActiveClass(oldIndex, false);
     }
@@ -2585,20 +2626,24 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
         linearContinuousInstance._config.listItems[oldIndex]
       );
 
-      if (oldIndex == (listSize - 1) && newIndex == 0 && direction == 1) {
+      console.log(oldIndex, newIndex, direction);
+      if (oldIndex > newIndex && direction == 1) {
+        console.log('skip');
         // If user pages from last page to first page, position to the page
         // *before* the first page.
         var firstIndex = newListItems.index(
           linearContinuousInstance._config.listItems[newIndex]
         );
+        console.log(firstIndex);
 
         if (linearContinuousInstance._config.pagePerItem == true) {
+          oldItem = jQuery(newListItems[firstIndex -
+                                        (newIndex + (listSize - oldIndex))]);
           offset = tools.getPosition(
             linearContinuousInstance._config.orientation,
-            jQuery(newListItems[firstIndex - 1])
+            oldItem
           );
           offset = -Math.round(offset);
-          oldItem = jQuery(newListItems[firstIndex - 1]);
         } else {
           var maxOffset = prependFill + listItemsSize;
           var currentOffset = tools.getPosition(
@@ -2612,9 +2657,7 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
             offset += listItemsSize;
           }
         }
-      } else if (oldIndex == 0 &&
-                 newIndex == (listSize - 1) &&
-                 direction == -1) {
+      } else if (newIndex > oldIndex && direction == -1) {
         // If user pages from the first item to last item, position on the item
         // *after* the last item.
         var lastIndex = newListItems.index(
@@ -2622,12 +2665,13 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
         );
 
         if (linearContinuousInstance._config.pagePerItem == true) {
+          oldItem = jQuery(newListItems[lastIndex +
+                                        ((listSize - newIndex) + oldIndex)]);
           offset = tools.getPosition(
             linearContinuousInstance._config.orientation,
-            jQuery(newListItems[lastIndex + 1])
+            oldItem
           );
           offset = -Math.round(offset);
-          oldItem = jQuery(newListItems[lastIndex + 1]);
         } else {
           var currentOffset = tools.getPosition(
             linearContinuousInstance._config.orientation,

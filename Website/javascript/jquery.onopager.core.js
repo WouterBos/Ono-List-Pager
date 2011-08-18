@@ -451,10 +451,11 @@
       if (config.listItems.triggersPagingOnClick == true) {
         listContainer.find(' > li, .onoPager_listItem').click(function() {
           var currentIndex = pager.getIndex();
-          var newIndex = parseInt(jQuery(this).attr('data-onopager-list-index'));
+          var newIndex = parseInt(jQuery(this)
+                                  .attr('data-onopager-list-index'));
           var direction = 1;
           if (jQuery(this).attr('data-onopager-list-direction')) {
-            direction = jQuery(this).attr('data-onopager-list-direction')
+            direction = jQuery(this).attr('data-onopager-list-direction');
           } else if (newIndex < currentIndex) {
             direction = -1;
           }
@@ -547,7 +548,7 @@
         animation._page(oldIndex, newIndex, arg_direction);
       }
     }
-    
+
     // Detect browser so you can write CSS fallbacks for MSIE. Yeah, I know
     // browser detection feels dirty, but I know you'll thank me in the end :)
     function addBrowserClass() {
@@ -556,7 +557,7 @@
         uaClass = 'msie' + getInternetExplorerVersion();
       }
       root.addClass(uaClass);
-      
+
       function getInternetExplorerVersion() {
         var rv = -1;
         if (navigator.appName == 'Microsoft Internet Explorer') {
@@ -564,9 +565,9 @@
             rv = document.documentMode;
           } else {
             var ua = navigator.userAgent;
-            var re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+            var re = new RegExp('MSIE ([0-9]{1,}[\.0-9]{0,})');
             if (re.exec(ua) != null) {
-              rv = parseFloat( RegExp.$1 );
+              rv = parseFloat(RegExp.$1);
             }
           }
         }
@@ -595,7 +596,7 @@
       listItems = $(this).find(' > li, .' + ONOPAGER + '_listItem');
       listItems.addClass(ONOPAGER + '_listItem');
       listItems.each(function(index) {
-        jQuery(this).attr('data-onopager-list-index', index)
+        jQuery(this).attr('data-onopager-list-index', index);
       });
 
       // Set up ono pager

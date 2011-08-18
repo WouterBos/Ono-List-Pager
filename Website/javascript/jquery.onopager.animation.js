@@ -208,6 +208,7 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
    *
    * @param {Object} listContainer The list container.
    * @param {Object} listItems All items in the list (typically &lt;li&gt;).
+   * @this
    */
   this._setListContainerHeight = function(listContainer, listItems) {
     if (listItems.size() > 1 && this._config.listContainerHeight == '') {
@@ -996,7 +997,7 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
       var oldItem = jQuery(
         linearContinuousInstance._config.listItems[oldIndex]
       );
-      
+
       console.log(oldIndex, newIndex, direction);
       if (oldIndex > newIndex && direction == 1) {
         console.log('skip');
@@ -1005,10 +1006,11 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
         var firstIndex = newListItems.index(
           linearContinuousInstance._config.listItems[newIndex]
         );
-        console.log(firstIndex)
+        console.log(firstIndex);
 
         if (linearContinuousInstance._config.pagePerItem == true) {
-          oldItem = jQuery(newListItems[firstIndex - (newIndex + (listSize - oldIndex))]);
+          oldItem = jQuery(newListItems[firstIndex -
+                                        (newIndex + (listSize - oldIndex))]);
           offset = tools.getPosition(
             linearContinuousInstance._config.orientation,
             oldItem
@@ -1035,7 +1037,8 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
         );
 
         if (linearContinuousInstance._config.pagePerItem == true) {
-          oldItem = jQuery(newListItems[lastIndex + ((listSize - newIndex) + oldIndex)]);
+          oldItem = jQuery(newListItems[lastIndex +
+                                        ((listSize - newIndex) + oldIndex)]);
           offset = tools.getPosition(
             linearContinuousInstance._config.orientation,
             oldItem
