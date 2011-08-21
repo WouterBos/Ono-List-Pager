@@ -49,19 +49,21 @@
         <div class="column1">
           <select id="examples">
             <optgroup label="Basic configurations">
-              <option value="linear">Basic</option>
+              <option value="linear">Basic (recommended)</option>
+              <option value="simplest">The simplest configuration</option>
               <option value="vertical">Vertical orientation</option>
               <option value="basic">No styling</option>
               <option value="labels">Alternate labels</option>
               <option value="autoAdjustingHeight">Auto adjusting height</option>
+              <option value="status">With status box</option>
             </optgroup>
             <optgroup label="Animation types">
-              <option value="scroller">Scroller</option>
               <option value="slides">Slides</option>
               <option value="wide">Wide (viewport wider than the list items)</option>
               <option value="fade">With fade transition</option>
               <option value="continuous">Continuous, basic</option>
               <option value="continuousFaux">Continuous, with faux background</option>
+              <option value="scroller">Scroller</option>
             </optgroup>
             <optgroup label="Autopage">
               <option value="autopage">Basic</option>
@@ -119,12 +121,16 @@
                         '</ul>';
     
     var pagers = {
-      linear: {
-        description: 'This is a basic pager with a few extras. Navigating is done by using the controls, but in this example a user can also navigate by swiping on a mobile phone or using the arrow keys ← and → on the keyboard. Styling is done through the config option <code>cssClass: \'onoPager_greyscale\'</code>.',
+      simplest: {
+        description: '<p>The simplest configuration you can get for this pager: none at all.</p><p>This version does not require the jQuery easing plugin, but as you can see: the animation is rather dull.</p>',
+        html: standardHtml,
+        config: "{}\n",
+        animationConfig: "{}"
+      },
+      status: {
+        description: 'This pager does not have a numbered list, but a status box.',
         html: standardHtml,
         config: "{\n" +
-                "  cssClass: 'onoPager_greyscale',\n" +
-                "  pagePerItem: true,\n" +
                 "  doesLoop: false,\n" +
                 "  listContainer: {\n" +
                 "    width: '280px',\n" +
@@ -134,8 +140,32 @@
                 "    width: '260px',\n" +
                 "    height: '80px'\n" +
                 "  },\n" +
+                "  pageByArrowKey: {\n" +
+                "    active: true,\n" +
+                "    preventDefault: false\n" +
+                "  },\n" +
                 "  status: {\n" +
+                "    active: true\n" +
+                "  },\n" +
+                "  pageByNumber: {\n" +
                 "    active: false\n" +
+                "  },\n" +
+                "  animationEasing: 'easeOutCubic',\n" +
+                "}\n",
+        animationConfig: "{}"
+      },
+      linear: {
+        description: 'This is a basic pager with a few extras. Navigating is done by using the controls, but in this example a user can also navigate by swiping on a mobile phone or using the arrow keys ← and → on the keyboard.',
+        html: standardHtml,
+        config: "{\n" +
+                "  doesLoop: false,\n" +
+                "  listContainer: {\n" +
+                "    width: '280px',\n" +
+                "    height: ''\n" +
+                "  },\n" +
+                "  listItems: {\n" +
+                "    width: '260px',\n" +
+                "    height: '80px'\n" +
                 "  },\n" +
                 "  pageByArrowKey: {\n" +
                 "    active: true,\n" +
@@ -145,10 +175,7 @@
                 "    hideThreshold: 1\n" +
                 "  },\n" +
                 "  swipeTriggersPage: true,\n" +
-                "  animationType: 'linear',\n" +
                 "  animationEasing: 'easeOutCubic',\n" +
-                "  orientation: 'horizontal',\n" +
-                "  animationSpeed: 1000\n" +
                 "}\n",
         animationConfig: "{}"
       },
@@ -156,12 +183,10 @@
         description: 'A dynamic height can be set with this config setting: <code>adjustHeightToListItem: { active: true, animate: true }</code>.',
         html: standardHtml,
         config: "{\n" +
-                "  cssClass: 'onoPager_greyscale',\n" +
-                "  pagePerItem: true,\n" +
                 "  doesLoop: false,\n" +
                 "  listContainer: {\n" +
                 "    width: '280px',\n" +
-                "    height: '50px',\n" +
+                "    height: '',\n" +
                 "    adjustHeightToListItem: {\n" +
                 "      active: true,\n" +
                 "      animate: true\n" +
@@ -171,9 +196,6 @@
                 "    width: '260px',\n" +
                 "    height: ''\n" +
                 "  },\n" +
-                "  status: {\n" +
-                "    active: false\n" +
-                "  },\n" +
                 "  pageByArrowKey: {\n" +
                 "    active: true,\n" +
                 "    preventDefault: false\n" +
@@ -182,10 +204,7 @@
                 "    hideThreshold: 1\n" +
                 "  },\n" +
                 "  swipeTriggersPage: false,\n" +
-                "  animationType: 'linear',\n" +
                 "  animationEasing: 'easeOutCubic',\n" +
-                "  orientation: 'horizontal',\n" +
-                "  animationSpeed: 1000\n" +
                 "}\n",
         animationConfig: "{}"
       },
@@ -193,8 +212,6 @@
         description: 'In this example the slides animete on the vertical axis instead of the horizontal one. The option that makes it possible is <code>orientation: \'vertical\'</code>.',
         html: standardHtml,
         config: "{\n" +
-                "  cssClass: 'onoPager_greyscale',\n" +
-                "  pagePerItem: true,\n" +
                 "  doesLoop: false,\n" +
                 "  listContainer: {\n" +
                 "    width: '280px',\n" +
@@ -204,18 +221,13 @@
                 "    width: '260px',\n" +
                 "    height: '80px'\n" +
                 "  },\n" +
-                "  status: {\n" +
-                "    active: false\n" +
-                "  },\n" +
                 "  pageByArrowKey: {\n" +
                 "    active: true,\n" +
                 "    preventDefault: false\n" +
                 "  },\n" +
                 "  swipeTriggersPage: true,\n" +
-                "  animationType: 'linear',\n" +
                 "  animationEasing: 'easeOutCubic',\n" +
                 "  orientation: 'vertical',\n" +
-                "  animationSpeed: 1000\n" +
                 "}\n",
         animationConfig: "{}"
       },
@@ -224,20 +236,16 @@
         html: standardHtml,
         config: "{\n" +
                 "  cssClass: '',\n" +
-                "  pagePerItem: true,\n" +
                 "  doesLoop: false,\n" +
                 "  listContainer: {\n" +
                 "    width: '280px',\n" +
                 "    height: '60px'\n" +
                 "  },\n" +
                 "  listItems: {\n" +
-                "    width: '260px',\n" +
-                "    height: '40px'\n" +
+                "    width: '280px',\n" +
+                "    height: '60px'\n" +
                 "  },\n" +
-                "  animationType: 'linear',\n" +
                 "  animationEasing: 'easeOutCubic',\n" +
-                "  orientation: 'vertical',\n" +
-                "  animationSpeed: 1000\n" +
                 "}\n",
         animationConfig: "{}"
       },
@@ -245,8 +253,6 @@
         description: 'The user scrolls through the pager by hovering over the &lsquo;previous&rsquo; and &lsquo;next&rsquo;-button.',
         html: standardHtml,
         config: "{\n" +
-                "  cssClass: 'onoPager_greyscale',\n" +
-                "  pagePerItem: true,\n" +
                 "  orientation: 'vertical',\n" +
                 "  listContainer: {\n" +
                 "    width: '280px',\n" +
@@ -255,9 +261,6 @@
                 "  listItems: {\n" +
                 "    width: '260px',\n" +
                 "    height: '82px'\n" +
-                "  },\n" +
-                "    status: {\n" +
-                "    active: false\n" +
                 "  },\n" +
                 "  labels: {\n" +
                 "    next: '&raquo;',\n" +
@@ -271,7 +274,6 @@
                 "    active: false\n" +
                 "  },\n" +
                 "  animationType: 'linearScroller',\n" +
-                "  animationSpeed: 1000\n" +
                 "}\n",
         animationConfig: "{}"
       },
@@ -279,8 +281,6 @@
         description: 'In this configuration only the old and the new list items are animated. So if you navigate from list item 2 to 5, you won\'t see list items 3 and 4.',
         html: standardHtml,
         config: "{\n" +
-                "  cssClass: 'onoPager_greyscale',\n" +
-                "  pagePerItem: true,\n" +
                 "  doesLoop: false,\n" +
                 "  listContainer: {\n" +
                 "    width: '280px',\n" +
@@ -290,15 +290,11 @@
                 "    width: '260px',\n" +
                 "    height: '80px'\n" +
                 "  },\n" +
-                "  status: {\n" +
-                "    active: false\n" +
-                "  },\n" +
                 "  pageByNumber: {\n" +
                 "    active: true\n" +
                 "  },\n" +
                 "  animationType: 'slides',\n" +
                 "  animationEasing: 'easeOutCubic',\n" +
-                "  animationSpeed: 1000\n" +
                 "}\n",
         animationConfig: "{\n" +
                          "  delay: 4\n" +
@@ -308,7 +304,6 @@
         description: 'In this configuration, the viewport of the pager is as wide as its container. Paging will not be per list item, but the whole viewport content is updated. The code needed for this configuration is <code>pagePerItem: false, listContainer: { width: \'100%\'}</code>', 
         html: standardHtml,
         config: "{\n" +
-                "  cssClass: 'onoPager_greyscale',\n" +
                 "  pagePerItem: false,\n" +
                 "  listContainer: {\n" +
                 "    width: '100%',\n" +
@@ -318,21 +313,16 @@
                 "    width: '260px',\n" +
                 "    height: '80px'\n" +
                 "  },\n" +
-                "  status: {\n" +
-                "    active: false\n" +
-                "  },\n" +
                 "  animationType: 'linear',\n" +
                 "  animationEasing: 'easeOutCubic',\n" +
                 "  orientation: 'horizontal',\n" +
-                "  animationSpeed: 1000\n" +
                 "}\n",
         animationConfig: "{}"
       },
       fade: {
-        description: '', 
+        description: 'As the name suggests: the transition is done with a fade effect. In this case the animation speed is set to a smaller value to get a quicker transition.', 
         html: standardHtml,
         config: "{\n" +
-                "  cssClass: 'onoPager_greyscale',\n" +
                 "  pagePerItem: false,\n" +
                 "  listContainer: {\n" +
                 "    width: '280px',\n" +
@@ -342,13 +332,9 @@
                 "    width: '260px',\n" +
                 "    height: '80px'\n" +
                 "  },\n" +
-                "  status: {\n" +
-                "    active: false\n" +
-                "  },\n" +
                 "  animationType: 'fade',\n" +
                 "  animationEasing: 'easeOutCubic',\n" +
-                "  orientation: 'horizontal',\n" +
-                "  animationSpeed: 1000\n" +
+                "  animationSpeed: 500\n" +
                 "}\n",
         animationConfig: "{}"
       },
@@ -361,8 +347,6 @@
               '  <li>Fourth item Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>\n' +
               '</ul>',
         config: "{\n" +
-                "  cssClass: 'onoPager_greyscale',\n" +
-                "  pagePerItem: false,\n" +
                 "  listContainer: {\n" +
                 "    width: '280px',\n" +
                 "    height: '100px'\n" +
@@ -371,15 +355,11 @@
                 "    width: '260px',\n" +
                 "    height: '80px'\n" +
                 "  },\n" +
-                "  status: {\n" +
-                "    active: false\n" +
-                "  },\n" +
                 "  pageByNumber: {\n" +
                 "    labels: ['Sed', 'Elit', 'Dui', 'Non']\n" +
                 "  },\n" +
                 "  animationType: 'linear',\n" +
                 "  animationEasing: 'easeOutCubic',\n" +
-                "  orientation: 'horizontal',\n" +
                 "  animationSpeed: 1000\n" +
                 "}\n",
         animationConfig: "{}"
@@ -425,8 +405,6 @@
               '  </li>\n' +
               '</ul>',
         config: "{\n" +
-                "  cssClass: 'onoPager_greyscale',\n" +
-                "  pagePerItem: true,\n" +
                 "  lockDuringTransition: true,\n" +
                 "  listContainer: {\n" +
                 "    width: '260px',\n" +
@@ -436,15 +414,11 @@
                 "    width: '240px',\n" +
                 "    height: '80px'\n" +
                 "  },\n" +
-                "  status: {\n" +
-                "    active: false\n" +
-                "  },\n" +
                 "  pageByNumber: {\n" +
                 "    active: false\n" +
                 "  },\n" +
                 "  animationType: 'linearContinuous',\n" +
                 "  animationEasing: 'easeOutCubic',\n" +
-                "  orientation: 'horizontal',\n" +
                 "  animationSpeed: 1000\n" +
                 "}\n",
         animationConfig: "{}"
@@ -453,9 +427,6 @@
         description: '<p>When using the continuous animation, the pager is larger than its viewport. The selected item is in the middle of the pager and has the CSS class "active".</p><p>By setting the configuration option <code>listItems.triggersPagingOnClick</code> to true you can navigate through the pager by clicking on the list item itself.</p>', 
         html: standardHtml,
         config: "{\n" +
-                "  cssClass: 'onoPager_greyscale',\n" +
-                "  pagePerItem: true,\n" +
-                "  doesLoop: true,\n" +
                 "  listContainer: {\n" +
                 "    width: '230px',\n" +
                 "    height: '100px'\n" +
@@ -469,15 +440,11 @@
                 "    active: false,\n" +
                 "    interval: 3000\n" +
                 "  },\n" +
-                "  status: {\n" +
-                "    active: false\n" +
-                "  },\n" +
                 "  pageByNumber: {\n" +
                 "    active: false\n" +
                 "  },\n" +
                 "  animationType: 'linearContinuous',\n" +
                 "  animationEasing: 'easeOutCubic',\n" +
-                "  orientation: 'horizontal',\n" +
                 "  animationSpeed: 1000\n" +
                 "}\n",
         animationConfig: "{}"
@@ -486,9 +453,6 @@
         description: 'The pager slides automatically to the next page. The interval is configurable: <code>autoPage: { active: true, interval: 3000 }</code>', 
         html: standardHtml,
         config: "{\n" +
-                "  cssClass: 'onoPager_greyscale',\n" +
-                "  pagePerItem: true,\n" +
-                "  doesLoop: true,\n" +
                 "  listContainer: {\n" +
                 "    width: '280px',\n" +
                 "    height: '100px'\n" +
@@ -496,9 +460,6 @@
                 "  listItems: {\n" +
                 "    width: '260px',\n" +
                 "    height: '80px'\n" +
-                "  },\n" +
-                "  status: {\n" +
-                "    active: false\n" +
                 "  },\n" +
                 "  autoPage: {\n" +
                 "    active: true,\n" +
@@ -514,7 +475,6 @@
                 "  swipeTriggersPage: true,\n" +
                 "  animationType: 'linear',\n" +
                 "  animationEasing: 'easeOutCubic',\n" +
-                "  orientation: 'horizontal',\n" +
                 "  animationSpeed: 1000\n" +
                 "}\n",
         animationConfig: "{}"
@@ -523,9 +483,6 @@
         description: 'This pager has a time indicator called \'timeline\'.',
         html: standardHtml,
         config: "{\n" +
-                "  cssClass: 'onoPager_greyscale',\n" +
-                "  pagePerItem: true,\n" +
-                "  doesLoop: true,\n" +
                 "  listContainer: {\n" +
                 "    width: '280px',\n" +
                 "    height: '100px'\n" +
@@ -533,9 +490,6 @@
                 "  listItems: {\n" +
                 "    width: '260px',\n" +
                 "    height: '80px'\n" +
-                "  },\n" +
-                "  status: {\n" +
-                "    active: false\n" +
                 "  },\n" +
                 "  autoPage: {\n" +
                 "    active: true,\n" +
@@ -552,7 +506,6 @@
                 "  swipeTriggersPage: true,\n" +
                 "  animationType: 'linear',\n" +
                 "  animationEasing: 'easeOutCubic',\n" +
-                "  orientation: 'horizontal',\n" +
                 "  animationSpeed: 1000\n" +
                 "}\n",
         animationConfig: "{}"
@@ -561,9 +514,6 @@
         description: 'This pager has a time indicator called \'clock\'. <strong>Clock is built with canvas, so won\'t work in older browsers, notably IE8 and lower</strong>. If you would like to use this configuration, I advise to supply non-canvas browsers a different configuration with \'timeline\' instead of \'clock\'.',
         html: standardHtml,
         config: "{\n" +
-                "  cssClass: 'onoPager_greyscale',\n" +
-                "  pagePerItem: true,\n" +
-                "  doesLoop: true,\n" +
                 "  listContainer: {\n" +
                 "    width: '280px',\n" +
                 "    height: '100px'\n" +
@@ -571,9 +521,6 @@
                 "  listItems: {\n" +
                 "    width: '260px',\n" +
                 "    height: '80px'\n" +
-                "  },\n" +
-                "  status: {\n" +
-                "    active: false\n" +
                 "  },\n" +
                 "  autoPage: {\n" +
                 "    active: true,\n" +
@@ -598,7 +545,6 @@
                 "  swipeTriggersPage: true,\n" +
                 "  animationType: 'linear',\n" +
                 "  animationEasing: 'easeOutCubic',\n" +
-                "  orientation: 'horizontal',\n" +
                 "  animationSpeed: 1000\n" +
                 "}\n",
         animationConfig: "{}"

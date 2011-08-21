@@ -83,7 +83,7 @@
 			Documentation generator: <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.3.2<br />
 			Template: <a href="http://www.thebrightlines.com/2010/05/06/new-template-for-jsdoctoolkit-codeview/" target="_blank">Codeview</a> 1.2<br />
 			Generated on:
-			<time datetime='2011-7-18' pubdate>2011-7-18 21:34</time>
+			<time datetime='2011-7-22' pubdate>2011-7-22 0:01</time>
 		</footer>
 	</div>
 </div>
@@ -323,6 +323,102 @@
 											
 										</dt>
 										<dd>Standard configuration object.</dd>
+									
+										<dt>
+											<span class="light fixedFont">{Object}</span>  <b>newConfig.list</b>
+											
+										</dt>
+										<dd>jQuery object. References to the UL, OL   or any element that is the parent of list items.</dd>
+									
+										<dt>
+											<span class="light fixedFont">{Object}</span>  <b>newConfig.listContainer</b>
+											
+										</dt>
+										<dd>jQuery object. References to   the element that is the container for the list from which the pager is   built.</dd>
+									
+										<dt>
+											<span class="light fixedFont">{String}</span>  <b>newConfig.listContainerHeight</b>
+											
+										</dt>
+										<dd>If you can check if the height   of the list container is specifically set.</dd>
+									
+										<dt>
+											<span class="light fixedFont">{Boolean}</span>  <b>newConfig.adjustHeightToListItem.active.</b>
+											
+										</dt>
+										<dd>If true, the   list container will adjust itself to the height of the active list item.</dd>
+									
+										<dt>
+											<span class="light fixedFont">{Boolean}</span>  <b>newConfig.adjustHeightToListItem.animate.</b>
+											
+										</dt>
+										<dd>If   true, the container will animatie to its new height. Default value is   true.</dd>
+									
+										<dt>
+											<span class="light fixedFont">{Object}</span>  <b>newConfig.listItems</b>
+											
+										</dt>
+										<dd>jQuery object. Collection of all list   items. If the listContainer is an unordered list (UL), the lsitItems will   be the LI-elements.</dd>
+									
+										<dt>
+											<span class="light fixedFont">{Number}</span>  <b>newConfig.animationSpeed</b>
+											
+										</dt>
+										<dd>Determines the speed at   which the animations take place.</dd>
+									
+										<dt>
+											<span class="light fixedFont">{String}</span>  <b>newConfig.orientation</b>
+											
+										</dt>
+										<dd>Determines on what axis the   animation moves. Possible values are 'horizontal' and 'vertical' though   it's possible to use other values as long as the animation object   supports that value. Default value is 'horizontal'.</dd>
+									
+										<dt>
+											<span class="light fixedFont">{Boolean}</span>  <b>newConfig.pagePerItem</b>
+											
+										</dt>
+										<dd>If true, each page will be as long   as one list item. If false, each page will be as long as the list   container, which may span multiple list items.</dd>
+									
+										<dt>
+											<span class="light fixedFont">{Object}</span>  <b>newConfig.pageNext</b>
+											
+										</dt>
+										<dd>jQuery object. References to the page link   'next'.</dd>
+									
+										<dt>
+											<span class="light fixedFont">{Object}</span>  <b>newConfig.pagePrevious</b>
+											
+										</dt>
+										<dd>jQuery object. References to the page    link 'previous'.</dd>
+									
+										<dt>
+											<span class="light fixedFont">{Number}</span>  <b>newConfig.activeIndex</b>
+											
+										</dt>
+										<dd>Sets initial visible page. By   default the pager starts at index 0.</dd>
+									
+										<dt>
+											<span class="light fixedFont">{Object}</span>  <b>newConfig.pager</b>
+											
+										</dt>
+										<dd>Reference to the pager instance.</dd>
+									
+										<dt>
+											<span class="light fixedFont">{Object}</span>  <b>newConfig.scroller</b>
+											
+										</dt>
+										<dd>Reference to the scroller instance.   If it exists.</dd>
+									
+										<dt>
+											<span class="light fixedFont">{Boolean}</span>  <b>newConfig.autoPage.active</b>
+											
+										</dt>
+										<dd>Activates auto pager.</dd>
+									
+										<dt>
+											<span class="light fixedFont">{Boolean}</span>  <b>newConfig.autoPage.interval</b>
+											
+										</dt>
+										<dd>The interval between   autopaging. Time value is set in milliseconds.</dd>
 									
 										<dt>
 											<span class="light fixedFont">{Object|Null}</span>  <b>extraConfig</b>

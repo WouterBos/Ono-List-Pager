@@ -7,7 +7,7 @@
  */
 
 // TODO:
-// - Click on list item to go to that item
+// - pageByNumber should have a 'last' and 'first'-link.
 // - Build support for scroll wheel
 // - Highlight arrow key when pressing an arrow key on keyboard
 
@@ -29,16 +29,21 @@
    * Creates a widget that enables the user to navigate through a list of
    * elements (like an <code>&lt;ul&gt;</code>). It provides different types of
    * paging navigation. These are called animation objects and reside in the
-   * <code>onoPager.animation</code> namespace. The onoPager library consist
-   * now of 3 types of animations: "slides", "linear" and "linearScroller".
-   * The onoPager is built in such a way that it's easy to add your own
-   * animation objects without having to rewrite the basic paging functionality.
+   * <code>onoPager.animation</code> namespace.<br />
+   * The onoPager library consist of many types of animations like "slides",
+   * "linear" and "linearScroller". The onoPager is built in such a way that
+   * it's easy to add your own animation objects without having to rewrite the
+   * basic paging functionality.<br />
+   * Check out some <a href="http://www.thebrightlines.com/onopager/website/">
+   * configuration examples</a>.
    *
    * @param {Object} arg_config Configuration object.
    * @param {Object} animationConfig Optional extra configuration object for
    *    the animation object.
    * @param {String} arg_config.cssClass Ads CSS class to the root of the pager.
-   * @param {Boolean} arg_config.pagePerItem Page per item.
+   * @param {Boolean} arg_config.pagePerItem If true, each page will be as long
+   *    as one list item. If false, each page will be as long as the list
+   *    container, which may span multiple list items.
    * @param {Boolean} arg_config.lockDuringTransition Disable paging controls
    *    during a transition when true. Default is false.
    * @param {Boolean} arg_config.doesLoop If true, the pager scrolls back
@@ -47,10 +52,10 @@
    *    container, like '200px'.
    * @param {String} arg_config.listContainer.height Height of list
    *    container, like '200px'.
-   * @param {String} arg_config.listContainer.adjustHeightToListItem.active If
+   * @param {Boolean} arg_config.listContainer.adjustHeightToListItem.active If
    *    you also set pagePerItem to true, the height of the list container will
    *    adjust to the height of the visible list item. Default value is true.
-   * @param {String} arg_config.listContainer.adjustHeightToListItem.animate If
+   * @param {Boolean} arg_config.listContainer.adjustHeightToListItem.animate If
    *    true, the container will animatie to its new height. Default value is
    *    true.
    * @param {String} arg_config.ListItems.width Width of list items, like
@@ -120,82 +125,45 @@
    * @return {jQuery} chainable jQuery class.
    * @memberOf jQuery.fn
    * @example
-   * // Simple example:<br />
-   * jQuery('#list1').onoPager({<br />
-   *   pagePerItem: false,<br />
-   *   listContainer: {<br />
-   *     width: '700px',<br />
-   *     height: '100px'<br />
-   *   },<br />
-   *   listItems: {<br />
-   *     width: '300px'<br />
-   *   },<br />
-   *   animationType: 'linear',<br />
-   *   animationSpeed: 1000<br />
-   * });<br />
-   *<br />
-   * // Advanced example:<br />
-   * jQuery('#list1').onoPager({<br />
-   *    cssClass: 'onopager_theme1',<br />
-   *    pagePerItem: true,<br />
-   *    lockDuringTransition: false,<br />
-   *    doesLoop: true,<br />
-   *    listContainer: {<br />
-   *      width: '300px',<br />
-   *      height: '100px',<br />
-   *      adjustHeightToListItem: {<br />
-   *        active: true,<br />
-   *        animate: true<br />
-   *      }<br />
-   *    },<br />
-   *    listItems: {<br />
-   *      width: '300px',<br />
-   *      height: '100px'<br />
-   *    },<br />
-   *    activeIndex: 2,<br />
-   *    autoPage: {<br />
-   *      active: true,<br />
-   *      interval: 2000,<br />
-   *    },<br />
-   *    labels: {<br />
-   *      next: 'next',<br />
-   *      previous: 'previous'<br />
-   *    },<br />
-   *    status: {<br />
-   *      active: true,<br />
-   *      prependText: 'page ',<br />
-   *      seperationText: ' of ',<br />
-   *      appendText: ' pages'<br />
-   *    },<br />
-   *    scroller: {<br />
-   *      active: false,<br />
-   *      pixelMove: 2<br />
-   *    },<br />
-   *    pageByNumber: {<br />
-   *      active: true,<br />
-   *      enableClick: true,<br />
-   *      labels: []<br />
-   *    },<br />
-   *    pageByArrowKey: {<br />
-   *      active: false,<br />
-   *      preventDefault: false<br />
-   *    },<br />
-   *    swipeTriggersPage: false,<br />
-   *    swipePlatforms: 'touch',<br />
-   *    animationType: 'linear',<br />
-   *    animationEasing: 'linear',<br />
-   *    orientation: 'horizontal',<br />
-   *    animationSpeed: 1000<br />
+   * // Simple example:
+   * // More examples on: http://www.thebrightlines.com/onopager/website/
+   * jQuery('#list1').onoPager({
+   *   cssClass: 'onoPager_greyscale',
+   *   pagePerItem: true,
+   *   doesLoop: false,
+   *   listContainer: {
+   *     width: '280px',
+   *     height: ''
+   *   },
+   *   listItems: {
+   *     width: '260px',
+   *     height: '80px'
+   *   },
+   *   status: {
+   *     active: false
+   *   },
+   *   pageByArrowKey: {
+   *     active: true,
+   *     preventDefault: false
+   *   },
+   *   pageByNumber: {
+   *     hideThreshold: 1
+   *   },
+   *   swipeTriggersPage: true,
+   *   animationType: 'linear',
+   *   animationEasing: 'easeOutCubic',
+   *   orientation: 'horizontal',
+   *   animationSpeed: 1000
    * });
    */
   jQuery.fn.onoPager = function(arg_config, animationConfig) {
     var config = {
-      cssClass: '',
+      cssClass: 'onoPager_greyscale',
       pagePerItem: true,
       lockDuringTransition: false,
       doesLoop: true,
       listContainer: {
-        width: '',
+        width: '280px',
         height: '',
         adjustHeightToListItem: {
           active: false,
@@ -203,7 +171,7 @@
         }
       },
       listItems: {
-        width: '',
+        width: '260px',
         height: '',
         triggersPagingOnClick: false
       },
@@ -219,7 +187,7 @@
         previous: 'previous'
       },
       status: {
-        active: true,
+        active: false,
         prependText: '',
         seperationText: ' / ',
         appendText: ''
@@ -267,7 +235,8 @@
 
 
 
-    // Set initial styling of the list with config values
+    // Set initial styling (mainly the dimensions of the boxes) of the list
+    // with config values.
     function setStyles() {
       if (typeof(config.listItems.width) == 'string' &&
           config.listItems.width.length > 0) {
@@ -287,7 +256,7 @@
       }
     }
 
-    // Create pager controls like 'next' and 'previous'
+    // Creates pager controls like 'next' and 'previous'.
     function createControls() {
       var newHTML = '';
       if (config.autoPage.autoPageAnimationType && config.autoPage.active) {
@@ -356,6 +325,7 @@
       animation._init();
     }
 
+    // Creates pager object (onoPager.pager)
     function setPager() {
       var pageTotal = animation.getPagesLength();
       if (typeof(pageTotal) != 'number') {
@@ -399,6 +369,7 @@
       }
     }
 
+    // Creates a list of quicklinks to navigate to a specific list item
     function setPageByNumber() {
       var pageTotal = animation.getPagesLength();
       var html = '';
@@ -429,6 +400,7 @@
       }
     }
 
+    // Attach events to the navigation controls. Without it, they won't respond.
     function setControlEvents() {
       // Page with scroller
       if (config.scroller.active == true) {
@@ -534,6 +506,8 @@
       }
     }
 
+    // Keeps track of the index of the active list item and passes the page
+    // call to the pager method of the animation instance.
     function page(arg_newIndex, arg_direction) {
       var canPage = onoPager.tools.canPage(root,
                                            config.lockDuringTransition,
@@ -575,8 +549,9 @@
       }
     }
 
+    // Handles hovering over pager controls. Some animation objects like the
+    // scroller depend on it.
     function pagerHover(moveIndex) {
-      // TODO: update paging index
       animation._pagerHover(moveIndex);
     }
 
@@ -1716,6 +1691,42 @@ onoPager.animation = (function() {
  *
  * @constructor
  * @param {Object} newConfig Standard configuration object.
+ * @param {Object} newConfig.list jQuery object. References to the UL, OL
+ *    or any element that is the parent of list items.
+ * @param {Object} newConfig.listContainer jQuery object. References to
+ *    the element that is the container for the list from which the pager is
+ *    built.
+ * @param {String} newConfig.listContainerHeight If you can check if the height
+ *    of the list container is specifically set.
+ * @param {Boolean} newConfig.adjustHeightToListItem.active. If true, the
+ *    list container will adjust itself to the height of the active list item.
+ * @param {Boolean} newConfig.adjustHeightToListItem.animate. If
+ *    true, the container will animatie to its new height. Default value is
+ *    true.
+ * @param {Object} newConfig.listItems jQuery object. Collection of all list
+ *    items. If the listContainer is an unordered list (UL), the lsitItems will
+ *    be the LI-elements.
+ * @param {Number} newConfig.animationSpeed Determines the speed at
+ *    which the animations take place.
+ * @param {String} newConfig.orientation Determines on what axis the
+ *    animation moves. Possible values are 'horizontal' and 'vertical' though
+ *    it's possible to use other values as long as the animation object
+ *    supports that value. Default value is 'horizontal'.
+ * @param {Boolean} newConfig.pagePerItem If true, each page will be as long
+ *    as one list item. If false, each page will be as long as the list
+ *    container, which may span multiple list items.
+ * @param {Object} newConfig.pageNext jQuery object. References to the page link
+ *    'next'.
+ * @param {Object} newConfig.pagePrevious jQuery object. References to the page
+ *     link 'previous'.
+ * @param {Number} newConfig.activeIndex Sets initial visible page. By
+ *    default the pager starts at index 0.
+ * @param {Object} newConfig.pager Reference to the pager instance.
+ * @param {Object} newConfig.scroller Reference to the scroller instance.
+ *    If it exists.
+ * @param {Boolean} newConfig.autoPage.active Activates auto pager.
+ * @param {Boolean} newConfig.autoPage.interval The interval between
+ *    autopaging. Time value is set in milliseconds.
  * @param {Object|Null} extraConfig Optional extra configuration object.
  */
 onoPager.animation._standard = function(newConfig, extraConfig) {
@@ -1736,13 +1747,14 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
     autoPage: {},
     extraConfig: {}
   };
+  var containerHeightSetCount = 0;
 
   jQuery.extend(true, this._config, newConfig);
   if (typeof(extraConfig) == 'object') {
     jQuery.extend(true, this._config.extraConfig, extraConfig);
   }
 
-  function setContainerHeight(_config, newIndex) {
+  function setContainerHeight(_config, newIndex, isInit) {
     if (_config.adjustHeightToListItem.active == false) {
       return false;
     }
@@ -1753,8 +1765,24 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
     } else {
       itemHeight = _config.listItems.filter('.active').outerHeight();
     }
-
-    if (_config.adjustHeightToListItem.animate) {
+    
+    if (containerHeightSetCount == 0) {
+      if (_config.adjustHeightToListItem.animate == true) {
+        if (_config.listContainerHeight == '') {
+          _config.listContainer.css(
+            {
+              height: itemHeight
+            }
+          );
+        } else {
+          _config.listContainer.css(
+            {
+              height: _config.listContainerHeight
+            }
+          );
+        }
+      }
+    } else if (_config.adjustHeightToListItem.animate == true) {
       _config.listContainer.stop(true, true);
       _config.listContainer.animate(
         {
@@ -1765,15 +1793,10 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
           easing: _config.animationEasing
         }
       );
-    } else {
-      _config.listContainer.css(
-        {
-          height: itemHeight
-        }
-      );
     }
+    containerHeightSetCount++
   }
-
+  
   /**
    * Checks if arg_scroll is not out of bounds. Use this method if you want to
    * make sure that the list makes use of the whole space of the viewport. The
@@ -2181,7 +2204,10 @@ onoPager.animation.fade = function(newConfig, extraConfig) {
       },
       {
         duration: this._config.animationSpeed,
-        easing: this._config.animationEasing
+        easing: this._config.animationEasing,
+        complete: function() {
+          jQuery(this).css('filter', '');
+        }
       }
     );
   }

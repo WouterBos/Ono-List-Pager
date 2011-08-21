@@ -88,6 +88,42 @@ onoPager.animation = (function() {
  *
  * @constructor
  * @param {Object} newConfig Standard configuration object.
+ * @param {Object} newConfig.list jQuery object. References to the UL, OL
+ *    or any element that is the parent of list items.
+ * @param {Object} newConfig.listContainer jQuery object. References to
+ *    the element that is the container for the list from which the pager is
+ *    built.
+ * @param {String} newConfig.listContainerHeight If you can check if the height
+ *    of the list container is specifically set.
+ * @param {Boolean} newConfig.adjustHeightToListItem.active. If true, the
+ *    list container will adjust itself to the height of the active list item.
+ * @param {Boolean} newConfig.adjustHeightToListItem.animate. If
+ *    true, the container will animatie to its new height. Default value is
+ *    true.
+ * @param {Object} newConfig.listItems jQuery object. Collection of all list
+ *    items. If the listContainer is an unordered list (UL), the lsitItems will
+ *    be the LI-elements.
+ * @param {Number} newConfig.animationSpeed Determines the speed at
+ *    which the animations take place.
+ * @param {String} newConfig.orientation Determines on what axis the
+ *    animation moves. Possible values are 'horizontal' and 'vertical' though
+ *    it's possible to use other values as long as the animation object
+ *    supports that value. Default value is 'horizontal'.
+ * @param {Boolean} newConfig.pagePerItem If true, each page will be as long
+ *    as one list item. If false, each page will be as long as the list
+ *    container, which may span multiple list items.
+ * @param {Object} newConfig.pageNext jQuery object. References to the page link
+ *    'next'.
+ * @param {Object} newConfig.pagePrevious jQuery object. References to the page
+ *     link 'previous'.
+ * @param {Number} newConfig.activeIndex Sets initial visible page. By
+ *    default the pager starts at index 0.
+ * @param {Object} newConfig.pager Reference to the pager instance.
+ * @param {Object} newConfig.scroller Reference to the scroller instance.
+ *    If it exists.
+ * @param {Boolean} newConfig.autoPage.active Activates auto pager.
+ * @param {Boolean} newConfig.autoPage.interval The interval between
+ *    autopaging. Time value is set in milliseconds.
  * @param {Object|Null} extraConfig Optional extra configuration object.
  */
 onoPager.animation._standard = function(newConfig, extraConfig) {
@@ -108,13 +144,14 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
     autoPage: {},
     extraConfig: {}
   };
+  var containerHeightSetCount = 0;
 
   jQuery.extend(true, this._config, newConfig);
   if (typeof(extraConfig) == 'object') {
     jQuery.extend(true, this._config.extraConfig, extraConfig);
   }
 
-  function setContainerHeight(_config, newIndex) {
+  function setContainerHeight(_config, newIndex, isInit) {
     if (_config.adjustHeightToListItem.active == false) {
       return false;
     }
@@ -126,7 +163,23 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
       itemHeight = _config.listItems.filter('.active').outerHeight();
     }
 
-    if (_config.adjustHeightToListItem.animate) {
+    if (containerHeightSetCount == 0) {
+      if (_config.adjustHeightToListItem.animate == true) {
+        if (_config.listContainerHeight == '') {
+          _config.listContainer.css(
+            {
+              height: itemHeight
+            }
+          );
+        } else {
+          _config.listContainer.css(
+            {
+              height: _config.listContainerHeight
+            }
+          );
+        }
+      }
+    } else if (_config.adjustHeightToListItem.animate == true) {
       _config.listContainer.stop(true, true);
       _config.listContainer.animate(
         {
@@ -137,13 +190,8 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
           easing: _config.animationEasing
         }
       );
-    } else {
-      _config.listContainer.css(
-        {
-          height: itemHeight
-        }
-      );
     }
+    containerHeightSetCount++;
   }
 
   /**
