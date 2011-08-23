@@ -10,6 +10,7 @@
 // - pageByNumber should have a 'last' and 'first'-link.
 // - Build support for scroll wheel
 // - Highlight arrow key when pressing an arrow key on keyboard
+// - Option for hiding timeline while paging
 
 (function($) {
   /**
@@ -354,6 +355,10 @@
       } else {
         pageNext.hide();
         pagePrevious.hide();
+        pageByNumber.hide();
+        pageScroller.hide();
+        autoPageContainer.hide();
+
       }
       animation.extendConfig({pager: pager});
       animation._onPagerCreated();
@@ -1137,7 +1142,7 @@ onoPager.pager = function(arg_index,
   // Starts a page transition (triggered by interval)
   function autoPager() {
     var canPage = onoPager.tools.canPage(
-      autoPageContainer.closest('div.onoPager'),
+      listContainer.closest('div.onoPager'),
       lockDuringTransition,
       list,
       list.find('> *.onoPager_listItem')
@@ -1765,7 +1770,7 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
     } else {
       itemHeight = _config.listItems.filter('.active').outerHeight();
     }
-    
+
     if (containerHeightSetCount == 0) {
       if (_config.adjustHeightToListItem.animate == true) {
         if (_config.listContainerHeight == '') {
@@ -1794,9 +1799,9 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
         }
       );
     }
-    containerHeightSetCount++
+    containerHeightSetCount++;
   }
-  
+
   /**
    * Checks if arg_scroll is not out of bounds. Use this method if you want to
    * make sure that the list makes use of the whole space of the viewport. The
@@ -1882,16 +1887,18 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
    * @this
    */
   this._setActiveClass = function(index, add) {
-    var item;
-    if (typeof(index) == 'number') {
-      item = jQuery(this._config.listItems[index]);
-    } else {
-      item = jQuery(this._config.listItems);
-    }
-    if (add) {
-      item.addClass('active');
-    } else {
-      item.removeClass('active');
+    if (this._config.pagePerItem == true) {
+      var item;
+      if (typeof(index) == 'number') {
+        item = jQuery(this._config.listItems[index]);
+      } else {
+        item = jQuery(this._config.listItems);
+      }
+      if (add) {
+        item.addClass('active');
+      } else {
+        item.removeClass('active');
+      }
     }
   }
 
@@ -2251,14 +2258,20 @@ onoPager.animation.linear = function(newConfig, extraConfig) {
    * @this
    */
   linearInstance.init = function() {
+    // This animation only works with horizontal and vertical orientation.
     if (this._config.orientation != 'horizontal' &&
         this._config.orientation != 'vertical') {
       throw new Error('Orientation must be either horizontal ' +
         'or vertical. It\'s now ' + this._config.orientation);
     }
 
-    linearInstance._setActiveClass(linearInstance._config.activeIndex, true);
     var listBounds = 0;
+
+    // Set class 'active' to the visible list item if the pager is set to page
+    // per list item.
+    linearInstance._setActiveClass(linearInstance._config.activeIndex, true);
+
+    // Set list container width
     this._config.listItems.each(function(index) {
       listBounds += tools.getOuterSize(
         linearInstance._config.orientation,
@@ -2270,14 +2283,14 @@ onoPager.animation.linear = function(newConfig, extraConfig) {
     this._config.list.css(
       tools.getWidthHeight(this._config.orientation), listBounds + 'px'
     );
+
+    // Set list container height
     this._setListContainerHeight(
       this._config.listContainer,
       this._config.listItems
     );
-    this._config.listContainer.css({
-        'position': 'relative'
-    });
 
+    // set initial offset
     var offset = tools.getPosition(
       this._config.orientation,
       jQuery(this._config.listItems[this._config.activeIndex])
@@ -2295,11 +2308,17 @@ onoPager.animation.linear = function(newConfig, extraConfig) {
    * @this
    */
   linearInstance.page = function(oldIndex, newIndex, direction) {
+    var offset;
+
+    // Remove active class from old list item before animating
     if (oldIndex != newIndex) {
       linearInstance._setActiveClass(oldIndex, false);
     }
+
+    // Stop all current animations
     this._config.list.stop(true, false);
-    var offset;
+
+    // Determine new offset for the list
     if (this._config.pagePerItem == true) {
       offset = tools.getPosition(
         this._config.orientation,
@@ -2313,17 +2332,23 @@ onoPager.animation.linear = function(newConfig, extraConfig) {
       offset = size * newIndex;
     }
 
+    // Adjust the list offset to make sure that the list container is filled
+    // with list items at all times
     offset = this._checkMaxScroll(offset);
 
+    // Set animate style properties
     var cssObj = {};
     var topLeft = tools.getTopLeft(this._config.orientation);
     cssObj[topLeft] = '-' + offset + 'px';
+
+    // Run animation
     this._config.list.animate(
       cssObj,
       {
         duration: this._config.animationSpeed,
         easing: this._config.animationEasing,
         complete: function() {
+          // Set active class on visible list item
           linearInstance._setActiveClass(newIndex, true);
         }
       }
@@ -2772,9 +2797,6 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
       this._config.listContainer,
       newListItems
     );
-    this._config.listContainer.css({
-        'position': 'relative'
-    });
 
     // Position list
     var offset = tools.getPosition(
@@ -2890,7 +2912,6 @@ onoPager.animation.linearScroller = function(newConfig, extraConfig) {
           'position': 'relative'
         }
       );
-    this._config.listContainer.css('position', 'relative');
     }
     var viewport = tools.getInnerSize(
       this._config.orientation,

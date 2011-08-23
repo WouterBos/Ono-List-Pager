@@ -10,6 +10,7 @@
 // - pageByNumber should have a 'last' and 'first'-link.
 // - Build support for scroll wheel
 // - Highlight arrow key when pressing an arrow key on keyboard
+// - Option for hiding timeline while paging
 
 (function($) {
   /**
@@ -354,6 +355,10 @@
       } else {
         pageNext.hide();
         pagePrevious.hide();
+        pageByNumber.hide();
+        pageScroller.hide();
+        autoPageContainer.hide();
+
       }
       animation.extendConfig({pager: pager});
       animation._onPagerCreated();

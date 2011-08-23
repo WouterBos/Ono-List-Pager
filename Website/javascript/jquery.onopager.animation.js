@@ -279,16 +279,18 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
    * @this
    */
   this._setActiveClass = function(index, add) {
-    var item;
-    if (typeof(index) == 'number') {
-      item = jQuery(this._config.listItems[index]);
-    } else {
-      item = jQuery(this._config.listItems);
-    }
-    if (add) {
-      item.addClass('active');
-    } else {
-      item.removeClass('active');
+    if (this._config.pagePerItem == true) {
+      var item;
+      if (typeof(index) == 'number') {
+        item = jQuery(this._config.listItems[index]);
+      } else {
+        item = jQuery(this._config.listItems);
+      }
+      if (add) {
+        item.addClass('active');
+      } else {
+        item.removeClass('active');
+      }
     }
   }
 
@@ -648,14 +650,20 @@ onoPager.animation.linear = function(newConfig, extraConfig) {
    * @this
    */
   linearInstance.init = function() {
+    // This animation only works with horizontal and vertical orientation.
     if (this._config.orientation != 'horizontal' &&
         this._config.orientation != 'vertical') {
       throw new Error('Orientation must be either horizontal ' +
         'or vertical. It\'s now ' + this._config.orientation);
     }
 
-    linearInstance._setActiveClass(linearInstance._config.activeIndex, true);
     var listBounds = 0;
+
+    // Set class 'active' to the visible list item if the pager is set to page
+    // per list item.
+    linearInstance._setActiveClass(linearInstance._config.activeIndex, true);
+
+    // Set list container width
     this._config.listItems.each(function(index) {
       listBounds += tools.getOuterSize(
         linearInstance._config.orientation,
@@ -667,14 +675,14 @@ onoPager.animation.linear = function(newConfig, extraConfig) {
     this._config.list.css(
       tools.getWidthHeight(this._config.orientation), listBounds + 'px'
     );
+
+    // Set list container height
     this._setListContainerHeight(
       this._config.listContainer,
       this._config.listItems
     );
-    this._config.listContainer.css({
-        'position': 'relative'
-    });
 
+    // set initial offset
     var offset = tools.getPosition(
       this._config.orientation,
       jQuery(this._config.listItems[this._config.activeIndex])
@@ -692,11 +700,17 @@ onoPager.animation.linear = function(newConfig, extraConfig) {
    * @this
    */
   linearInstance.page = function(oldIndex, newIndex, direction) {
+    var offset;
+
+    // Remove active class from old list item before animating
     if (oldIndex != newIndex) {
       linearInstance._setActiveClass(oldIndex, false);
     }
+
+    // Stop all current animations
     this._config.list.stop(true, false);
-    var offset;
+
+    // Determine new offset for the list
     if (this._config.pagePerItem == true) {
       offset = tools.getPosition(
         this._config.orientation,
@@ -710,17 +724,23 @@ onoPager.animation.linear = function(newConfig, extraConfig) {
       offset = size * newIndex;
     }
 
+    // Adjust the list offset to make sure that the list container is filled
+    // with list items at all times
     offset = this._checkMaxScroll(offset);
 
+    // Set animate style properties
     var cssObj = {};
     var topLeft = tools.getTopLeft(this._config.orientation);
     cssObj[topLeft] = '-' + offset + 'px';
+
+    // Run animation
     this._config.list.animate(
       cssObj,
       {
         duration: this._config.animationSpeed,
         easing: this._config.animationEasing,
         complete: function() {
+          // Set active class on visible list item
           linearInstance._setActiveClass(newIndex, true);
         }
       }
@@ -1169,9 +1189,6 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
       this._config.listContainer,
       newListItems
     );
-    this._config.listContainer.css({
-        'position': 'relative'
-    });
 
     // Position list
     var offset = tools.getPosition(
@@ -1287,7 +1304,6 @@ onoPager.animation.linearScroller = function(newConfig, extraConfig) {
           'position': 'relative'
         }
       );
-    this._config.listContainer.css('position', 'relative');
     }
     var viewport = tools.getInnerSize(
       this._config.orientation,

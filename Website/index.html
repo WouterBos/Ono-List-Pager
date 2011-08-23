@@ -12,7 +12,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="robots" content="noindex" />
-  <title>Ono pager demos</title>
+  <title>Ono List Pager Demos</title>
 
   <link href="css/page2.css" rel="stylesheet" type="text/css" />
   <link href="css/onoPager-basic.css" rel="stylesheet" type="text/css" />
@@ -25,10 +25,19 @@
       <span class="logo">‹<span>■</span>›</span>
       <div class="hgroup">
         <header>
+          <!-- AddThis Button BEGIN -->
+          <div class="addthis_toolbox addthis_default_style">
+            <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+            <a class="addthis_button_tweet"></a>
+            <a class="addthis_counter addthis_pill_style"></a>
+          </div>
+          <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=xa-4e527ae805a94099"></script>
+          <!-- AddThis Button END -->
+
           <h1>
             Ono List Pager demos
           </h1>
-          <p>The Ono List Pager is a very <strong>configurable</strong> jQuery plugin to create various pagers out of lists. <strong>Downloads</strong> and <strong>more info</strong> available on <a href="http://plugins.jquery.com/project/OnoListPager">plugins.jquery.com</a></p>
+          <p>The Ono List Pager is a very <strong>configurable</strong> jQuery plugin that creates all kinds of pagers out of simple HTML lists. <strong>Downloads</strong> and <strong>more info</strong> available on <a href="http://plugins.jquery.com/project/OnoListPager">plugins.jquery.com</a></p>
         </header>
       </div>
     </div>
@@ -56,6 +65,7 @@
               <option value="labels">Alternate labels</option>
               <option value="autoAdjustingHeight">Auto adjusting height</option>
               <option value="status">With status box</option>
+              <option value="nonSemantic">Non-semantic markup</option>
             </optgroup>
             <optgroup label="Animation types">
               <option value="slides">Slides</option>
@@ -69,6 +79,7 @@
               <option value="autopage">Basic</option>
               <option value="autopageTimeline">Time indicator 'timeline'</option>
               <option value="autopageClock">Time indicator 'clock' (IE9+)</option>
+              <option value="autopageDisable">Disable (auto)pager</option>
             </optgroup>
           </select>
         </div>
@@ -119,6 +130,14 @@
                         '  <li>Fifth item Lorem ipsum dolor sit amet site amet site amet. Donec vel risus diam. Vestibulum posuere tristique vulputate neque ut leo aliquet scelerisque Etiam vitae massa.</li>\n' +
                         '  <li>Sixth item Aliquam arcu odio, sollicitudin. Quisque porta pulvinar mollis. Aenean vitae sapien at lacus faucibus fermentum.</li>\n' +
                         '</ul>';
+    var nonSemanticHtml = '<div class="onoPager_noJs">\n' +
+                          '  <div class="onoPager_listItem">Lorem ipsum dolor sit amet site amet site amet. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. Donec vel risus diam. Vestibulum posuere tristique Etiam vitae massa</div>\n' +
+                          '  <div class="onoPager_listItem">Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</div>\n' +
+                          '  <div class="onoPager_listItem">Lorem ipsum dolor sit amet site amet site amet. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. Donec vel risus diam. Vestibulum posuere tristique Etiam vitae massa</div>\n' +
+                          '  <div class="onoPager_listItem">Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</div>\n' +
+                          '  <div class="onoPager_listItem">Lorem ipsum dolor sit amet site amet site amet. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. Donec vel risus diam. Vestibulum posuere tristique Etiam vitae massa</div>\n' +
+                          '  <div class="onoPager_listItem">Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</div>\n' +
+                          '</div>\n';
     
     var pagers = {
       simplest: {
@@ -176,6 +195,22 @@
                 "  },\n" +
                 "  swipeTriggersPage: true,\n" +
                 "  animationEasing: 'easeOutCubic',\n" +
+                "}\n",
+        animationConfig: "{}"
+      },
+      nonSemantic: {
+        description: 'This pager is built with DIVs instead of the more appropriate UL or OL element. The list items must be marked with the class <code>onoPager_listItem</code>.',
+        html: nonSemanticHtml,
+        config: "{\n" +
+                "  listContainer: {\n" +
+                "    width: '280px',\n" +
+                "    height: ''\n" +
+                "  },\n" +
+                "  listItems: {\n" +
+                "    width: '260px',\n" +
+                "    height: '80px'\n" +
+                "  },\n" +
+                "  animationEasing: 'easeOutCubic'\n" +
                 "}\n",
         animationConfig: "{}"
       },
@@ -479,6 +514,36 @@
                 "}\n",
         animationConfig: "{}"
       },
+      autopageDisable: {
+        description: 'You can simply enable or disable a pager. You can do this with any pager, but it is especially handy to halt an auto pager. <a href="javascript: void" class="js_toggleDisable">Disable</a>.', 
+        html: standardHtml,
+        config: "{\n" +
+                "  listContainer: {\n" +
+                "    width: '280px',\n" +
+                "    height: '100px'\n" +
+                "  },\n" +
+                "  listItems: {\n" +
+                "    width: '260px',\n" +
+                "    height: '80px'\n" +
+                "  },\n" +
+                "  autoPage: {\n" +
+                "    active: true,\n" +
+                "    interval: 3000\n" +
+                "  },\n" +
+                "  pageByArrowKey: {\n" +
+                "    active: true,\n" +
+                "    preventDefault: false\n" +
+                "  },\n" +
+                "  pageByNumber: {\n" +
+                "    hideThreshold: 1\n" +
+                "  },\n" +
+                "  swipeTriggersPage: true,\n" +
+                "  animationType: 'linear',\n" +
+                "  animationEasing: 'easeOutCubic',\n" +
+                "  animationSpeed: 1000\n" +
+                "}\n",
+        animationConfig: "{}"
+      },
       autopageTimeline: {
         description: 'This pager has a time indicator called \'timeline\'.',
         html: standardHtml,
@@ -571,12 +636,27 @@
       jQuery('#editDemo_result').html(jQuery('#editDemo_html').val());
       eval('var onoConfig = ' + jQuery('#editDemo_jsConfig').val());
       eval('var onoAnimationConfig = ' + jQuery('#editDemo_jsAnimationConfig').val());
-      jQuery('#editDemo_result ul').onoPager(onoConfig, onoAnimationConfig);
+      jQuery('#editDemo_result > ul, #editDemo_result > div').onoPager(onoConfig, onoAnimationConfig);
+      setDisableButtons();
     }
 
     getConfig(document.getElementById('examples'));
     runConfig();
     
+    function setDisableButtons() {
+      jQuery('a.js_toggleDisable').click(function(event) {
+        event.preventDefault();
+        var toggle = jQuery(this);
+        var pager = jQuery('div.onoPager')
+        if (pager.hasClass('onoPager_disabled')) {
+          toggle.text('Disable');
+          pager.removeClass('onoPager_disabled')
+        } else {
+          toggle.text('Enable');
+          pager.addClass('onoPager_disabled')
+        }
+      });
+    }
     
   //var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
   //document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));

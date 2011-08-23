@@ -163,7 +163,7 @@ onoPager.pager = function(arg_index,
   // Starts a page transition (triggered by interval)
   function autoPager() {
     var canPage = onoPager.tools.canPage(
-      autoPageContainer.closest('div.onoPager'),
+      listContainer.closest('div.onoPager'),
       lockDuringTransition,
       list,
       list.find('> *.onoPager_listItem')

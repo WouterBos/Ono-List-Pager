@@ -100,7 +100,7 @@ div.onoPager_greyscale.onoPager_disabled div.onoPager_controls.active a {
 div.onoPager_greyscale:hover div.onoPager_controls a,
 div.onoPager_greyscale div.onoPager_controls.active a {
     text-decoration: none;
-    color: #0000ff;
+    color: #47478b;
 }
 div.onoPager_greyscale div.onoPager_controls a:hover {
     text-decoration: underline;
