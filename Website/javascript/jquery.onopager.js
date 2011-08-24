@@ -7,6 +7,7 @@
  */
 
 // TODO:
+// - linearContinuous: autopager must start after animation if user clicks adjacent list item
 // - pageByNumber should have a 'last' and 'first'-link.
 // - Build support for scroll wheel
 // - Highlight arrow key when pressing an arrow key on keyboard
@@ -1279,12 +1280,6 @@ onoPager.pager = function(arg_index,
     startAutopager();
   }
 };
-
-
-
-
-
-
 /**
  * @namespace Handles animation that gives a time indication of the intervals
  *    between paging.
@@ -1358,14 +1353,27 @@ onoPager.autopageAnimation = (function() {
  *
  * @constructor
  * @param {Object} newConfig Standard configuration object.
+ * @param {Object} newConfig.listContainer jQuery object. References to
+ *    the element that is the container for the list from which the pager is
+ *    built.
+ * @param {Number} newConfig.animationSpeed Determines the speed at
+ *    which the animations take place. Time value is set in milliseconds.
+ * @param {String} newConfig.orientation Determines on what axis the
+ *    animation moves. Possible values are 'horizontal' and 'vertical' though
+ *    it's possible to use other values as long as the animation object
+ *    supports that value. Default value is 'horizontal'.
+ * @param {Object} newConfig.root The DOM element in which all animation must
+ *    take place.
+ * @param {Number} newConfig.autoPageInterval The interval between
+ *    autopaging. Time value is set in milliseconds.
  */
 onoPager.autopageAnimation._standard = function(newConfig) {
   this._config = {
-    listContainer: null,
-    animationSpeed: 0,
-    orientation: null,
-    root: null,
-    autoPageInterval: 0
+    listContainer: null, /* The element of the list */
+    animationSpeed: 0, /* Time the animation takes */
+    orientation: null, /* 'horizontal' or 'vertical' */
+    root: null, /* The DOM element in which all animation must take place. */
+    autoPageInterval: 0 /* The interval between autopaging */
   };
   jQuery.extend(true, this._config, newConfig);
 
@@ -2333,7 +2341,8 @@ onoPager.animation.linear = function(newConfig, extraConfig) {
     }
 
     // Adjust the list offset to make sure that the list container is filled
-    // with list items at all times
+    // with list items at all times. This might not be the case when
+    // pagePerItem in the pager config is not set to true
     offset = this._checkMaxScroll(offset);
 
     // Set animate style properties
