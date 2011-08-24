@@ -725,7 +725,8 @@ onoPager.animation.linear = function(newConfig, extraConfig) {
     }
 
     // Adjust the list offset to make sure that the list container is filled
-    // with list items at all times
+    // with list items at all times. This might not be the case when
+    // pagePerItem in the pager config is not set to true
     offset = this._checkMaxScroll(offset);
 
     // Set animate style properties

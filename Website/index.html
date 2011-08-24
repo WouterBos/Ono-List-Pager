@@ -20,38 +20,36 @@
 </head>
 <body>
   <div class="body">
-  <section>
-    <div class="intro">
-      <span class="logo">‹<span>■</span>›</span>
-      <div class="hgroup">
-        <header>
-          <!-- AddThis Button BEGIN -->
-          <div class="addthis_toolbox addthis_default_style">
-            <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
-            <a class="addthis_button_tweet"></a>
-            <a class="addthis_counter addthis_pill_style"></a>
-          </div>
-          <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=xa-4e527ae805a94099"></script>
-          <!-- AddThis Button END -->
-
-          <h1>
-            Ono List Pager demos
-          </h1>
-          <p>The Ono List Pager is a very <strong>configurable</strong> jQuery plugin that creates all kinds of pagers out of simple HTML lists. <strong>Downloads</strong> and <strong>more info</strong> available on <a href="http://plugins.jquery.com/project/OnoListPager">plugins.jquery.com</a></p>
-        </header>
-      </div>
-    </div>
-    
-    <div class="intro intro2">
-      <h2>Websites that use the Ono List Pager <small>(sorry, all in Dutch)</small></h2>
-      <ul class="simpleList">
-        <li><a href="http://estate15jaar.nl/">15 years Estate Internet</a></li>
-        <li><a href="http://socialize2011.nl/">#Socialize2011 event</a></li>
-      </ul>
-    </div>
-  <section>
+    <section>
+      <div class="intro">
+        <span class="logo">‹<span>■</span>›</span>
+        
+        <div class="hgroup">
+          <header>
+            <!-- AddThis Button BEGIN -->
+            <div class="addthis_toolbox addthis_default_style">
+              <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+              <a class="addthis_button_tweet"></a>
+              <a class="addthis_counter addthis_pill_style"></a>
+            </div>
+            <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=xa-4e527ae805a94099"></script>
+            <!-- AddThis Button END -->
   
-  <section>
+            <h1>Ono List Pager demos</h1>
+            <p>The Ono List Pager is a very <strong>configurable</strong> jQuery plugin that creates all kinds of pagers out of simple HTML lists. <strong>Downloads</strong> and <strong>more info</strong> available on <a href="http://plugins.jquery.com/project/OnoListPager">plugins.jquery.com</a></p>
+          </header>
+        </div>
+      </div>
+      
+      <div class="intro intro2">
+        <h2>Websites that use the Ono List Pager <small>(sorry, all in Dutch)</small></h2>
+        <ul class="simpleList">
+          <li><a href="http://estate15jaar.nl/">15 years Estate Internet</a></li>
+          <li><a href="http://socialize2011.nl/">#Socialize2011 event</a></li>
+        </ul>
+      </div>
+    </section>
+    
     <div class="content content1">
       <section>
         <h1>Select a configuration</h1>
@@ -91,11 +89,12 @@
         </div>
       </section>
     </div>
-    
+  
     <div class="content content2">
-      <h1>Configuration code</h1>
-      <input type="button" value="Create pager" id="runCode">
-      <ul class="editDemo">
+      <section>
+        <h1>Configuration code</h1>
+        <input type="button" value="Create pager" id="runCode" />
+        <ul class="editDemo">
         <li>
           <h4>HTML:</h4>
           <textarea id="editDemo_html"></textarea>
@@ -109,6 +108,7 @@
           <textarea id="editDemo_jsAnimationConfig"></textarea>
         </li>
       </ul>
+      </section>
     </div>
   </div>
   
@@ -119,9 +119,11 @@
   <script src="javascript/jquery.onopagerswipe.js"></script>
   <script src="javascript/jquery.onopager.scroller.js"></script>
   <script src="javascript/jquery.onopager.pager.js"></script>
+  <script src="javascript/jquery.onopager.autopageAnimation.js"></script>
   <script src="javascript/jquery.onopager.animation.js"></script>
   <script src="javascript/jquery.onopager.tools.js"></script>
-  <script type="text/javascript">
+  <script>
+  //<![CDATA[
     var standardHtml =  '<ul class="onoPager_noJs">\n' +
                         '  <li>First item Curabitur convallis blandit lectus. Cras vulputate neque. Vestibulum tempus neque enim, eget placerat risus. Sed sagittis mollis dolor id.</li>\n' +
                         '  <li>Second item Aliquam arcu odio, sollicitudin. Maecenas vitae justo velit, eget bibendum est sit amet site amet.</li>\n' +
@@ -169,7 +171,7 @@
                 "  pageByNumber: {\n" +
                 "    active: false\n" +
                 "  },\n" +
-                "  animationEasing: 'easeOutCubic',\n" +
+                "  animationEasing: 'easeOutCubic'\n" +
                 "}\n",
         animationConfig: "{}"
       },
@@ -194,7 +196,7 @@
                 "    hideThreshold: 1\n" +
                 "  },\n" +
                 "  swipeTriggersPage: true,\n" +
-                "  animationEasing: 'easeOutCubic',\n" +
+                "  animationEasing: 'easeOutCubic'\n" +
                 "}\n",
         animationConfig: "{}"
       },
@@ -239,7 +241,7 @@
                 "    hideThreshold: 1\n" +
                 "  },\n" +
                 "  swipeTriggersPage: false,\n" +
-                "  animationEasing: 'easeOutCubic',\n" +
+                "  animationEasing: 'easeOutCubic'\n" +
                 "}\n",
         animationConfig: "{}"
       },
@@ -262,7 +264,7 @@
                 "  },\n" +
                 "  swipeTriggersPage: true,\n" +
                 "  animationEasing: 'easeOutCubic',\n" +
-                "  orientation: 'vertical',\n" +
+                "  orientation: 'vertical'\n" +
                 "}\n",
         animationConfig: "{}"
       },
@@ -280,7 +282,7 @@
                 "    width: '280px',\n" +
                 "    height: '60px'\n" +
                 "  },\n" +
-                "  animationEasing: 'easeOutCubic',\n" +
+                "  animationEasing: 'easeOutCubic'\n" +
                 "}\n",
         animationConfig: "{}"
       },
@@ -308,7 +310,7 @@
                 "  pageByNumber: {\n" +
                 "    active: false\n" +
                 "  },\n" +
-                "  animationType: 'linearScroller',\n" +
+                "  animationType: 'linearScroller'\n" +
                 "}\n",
         animationConfig: "{}"
       },
@@ -329,7 +331,7 @@
                 "    active: true\n" +
                 "  },\n" +
                 "  animationType: 'slides',\n" +
-                "  animationEasing: 'easeOutCubic',\n" +
+                "  animationEasing: 'easeOutCubic'\n" +
                 "}\n",
         animationConfig: "{\n" +
                          "  delay: 4\n" +
@@ -350,7 +352,7 @@
                 "  },\n" +
                 "  animationType: 'linear',\n" +
                 "  animationEasing: 'easeOutCubic',\n" +
-                "  orientation: 'horizontal',\n" +
+                "  orientation: 'horizontal'\n" +
                 "}\n",
         animationConfig: "{}"
       },
@@ -660,8 +662,9 @@
     
   //var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
   //document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+  //]]>
   </script>
-  <script type="text/javascript">
+  <script>
   //try {
   //var pageTracker = _gat._getTracker("UA-11198749-1");
   //pageTracker._trackPageview();
