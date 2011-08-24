@@ -7,6 +7,7 @@
  */
 
 // TODO:
+// - linearContinuous: autopager must start after animation if user clicks adjacent list item
 // - pageByNumber should have a 'last' and 'first'-link.
 // - Build support for scroll wheel
 // - Highlight arrow key when pressing an arrow key on keyboard
