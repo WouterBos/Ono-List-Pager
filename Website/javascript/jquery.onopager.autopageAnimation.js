@@ -40,12 +40,12 @@ onoPager.autopageAnimation = (function() {
           typeof(onoPager.autopageAnimation[config.autoPageAnimationType])
         );
       }
-      
-      var animation
-      
+
+      var animation;
+
       config.root.addClass('onoPager_autopageAnimation_' +
         config.autoPageAnimationType);
-            
+
       var animationSupport = true;
       if ('isSupportedByBrowser' in
           onoPager.autopageAnimation[config.autoPageAnimationType]) {
@@ -54,7 +54,7 @@ onoPager.autopageAnimation = (function() {
           animationSupport = false;
         }
       }
-      
+
       if (animationSupport == true) {
         animation = onoPager.autopageAnimation[
           config.autoPageAnimationType](config, extraConfig);
@@ -140,7 +140,7 @@ onoPager.autopageAnimation._standard = function(newConfig) {
 
 /**
  * @namespace Autopage animation object. This object will create a simple
- * timeline
+ * timeline.
  *
  * @param {Object} newConfig Standard configuration object.
  * @return {Object} instance of an animation object.
@@ -155,6 +155,7 @@ onoPager.autopageAnimation.timeline = function(newConfig) {
   var bar = jQuery([]);
   var root = timelineInstance._config.root;
   var listContainer = timelineInstance._config.listContainer;
+  var startTimeout;
 
   /**
    * @see onoPager.autopageAnimation._standard#init
@@ -162,19 +163,22 @@ onoPager.autopageAnimation.timeline = function(newConfig) {
    * @this
    */
   timelineInstance.init = function() {
+    // Setup pager markup and reference.
     root.html('<div class="onoPager_autoPageBar"></div>');
     bar = root.find('div.onoPager_autoPageBar');
+
+    // Setup styling
     root.css(
       {
         width: listContainer.innerWidth(),
         position: 'absolute',
-        /* left: listContainer.position().left + 'px', */
         top: listContainer.position().top +
                listContainer.innerHeight(true) + 'px'
       }
     );
-
     bar.css('width', 0);
+
+    // Run animation
     bar.animate(
       {
         width: root.innerWidth() + 'px'
@@ -192,18 +196,29 @@ onoPager.autopageAnimation.timeline = function(newConfig) {
    * @this
    */
   timelineInstance.start = function() {
-    var interval = this._config.autoPageInterval - this._config.animationSpeed;
+    var intervalTime = this._config.autoPageInterval -
+                       this._config.animationSpeed; // interval time minus
+                                                    // transition time
+    var animationSpeed = this._config.animationSpeed;
 
-    bar.stop(true, true);
-    bar.css('width', 0);
-    bar.delay(this._config.animationSpeed).animate(
-      {
-        width: root.innerWidth() + 'px'
+    bar.stop(true, true); // End all current animations
+    clearTimeout(startTimeout); // Remove any pending animations
+    bar.css('width', 0); // Reset the timeline bar
+
+    // Schedule start for timeline animation
+    startTimeout = setTimeout(
+      function() {
+        bar.animate(
+          {
+            width: root.innerWidth() + 'px'
+          },
+          {
+            duration: intervalTime,
+            easing: 'linear'
+          }
+        );
       },
-      {
-        duration: interval,
-        easing: 'linear'
-      }
+      animationSpeed
     );
   }
 
@@ -279,7 +294,7 @@ onoPager.autopageAnimation.clock = function(newConfig, arg_extraConfig) {
   var drawClockInterval;
   var drawClockTimeout;
   var listContainer = clockInstance._config.listContainer;
-  var interval;
+  var intervalTime;
 
   function drawClock() {
       degrees += extraConfig.intervalPrecision;
@@ -316,12 +331,11 @@ onoPager.autopageAnimation.clock = function(newConfig, arg_extraConfig) {
    * @this
    */
   clockInstance.init = function() {
-    interval = this._config.autoPageInterval - this._config.animationSpeed;
     root.html('<canvas width="' + canvasWidth + '" height="' +
               canvasHeight + '"></canvas>');
     canvas = root.find('canvas')[0];
     context = canvas.getContext('2d');
-    this.start();
+    this.start(this._config.autoPageInterval);
   }
 
   /**
@@ -329,7 +343,18 @@ onoPager.autopageAnimation.clock = function(newConfig, arg_extraConfig) {
    * @memberOf onoPager.autopageAnimation.timeline
    * @this
    */
-  clockInstance.start = function() {
+  clockInstance.start = function(autoPageInterval) {
+    var intervalTime;
+    var animationSpeed;
+    if (autoPageInterval) {
+      intervalTime = autoPageInterval;
+      animationSpeed = 0;
+    } else {
+      intervalTime = this._config.autoPageInterval -
+                         this._config.animationSpeed; // interval time minus
+                                                      // transition time
+      animationSpeed = this._config.animationSpeed;
+    }
     clearInterval(drawClockInterval);
     degrees = -80;
     context.clearRect(0, 0, canvasWidth, canvasHeight);
@@ -337,12 +362,12 @@ onoPager.autopageAnimation.clock = function(newConfig, arg_extraConfig) {
       function() {
         drawClockInterval = setInterval(
           drawClock,
-          Math.floor(interval / (360 / extraConfig.intervalPrecision))
+          Math.floor(intervalTime / (360 / extraConfig.intervalPrecision))
         );
       },
-      this._config.animationSpeed);
+      animationSpeed);
   }
-  
+
   return clockInstance;
 };
 
@@ -360,4 +385,4 @@ onoPager.autopageAnimation.clock.isSupportedByBrowser = function() {
   } else {
     return false;
   }
-}
+};

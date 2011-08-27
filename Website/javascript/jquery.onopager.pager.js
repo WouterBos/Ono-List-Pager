@@ -156,7 +156,11 @@ onoPager.pager = function(arg_index,
 
   // Initializes autopage
   function startAutopager() {
-    autoPageAnimation = setAnimation();
+    if (!autoPageAnimation) {
+      autoPageAnimation = setAnimation();
+    } else {
+      autoPageAnimation.start();
+    }
     autoPageInterval = setInterval(autoPager, autoPageConfig.interval);
   }
 
