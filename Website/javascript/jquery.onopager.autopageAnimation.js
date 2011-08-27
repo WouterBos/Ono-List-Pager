@@ -40,19 +40,32 @@ onoPager.autopageAnimation = (function() {
           typeof(onoPager.autopageAnimation[config.autoPageAnimationType])
         );
       }
+      
+      var animation
+      
       config.root.addClass('onoPager_autopageAnimation_' +
         config.autoPageAnimationType);
-
-      var animation = onoPager.autopageAnimation[
-        config.autoPageAnimationType](config, extraConfig);
-
-      interfaceCheck(
-        animation,
-        [
-          'init',
-          'start'
-        ]
-      );
+            
+      var animationSupport = true;
+      if ('isSupportedByBrowser' in
+          onoPager.autopageAnimation[config.autoPageAnimationType]) {
+        if (onoPager.autopageAnimation[config.autoPageAnimationType]
+            .isSupportedByBrowser() == false) {
+          animationSupport = false;
+        }
+      }
+      
+      if (animationSupport == true) {
+        animation = onoPager.autopageAnimation[
+          config.autoPageAnimationType](config, extraConfig);
+        interfaceCheck(
+          animation,
+          [
+            'init',
+            'start'
+          ]
+        );
+      }
 
       return animation;
     }
@@ -329,6 +342,22 @@ onoPager.autopageAnimation.clock = function(newConfig, arg_extraConfig) {
       },
       this._config.animationSpeed);
   }
-
+  
   return clockInstance;
 };
+
+
+/**
+ * @namespace Checks browser support for the clock animation object.
+ *
+ * @param {Object} config Configuration object.
+ * @return {object} The animation object.
+ */
+onoPager.autopageAnimation.clock.isSupportedByBrowser = function() {
+  var canvas = document.createElement('canvas');
+  if (canvas.getContext) {
+    return true;
+  } else {
+    return false;
+  }
+}

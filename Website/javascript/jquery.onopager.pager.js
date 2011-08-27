@@ -194,8 +194,16 @@ onoPager.pager = function(arg_index,
         },
         autoPageConfig.extraConfig
       );
-      newAnimation._init();
-      return newAnimation;
+      // In some cases onoPager.autopageAnimation.createAnimation returns
+      // an undefined object because the animation object is not compatible
+      // with the browser it runs in.
+      if (newAnimation) {
+        newAnimation._init();
+        return newAnimation;
+      } else {
+        autoPageConfig.autoPageAnimationType = '';
+        return null;
+      }
     } else {
       return null;
     }
