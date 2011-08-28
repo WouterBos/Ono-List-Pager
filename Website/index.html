@@ -28,10 +28,22 @@
           <header>
             <!-- AddThis Button BEGIN -->
             <div class="addthis_toolbox addthis_default_style">
-              <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
-              <a class="addthis_button_tweet"></a>
               <a class="addthis_counter addthis_pill_style"></a>
+              <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+              <a class="addthis_button_tweet"></a>
+              <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+              <div style="clear: both; margin-bottom: 5px;"></div>
+              <a class="addthis_button_linkedin" style="float: right"></a>
+              <a class="addthis_button_stumbleupon" style="float: right"></a>
+              <a class="addthis_button_delicious" style="float: right"></a>
             </div>
+
+            <script>
+              var addthis_config = {
+                   ui_language: 'en'
+                }
+            </script>
+
             <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=xa-4e527ae805a94099"></script>
             <!-- AddThis Button END -->
   
@@ -660,15 +672,15 @@
       });
     }
     
-  //var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-  //document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
   //]]>
   </script>
   <script>
-  //try {
-  //var pageTracker = _gat._getTracker("UA-11198749-1");
-  //pageTracker._trackPageview();
-  //} catch(err) {}
+  try {
+  var pageTracker = _gat._getTracker("UA-11198749-1");
+  pageTracker._trackPageview();
+  } catch(err) {}
   </script>
 </body>
 </html>

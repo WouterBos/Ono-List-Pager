@@ -353,5 +353,15 @@ div.onoPager_scroller {
 
 div.addthis_toolbox {
   float: right;
+  width: 414px;
   margin: 0 0 10px 5%;
+}
+
+div.addthis_toolbox > a {
+  float: right !important;
+}
+
+a.addthis_button_google_plusone {
+  position: relative;
+  left: -10px;
 }
