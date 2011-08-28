@@ -1831,8 +1831,12 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
     jQuery.extend(true, this._config.extraConfig, extraConfig);
   }
 
-  function setContainerHeight(_config, newIndex, isInit) {
+  function setContainerHeight(_config, newIndex, isInit, parentFunction) {
     if (_config.adjustHeightToListItem.active == false) {
+      if (isInit && _config.listContainer.height() == 0) {
+        parentFunction._setListContainerHeight(_config.listContainer,
+                                               _config.listItems);
+      }
       return false;
     }
 
@@ -2019,7 +2023,7 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
   // _init is a wrapper method for animationinstance.init()
   this._init = function() {
     this.init();
-    setContainerHeight(this._config);
+    setContainerHeight(this._config, this._config.activeIndex, true, this);
   }
 
   /**
@@ -2594,7 +2598,6 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
    * @this
    */
   linearContinuousInstance.page = function(oldIndex, newIndex, direction) {
-    //console.log(oldIndex, newIndex, direction)
     if (oldIndex != newIndex) {
       linearContinuousInstance._setActiveClass(oldIndex, false);
     }
@@ -2750,15 +2753,12 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
         linearContinuousInstance._config.listItems[oldIndex]
       );
 
-      console.log(oldIndex, newIndex, direction);
       if (oldIndex > newIndex && direction == 1) {
-        console.log('skip');
         // If user pages from last page to first page, position to the page
         // *before* the first page.
         var firstIndex = newListItems.index(
           linearContinuousInstance._config.listItems[newIndex]
         );
-        console.log(firstIndex);
 
         if (linearContinuousInstance._config.pagePerItem == true) {
           oldItem = jQuery(newListItems[firstIndex -
