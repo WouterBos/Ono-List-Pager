@@ -7,10 +7,11 @@
  */
 
 // TODO:
+// - Pause autopaging during a hover on a pager.
+// - Play/pause-button for autopager
 // - pageByNumber should have a 'last' and 'first'-link.
 // - Build support for scroll wheel
 // - Highlight arrow key when pressing an arrow key on keyboard
-// - Option for hiding timeline while paging
 
 (function($) {
   /**
