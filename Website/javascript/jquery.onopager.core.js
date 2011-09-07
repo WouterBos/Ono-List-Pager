@@ -395,7 +395,8 @@
         
         // Set label link
         if (config.pageByNumber.links &&
-            config.pageByNumber.links.length > i) {
+            config.pageByNumber.links.length > i &&
+            config.pageByNumber.links[i] != "") {
           href = config.pageByNumber.links[i];
         } else {
           href = hrefVoid;
