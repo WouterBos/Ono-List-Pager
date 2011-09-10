@@ -1,4 +1,13 @@
 /**
+ * @fileOverview UI for scrolling in a pager.
+ */
+
+
+
+
+
+
+/**
  * @namespace Manages the scroller control.
  *
  * @constructor

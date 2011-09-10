@@ -331,12 +331,27 @@ div.content2 h1 {
 
 
 
-div.onoPager_animation_linearContinous {
+div.onoPager {
+  float: left;
+}
+
+div.#editDemo_result.wide div.onoPager,
+div.#editDemo_result.continuous div.onoPager,
+div.#editDemo_result.continuousFaux div.onoPager {
+  float: none;
+}
+
+div.#editDemo_result.scroller div.onoPager {
+  padding-right: 20px;
+}
+
+div.onoPager_animation_linearContinuous {
+  float: none;
   width: 100%;
   overflow: hidden;
 }
 
-div.onoPager_animation_linearContinous div.onoPager_listContainer {
+div.onoPager_animation_linearContinuous div.onoPager_listContainer {
   margin: 0 auto;
   overflow: visible;
 }

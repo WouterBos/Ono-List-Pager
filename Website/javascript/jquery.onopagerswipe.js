@@ -1,3 +1,13 @@
+/**
+ * @fileOverview Swiping code for mobile browsers. Lots of code comes from the
+ *               QuickGestures jQuery plugin of Anders Zakrisson.
+ */
+
+
+
+
+
+
 (function($) {
   /**
    * Handles swipe events on mobile phones and desktops. The code is based on

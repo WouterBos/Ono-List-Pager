@@ -270,8 +270,8 @@
         newHTML += '<div class="' + ONOPAGER + '_pageByNumber"/>';
       }
       newHTML += '<a' + EMPTY_HREF + ' class="' + ONOPAGER + '_next ' +
-        ONOPAGER + '_step" ' + 'title="' + config.labels.next + '">' +
-        config.labels.next + '</a>';
+        ONOPAGER + '_step" ' + 'title="' + config.labels.next + '"><span>' +
+        config.labels.next + '</span></a>';
       if (config.status.active == true) {
         newHTML += '<div class="' + ONOPAGER + '_status" />';
       }
@@ -386,7 +386,7 @@
         } else {
           label = i + 1;
         }
-        html += '<a' + EMPTY_HREF + '>' + label + '</a>';
+        html += '<a' + EMPTY_HREF + '><span>' + label + '</span></a>';
       }
 
       pageByNumber.html(html);

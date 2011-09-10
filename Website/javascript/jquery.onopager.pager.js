@@ -1,5 +1,17 @@
 /**
- * @namespace Paging logic.
+ * @fileOverview Holds pager object. The pager keeps track of the index of the
+ *               active list item and controls the autopager and autopager
+ *               animations.
+ */
+
+
+
+
+
+
+/**
+ * @namespace Paging logic. The pager keeps track of the index of the active
+              list item and controls the autopager and autopager animations.
  *
  * @constructor
  * @param {Number} arg_index Initial index position.

@@ -48,7 +48,8 @@
             <!-- AddThis Button END -->
   
             <h1>Ono List Pager demos</h1>
-            <p>The Ono List Pager is a very <strong>configurable jQuery plugin</strong> that creates various <strong>pagers</strong> with HTML lists. Read the <strong><a href="http://www.thebrightlines.com/ono-list-pager/">introduction</a></strong> to the Ono List Pager. <strong><a href="http://plugins.jquery.com/project/OnoListPager">Download</a></strong> the plugin.</p>
+            <p>The Ono List Pager is a very <strong>configurable jQuery plugin</strong> that creates various <strong>pagers</strong> with HTML lists. Just think of it as a gallery of list items. Read the <strong><a href="http://www.thebrightlines.com/ono-list-pager/">introduction</a></strong> to the Ono List Pager. <strong><a href="http://plugins.jquery.com/project/OnoListPager">Download</a></strong> the plugin.</p>
+            <p>Copyright (c) 2011. The Ono List Pager is written by <a href="http://www.thebrightlines.com/about/">Wouter Bos</a>, web developer at <a href="http://www.estate.nl">Estate Internet</a></p>
           </header>
         </div>
       </div>
@@ -124,6 +125,18 @@
     </div>
   </div>
   
+  <script type="text/javascript"><!--
+  google_ad_client = "ca-pub-6622145049937375";
+  /* Ono list pager demo page */
+  google_ad_slot = "3965156170";
+  google_ad_width = 728;
+  google_ad_height = 90;
+  //-->
+  </script>
+  <script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+  </script>
+
   <script src="javascript/jquery.js"></script>
   <script src="javascript/jquery.easing.1.3.min.js"></script>
   <!--<script src="javascript/jquery.onopager.min.js"></script>-->
@@ -640,10 +653,12 @@
     });
     
     function getConfig(element) {
-      jQuery('#editDemo_html').val(pagers[jQuery(element).val()].html);
-      jQuery('#editDemo_jsConfig').val(pagers[jQuery(element).val()].config);
-      jQuery('#editDemo_jsAnimationConfig').val(pagers[jQuery(element).val()].animationConfig);
-      jQuery('#editDemo_description').html(pagers[jQuery(element).val()].description);
+      var config = jQuery(element).val();
+      jQuery('#editDemo_result').attr('class', config)
+      jQuery('#editDemo_html').val(pagers[config].html);
+      jQuery('#editDemo_jsConfig').val(pagers[config].config);
+      jQuery('#editDemo_jsAnimationConfig').val(pagers[config].animationConfig);
+      jQuery('#editDemo_description').html(pagers[config].description);
     }
     
     function runConfig() {

@@ -1,4 +1,13 @@
 /**
+ * @fileOverview Shared helper methods
+ */
+
+
+
+
+
+
+/**
  * @namespace Helper methods for the animation objects.
  */
 onoPager.tools = (function() {

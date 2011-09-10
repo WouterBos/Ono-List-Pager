@@ -1,4 +1,14 @@
 /**
+ * @fileOverview Animation objects factory. These animations are used to
+ *    indicate the time between 2 transitions
+ */
+
+
+
+
+
+
+/**
  * @namespace Handles animation that gives a time indication of the intervals
  *    between paging.
  */

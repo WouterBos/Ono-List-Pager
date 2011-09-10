@@ -1,4 +1,14 @@
 /**
+ * @fileOverview Animation objects factory. These animations are used to create
+ *               the transitions between one slide and the other.
+ */
+
+
+
+
+
+
+/**
  * @namespace Animation namespace
  */
 onoPager.animation = (function() {

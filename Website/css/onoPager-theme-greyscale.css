@@ -61,7 +61,7 @@ div.onoPager_greyscale.onoPager_disabled:hover div.onoPager_controls div.onoPage
     -o-transition: all 0.2s ease-out;  
     -webkit-transition: all 0.2s ease-out;  
     -ms-transition: all 0.2s ease-out;  
-    transition: all 0.2s ease-out;  
+    transition: all 0.2s ease-out;
     font-size: 0.9em;
 }
 div.onoPager_greyscale.msie7 div.onoPager_controls div.onoPager_status,
@@ -86,9 +86,9 @@ div.onoPager_greyscale:hover div.onoPager_controls.active div.onoPager_pageByNum
     opacity: 1;
 }
 
-div.onoPager_greyscale div.onoPager_controls a,
-div.onoPager_greyscale.onoPager_disabled:hover div.onoPager_controls a,
-div.onoPager_greyscale.onoPager_disabled div.onoPager_controls.active a {
+div.onoPager_greyscale div.onoPager_controls a span,
+div.onoPager_greyscale.onoPager_disabled:hover div.onoPager_controls a span,
+div.onoPager_greyscale.onoPager_disabled div.onoPager_controls.active a span {
     color: #666666;
     text-decoration: none;
     -moz-transition: all 0.2s ease-out;  
@@ -114,14 +114,15 @@ div.onoPager_greyscale.onoPager_disabled:hover a.onoPager_step,
 div.onoPager_greyscale.onoPager_disabled div.onoPager_controls.active a.onoPager_step {
     position: relative;
     z-index: 1;
-    top: -10px;
+    top: -20px;
+    border: 10px solid transparent;
 }
 div.onoPager_greyscale.msie7 a.onoPager_step {
-   top: -5px !important;
+   top: -15px !important;
 }
 div.onoPager_greyscale:hover a.onoPager_step,
 div.onoPager_greyscale div.onoPager_controls.active a.onoPager_step {
-    top: 0;
+    top: -10px;
 }
 
 div.onoPager_greyscale.onoPager_animation_linearScroller a.onoPager_step,
@@ -176,19 +177,29 @@ div.onoPager_greyscale div.onoPager_controls.active div.onoPager_pageByNumber {
 }
 
 div.onoPager_greyscale div.onoPager_pageByNumber a {
-    margin: 0;
+    border: 10px solid transparent;
+    border-left-width: 2px;
+    border-right-width: 2px;
+    text-decoration: none !important;
+}
+
+div.onoPager_greyscale div.onoPager_pageByNumber a span {
     padding: 4px 4px;
 }
-div.onoPager_greyscale div.onoPager_pageByNumber a.onoPager_active {
+div.onoPager_greyscale div.onoPager_pageByNumber a.onoPager_active span {
     cursor: default;
     padding-top: 0;
     padding-bottom: 0;
     color: #ffffff !important;
     font-weight: normal;
-    text-decoration: none !important;
-    background: #999999;
+    background: #999999 !important;
 }
-div.onoPager_greyscale.msie9 div.onoPager_pageByNumber a.onoPager_active {
+div.onoPager_greyscale div.onoPager_pageByNumber a:hover span {
+    padding-top: 0;
+    padding-bottom: 0;
+    background: #cccccc;
+}
+div.onoPager_greyscale.msie9 div.onoPager_pageByNumber a.onoPager_active span {
     padding-top: 2px;
 }
 
@@ -199,7 +210,7 @@ div.onoPager_greyscale div.onoPager_status,
 div.onoPager_greyscale.onoPager_disabled:hover div.onoPager_status,
 div.onoPager_greyscale.onoPager_disabled div.onoPager_controls.active div.onoPager_status {
     position: absolute;
-    margin-top: -10px;
+    margin-top: -20px;
     text-align: center;
     -moz-transition: all 0.2s ease-out;  
     -o-transition: all 0.2s ease-out;  
@@ -209,7 +220,7 @@ div.onoPager_greyscale.onoPager_disabled div.onoPager_controls.active div.onoPag
 }
 div.onoPager_greyscale:hover div.onoPager_status,
 div.onoPager_greyscale div.onoPager_controls.active div.onoPager_status {
-    margin-top: 0;
+    margin-top: -10px;
 }
 
 
