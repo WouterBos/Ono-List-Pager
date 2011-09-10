@@ -392,9 +392,20 @@
         } else {
           label = i + 1;
         }
-        html += '<a' + EMPTY_HREF + '><span>' + label + '</span></a>';                // Set label link        if (config.pageByNumber.links &&            config.pageByNumber.links.length > i &&            config.pageByNumber.links[i] != "") {          href = config.pageByNumber.links[i];        } else {          href = hrefVoid;        }                html += '<a href="' + href + '"><span><span>' + label + '</span></span></a>';      }
+        html += '<a' + EMPTY_HREF + '><span>' + label + '</span></a>';
+
+        // Set label link
+        if (config.pageByNumber.links &&
+            config.pageByNumber.links.length > i &&
+            config.pageByNumber.links[i] != '') {
+          href = config.pageByNumber.links[i];
+        } else {
+          href = hrefVoid;
+        }
+      }
+
       pageByNumber.html(html);
-      
+
       setPageEvent();
 
       function setPageEvent() {
@@ -414,8 +425,14 @@
           pageByNumber.find('a').each(function(index) {
             $(this).mouseenter(function(event) {
               if ($(this).hasClass('onoPager_active') == false) {
-                clearTimeout(pageTimeout)
-                pageTimeout = setTimeout(function() { page(index); root.addClass('onoPager_disabled'); }, 150);
+                clearTimeout(pageTimeout);
+                pageTimeout = setTimeout(
+                  function() {
+                    page(index);
+                    root.addClass('onoPager_disabled');
+                  },
+                  150
+                );
               }
             });
             $(this).mouseleave(function(event) {
@@ -423,7 +440,7 @@
             });
           });
         }
-        
+
         if (config.pageByNumber.enableClick == false &&
             config.pageByNumber.enableHover == false) {
           pageByNumber.find('a').addClass('onoPager_readonly');

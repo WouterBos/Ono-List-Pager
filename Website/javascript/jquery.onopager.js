@@ -3,14 +3,15 @@
  * @author Wouter Bos, Web developer at Estate Internet (www.estate.nl). Code
  *    for swiping based on the QuickGestures jQuery plugin of Anders Zakrisson.
  * @since 0.1 - 2011-3-28
- * @version 0.9 - 2011-08-28
+ * @version 1 - 2011-09-10
  */
 
 // TODO:
+// - Pause autopaging during a hover on a pager.
+// - Play/pause-button for autopager
 // - pageByNumber should have a 'last' and 'first'-link.
 // - Build support for scroll wheel
 // - Highlight arrow key when pressing an arrow key on keyboard
-// - Option for hiding timeline while paging
 
 (function($) {
   /**
@@ -201,6 +202,8 @@
         active: true,
         enableClick: true,
         labels: [],
+        links: [],
+        enableHover: false,
         hideThreshold: -1
       },
       pageByArrowKey: {
@@ -270,8 +273,8 @@
         newHTML += '<div class="' + ONOPAGER + '_pageByNumber"/>';
       }
       newHTML += '<a' + EMPTY_HREF + ' class="' + ONOPAGER + '_next ' +
-        ONOPAGER + '_step" ' + 'title="' + config.labels.next + '">' +
-        config.labels.next + '</a>';
+        ONOPAGER + '_step" ' + 'title="' + config.labels.next + '"><span>' +
+        config.labels.next + '</span></a>';
       if (config.status.active == true) {
         newHTML += '<div class="' + ONOPAGER + '_status" />';
       }
@@ -378,29 +381,70 @@
       var pageTotal = animation.getPagesLength();
       var html = '';
       var label;
+      var href;
+      var hrefVoid = 'javascript:void(0)';
 
       for (var i = 0; i < pageTotal; i++) {
+        // Set label text
         if (config.pageByNumber.labels &&
             config.pageByNumber.labels.length > i) {
           label = config.pageByNumber.labels[i];
         } else {
           label = i + 1;
         }
-        html += '<a' + EMPTY_HREF + '>' + label + '</a>';
+        html += '<a' + EMPTY_HREF + '><span>' + label + '</span></a>';
+
+        // Set label link
+        if (config.pageByNumber.links &&
+            config.pageByNumber.links.length > i &&
+            config.pageByNumber.links[i] != '') {
+          href = config.pageByNumber.links[i];
+        } else {
+          href = hrefVoid;
+        }
       }
 
       pageByNumber.html(html);
 
-      if (config.pageByNumber.enableClick == true) {
-        pageByNumber.find('a').each(function(index) {
-          $(this).click(function() {
-            if ($(this).hasClass('onoPager_active') == false) {
-              page(index, 0);
-            }
+      setPageEvent();
+
+      function setPageEvent() {
+        var eventTypes = '';
+        var pageTimeout;
+        if (config.pageByNumber.enableClick == true) {
+          pageByNumber.find('a').each(function(index) {
+            $(this).click(function(event) {
+              var isActive = $(this).hasClass('onoPager_active');
+              if (isActive == false && $(this).attr('href') == hrefVoid) {
+                page(index);
+              }
+            });
           });
-        });
-      } else {
-        pageByNumber.find('a').addClass('onoPager_readonly');
+        }
+        if (config.pageByNumber.enableHover == true) {
+          pageByNumber.find('a').each(function(index) {
+            $(this).mouseenter(function(event) {
+              if ($(this).hasClass('onoPager_active') == false) {
+                clearTimeout(pageTimeout);
+                pageTimeout = setTimeout(
+                  function() {
+                    page(index);
+                    root.addClass('onoPager_disabled');
+                  },
+                  150
+                );
+              }
+            });
+            $(this).mouseleave(function(event) {
+              root.removeClass('onoPager_disabled');
+            });
+          });
+        }
+
+        if (config.pageByNumber.enableClick == false &&
+            config.pageByNumber.enableHover == false) {
+          pageByNumber.find('a').addClass('onoPager_readonly');
+        }
       }
     }
 
@@ -599,6 +643,16 @@
  * @namespace Root namespace for the Ono Pager
  */
 var onoPager = {};
+/**
+ * @fileOverview Swiping code for mobile browsers. Lots of code comes from the
+ *               QuickGestures jQuery plugin of Anders Zakrisson.
+ */
+
+
+
+
+
+
 (function($) {
   /**
    * Handles swipe events on mobile phones and desktops. The code is based on
@@ -761,6 +815,15 @@ var onoPager = {};
     });
   };
 })(jQuery);
+/**
+ * @fileOverview UI for scrolling in a pager.
+ */
+
+
+
+
+
+
 /**
  * @namespace Manages the scroller control.
  *
@@ -977,7 +1040,19 @@ onoPager.scroller.dragHandle = function(arg_handle,
   }
 };
 /**
- * @namespace Paging logic.
+ * @fileOverview Holds pager object. The pager keeps track of the index of the
+ *               active list item and controls the autopager and autopager
+ *               animations.
+ */
+
+
+
+
+
+
+/**
+ * @namespace Paging logic. The pager keeps track of the index of the active
+              list item and controls the autopager and autopager animations.
  *
  * @constructor
  * @param {Number} arg_index Initial index position.
@@ -1290,6 +1365,16 @@ onoPager.pager = function(arg_index,
     startAutopager();
   }
 };
+/**
+ * @fileOverview Animation objects factory. These animations are used to
+ *    indicate the time between 2 transitions
+ */
+
+
+
+
+
+
 /**
  * @namespace Handles animation that gives a time indication of the intervals
  *    between paging.
@@ -1678,6 +1763,16 @@ onoPager.autopageAnimation.clock.isSupportedByBrowser = function() {
     return false;
   }
 };
+/**
+ * @fileOverview Animation objects factory. These animations are used to create
+ *               the transitions between one slide and the other.
+ */
+
+
+
+
+
+
 /**
  * @namespace Animation namespace
  */
@@ -3033,6 +3128,15 @@ onoPager.animation.linearScroller = function(newConfig, extraConfig) {
 
   return linearScrollerInstance;
 };
+/**
+ * @fileOverview Shared helper methods
+ */
+
+
+
+
+
+
 /**
  * @namespace Helper methods for the animation objects.
  */
