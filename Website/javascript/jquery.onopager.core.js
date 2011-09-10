@@ -7,10 +7,11 @@
  */
 
 // TODO:
+// - Pause autopaging during a hover on a pager.
+// - Play/pause-button for autopager
 // - pageByNumber should have a 'last' and 'first'-link.
 // - Build support for scroll wheel
 // - Highlight arrow key when pressing an arrow key on keyboard
-// - Option for hiding timeline while paging
 
 (function($) {
   /**
@@ -201,6 +202,8 @@
         active: true,
         enableClick: true,
         labels: [],
+        links: [],
+        enableHover: false,
         hideThreshold: -1
       },
       pageByArrowKey: {
@@ -378,29 +381,53 @@
       var pageTotal = animation.getPagesLength();
       var html = '';
       var label;
+      var href;
+      var hrefVoid = 'javascript:void(0)';
 
       for (var i = 0; i < pageTotal; i++) {
+        // Set label text
         if (config.pageByNumber.labels &&
             config.pageByNumber.labels.length > i) {
           label = config.pageByNumber.labels[i];
         } else {
           label = i + 1;
         }
-        html += '<a' + EMPTY_HREF + '><span>' + label + '</span></a>';
-      }
-
+        html += '<a' + EMPTY_HREF + '><span>' + label + '</span></a>';                // Set label link        if (config.pageByNumber.links &&            config.pageByNumber.links.length > i &&            config.pageByNumber.links[i] != "") {          href = config.pageByNumber.links[i];        } else {          href = hrefVoid;        }                html += '<a href="' + href + '"><span><span>' + label + '</span></span></a>';      }
       pageByNumber.html(html);
+      
+      setPageEvent();
 
-      if (config.pageByNumber.enableClick == true) {
-        pageByNumber.find('a').each(function(index) {
-          $(this).click(function() {
-            if ($(this).hasClass('onoPager_active') == false) {
-              page(index, 0);
-            }
+      function setPageEvent() {
+        var eventTypes = '';
+        var pageTimeout;
+        if (config.pageByNumber.enableClick == true) {
+          pageByNumber.find('a').each(function(index) {
+            $(this).click(function(event) {
+              var isActive = $(this).hasClass('onoPager_active');
+              if (isActive == false && $(this).attr('href') == hrefVoid) {
+                page(index);
+              }
+            });
           });
-        });
-      } else {
-        pageByNumber.find('a').addClass('onoPager_readonly');
+        }
+        if (config.pageByNumber.enableHover == true) {
+          pageByNumber.find('a').each(function(index) {
+            $(this).mouseenter(function(event) {
+              if ($(this).hasClass('onoPager_active') == false) {
+                clearTimeout(pageTimeout)
+                pageTimeout = setTimeout(function() { page(index); root.addClass('onoPager_disabled'); }, 150);
+              }
+            });
+            $(this).mouseleave(function(event) {
+              root.removeClass('onoPager_disabled');
+            });
+          });
+        }
+        
+        if (config.pageByNumber.enableClick == false &&
+            config.pageByNumber.enableHover == false) {
+          pageByNumber.find('a').addClass('onoPager_readonly');
+        }
       }
     }
 
