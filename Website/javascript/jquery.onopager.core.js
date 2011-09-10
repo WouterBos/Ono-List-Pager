@@ -3,7 +3,7 @@
  * @author Wouter Bos, Web developer at Estate Internet (www.estate.nl). Code
  *    for swiping based on the QuickGestures jQuery plugin of Anders Zakrisson.
  * @since 0.1 - 2011-3-28
- * @version 0.9 - 2011-08-28
+ * @version 1 - 2011-09-10
  */
 
 // TODO:
