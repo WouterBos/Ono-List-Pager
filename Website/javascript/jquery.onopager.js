@@ -268,7 +268,8 @@
       }
       newHTML += '<a' + EMPTY_HREF +
         ' class="' + ONOPAGER + '_previous ' + ONOPAGER + '_step" title="' +
-        config.labels.previous + '">' + config.labels.previous + '</a>';
+        config.labels.previous + '"><span>' + config.labels.previous +
+        '</span></a>';
       if (config.pageByNumber.active == true) {
         newHTML += '<div class="' + ONOPAGER + '_pageByNumber"/>';
       }
@@ -881,7 +882,7 @@ onoPager.scroller = function(arg_pageScroller,
 
 
   this.init = function(animation, pageNext, pagePrevious) {
-    var listSize = tools.getInnerSize(orientation, list);
+    var listSize = tools.getOuterSize(orientation, list, false);
     listContainerSize = tools.getInnerSize(orientation, listContainer);
     listScrollSize = listSize - listContainerSize;
     var sizeKey = tools.getWidthHeight(orientation);
@@ -1219,6 +1220,12 @@ onoPager.pager = function(arg_index,
 
   // Starts a page transition (triggered by interval)
   function autoPager() {
+    // If the root element of the onoPager is removed in the DOM, the interval
+    // has to be removed.
+    if (listContainer.closest('div.onoPager').size() == 0) {
+      clearInterval(autoPageInterval);
+    }
+
     var canPage = onoPager.tools.canPage(
       listContainer.closest('div.onoPager'),
       lockDuringTransition,
@@ -1342,9 +1349,11 @@ onoPager.pager = function(arg_index,
                   {animation: arg_animation});
     var listSize = 0;
     list.find('*.onoPager_listItem').each(function() {
-      listSize += tools.getInnerSize(orientation, jQuery(this));
+      listSize += tools.getOuterSize(orientation, jQuery(this), false);
     });
-    var overflow = tools.getInnerSize(orientation, listContainer) - listSize;
+    var overflow = tools.getOuterSize(orientation,
+                                      listContainer,
+                                      false) - listSize;
     if (overflow < 0) {
       startAutopager();
     }
@@ -1547,10 +1556,10 @@ onoPager.autopageAnimation.timeline = function(newConfig) {
     // Setup styling
     root.css(
       {
-        width: listContainer.innerWidth(),
+        width: listContainer.outerWidth(),
         position: 'absolute',
         top: listContainer.position().top +
-               listContainer.innerHeight(true) + 'px'
+               listContainer.outerHeight() + 'px'
       }
     );
     bar.css('width', 0);
@@ -1558,7 +1567,7 @@ onoPager.autopageAnimation.timeline = function(newConfig) {
     // Run animation
     bar.animate(
       {
-        width: root.innerWidth() + 'px'
+        width: root.outerWidth() + 'px'
       },
       {
         duration: this._config.autoPageInterval,
@@ -1587,7 +1596,7 @@ onoPager.autopageAnimation.timeline = function(newConfig) {
       function() {
         bar.animate(
           {
-            width: root.innerWidth() + 'px'
+            width: root.outerWidth() + 'px'
           },
           {
             duration: intervalTime,
@@ -1989,12 +1998,7 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
   this._checkMaxScroll = function(arg_scroll) {
     var tools = onoPager.tools;
     var orientation = this._config.orientation;
-    var listSize;
-    if (this._config.pagePerItem == true) {
-      listSize = tools.getInnerSize(orientation, this._config.list);
-    } else {
-      listSize = tools.getInnerSize(orientation, this._config.list);
-    }
+    var listSize = tools.getOuterSize(orientation, this._config.list, false);
     var listContainerSize = tools.getInnerSize(
       orientation,
       this._config.listContainer
@@ -2041,8 +2045,8 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
     if (listItems.size() > 1 && this._config.listContainerHeight == '') {
       var maxHeight = 0;
       listItems.each(function() {
-        if (maxHeight < jQuery(this).innerHeight(true)) {
-          maxHeight = jQuery(this).innerHeight(true);
+        if (maxHeight < jQuery(this).outerHeight()) {
+          maxHeight = jQuery(this).outerHeight();
         }
       });
       listContainer.height(maxHeight);
@@ -2096,8 +2100,10 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
     var listContainer = this._config.listContainer;
     var orientation = this._config.orientation;
     var tools = onoPager.tools;
-    var listSize = tools.getInnerSize(orientation, list);
-    var listContainerSize = tools.getInnerSize(orientation, listContainer);
+    var listSize = tools.getOuterSize(orientation, list, false);
+    var listContainerSize = tools.getOuterSize(orientation,
+                                               listContainer,
+                                               false);
     var listScrollSize = listSize - listContainerSize;
     var listScrollPosition = Math.round(-((listScrollSize / 100) * percentage));
     var offsetKey = tools.getTopLeft(orientation);
@@ -2221,9 +2227,10 @@ onoPager.animation.slides = function(newConfig, extraConfig) {
   slidesInstance.page = function(oldIndex, newIndex, direction) {
     var oldItemLeft = 0;
     var newItemLeft = 0;
-    var pageSize = tools.getInnerSize(
+    var pageSize = tools.getOuterSize(
       slidesInstance._config.orientation,
-      slidesInstance._config.listItems
+      slidesInstance._config.listItems,
+      false
     );
 
     if (oldIndex < newIndex) {
@@ -2496,9 +2503,10 @@ onoPager.animation.linear = function(newConfig, extraConfig) {
         jQuery(this._config.listItems[newIndex])
       );
     } else {
-      var size = tools.getInnerSize(
+      var size = tools.getOuterSize(
         linearInstance._config.orientation,
-        this._config.listContainer
+        this._config.listContainer,
+        false
       );
       offset = size * newIndex;
     }
@@ -2566,9 +2574,10 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
 
   // Width or height of all unique list items, so bar the items that are
   // prepended and appended.
-  var listItemSize = tools.getInnerSize(
+  var listItemSize = tools.getOuterSize(
     linearContinuousInstance._config.orientation,
-    linearContinuousInstance._config.listItems
+    linearContinuousInstance._config.listItems,
+    false
   );
 
   // If list items have a div with the class
@@ -2587,9 +2596,10 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
   var listItemsSize = 0;
 
   // The width or height of the box that is a container for the list.
-  var containerSize = tools.getInnerSize(
+  var containerSize = tools.getOuterSize(
     linearContinuousInstance._config.orientation,
-    linearContinuousInstance._config.listContainer
+    linearContinuousInstance._config.listContainer,
+    false
   );
 
   // The space in pixels between the left border of the container box and the
@@ -2622,17 +2632,19 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
       for (var i = 1; i <= listItems.size(); i++) {
         if (prependSpace < (idleSpace * 2)) {
           prependItemsArray.push(jQuery(listItems.get(-i)).clone(true));
-          itemSize = tools.getInnerSize(
+          itemSize = tools.getOuterSize(
             linearContinuousInstance._config.orientation,
-            jQuery(listItems.get(-i))
+            jQuery(listItems.get(-i)),
+            false
           );
           prependFill += itemSize;
           if (i > 1) {
             prependSpace += itemSize;
           }
-          prependSpace += tools.getInnerSize(
+          prependSpace += tools.getOuterSize(
             linearContinuousInstance._config.orientation,
-            jQuery(listItems.get(-i))
+            jQuery(listItems.get(-i)),
+            false
           );
         } else {
           break;
@@ -2924,13 +2936,15 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
 
   linearContinuousInstance.onPagerCreated = function(move) {
     var root = this._config.listContainer.parent();
-    rootSize = tools.getInnerSize(
+    rootSize = tools.getOuterSize(
       linearContinuousInstance._config.orientation,
-      root
+      root,
+      false
     );
-    var listContainerSize = tools.getInnerSize(
+    var listContainerSize = tools.getOuterSize(
       linearContinuousInstance._config.orientation,
-      this._config.listContainer
+      this._config.listContainer,
+      false
     );
     if (this._config.pagePerItem == true) {
       idleSpace = (rootSize / 2) + listContainerSize;
@@ -2989,9 +3003,10 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
 
     linearContinuousInstance._config.listItems.each(
       function() {
-        listItemsSize += tools.getInnerSize(
+        listItemsSize += tools.getOuterSize(
           linearContinuousInstance._config.orientation,
-          jQuery(this)
+          jQuery(this),
+          false
         );
       }
     );
@@ -3029,9 +3044,10 @@ onoPager.animation.linearScroller = function(newConfig, extraConfig) {
   function checkBounds(currentMargin, list, move) {
     var pagePrevious = linearScrollerInstance._config.pagePrevious;
     var pageNext = linearScrollerInstance._config.pageNext;
-    var listSize = tools.getInnerSize(
+    var listSize = tools.getOuterSize(
       linearScrollerInstance._config.orientation,
-      jQuery(list)
+      jQuery(list),
+      false
     );
     var viewportSize = tools.getInnerSize(
       linearScrollerInstance._config.orientation,
@@ -3159,7 +3175,8 @@ onoPager.tools = (function() {
                       lockDuringTransition,
                       list,
                       listItems) {
-      if (root.hasClass('onoPager_disabled') == false &&
+      if (root.size() > 0 &&
+          root.hasClass('onoPager_disabled') == false &&
           (lockDuringTransition == false ||
           lockDuringTransition == true &&
           list.is(':animated') == false &&
@@ -3232,11 +3249,11 @@ onoPager.tools = (function() {
      * @param {Object} selector jQuery selector.
      * @return {String} Either width or height in pixels.
      */
-    getOuterSize: function(orientation, selector) {
+    getOuterSize: function(orientation, selector, withMargin) {
       if (orientation == HORIZONTAL) {
-        return jQuery(selector).outerWidth(true);
+        return jQuery(selector).outerWidth(withMargin);
       } else if (orientation == VERTICAL) {
-        return jQuery(selector).outerHeight(true);
+        return jQuery(selector).outerHeight(withMargin);
       }
     },
 
@@ -3249,9 +3266,9 @@ onoPager.tools = (function() {
      */
     getInnerSize: function(orientation, selector) {
       if (orientation == HORIZONTAL) {
-        return jQuery(selector).innerWidth(true);
+        return jQuery(selector).innerWidth();
       } else if (orientation == VERTICAL) {
-        return jQuery(selector).innerHeight(true);
+        return jQuery(selector).innerHeight();
       }
     }
   };

@@ -180,10 +180,10 @@ onoPager.autopageAnimation.timeline = function(newConfig) {
     // Setup styling
     root.css(
       {
-        width: listContainer.innerWidth(),
+        width: listContainer.outerWidth(),
         position: 'absolute',
         top: listContainer.position().top +
-               listContainer.innerHeight(true) + 'px'
+               listContainer.outerHeight() + 'px'
       }
     );
     bar.css('width', 0);
@@ -191,7 +191,7 @@ onoPager.autopageAnimation.timeline = function(newConfig) {
     // Run animation
     bar.animate(
       {
-        width: root.innerWidth() + 'px'
+        width: root.outerWidth() + 'px'
       },
       {
         duration: this._config.autoPageInterval,
@@ -220,7 +220,7 @@ onoPager.autopageAnimation.timeline = function(newConfig) {
       function() {
         bar.animate(
           {
-            width: root.innerWidth() + 'px'
+            width: root.outerWidth() + 'px'
           },
           {
             duration: intervalTime,

@@ -178,6 +178,12 @@ onoPager.pager = function(arg_index,
 
   // Starts a page transition (triggered by interval)
   function autoPager() {
+    // If the root element of the onoPager is removed in the DOM, the interval
+    // has to be removed.
+    if (listContainer.closest('div.onoPager').size() == 0) {
+      clearInterval(autoPageInterval);
+    }
+
     var canPage = onoPager.tools.canPage(
       listContainer.closest('div.onoPager'),
       lockDuringTransition,
@@ -301,9 +307,11 @@ onoPager.pager = function(arg_index,
                   {animation: arg_animation});
     var listSize = 0;
     list.find('*.onoPager_listItem').each(function() {
-      listSize += tools.getInnerSize(orientation, jQuery(this));
+      listSize += tools.getOuterSize(orientation, jQuery(this), false);
     });
-    var overflow = tools.getInnerSize(orientation, listContainer) - listSize;
+    var overflow = tools.getOuterSize(orientation,
+                                      listContainer,
+                                      false) - listSize;
     if (overflow < 0) {
       startAutopager();
     }

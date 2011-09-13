@@ -64,7 +64,7 @@ onoPager.scroller = function(arg_pageScroller,
 
 
   this.init = function(animation, pageNext, pagePrevious) {
-    var listSize = tools.getInnerSize(orientation, list);
+    var listSize = tools.getOuterSize(orientation, list, false);
     listContainerSize = tools.getInnerSize(orientation, listContainer);
     listScrollSize = listSize - listContainerSize;
     var sizeKey = tools.getWidthHeight(orientation);

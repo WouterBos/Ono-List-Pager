@@ -268,7 +268,8 @@
       }
       newHTML += '<a' + EMPTY_HREF +
         ' class="' + ONOPAGER + '_previous ' + ONOPAGER + '_step" title="' +
-        config.labels.previous + '">' + config.labels.previous + '</a>';
+        config.labels.previous + '"><span>' + config.labels.previous +
+        '</span></a>';
       if (config.pageByNumber.active == true) {
         newHTML += '<div class="' + ONOPAGER + '_pageByNumber"/>';
       }

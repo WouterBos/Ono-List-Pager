@@ -125,6 +125,15 @@ div.onoPager_greyscale div.onoPager_controls.active a.onoPager_step {
     top: -10px;
 }
 
+div.onoPager_greyscale a.onoPager_step:hover,
+div.onoPager_greyscale a.onoPager_step:hover span {
+  color: #0c0ca6 !important;
+  text-decoration: none !important;
+}
+div.onoPager_greyscale a.onoPager_step:hover span {
+  text-shadow: 0 0 5px #ffffff;
+}
+
 div.onoPager_greyscale.onoPager_animation_linearScroller a.onoPager_step,
 div.onoPager_greyscale.onoPager_disabled.onoPager_animation_linearScroller a.onoPager_step:hover {
     margin-top: -8px;
@@ -133,7 +142,7 @@ div.onoPager_greyscale.onoPager_disabled.onoPager_animation_linearScroller a.ono
     line-height: 0.7em;
     text-decoration: none !important;
 }
-div.onoPager_greyscale.onoPager_animation_linearScroller a.onoPager_step:hover {
+div.onoPager_greyscale.onoPager_animation_linearScroller a.onoPager_step:hover span {
     color: #ff0000;
 }
 
@@ -210,7 +219,8 @@ div.onoPager_greyscale div.onoPager_status,
 div.onoPager_greyscale.onoPager_disabled:hover div.onoPager_status,
 div.onoPager_greyscale.onoPager_disabled div.onoPager_controls.active div.onoPager_status {
     position: absolute;
-    margin-top: -20px;
+    margin-top: -10px;
+    color: #666666;
     text-align: center;
     -moz-transition: all 0.2s ease-out;  
     -o-transition: all 0.2s ease-out;  
@@ -220,7 +230,7 @@ div.onoPager_greyscale.onoPager_disabled div.onoPager_controls.active div.onoPag
 }
 div.onoPager_greyscale:hover div.onoPager_status,
 div.onoPager_greyscale div.onoPager_controls.active div.onoPager_status {
-    margin-top: -10px;
+    margin-top: 0;
 }
 
 

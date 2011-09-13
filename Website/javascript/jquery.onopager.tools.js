@@ -29,7 +29,8 @@ onoPager.tools = (function() {
                       lockDuringTransition,
                       list,
                       listItems) {
-      if (root.hasClass('onoPager_disabled') == false &&
+      if (root.size() > 0 &&
+          root.hasClass('onoPager_disabled') == false &&
           (lockDuringTransition == false ||
           lockDuringTransition == true &&
           list.is(':animated') == false &&
@@ -102,11 +103,11 @@ onoPager.tools = (function() {
      * @param {Object} selector jQuery selector.
      * @return {String} Either width or height in pixels.
      */
-    getOuterSize: function(orientation, selector) {
+    getOuterSize: function(orientation, selector, withMargin) {
       if (orientation == HORIZONTAL) {
-        return jQuery(selector).outerWidth(true);
+        return jQuery(selector).outerWidth(withMargin);
       } else if (orientation == VERTICAL) {
-        return jQuery(selector).outerHeight(true);
+        return jQuery(selector).outerHeight(withMargin);
       }
     },
 
@@ -119,9 +120,9 @@ onoPager.tools = (function() {
      */
     getInnerSize: function(orientation, selector) {
       if (orientation == HORIZONTAL) {
-        return jQuery(selector).innerWidth(true);
+        return jQuery(selector).innerWidth();
       } else if (orientation == VERTICAL) {
-        return jQuery(selector).innerHeight(true);
+        return jQuery(selector).innerHeight();
       }
     }
   };
