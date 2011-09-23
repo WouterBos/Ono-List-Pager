@@ -2,8 +2,11 @@
  * @fileOverview Ono pager (jQuery plugin)
  * @author Wouter Bos, Web developer at Estate Internet (www.estate.nl). Code
  *    for swiping based on the QuickGestures jQuery plugin of Anders Zakrisson.
+ *
+ * Demos an documentation on http://www.thebrightlines.com/onopager/website/
+ *
  * @since 0.1 - 2011-3-28
- * @version 1 - 2011-09-10
+ * @version 1.1 - 2011-09-10
  */
 
 // TODO:

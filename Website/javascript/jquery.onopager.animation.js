@@ -251,12 +251,18 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
   this.getPagesLength = function() {
     var listContainer = this._config.listContainer;
     var listItems = this._config.listItems;
+    var tools = onoPager.tools;
+    var orientation = this._config.orientation;
 
     if (this._config.pagePerItem == true) {
       return this._config.listItems.size();
     } else {
-      var listItemsWidth = (listItems.size() * listItems.outerWidth(true));
-      return Math.ceil(listItemsWidth / listContainer.innerWidth());
+      var listItemsSize = 0;
+      listItems.each(function() {
+        listItemsSize += tools.getInnerSize(orientation, jQuery(this));
+      });
+      return Math.ceil(listItemsSize /
+                       tools.getInnerSize(orientation, listContainer));
     }
   }
 
