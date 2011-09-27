@@ -17,6 +17,7 @@
   <link href="css/page2.css" rel="stylesheet" type="text/css" />
   <link href="css/onoPager-basic.css" rel="stylesheet" type="text/css" />
   <link href="css/onoPager-theme-greyscale.css" rel="stylesheet" type="text/css" />
+  <link href="css/onoPager-theme-coda.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
   <div class="body">
@@ -49,7 +50,7 @@
   
             <h1>Ono List Pager demos</h1>
             <p>The Ono List Pager is a very <strong>configurable jQuery plugin</strong> that creates various <strong>pagers</strong> with HTML lists. Just think of it as a gallery of list items. Read the <strong><a href="http://www.thebrightlines.com/ono-list-pager/">introduction</a></strong> to the Ono List Pager. <strong><a href="http://plugins.jquery.com/project/OnoListPager">Download</a></strong> the plugin.</p>
-            <p>Copyright (c) 2011. The Ono List Pager is written by <a href="http://www.thebrightlines.com/about/">Wouter Bos</a>, web developer at <a href="http://www.estate.nl">Estate Internet</a></p>
+            <p>Copyright (c) 2011. The Ono List Pager is written by <a href="http://www.thebrightlines.com/about/">Wouter Bos</a>, web developer at <a href="http://www.estate.nl">Estate Internet</a>.</p>
           </header>
         </div>
       </div>
@@ -72,7 +73,6 @@
               <option value="linear">Basic (recommended)</option>
               <option value="simplest">The simplest configuration</option>
               <option value="vertical">Vertical orientation</option>
-              <option value="basic">No styling</option>
               <option value="labels">Alternate labels</option>
               <option value="autoAdjustingHeight">Auto adjusting height</option>
               <option value="status">With status box</option>
@@ -85,6 +85,11 @@
               <option value="continuous">Continuous, basic</option>
               <option value="continuousFaux">Continuous, with faux background</option>
               <option value="scroller">Scroller</option>
+            </optgroup>
+            <optgroup label="Themes">
+              <option value="basic">No styling</option>
+              <option value="simplest">Greyscale</option>
+              <option value="coda">Coda</option>
             </optgroup>
             <optgroup label="Autopage">
               <option value="autopage">Basic</option>
@@ -171,6 +176,15 @@
         description: '<p>The simplest configuration you can get for this pager: none at all.</p><p>This version does not require the jQuery easing plugin, but as you can see: the animation is rather dull.</p>',
         html: standardHtml,
         config: "{}\n",
+        animationConfig: "{}"
+      },
+      coda: {
+        description: '<p>A theme for all the <a href="http://www.ndoherty.biz/demos/coda-slider/2.0/">Coda pager</a> lovers.</p><p>This version does not require the jQuery easing plugin, but as you can see: the animation is rather dull.</p>',
+        html: standardHtml,
+        config: "{\n" +
+                "  cssClass: 'onoPager_coda',\n" +
+                "  animationEasing: 'easeOutCubic'\n" +
+                "}\n",
         animationConfig: "{}"
       },
       status: {

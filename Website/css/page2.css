@@ -209,7 +209,15 @@ div.content {
 div.content1 {
   border-bottom: 1px solid #8c8cff;
   min-height: 0;
-  background: #e6e6ff;
+
+  background-color: #ffffff;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#eeeeee)); 
+  background-image: -webkit-linear-gradient(top, #ffffff, #eeeeee); 
+  background-image:    -moz-linear-gradient(top, #ffffff, #eeeeee); 
+  background-image:     -ms-linear-gradient(top, #ffffff, #eeeeee); 
+  background-image:      -o-linear-gradient(top, #ffffff, #eeeeee); 
+  background-image:         linear-gradient(top, #ffffff, #eeeeee);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff', EndColorStr='#eeeeee'); 
 }
 div.content1:after {
   clear: both;
