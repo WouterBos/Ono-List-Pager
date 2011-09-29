@@ -6,10 +6,11 @@
  * Demos an documentation on http://www.thebrightlines.com/onopager/website/
  *
  * @since 0.1 - 2011-3-28
- * @version 1.1 - 2011-09-10
+ * @version 1.1.1 - 2011-27-10
  */
 
 // TODO:
+// - Solve bug reported by Bartosz Wesolowski
 // - Pause autopaging during a hover on a pager.
 // - Play/pause-button for autopager
 // - pageByNumber should have a 'last' and 'first'-link.

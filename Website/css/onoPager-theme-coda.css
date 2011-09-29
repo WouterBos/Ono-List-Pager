@@ -5,7 +5,7 @@
 
 div.onoPager_coda div.onoPager_controls{
 	position: absolute;
-	top:-19px;
+	top: 0;
 	left: 0;
 }
 
@@ -33,7 +33,7 @@ div.onoPager_coda div.onoPager_controls div.onoPager_pageByNumber,
 div.onoPager_coda.onoPager_disabled:hover div.onoPager_controls a.onoPager_step,
 div.onoPager_coda.onoPager_disabled:hover div.onoPager_controls div.onoPager_pageByNumber {
     min-height: 0;
-    font-size: 0.9em;
+    font-size: 1em;
 }
 
 div.onoPager_coda div.onoPager_controls:after {
@@ -64,20 +64,23 @@ div.onoPager_coda.onoPager_disabled:hover a.onoPager_step,
 div.onoPager_coda.onoPager_disabled div.onoPager_controls.active a.onoPager_step {
     position: relative;
     z-index: 1;
-		background: #000;
+    width: 90px;
+    padding: 1px 0;
     color: #fff;
-    padding: 1px 4px;
+    font-size: 1.2em !important;
+    text-align: center;
+	background: #000;
 }
 
 div. div.onoPager_coda div.onoPager_coda a.onoPager_step {
-		bottom: -18px;
+	bottom: -18px;
 }
 
 div.onoPager_coda div.onoPager_controls a.onoPager_step:hover {
 	text-decoration: none;
 }
 
-div.onoPager_coda div.onoPager_controls a.onoPager_step span{
+div.onoPager_coda div.onoPager_controls a.onoPager_step span {
 	color: #fff;
 }
 
@@ -103,20 +106,13 @@ div.onoPager_coda a.onoPager_step.disabled {
 }
 
 div.onoPager_coda a.onoPager_previous {
-    float: left;
-} 
-
-div.onoPager_coda a.onoPager_next {
-    float: right;
-}
-
-div.onoPager_coda a.onoPager_previous {
 	position: absolute;
-	left: 0;
+	left: -100px;
 } 
 
 div.onoPager_coda a.onoPager_next {
-	right: 0;
+	position: absolute;
+	right: -100px;
 }
 
 div.onoPager_coda.msie7 a.onoPager_next {
@@ -130,6 +126,7 @@ div.onoPager_coda div.onoPager_pageByNumber,
 div.onoPager_coda.onoPager_disabled:hover div.onoPager_pageByNumber,
 div.onoPager_coda.onoPager_disabled div.onoPager_controls.active div.onoPager_pageByNumber {
     position: absolute;
+    top: -18px;
     text-align: center;
 }
 div.onoPager_coda div.onoPager_pageByNumber a {

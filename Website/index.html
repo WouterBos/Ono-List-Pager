@@ -170,6 +170,12 @@
                           '  <div class="onoPager_listItem">Lorem ipsum dolor sit amet site amet site amet. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. Donec vel risus diam. Vestibulum posuere tristique Etiam vitae massa</div>\n' +
                           '  <div class="onoPager_listItem">Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</div>\n' +
                           '</div>\n';
+    var shortListHtml = '<ul class="onoPager_noJs">\n' +
+              '  <li>This basic pager offers paging per item. It also offers a &ldquo;previous&rdquo; and next &ldquo;next&rdquo; button. it also offers direct links to each page item.</li>\n' +
+              ' <li>Second item Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>\n' +
+              '  <li>Third item Lorem ipsum dolor sit amet site amet site amet. Etiam vitae massa</li>\n' +
+              '  <li>Fourth item Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>\n' +
+              '</ul>'
     
     var pagers = {
       simplest: {
@@ -180,10 +186,18 @@
       },
       coda: {
         description: '<p>A theme for all the <a href="http://www.ndoherty.biz/demos/coda-slider/2.0/">Coda pager</a> lovers.</p><p>This version does not require the jQuery easing plugin, but as you can see: the animation is rather dull.</p>',
-        html: standardHtml,
+        html: shortListHtml,
         config: "{\n" +
                 "  cssClass: 'onoPager_coda',\n" +
-                "  animationEasing: 'easeOutCubic'\n" +
+                "  animationEasing: 'easeOutCubic',\n" +
+                "  labels: {\n" +
+                "    next: 'next &raquo;',\n" +
+                "    previous: '&laquo; previous'\n" +
+                "  },\n" +
+                "  pageByNumber: {\n" +
+                "    labels: ['Page 1', 'Page 2', 'Page 3', 'Page 4']\n" +
+                "  },\n" +
+                "  doesLoop: false,\n" +
                 "}\n",
         animationConfig: "{}"
       },
@@ -285,7 +299,7 @@
         animationConfig: "{}"
       },
       vertical: {
-        description: 'In this example the slides animete on the vertical axis instead of the horizontal one. The option that makes it possible is <code>orientation: \'vertical\'</code>.',
+        description: 'In this example the slides animate on the vertical axis instead of the horizontal one. The option that makes it possible is <code>orientation: \'vertical\'</code>.',
         html: standardHtml,
         config: "{\n" +
                 "  doesLoop: false,\n" +
@@ -416,12 +430,7 @@
       },
       labels: {
         description: 'In this case the numbers in the navigation controls are replaced with text. To get this you\'ll need the following configuration: <code>pageByNumber: { labels: [\'Sed\', \'Elit\', \'Dui\', \'Non\'] }</code>', 
-        html: '<ul class="onoPager_noJs">\n' +
-              '  <li>This basic pager offers paging per item. It also offers a &ldquo;previous&rdquo; and next &ldquo;next&rdquo; button. it also offers direct links to each page item.</li>\n' +
-              ' <li>Second item Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>\n' +
-              '  <li>Third item Lorem ipsum dolor sit amet site amet site amet. Etiam vitae massa</li>\n' +
-              '  <li>Fourth item Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>\n' +
-              '</ul>',
+        html: shortListHtml,
         config: "{\n" +
                 "  listContainer: {\n" +
                 "    width: '280px',\n" +
