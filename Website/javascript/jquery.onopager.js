@@ -6,10 +6,11 @@
  * Demos an documentation on http://www.thebrightlines.com/onopager/website/
  *
  * @since 0.1 - 2011-3-28
- * @version 1.1 - 2011-09-10
+ * @version 1.1.1 - 2011-27-10
  */
 
 // TODO:
+// - Solve bug reported by Bartosz Wesolowski
 // - Pause autopaging during a hover on a pager.
 // - Play/pause-button for autopager
 // - pageByNumber should have a 'last' and 'first'-link.
@@ -1955,7 +1956,8 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
     }
 
     if (containerHeightSetCount == 0) {
-      if (_config.adjustHeightToListItem.animate == true) {
+      // Set height during init
+      if (_config.adjustHeightToListItem.active == true) {
         if (_config.listContainerHeight == '') {
           _config.listContainer.css(
             {
@@ -1970,17 +1972,27 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
           );
         }
       }
-    } else if (_config.adjustHeightToListItem.animate == true) {
-      _config.listContainer.stop(true, true);
-      _config.listContainer.animate(
-        {
-          height: itemHeight
-        },
-        {
-          duration: _config.animationSpeed,
-          easing: _config.animationEasing
-        }
-      );
+    } else if (_config.adjustHeightToListItem.active == true) {
+      // Set height after paging
+
+      if (_config.adjustHeightToListItem.animate == true) {
+        _config.listContainer.stop(true, true);
+        _config.listContainer.animate(
+          {
+            height: itemHeight
+          },
+          {
+            duration: _config.animationSpeed,
+            easing: _config.animationEasing
+          }
+        );
+      } else {
+        _config.listContainer.css(
+          {
+            height: itemHeight
+          }
+        );
+      }
     }
     containerHeightSetCount++;
   }
@@ -2151,8 +2163,8 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
 
   // _page is a wrapper method for animationinstance.page()
   this._page = function(oldIndex, newIndex, direction) {
-    this.page(oldIndex, newIndex, direction);
     setContainerHeight(this._config, newIndex);
+    this.page(oldIndex, newIndex, direction);
   }
 
   /**
@@ -2523,7 +2535,11 @@ onoPager.animation.linear = function(newConfig, extraConfig) {
     // Adjust the list offset to make sure that the list container is filled
     // with list items at all times. This might not be the case when
     // pagePerItem in the pager config is not set to true
-    offset = this._checkMaxScroll(offset);
+    if (this._config.adjustHeightToListItem.animate != true &&
+        this._config.adjustHeightToListItem.active != true &&
+        this._config.orientation == 'vertical') {
+      offset = this._checkMaxScroll(offset);
+    }
 
     // Set animate style properties
     var cssObj = {};
