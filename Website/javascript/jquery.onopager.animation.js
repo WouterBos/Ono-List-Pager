@@ -196,7 +196,6 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
       }
     } else if (_config.adjustHeightToListItem.active == true) {
       // Set height after paging
-
       if (_config.adjustHeightToListItem.animate == true) {
         _config.listContainer.stop(true, true);
         _config.listContainer.animate(
