@@ -10,6 +10,7 @@
  */
 
 // TODO:
+// - Option to hide navigation controls altogether
 // - Solve bug reported by Bartosz Wesolowski
 // - Pause autopaging during a hover on a pager.
 // - Play/pause-button for autopager
