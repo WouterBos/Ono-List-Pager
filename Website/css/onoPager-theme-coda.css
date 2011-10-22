@@ -74,11 +74,14 @@ div.onoPager_coda div.onoPager_controls a.onoPager_step span {
 
 
 div.onoPager_coda.onoPager_animation_linearScroller a.onoPager_step {
-    margin-top: -8px;
     outline: 0;
     font-size: 3em !important;
     line-height: 0.7em;
     text-decoration: none !important;
+}
+div.onoPager_coda.onoPager_animation_linearScroller a.onoPager_step span {
+	position: relative;
+	top: -3px;
 }
 
 div.onoPager_coda a.onoPager_step.disabled {
@@ -147,14 +150,12 @@ div.onoPager_coda div.onoPager_status span {
 
 
 /* Controls - Scrollbar */
-div.onoPager_coda div.onoPager_scroller,
-div.onoPager_coda.onoPager_disabled:hover div.onoPager_scroller,
-div.onoPager_coda.onoPager_disabled div.onoPager_scroller.active {
+div.onoPager_coda div.onoPager_scroller {
     -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
     filter: alpha(opacity=0);
-    margin-left: 1px;
+    margin-left: -1px;
     opacity: 0;
-    background: rgba(0, 0, 0, 0.05);
+    background: #EBEBEB;
 }
 div.onoPager_coda.msie7 div.onoPager_scroller,
 div.onoPager_coda.msie8 div.onoPager_scroller {
@@ -165,19 +166,19 @@ div.onoPager_coda div.onoPager_scroller.active {
     -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
     filter: alpha(opacity=100);
     opacity: 1;
-    box-shadow: 1px 1px 3px 1px #ccc;
 }
 
 div.onoPager_coda div.onoPager_scrollerHandle,
 div.onoPager_coda.onoPager_disabled div.onoPager_scrollerHandle:hover,
 div.onoPager_coda.onoPager_disabled div.onoPager_scroller.active div.onoPager_scrollerHandle {
-    width: 10px;
-    height: 10px;
-    border-radius: 10px;
+    border: 1px solid #000000;
+    width: 8px;
+    height: 8px;
+    background: #000000
 }
 div.onoPager_coda div.onoPager_scrollerHandle:hover,
 div.onoPager_coda div.onoPager_scroller.active div.onoPager_scrollerHandle {
-    background: #333333;
+    background: #3399CC;
 }
 
 
@@ -189,9 +190,22 @@ div.onoPager_autopageAnimation_clock {
 
 div.onoPager_autopageAnimation_clock canvas {
     position: absolute;
-    top: -116px;
-    right: -32px;
+    top: 30px;
+    right: -29px;
 }
+
+
+
+
+/* Controls - timeline */
+div.onoPager_autopageAnimation_timeline {
+  	background: #EBEBEB;
+}
+
+div.onoPager_autopageAnimation_timeline div.onoPager_autoPageBar {
+  	background: #000000;
+}
+
 
 
 
