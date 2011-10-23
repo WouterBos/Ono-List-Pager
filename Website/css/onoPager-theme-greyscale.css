@@ -220,6 +220,7 @@ div.onoPager_greyscale.onoPager_disabled:hover div.onoPager_status,
 div.onoPager_greyscale.onoPager_disabled div.onoPager_controls.active div.onoPager_status {
     position: absolute;
     margin-top: -10px;
+    width: 100%;
     color: #666666;
     text-align: center;
     -moz-transition: all 0.2s ease-out;  
@@ -272,11 +273,11 @@ div.onoPager_greyscale div.onoPager_scroller.active div.onoPager_scrollerHandle 
 
 
 /* Controls - autopage animation */
-div.onoPager_autopageAnimation_clock {
+div.onoPager_greyscale.onoPager_autopageAnimation_clock {
     position: relative;
 }
 
-div.onoPager_autopageAnimation_clock canvas {
+div.onoPager_greyscale.onoPager_autopageAnimation_clock canvas {
     position: absolute;
     top: -116px;
     right: -32px;
@@ -288,9 +289,6 @@ div.onoPager_autopageAnimation_clock canvas {
 /* Animation type - linearContinuous */
 div.onoPager_greyscale.onoPager_animation_linearContinuous:hover div.onoPager_listContainer {
     top: 0;  
-}
-
-div.onoPager_greyscale.onoPager_animation_linearContinuous div.onoPager_listContainer {
 }
 
 div.onoPager_greyscale.onoPager_animation_linearContinuous div.onoPager_listContainer.onoPager_backgroundAnimation {

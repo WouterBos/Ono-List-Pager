@@ -336,10 +336,10 @@ div.content2 h1 {
   margin-bottom: 1em; 
 }
 
+
 div.onoPager_coda {
 	margin-left: 80px;
 }
-
 
 
 
@@ -360,7 +360,6 @@ div.#editDemo_result.scroller div.onoPager {
 div.onoPager_animation_linearContinuous {
   float: none;
   width: 100%;
-  overflow: hidden;
 }
 
 div.onoPager_animation_linearContinuous div.onoPager_listContainer {

@@ -289,16 +289,28 @@
           ONOPAGER + '_scrollerHandle"></div></div>';
       }
       root.append(
-        '<div class="' + ONOPAGER + '_controls">' + newHTML + '</div>'
+        '<div class="' + ONOPAGER + '_controlsContainer">' +
+        ' <div class="' + ONOPAGER + '_controls">' + newHTML + '</div>' +
+        '</div>'
       );
 
-      pageNext = root.find('> * > a.' + ONOPAGER + '_next');
-      pagePrevious = root.find('> * > a.' + ONOPAGER + '_previous');
-      pageByNumber = root.find('> * > div.' + ONOPAGER + '_pageByNumber');
-      pageStatus = root.find('> * > div.' + ONOPAGER + '_status span');
-      pageScroller = root.find('> * > div.' + ONOPAGER + '_scroller');
+      pageNext = root.find(
+        'div.' + ONOPAGER + '_controls > a.' + ONOPAGER + '_next'
+      );
+      pagePrevious = root.find(
+        'div.' + ONOPAGER + '_controls > a.' + ONOPAGER + '_previous'
+      );
+      pageByNumber = root.find(
+        'div.' + ONOPAGER + '_controls > div.' + ONOPAGER + '_pageByNumber'
+      );
+      pageStatus = root.find(
+        'div.' + ONOPAGER + '_controls > div.' + ONOPAGER + '_status span'
+      );
+      pageScroller = root.find(
+        'div.' + ONOPAGER + '_controls > div.' + ONOPAGER + '_scroller'
+      );
       autoPageContainer = root.find(
-        '> * > div.' + ONOPAGER + '_autoPageContainer'
+        'div.' + ONOPAGER + '_controls > div.' + ONOPAGER + '_autoPageContainer'
       );
       if (config.listContainer.width) {
         root.find('.' + ONOPAGER + '_controls').css(

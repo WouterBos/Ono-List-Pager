@@ -64,7 +64,7 @@ div.onoPager_coda.onoPager_disabled div.onoPager_controls.active a.onoPager_step
 	background: #000;
 }
 
-div. div.onoPager_coda div.onoPager_coda a.onoPager_step {
+div.onoPager_coda a.onoPager_step {
 	bottom: -18px;
 }
 
@@ -184,11 +184,7 @@ div.onoPager_coda div.onoPager_scroller.active div.onoPager_scrollerHandle {
 
 
 /* Controls - autopage animation */
-div.onoPager_autopageAnimation_clock {
-    position: relative;
-}
-
-div.onoPager_autopageAnimation_clock canvas {
+div.onoPager_coda div.onoPager_autopageAnimation_clock canvas {
     position: absolute;
     top: 30px;
     right: -29px;
@@ -198,11 +194,11 @@ div.onoPager_autopageAnimation_clock canvas {
 
 
 /* Controls - timeline */
-div.onoPager_autopageAnimation_timeline {
+div.onoPager_coda div.onoPager_autopageAnimation_timeline {
   	background: #EBEBEB;
 }
 
-div.onoPager_autopageAnimation_timeline div.onoPager_autoPageBar {
+div.onoPager_coda div.onoPager_autopageAnimation_timeline div.onoPager_autoPageBar {
   	background: #000000;
 }
 
@@ -211,11 +207,20 @@ div.onoPager_autopageAnimation_timeline div.onoPager_autoPageBar {
 
 
 /* Animation type - linearContinuous */
-div.onoPager_coda.onoPager_animation_linearContinuous:hover div.onoPager_listContainer {
-    top: 0;  
+div.onoPager_coda.onoPager_animation_linearContinuous {
+  padding-top: 22px;
 }
 
-div.onoPager_coda.onoPager_animation_linearContinuous div.onoPager_listContainer {
+div.onoPager_coda.onoPager_animation_linearContinuous div.onoPager_controlsContainer {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 22px;
+}
+
+div.onoPager_coda.onoPager_animation_linearContinuous div.onoPager_controls {
+	position: relative;
+	margin: 0 auto;
 }
 
 div.onoPager_coda.onoPager_animation_linearContinuous div.onoPager_listContainer.onoPager_backgroundAnimation {

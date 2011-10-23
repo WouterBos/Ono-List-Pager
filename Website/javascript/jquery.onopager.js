@@ -10,6 +10,7 @@
  */
 
 // TODO:
+// - Option to hide navigation controls altogether
 // - Solve bug reported by Bartosz Wesolowski
 // - Pause autopaging during a hover on a pager.
 // - Play/pause-button for autopager
@@ -281,23 +282,35 @@
         ONOPAGER + '_step" ' + 'title="' + config.labels.next + '"><span>' +
         config.labels.next + '</span></a>';
       if (config.status.active == true) {
-        newHTML += '<div class="' + ONOPAGER + '_status" />';
+        newHTML += '<div class="' + ONOPAGER + '_status"><span></span></div>';
       }
       if (config.scroller.active == true) {
         newHTML += '<div class="' + ONOPAGER + '_scroller"><div class="' +
           ONOPAGER + '_scrollerHandle"></div></div>';
       }
       root.append(
-        '<div class="' + ONOPAGER + '_controls">' + newHTML + '</div>'
+        '<div class="' + ONOPAGER + '_controlsContainer">' +
+        ' <div class="' + ONOPAGER + '_controls">' + newHTML + '</div>' +
+        '</div>'
       );
 
-      pageNext = root.find('> * > a.' + ONOPAGER + '_next');
-      pagePrevious = root.find('> * > a.' + ONOPAGER + '_previous');
-      pageByNumber = root.find('> * > div.' + ONOPAGER + '_pageByNumber');
-      pageStatus = root.find('> * > div.' + ONOPAGER + '_status');
-      pageScroller = root.find('> * > div.' + ONOPAGER + '_scroller');
+      pageNext = root.find(
+        'div.' + ONOPAGER + '_controls > a.' + ONOPAGER + '_next'
+      );
+      pagePrevious = root.find(
+        'div.' + ONOPAGER + '_controls > a.' + ONOPAGER + '_previous'
+      );
+      pageByNumber = root.find(
+        'div.' + ONOPAGER + '_controls > div.' + ONOPAGER + '_pageByNumber'
+      );
+      pageStatus = root.find(
+        'div.' + ONOPAGER + '_controls > div.' + ONOPAGER + '_status span'
+      );
+      pageScroller = root.find(
+        'div.' + ONOPAGER + '_controls > div.' + ONOPAGER + '_scroller'
+      );
       autoPageContainer = root.find(
-        '> * > div.' + ONOPAGER + '_autoPageContainer'
+        'div.' + ONOPAGER + '_controls > div.' + ONOPAGER + '_autoPageContainer'
       );
       if (config.listContainer.width) {
         root.find('.' + ONOPAGER + '_controls').css(
@@ -1974,7 +1987,6 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
       }
     } else if (_config.adjustHeightToListItem.active == true) {
       // Set height after paging
-
       if (_config.adjustHeightToListItem.animate == true) {
         _config.listContainer.stop(true, true);
         _config.listContainer.animate(
