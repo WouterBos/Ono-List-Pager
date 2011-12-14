@@ -10,8 +10,9 @@
  */
 
 // TODO:
+// - Offer some sort of interface to control OnoPager after the UI object is created.
+// - Cancel loading of images until (almost) needed.
 // - Option to hide navigation controls altogether
-// - Solve bug reported by Bartosz Wesolowski
 // - Pause autopaging during a hover on a pager.
 // - Play/pause-button for autopager
 // - pageByNumber should have a 'last' and 'first'-link.
