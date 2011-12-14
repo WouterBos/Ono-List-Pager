@@ -65,7 +65,7 @@ div.onoPager_coda.onoPager_disabled div.onoPager_controls.active a.onoPager_step
 }
 
 div.onoPager_coda a.onoPager_step {
-	bottom: -18px;
+	bottom: -22px;
 }
 
 div.onoPager_coda div.onoPager_controls a.onoPager_step span {
@@ -102,10 +102,6 @@ div.onoPager_coda a.onoPager_next {
 	right: -100px;
 }
 
-div.onoPager_coda.msie7 a.onoPager_next {
-		right: -10px
-}
-
 
 
 /* Controls - Page by number */
@@ -115,19 +111,28 @@ div.onoPager_coda.onoPager_disabled div.onoPager_controls.active div.onoPager_pa
     top: -18px;
     text-align: center;
 }
+
 div.onoPager_coda div.onoPager_pageByNumber a {
     margin-right: 1px;
     text-decoration: none !important;
 }
+
 div.onoPager_coda div.onoPager_pageByNumber a span {
     padding: 2px 4px;
 	background: #000;
 	color: #fff;
 }
+
+div.onoPager_coda.msie7  div.onoPager_pageByNumber a span {
+	display: inline-block;
+    padding-top: 1px;
+	padding-bottom: 1px;
+}
+
 div.onoPager_coda div.onoPager_pageByNumber a.onoPager_active span {
     cursor: default;
-		background: #39c;
-		font-weight: normal
+	background: #39c;
+	font-weight: normal
 }
 
 
