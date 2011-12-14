@@ -6,7 +6,7 @@
  * Demos an documentation on http://www.thebrightlines.com/onopager/website/
  *
  * @since 0.1 - 2011-3-28
- * @version 1.1.1 - 2011-27-10
+ * @version 1.1.2 - 2011-14-12
  */
 
 // TODO:
