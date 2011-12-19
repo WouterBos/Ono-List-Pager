@@ -11,6 +11,7 @@
 
 /*
 TODO:
+- Disable tooltip on next/prev link
 - Do nothing if there are no list items
 - Update labels demo (alter text prev and next button)
 - Restructure OnoPager CSS
