@@ -9,15 +9,20 @@
  * @version 1.1.2 - 2011-14-12
  */
 
-// TODO:
-// - Offer some sort of interface to control OnoPager after the UI object is created.
-// - Cancel loading of images until (almost) needed.
-// - Option to hide navigation controls altogether
-// - Pause autopaging during a hover on a pager.
-// - Play/pause-button for autopager
-// - pageByNumber should have a 'last' and 'first'-link.
-// - Build support for scroll wheel
-// - Highlight arrow key when pressing an arrow key on keyboard
+/*
+TODO:
+- Do nothing if there are no list items
+- Update labels demo (alter text prev and next button)
+- Restructure OnoPager CSS
+- Offer some sort of interface to control OnoPager after the UI object is created.
+- Cancel loading of images until (almost) needed.
+- Option to hide navigation controls altogether
+- Pause autopaging during a hover on a pager.
+- Play/pause-button for autopager
+- pageByNumber should have a 'last' and 'first'-link.
+- Build support for scroll wheel
+- Highlight arrow key when pressing an arrow key on keyboard
+*/
 
 (function($) {
   /**
