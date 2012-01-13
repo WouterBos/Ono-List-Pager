@@ -100,6 +100,7 @@ onoPager.pager = function(arg_index,
   // Update the paging controls
   function setPagerButtons(index) {
     var DISABLED = 'disabled';
+    var ENABLED = 'enabled';
     if (controls.gotoLinks) {
       var activeLink = controls.gotoLinks.find('a:eq(' + index + ')');
       activeLink.siblings().removeClass('onoPager_active');
@@ -111,16 +112,16 @@ onoPager.pager = function(arg_index,
 
     if (controls.previous && doesLoop == false) {
       if (index == 0) {
-        controls.previous.addClass(DISABLED);
+        controls.previous.addClass(DISABLED).removeClass(ENABLED);
       } else {
-        controls.previous.removeClass(DISABLED);
+        controls.previous.removeClass(DISABLED).addClass(ENABLED);
       }
     }
     if (controls.next && doesLoop == false) {
       if (index == (length - 1)) {
-        controls.next.addClass(DISABLED);
+        controls.next.addClass(DISABLED).removeClass(ENABLED);
       } else {
-        controls.next.removeClass(DISABLED);
+        controls.next.removeClass(DISABLED).addClass(ENABLED);
       }
     }
     if (controls.status) {
