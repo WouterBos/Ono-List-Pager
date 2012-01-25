@@ -42,6 +42,20 @@ onoPager.tools = (function() {
     },
 
     /**
+     * Determines wether the onoPager may do an auto page
+     * @return {Boolean} An auto page can be done if return value is true.
+     * @param {Object} root The root object of a pager (div.onoPager).
+     */
+    canAutoPage: function(root) {
+      if (root.size() > 0 &&
+          root.hasClass('onoPager_autoPageDisabled') == false) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+
+    /**
      * Returns either left or top position in pixels relative to the page.
      * @param {Object} orientation Either 'horizontal' or 'vertical'.
      * @param {Object} selector jQuery selector.

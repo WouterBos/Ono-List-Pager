@@ -191,8 +191,11 @@ onoPager.pager = function(arg_index,
       list,
       list.find('> *.onoPager_listItem')
     );
+    var canAutoPage = onoPager.tools.canAutoPage(
+      listContainer.closest('div.onoPager')
+    );
 
-    if (canPage) {
+    if (canPage == true && canAutoPage == true) {
       if (doesLoop == false && (index == (length - 1))) {
         clearInterval(autoPageInterval);
       }
@@ -315,6 +318,15 @@ onoPager.pager = function(arg_index,
                                       false) - listSize;
     if (overflow < 0) {
       startAutopager();
+    }
+    
+    if (autoPageConfig.pauseOnHover == true) {
+      arg_listContainer.closest('.onoPager').mouseenter(function() {
+        jQuery(this).addClass('onoPager_autoPageDisabled');
+      });
+      arg_listContainer.closest('.onoPager').mouseleave(function() {
+        jQuery(this).removeClass('onoPager_autoPageDisabled');
+      });
     }
   }
 

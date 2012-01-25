@@ -73,7 +73,7 @@
               <option value="linear">Basic (recommended)</option>
               <option value="simplest">The simplest configuration</option>
               <option value="vertical">Vertical orientation</option>
-              <option value="labels">Alternate labels</option>
+              <option value="labels">Alternative links and labels</option>
               <option value="autoAdjustingHeight">Auto adjusting height</option>
               <option value="status">With status box</option>
               <option value="nonSemantic">Non-semantic markup</option>
@@ -95,7 +95,8 @@
               <option value="autopage">Basic</option>
               <option value="autopageTimeline">Time indicator 'timeline'</option>
               <option value="autopageClock">Time indicator 'clock' (IE9+)</option>
-              <option value="autopageDisable">Disable (auto)pager</option>
+              <option value="autopageDisable">Disable auto pager</option>
+              <option value="autopageDisableHover">Disable auto pager on hover</option>
             </optgroup>
           </select>
         </div>
@@ -431,7 +432,7 @@
         animationConfig: "{}"
       },
       labels: {
-        description: 'In this case the numbers in the navigation controls are replaced with text. To get this you\'ll need the following configuration: <code>pageByNumber: { labels: [\'Sed\', \'Elit\', \'Dui\', \'Non\'] }</code>', 
+        description: '<p>In this case the numbers in the navigation controls are replaced with alternative text and the default click behaviour is replaced with a standard link behaviour: an onclick will open an URL.</p><p>To get this you\'ll need the following configuration: <code>pageByNumber: { labels: [\'Sed\', \'Elit\'], links: [\'http://www.google.com\', \'http://www.google.com\'] }</code></p>', 
         html: shortListHtml,
         config: "{\n" +
                 "  listContainer: {\n" +
@@ -443,7 +444,8 @@
                 "    height: '80px'\n" +
                 "  },\n" +
                 "  pageByNumber: {\n" +
-                "    labels: ['Sed', 'Elit', 'Dui', 'Non']\n" +
+                "    labels: ['Sed', 'Elit', 'Dui', 'Non'],\n" +
+                "    links: ['http://www.google.com', 'http://www.yahoo.com', 'http://www.bing.com', 'http://www.twitter.com']\n" +
                 "  },\n" +
                 "  animationType: 'linear',\n" +
                 "  animationEasing: 'easeOutCubic',\n" +
@@ -567,7 +569,7 @@
         animationConfig: "{}"
       },
       autopageDisable: {
-        description: 'You can simply enable or disable a pager. You can do this with any pager, but it is especially handy to halt an auto pager. <a href="javascript: void" class="js_toggleDisable">Disable</a>.', 
+        description: '<p>You can simply disable a pager by adding the class <code>onoPager_disabled</code> to the root element of the pager (the one with the class <code>onoPager</code>).</p><p>You can disable any pager, but it is especially handy for auto pagers. <a href="javascript: void" class="js_toggleDisable">Disable</a>.</p>', 
         html: standardHtml,
         config: "{\n" +
                 "  listContainer: {\n" +
@@ -581,6 +583,37 @@
                 "  autoPage: {\n" +
                 "    active: true,\n" +
                 "    interval: 3000\n" +
+                "  },\n" +
+                "  pageByArrowKey: {\n" +
+                "    active: true,\n" +
+                "    preventDefault: false\n" +
+                "  },\n" +
+                "  pageByNumber: {\n" +
+                "    hideThreshold: 1\n" +
+                "  },\n" +
+                "  swipeTriggersPage: true,\n" +
+                "  animationType: 'linear',\n" +
+                "  animationEasing: 'easeOutCubic',\n" +
+                "  animationSpeed: 1000\n" +
+                "}\n",
+        animationConfig: "{}"
+      },
+      autopageDisableHover: {
+        description: '<p>By adding <code>autoPage: { pauseOnHover: true }</code> you can disable a pager when you hover over the pager. Logical, right? :)</p>', 
+        html: standardHtml,
+        config: "{\n" +
+                "  listContainer: {\n" +
+                "    width: '280px',\n" +
+                "    height: '100px'\n" +
+                "  },\n" +
+                "  listItems: {\n" +
+                "    width: '260px',\n" +
+                "    height: '80px'\n" +
+                "  },\n" +
+                "  autoPage: {\n" +
+                "    active: true,\n" +
+                "    interval: 3000,\n" +
+                "    pauseOnHover: true\n" +
                 "  },\n" +
                 "  pageByArrowKey: {\n" +
                 "    active: true,\n" +
