@@ -11,6 +11,7 @@
 
 /*
 TODO:
+- Create demo for arg_config.pageByNumber.enableHover
 - Disable tooltip on next/prev link
 - Do nothing if there are no list items
 - Update labels demo (alter text prev and next button)
@@ -147,6 +148,9 @@ TODO:
    * @param {Array} arg_config.pageByNumber.links Overrides the default click
    *    behavior of the page-by-number links. If you supply an array of URL's,
    *    they will behave like standard links that point to an URL.
+   * 
+   * @param {Boolean} arg_config.pageByNumber.enableHover Initiates a page
+   *    when the mouse is hovered over a page by number item.
    * 
    * @param {Boolean} arg_config.pageByArrowKey.active Enables paging by
    *    using the keyboard arrow keys. Default is false.
@@ -485,6 +489,7 @@ TODO:
       function setPageEvent() {
         var eventTypes = '';
         var pageTimeout;
+        // TODO: change 'enableClick' into something like: interactive
         if (config.pageByNumber.enableClick == true) {
           pageByNumber.find('a').each(function(index) {
             $(this).click(function(event) {

@@ -12,6 +12,5 @@ copy/b %folder%\jquery.onopager.js + %folder%\jquery.onopager.tools.js %folder%\
 :: If this line below fails, try to replace "java" with something like "C:\Program Files (x86)\Java\jre6\bin\java.exe"
 "C:\Program Files (x86)\Java\jre6\bin\java.exe" -jar yuicompressor-2.4.2\build\yuicompressor-2.4.2.jar %folder%jquery.onopager.js -o %folder%jquery.onopager.min.js
 
-echo .
-echo Selected Javascript files are minified and combined into '%folder%jquery.onopager.js'.
+echo The Javascript files are now minified and combined into '%folder%jquery.onopager.min.js'.
 pause
