@@ -508,15 +508,15 @@ TODO:
                 pageTimeout = setTimeout(
                   function() {
                     page(index);
-                    root.addClass('onoPager_disabled');
+                    //root.addClass('onoPager_disabled');
                   },
                   150
                 );
               }
             });
-            $(this).mouseleave(function(event) {
-              root.removeClass('onoPager_disabled');
-            });
+            //$(this).mouseleave(function(event) {
+            //  root.removeClass('onoPager_disabled');
+            //});
           });
         }
 

@@ -16,7 +16,7 @@ TODO:
 - Do nothing if there are no list items
 - Update labels demo (alter text prev and next button)
 - Restructure OnoPager CSS
-- Offer some sort of interface to control OnoPager after the UI object is created.
+- Offer some interface to control OnoPager after the UI object is created.
 - Cancel loading of images until (almost) needed.
 - Option to hide navigation controls altogether
 - Pause autopaging during a hover on a pager.
@@ -24,6 +24,7 @@ TODO:
 - pageByNumber should have a 'last' and 'first'-link.
 - Build support for scroll wheel
 - Highlight arrow key when pressing an arrow key on keyboard
+- Cancel selection during a gesture 
 */
 
 (function($) {
@@ -488,7 +489,6 @@ TODO:
 
       function setPageEvent() {
         var eventTypes = '';
-        var pageTimeout;
         // TODO: change 'enableClick' into something like: interactive
         if (config.pageByNumber.enableClick == true) {
           pageByNumber.find('a').each(function(index) {
@@ -504,18 +504,8 @@ TODO:
           pageByNumber.find('a').each(function(index) {
             $(this).mouseenter(function(event) {
               if ($(this).hasClass('onoPager_active') == false) {
-                clearTimeout(pageTimeout);
-                pageTimeout = setTimeout(
-                  function() {
-                    page(index);
-                    root.addClass('onoPager_disabled');
-                  },
-                  150
-                );
+                page(index);
               }
-            });
-            $(this).mouseleave(function(event) {
-              root.removeClass('onoPager_disabled');
             });
           });
         }
@@ -614,7 +604,8 @@ TODO:
               dragLeft: function() {
                 page((pager.getIndex() + 1), 1);
               },
-              platform: config.swipePlatforms
+              platform: config.swipePlatforms,
+              pageDirection: config.orientation
             }
           );
         } else if (config.orientation == VERTICAL) {
@@ -626,7 +617,8 @@ TODO:
               dragUp: function() {
                 page((pager.getIndex() + 1), 1);
               },
-              platform: config.swipePlatforms
+              platform: config.swipePlatforms,
+              pageDirection: config.orientation
             }
           );
         }

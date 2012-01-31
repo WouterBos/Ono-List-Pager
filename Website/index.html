@@ -65,6 +65,8 @@
     </section>
     
     <div class="content content1">
+      <div id="debug">test</div>
+      
       <section>
         <h1>Select a configuration</h1>
         <div class="column1">
@@ -73,10 +75,12 @@
               <option value="linear">Basic (recommended)</option>
               <option value="simplest">The simplest configuration</option>
               <option value="vertical">Vertical orientation</option>
-              <option value="labels">Alternative links and labels</option>
+              <option value="labels">Page on hover and alternative links and labels</option>
               <option value="autoAdjustingHeight">Auto adjusting height</option>
               <option value="status">With status box</option>
               <option value="nonSemantic">Non-semantic markup</option>
+              <option value="keyboard">Page with keyboard</option>
+              <option value="gestures">Page with gestures</option>
             </optgroup>
             <optgroup label="Animation types">
               <option value="slides">Slides</option>
@@ -217,10 +221,6 @@
                 "    width: '260px',\n" +
                 "    height: '80px'\n" +
                 "  },\n" +
-                "  pageByArrowKey: {\n" +
-                "    active: true,\n" +
-                "    preventDefault: false\n" +
-                "  },\n" +
                 "  status: {\n" +
                 "    active: true\n" +
                 "  },\n" +
@@ -232,7 +232,7 @@
         animationConfig: "{}"
       },
       linear: {
-        description: 'This is a basic pager with a few extras. Navigating is done by using the controls, but in this example a user can also navigate by swiping on a mobile phone or using the arrow keys ← and → on the keyboard.',
+        description: 'This is a basic pager with a few extras. Navigating is done by using the controls, but in this example a user can also navigate by swiping on a touch device.',
         html: standardHtml,
         config: "{\n" +
                 "  doesLoop: false,\n" +
@@ -244,14 +244,46 @@
                 "    width: '260px',\n" +
                 "    height: '80px'\n" +
                 "  },\n" +
-                "  pageByArrowKey: {\n" +
-                "    active: true,\n" +
-                "    preventDefault: false\n" +
-                "  },\n" +
                 "  pageByNumber: {\n" +
                 "    hideThreshold: 1\n" +
                 "  },\n" +
                 "  swipeTriggersPage: true,\n" +
+                "  animationEasing: 'easeOutCubic'\n" +
+                "}\n",
+        animationConfig: "{}"
+      },
+      gestures: {
+        description: '<p>By adding <code>swipeTriggersPage: true, swipePlatforms: \'all\'</code> to the configuration you do not only enable swiping on touch devices, but also gesture navigation on desktop computers. The gesture has to start in the pager box.</p>',
+        html: standardHtml,
+        config: "{\n" +
+                "  doesLoop: false,\n" +
+                "  listContainer: {\n" +
+                "    width: '280px'\n" +
+                "  },\n" +
+                "  listItems: {\n" +
+                "    width: '260px'\n" +
+                "  },\n" +
+                "  swipeTriggersPage: true,\n" +
+                "  swipePlatforms: 'all',\n" +
+                "  animationEasing: 'easeOutCubic'\n" +
+                "}\n",
+        animationConfig: "{}"
+      },
+      keyboard: {
+        description: '<p>The pager can also hook on keyboard events of the page. If you press the left or right arrow key (← and →) on your keyboard, you\'ll see that the pager in the example reacts.</p><p>Please note that the use of arrow key events are likely not useful in vertical orientation (the user cannot scroll the page with arrow keys) or multiple pagers (all pagers will page simultaneously).</p>',
+        html: standardHtml,
+        config: "{\n" +
+                "  doesLoop: false,\n" +
+                "  listContainer: {\n" +
+                "    width: '280px'\n" +
+                "  },\n" +
+                "  listItems: {\n" +
+                "    width: '260px'\n" +
+                "  },\n" +
+                "  pageByArrowKey: {\n" +
+                "    active: true,\n" +
+                "    preventDefault: false\n" +
+                "  },\n" +
                 "  animationEasing: 'easeOutCubic'\n" +
                 "}\n",
         animationConfig: "{}"
@@ -289,10 +321,6 @@
                 "    width: '260px',\n" +
                 "    height: ''\n" +
                 "  },\n" +
-                "  pageByArrowKey: {\n" +
-                "    active: true,\n" +
-                "    preventDefault: false\n" +
-                "  },\n" +
                 "  pageByNumber: {\n" +
                 "    hideThreshold: 1\n" +
                 "  },\n" +
@@ -313,10 +341,6 @@
                 "  listItems: {\n" +
                 "    width: '260px',\n" +
                 "    height: '80px'\n" +
-                "  },\n" +
-                "  pageByArrowKey: {\n" +
-                "    active: true,\n" +
-                "    preventDefault: false\n" +
                 "  },\n" +
                 "  swipeTriggersPage: true,\n" +
                 "  animationEasing: 'easeOutCubic',\n" +
@@ -445,7 +469,8 @@
                 "  },\n" +
                 "  pageByNumber: {\n" +
                 "    labels: ['Sed', 'Elit', 'Dui', 'Non'],\n" +
-                "    links: ['http://www.google.com', 'http://www.yahoo.com', 'http://www.bing.com', 'http://www.twitter.com']\n" +
+                "    links: ['http://www.google.com', 'http://www.yahoo.com', 'http://www.bing.com', 'http://www.twitter.com'],\n" +
+                "    enableHover: true\n" +
                 "  },\n" +
                 "  animationType: 'linear',\n" +
                 "  animationEasing: 'easeOutCubic',\n" +
@@ -584,10 +609,6 @@
                 "    active: true,\n" +
                 "    interval: 3000\n" +
                 "  },\n" +
-                "  pageByArrowKey: {\n" +
-                "    active: true,\n" +
-                "    preventDefault: false\n" +
-                "  },\n" +
                 "  pageByNumber: {\n" +
                 "    hideThreshold: 1\n" +
                 "  },\n" +
@@ -615,10 +636,6 @@
                 "    interval: 3000,\n" +
                 "    pauseOnHover: true\n" +
                 "  },\n" +
-                "  pageByArrowKey: {\n" +
-                "    active: true,\n" +
-                "    preventDefault: false\n" +
-                "  },\n" +
                 "  pageByNumber: {\n" +
                 "    hideThreshold: 1\n" +
                 "  },\n" +
@@ -645,10 +662,6 @@
                 "    active: true,\n" +
                 "    interval: 5000,\n" +
                 "    autoPageAnimationType: 'timeline'\n" +
-                "  },\n" +
-                "  pageByArrowKey: {\n" +
-                "    active: true,\n" +
-                "    preventDefault: false\n" +
                 "  },\n" +
                 "  pageByNumber: {\n" +
                 "    hideThreshold: 1\n" +
@@ -684,10 +697,6 @@
                 "      shadowOffsetY: 2,\n" +
                 "      shadowBackgroundColor: '#999999'\n" +
                 "    }\n" +
-                "  },\n" +
-                "  pageByArrowKey: {\n" +
-                "    active: true,\n" +
-                "    preventDefault: false\n" +
                 "  },\n" +
                 "  pageByNumber: {\n" +
                 "    hideThreshold: 1\n" +
