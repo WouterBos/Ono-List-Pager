@@ -16,7 +16,7 @@ TODO:
 - Do nothing if there are no list items
 - Update labels demo (alter text prev and next button)
 - Restructure OnoPager CSS
-- Offer some sort of interface to control OnoPager after the UI object is created.
+- Offer some interface to control OnoPager after the UI object is created.
 - Cancel loading of images until (almost) needed.
 - Option to hide navigation controls altogether
 - Pause autopaging during a hover on a pager.
@@ -24,6 +24,7 @@ TODO:
 - pageByNumber should have a 'last' and 'first'-link.
 - Build support for scroll wheel
 - Highlight arrow key when pressing an arrow key on keyboard
+- Cancel selection during a gesture 
 */
 
 (function($) {
@@ -488,7 +489,6 @@ TODO:
 
       function setPageEvent() {
         var eventTypes = '';
-        var pageTimeout;
         // TODO: change 'enableClick' into something like: interactive
         if (config.pageByNumber.enableClick == true) {
           pageByNumber.find('a').each(function(index) {
@@ -504,19 +504,9 @@ TODO:
           pageByNumber.find('a').each(function(index) {
             $(this).mouseenter(function(event) {
               if ($(this).hasClass('onoPager_active') == false) {
-                clearTimeout(pageTimeout);
-                pageTimeout = setTimeout(
-                  function() {
-                    page(index);
-                    //root.addClass('onoPager_disabled');
-                  },
-                  150
-                );
+                page(index);
               }
             });
-            //$(this).mouseleave(function(event) {
-            //  root.removeClass('onoPager_disabled');
-            //});
           });
         }
 
@@ -587,20 +577,39 @@ TODO:
           // Page back
           if ((config.orientation == VERTICAL && key == UP) ||
             (config.orientation == HORIZONTAL && key == LEFT)) {
-            page((pager.getIndex() - 1), -1);
-            if (config.pageByArrowKey.preventDefault == true) {
+            if (preventPage() == false) {
+              page((pager.getIndex() - 1), -1);
+            }
+            if (preventDefaultKeyEvent() == true) {
               event.preventDefault();
             }
           }
           // Page forward
           if ((config.orientation == VERTICAL && key == DOWN) ||
             (config.orientation == HORIZONTAL && key == RIGHT)) {
-            page((pager.getIndex() + 1), 1);
-            if (config.pageByArrowKey.preventDefault == true) {
+            if (preventPage() == false) {
+              page((pager.getIndex() + 1), 1);
+            }
+            if (preventDefaultKeyEvent() == true) {
               event.preventDefault();
             }
           }
         });
+      }
+
+      function preventDefaultKeyEvent() {
+        if (config.pageByArrowKey.preventDefault == true) {
+          return true;
+        }
+        return false;
+      }
+
+      // No paging when the cursor is in a form field,
+      function preventPage() {
+        if (jQuery('textarea:focus, select:focus, input:focus').size() > 0) {
+          return true;
+        }
+        return false;
       }
 
       // Page with swiping
@@ -614,7 +623,8 @@ TODO:
               dragLeft: function() {
                 page((pager.getIndex() + 1), 1);
               },
-              platform: config.swipePlatforms
+              platform: config.swipePlatforms,
+              pageDirection: config.orientation
             }
           );
         } else if (config.orientation == VERTICAL) {
@@ -626,7 +636,8 @@ TODO:
               dragUp: function() {
                 page((pager.getIndex() + 1), 1);
               },
-              platform: config.swipePlatforms
+              platform: config.swipePlatforms,
+              pageDirection: config.orientation
             }
           );
         }
@@ -727,11 +738,6 @@ var onoPager = {};
  *               QuickGestures jQuery plugin of Anders Zakrisson.
  */
 
-
-
-
-
-
 (function($) {
   /**
    * Handles swipe events on mobile phones and desktops. The code is based on
@@ -754,137 +760,132 @@ var onoPager = {};
    */
   jQuery.fn.onoPagerSwipe = function(arg_config) {
     var config = {
-      dragLeft: null,
-      dragRight: null,
-      dragUp: null,
-      dragDown: null,
-      threshold: 75,
-      platform: 'touch'
+      dragLeft : null,
+      dragRight : null,
+      dragUp : null,
+      dragDown : null,
+      threshold : 75,
+      platform : 'touch',
+      pageDirection: ''
     };
     config = $.extend(true, config, arg_config);
 
     return this.each(function() {
       var data = {
-        x: 0,
-        y: 0,
-        t: null,
-        time: null
+        x : 0,
+        y : 0,
+        t : null
       };
 
-      if (config.platform == 'touch') {
+      if(config.platform == 'touch') {
         // Check if browser supports touch events
         var el = document.createElement('div');
         el.setAttribute('ontouchstart', '');
         el.setAttribute('ontouchmove', '');
         el.setAttribute('ontouchend', '');
-        if (typeof(el.ontouchstart) != 'function' ||
-            typeof(el.ontouchmove) != 'function' ||
-            typeof(el.ontouchend) != 'function') {
+        if( typeof (el.ontouchstart) != 'function' || typeof (el.ontouchmove) != 'function' || typeof (el.ontouchend) != 'function') {
           config.platform = '';
         }
       }
 
-      if (config.platform == 'touch' || config.platform == 'all') {
+      if(config.platform == 'touch' || config.platform == 'all') {
         // Handle swipes on mobile browsers
         var lastPageX, lastPageY, offsetLeft, offsetTop;
 
-        this.addEventListener(
-          'touchstart',
-          function(e) {
-            //e.preventDefault();
-            offsetLeft = ($(window).width() - $(this).outerWidth(true)) / 2;
-            offsetTop = ($(window).height() - $(this).outerHeight(true)) / 2;
-            data.x = e.targetTouches[0].pageX - offsetLeft;
-            data.y = e.targetTouches[0].pageY - offsetTop;
-            data.time = new Date();
-          },
-          false
-        );
+        this.addEventListener('touchstart', function(e) {
+          offsetLeft = ($(window).width() - $(this).outerWidth(true)) / 2;
+          offsetTop = ($(window).height() - $(this).outerHeight(true)) / 2;
+          data.x = e.targetTouches[0].pageX - offsetLeft;
+          data.y = e.targetTouches[0].pageY - offsetTop;
+        }, false);
 
-        this.addEventListener(
-          'touchmove',
-          function(e) {
+        this.addEventListener('touchmove', function(e) {
+          lastPageX = e.targetTouches[0].pageX - offsetLeft;
+          lastPageY = e.targetTouches[0].pageY - offsetTop;
+
+          var diffX = lastPageX - data.x;
+          var diffY = lastPageY - data.y;
+          if (diffX < 0) {
+            diffX = -diffX;
+          }
+          if (diffY < 0) {
+            diffY = -diffY;
+          }
+          if (config.pageDirection == 'horizontal' && diffX > diffY ||
+              config.pageDirection == 'vertical' && diffY > diffX) {
+            // prevents either horizontal or vertical scrolling through swiping
+            // The orientation it cancels depends on the orientation in
+            // the config.
             e.preventDefault();
-            //e.stopPropagation();
-            lastPageX = e.targetTouches[0].pageX - offsetLeft;
-            lastPageY = e.targetTouches[0].pageY - offsetTop;
-          },
-          false
-        );
+            jQuery('preventDefault');
+          } else {
+            jQuery('default');
+          }
+        }, false);
 
-        this.addEventListener(
-          'touchend',
-          function(e) {
-            e.preventDefault();
-            var diffX = lastPageX - data.x;
-            var diffY = lastPageY - data.y;
-            if (data.t != null) {
-              // End timer for hold event if it hasn't been triggered
-              clearTimeout(data.t);
-            }
+        this.addEventListener('touchend', function(e) {
+          e.preventDefault();
+          var diffX = lastPageX - data.x;
+          var diffY = lastPageY - data.y;
 
-            if (diffX <= -config.threshold) {
-              if ($.isFunction(config.dragLeft)) {
-                config.dragLeft();
-              }
-            } else if (diffX >= config.threshold) {
-              if ($.isFunction(config.dragRight)) {
-                config.dragRight();
-              }
+          if(diffX <= -config.threshold) {
+            if($.isFunction(config.dragLeft)) {
+              config.dragLeft();
             }
+          } else if(diffX >= config.threshold) {
+            if($.isFunction(config.dragRight)) {
+              config.dragRight();
+            }
+          }
 
-            if (diffY <= -config.threshold) {
-              if ($.isFunction(config.dragUp)) {
-                config.dragUp();
-              }
-            } else if (diffY >= config.threshold) {
-              if ($.isFunction(config.dragDown)) {
-                config.dragDown();
-              }
+          if(diffY <= -config.threshold) {
+            if($.isFunction(config.dragUp)) {
+              config.dragUp();
             }
-          },
-          false
-        );
+          } else if(diffY >= config.threshold) {
+            if($.isFunction(config.dragDown)) {
+              config.dragDown();
+            }
+          }
+        }, false);
       }
-      if (config.platform == 'all') {
+      if(config.platform == 'all') {
         // Handles swipes on desktop
         $(this).mousedown(function(e) {
           var offsetLeft = ($(window).width() - $(this).outerWidth(true)) / 2;
           var offsetTop = ($(window).height() - $(this).outerHeight(true)) / 2;
           data.x = e.pageX - offsetLeft;
           data.y = e.pageY - offsetTop;
-          data.time = new Date();
 
           $(this).bind('mousemove', function(e) {
             $(this).bind('mouseup', function() {
               $(this).unbind('mousemove');
             });
-
             // Handles horizontal swipes
             var diffX = (e.pageX - offsetLeft) - data.x;
             var diffY = (e.pageY - offsetTop) - data.y;
 
-            if (diffX <= -config.threshold) {
+            if(diffX <= -config.threshold) {
               $(this).unbind('mousemove');
-              if ($.isFunction(config.dragLeft)) {
+              if($.isFunction(config.dragLeft)) {
                 config.dragLeft();
               }
-            } else if (diffX >= config.threshold) {
+            } else if(diffX >= config.threshold) {
               $(this).unbind('mousemove');
-              if ($.isFunction(config.dragRight)) {
+              if($.isFunction(config.dragRight)) {
                 config.dragRight();
               }
             }
 
             // Handle vertical swipes
-            if (diffY <= -config.threshold) {
+            if(diffY <= -config.threshold) {
               $(this).unbind('mousemove');
-              if ($.isFunction(config.dragUp)) {
+              if($.isFunction(config.dragUp)) {
                 config.dragUp();
               }
-            } else if (diffY >= config.threshold) {
+            } else if(diffY >= config.threshold) {
               $(this).unbind('mousemove');
-              if ($.isFunction(config.dragDown)) {
+              if($.isFunction(config.dragDown)) {
                 config.dragDown();
               }
             }

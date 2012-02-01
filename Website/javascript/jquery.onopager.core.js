@@ -6,12 +6,11 @@
  * Demos an documentation on http://www.thebrightlines.com/onopager/website/
  *
  * @since 0.1 - 2011-3-28
- * @version 1.1.2 - 2011-14-12
+ * @version 1.2 - 2012-1-2
  */
 
 /*
 TODO:
-- Create demo for arg_config.pageByNumber.enableHover
 - Disable tooltip on next/prev link
 - Do nothing if there are no list items
 - Update labels demo (alter text prev and next button)
@@ -19,12 +18,10 @@ TODO:
 - Offer some interface to control OnoPager after the UI object is created.
 - Cancel loading of images until (almost) needed.
 - Option to hide navigation controls altogether
-- Pause autopaging during a hover on a pager.
 - Play/pause-button for autopager
 - pageByNumber should have a 'last' and 'first'-link.
 - Build support for scroll wheel
 - Highlight arrow key when pressing an arrow key on keyboard
-- Cancel selection during a gesture 
 */
 
 (function($) {
@@ -577,20 +574,39 @@ TODO:
           // Page back
           if ((config.orientation == VERTICAL && key == UP) ||
             (config.orientation == HORIZONTAL && key == LEFT)) {
-            page((pager.getIndex() - 1), -1);
-            if (config.pageByArrowKey.preventDefault == true) {
+            if (preventPage() == false) {
+              page((pager.getIndex() - 1), -1);
+            }
+            if (preventDefaultKeyEvent() == true) {
               event.preventDefault();
             }
           }
           // Page forward
           if ((config.orientation == VERTICAL && key == DOWN) ||
             (config.orientation == HORIZONTAL && key == RIGHT)) {
-            page((pager.getIndex() + 1), 1);
-            if (config.pageByArrowKey.preventDefault == true) {
+            if (preventPage() == false) {
+              page((pager.getIndex() + 1), 1);
+            }
+            if (preventDefaultKeyEvent() == true) {
               event.preventDefault();
             }
           }
         });
+      }
+
+      function preventDefaultKeyEvent() {
+        if (config.pageByArrowKey.preventDefault == true) {
+          return true;
+        }
+        return false;
+      }
+
+      // No paging when the cursor is in a form field,
+      function preventPage() {
+        if (jQuery('textarea:focus, select:focus, input:focus').size() > 0) {
+          return true;
+        }
+        return false;
       }
 
       // Page with swiping
