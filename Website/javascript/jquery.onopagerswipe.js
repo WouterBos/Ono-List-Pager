@@ -25,35 +25,37 @@
    */
   jQuery.fn.onoPagerSwipe = function(arg_config) {
     var config = {
-      dragLeft : null,
-      dragRight : null,
-      dragUp : null,
-      dragDown : null,
-      threshold : 75,
-      platform : 'touch',
+      dragLeft: null,
+      dragRight: null,
+      dragUp: null,
+      dragDown: null,
+      threshold: 75,
+      platform: 'touch',
       pageDirection: ''
     };
     config = $.extend(true, config, arg_config);
 
     return this.each(function() {
       var data = {
-        x : 0,
-        y : 0,
-        t : null
+        x: 0,
+        y: 0,
+        t: null
       };
 
-      if(config.platform == 'touch') {
+      if (config.platform == 'touch') {
         // Check if browser supports touch events
         var el = document.createElement('div');
         el.setAttribute('ontouchstart', '');
         el.setAttribute('ontouchmove', '');
         el.setAttribute('ontouchend', '');
-        if( typeof (el.ontouchstart) != 'function' || typeof (el.ontouchmove) != 'function' || typeof (el.ontouchend) != 'function') {
+        if (typeof (el.ontouchstart) != 'function' ||
+            typeof (el.ontouchmove) != 'function' ||
+            typeof (el.ontouchend) != 'function') {
           config.platform = '';
         }
       }
 
-      if(config.platform == 'touch' || config.platform == 'all') {
+      if (config.platform == 'touch' || config.platform == 'all') {
         // Handle swipes on mobile browsers
         var lastPageX, lastPageY, offsetLeft, offsetTop;
 
@@ -93,28 +95,28 @@
           var diffX = lastPageX - data.x;
           var diffY = lastPageY - data.y;
 
-          if(diffX <= -config.threshold) {
-            if($.isFunction(config.dragLeft)) {
+          if (diffX <= -config.threshold) {
+            if ($.isFunction(config.dragLeft)) {
               config.dragLeft();
             }
-          } else if(diffX >= config.threshold) {
-            if($.isFunction(config.dragRight)) {
+          } else if (diffX >= config.threshold) {
+            if ($.isFunction(config.dragRight)) {
               config.dragRight();
             }
           }
 
-          if(diffY <= -config.threshold) {
-            if($.isFunction(config.dragUp)) {
+          if (diffY <= -config.threshold) {
+            if ($.isFunction(config.dragUp)) {
               config.dragUp();
             }
-          } else if(diffY >= config.threshold) {
-            if($.isFunction(config.dragDown)) {
+          } else if (diffY >= config.threshold) {
+            if ($.isFunction(config.dragDown)) {
               config.dragDown();
             }
           }
         }, false);
       }
-      if(config.platform == 'all') {
+      if (config.platform == 'all') {
         // Handles swipes on desktop
         $(this).mousedown(function(e) {
           var offsetLeft = ($(window).width() - $(this).outerWidth(true)) / 2;
@@ -130,27 +132,27 @@
             var diffX = (e.pageX - offsetLeft) - data.x;
             var diffY = (e.pageY - offsetTop) - data.y;
 
-            if(diffX <= -config.threshold) {
+            if (diffX <= -config.threshold) {
               $(this).unbind('mousemove');
-              if($.isFunction(config.dragLeft)) {
+              if ($.isFunction(config.dragLeft)) {
                 config.dragLeft();
               }
-            } else if(diffX >= config.threshold) {
+            } else if (diffX >= config.threshold) {
               $(this).unbind('mousemove');
-              if($.isFunction(config.dragRight)) {
+              if ($.isFunction(config.dragRight)) {
                 config.dragRight();
               }
             }
 
             // Handle vertical swipes
-            if(diffY <= -config.threshold) {
+            if (diffY <= -config.threshold) {
               $(this).unbind('mousemove');
-              if($.isFunction(config.dragUp)) {
+              if ($.isFunction(config.dragUp)) {
                 config.dragUp();
               }
-            } else if(diffY >= config.threshold) {
+            } else if (diffY >= config.threshold) {
               $(this).unbind('mousemove');
-              if($.isFunction(config.dragDown)) {
+              if ($.isFunction(config.dragDown)) {
                 config.dragDown();
               }
             }

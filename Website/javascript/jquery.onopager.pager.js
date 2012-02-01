@@ -319,7 +319,7 @@ onoPager.pager = function(arg_index,
     if (overflow < 0) {
       startAutopager();
     }
-    
+
     if (autoPageConfig.pauseOnHover == true) {
       arg_listContainer.closest('.onoPager').mouseenter(function() {
         jQuery(this).addClass('onoPager_autoPageDisabled');

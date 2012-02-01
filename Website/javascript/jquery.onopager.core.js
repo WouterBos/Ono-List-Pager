@@ -11,9 +11,6 @@
 
 /*
 TODO:
-- Disable tooltip on next/prev link
-- Do nothing if there are no list items
-- Update labels demo (alter text prev and next button)
 - Restructure OnoPager CSS
 - Offer some interface to control OnoPager after the UI object is created.
 - Cancel loading of images until (almost) needed.
@@ -51,142 +48,142 @@ TODO:
    * configuration examples</a>.
    *
    * @param {Object} arg_config Configuration object.
-   * 
+   *
    * @param {Object} animationConfig Optional extra configuration object for
    *    the animation object.
-   * 
+   *
    * @param {String} arg_config.cssClass Ads CSS class to the root of the pager.
-   * 
+   *
    * @param {Boolean} arg_config.pagePerItem If true, each page will be as long
    *    as one list item. If false, each page will be as long as the list
    *    container, which may span multiple list items.
-   * 
+   *
    * @param {Boolean} arg_config.lockDuringTransition Disable paging controls
    *    during a transition when true. Default is false.
-   * 
+   *
    * @param {Boolean} arg_config.doesLoop If true, the pager scrolls back
    *    to the first item after the last item.
-   * 
+   *
    * @param {String} arg_config.listContainer.width Width of list
    *    container, like '200px'.
-   * 
+   *
    * @param {String} arg_config.listContainer.height Height of list
    *    container, like '200px'.
-   * 
+   *
    * @param {Boolean} arg_config.listContainer.adjustHeightToListItem.active If
    *    you also set pagePerItem to true, the height of the list container will
    *    adjust to the height of the visible list item. Default value is true.
-   * 
+   *
    * @param {Boolean} arg_config.listContainer.adjustHeightToListItem.animate If
    *    true, the container will animatie to its new height. Default value is
    *    true.
-   * 
+   *
    * @param {String} arg_config.ListItems.width Width of list items, like
    *    '200px'.
-   * 
+   *
    * @param {String} arg_config.ListItems.height Height of list items,
    *    like '200px'.
-   * 
+   *
    * @param {Number} arg_config.activeIndex Sets initial visible page. By
    *    default the pager starts at index 0.
-   * 
+   *
    * @param {Boolean} arg_config.autoPage.active Activates auto pager.
-   * 
+   *
    * @param {Number} arg_config.autoPage.interval The interval between
    *    autopaging. Time value is set in milliseconds.
-   * 
+   *
    * @param {Boolean} arg_config.autoPage.active Activates auto pager.
-   * 
+   *
    * @param {String} arg_config.autoPage.autoPageAnimationType The type
    *    of animation that will indicate the time the time between transitions.
-   * 
+   *
    * @param {Object} arg_config.autoPage.extraConfig A configuration object
    *    for the autopage indicator.
-   * 
+   *
    * @param {Boolean} arg_config.autoPage.pauseOnHover Stops the pager when
-   *    the mouse cursor hovers above the pager. 
-   * 
+   *    the mouse cursor hovers above the pager.
+   *
    * @param {String} arg_config.labels.next text for the 'next'-button.
-   * 
+   *
    * @param {String} arg_config.labels.previous Text for the
    *    'previous'-button.
-   * 
+   *
    * @param {Boolean} arg_config.status.active Activates the status box.
-   * 
+   *
    * @param {String} arg_config.status.prependText Text that appears before
    *    the page index number.
-   * 
+   *
    * @param {String} arg_config.status.seperationText Text that appears
    *    between the page index number and the total pages number.
-   * 
+   *
    * @param {String} arg_config.status.appendText Text that appears after
    *    the total pages number.
-   * 
+   *
    * @param {Boolean} arg_config.scroller.active Activates a Javascript
    *    scrollbar. Default is true.
-   * 
+   *
    * @param {Number} arg_config.pixelMove The amount of pixels the pager
    *    scrolls after each frame.
-   * 
+   *
    * @param {Boolean} arg_config.pageByNumber.active Activates the bar with
    *    all pages, defined by number. Default is true.
-   * 
+   *
    * @param {Boolean} arg_config.pageByNumber.enableClick Disables paging
    *    behaviour onclick. The makes the 'Page by number'-box essentially a
    *    status box rather than a navigation control. Default is true.
-   * 
+   *
    * @param {Array} arg_config.pageByNumber.labels Replaces the default
    *    content of the page-by-number links with the string values in the array.
-   * 
+   *
    * @param {Number} arg_config.pageByNumber.hideThreshold Defines how many
    *    links may appear in the pageByNumber box. If you set the value to 2,
    *    you'll see 2 links on the left and 2 on the right of the active item. A
    *    negative value cancels this functionality. Default value is -1.
-   * 
+   *
    * @param {Array} arg_config.pageByNumber.links Overrides the default click
    *    behavior of the page-by-number links. If you supply an array of URL's,
    *    they will behave like standard links that point to an URL.
-   * 
+   *
    * @param {Boolean} arg_config.pageByNumber.enableHover Initiates a page
    *    when the mouse is hovered over a page by number item.
-   * 
+   *
    * @param {Boolean} arg_config.pageByArrowKey.active Enables paging by
    *    using the keyboard arrow keys. Default is false.
-   * 
+   *
    * @param {Boolean} arg_config.pageByArrowKey.preventDefault Disables or
    *    activates the default behaviour of the arrow key. If set to true, the
    *    user won't be able to scroll the page or a textarea with the arrow keys.
    *    Default is false for that reason.
-   * 
+   *
    * @param {Boolean} arg_config.swipeTriggersPage Activates page
    *    navigation by swiping on the screen. Default is false.
-   * 
+   *
    * @param {String} arg_config.swipePlatforms Determines on what platforms
    *    the user is able to page by swiping. 'touch' activates swiping only on
    *    touch devices. 'all' will activates swiping on touch devices and
    *    desktop. Swiping on the desktop is done with mouse gestures. Default
    *    value is 'touch'.
-   * 
+   *
    * @param {String} arg_config.animationType Determines which animation
    *    object will be used. The following animation types are available by
    *    default: 'linear', 'linearScroller' and 'slides'. Custom animation
    *    objects can be created and used after the plugin is loaded. Default
    *    value is 'linear'.
-   * 
+   *
    * @param {String} arg_config.animationEasing Determines the easing type
    *    to be used by the animation object. Default value is 'linear'.
-   * 
+   *
    * @param {String} arg_config.orientation Determines on what axis the
    *    animation moves. Possible values are 'horizontal' and 'vertical' though
    *    it's possible to use other values as long as the animation object
    *    supports that value. Default value is 'horizontal'.
-   * 
+   *
    * @param {Number} arg_config.animationSpeed Determines the speed at
    *    which the animations take place.
-   * 
+   *
    * @return {jQuery} chainable jQuery class.
    * @memberOf jQuery.fn
-   * 
+   *
    * @example
    * // Simple example:
    * // More examples on: http://www.thebrightlines.com/onopager/website/
@@ -328,16 +325,13 @@ TODO:
       if (config.autoPage.autoPageAnimationType && config.autoPage.active) {
         newHTML += '<div class="' + ONOPAGER + '_autoPageContainer"></div>';
       }
-      newHTML += '<a' + EMPTY_HREF +
-        ' class="' + ONOPAGER + '_previous ' + ONOPAGER + '_step" title="' +
-        config.labels.previous + '"><span>' + config.labels.previous +
-        '</span></a>';
+      newHTML += '<a' + EMPTY_HREF + ' class="' + ONOPAGER + '_previous ' +
+        ONOPAGER + '_step"><span>' + config.labels.previous + '</span></a>';
       if (config.pageByNumber.active == true) {
         newHTML += '<div class="' + ONOPAGER + '_pageByNumber"/>';
       }
       newHTML += '<a' + EMPTY_HREF + ' class="' + ONOPAGER + '_next ' +
-        ONOPAGER + '_step" ' + 'title="' + config.labels.next + '"><span>' +
-        config.labels.next + '</span></a>';
+        ONOPAGER + '_step"><span>' + config.labels.next + '</span></a>';
       if (config.status.active == true) {
         newHTML += '<div class="' + ONOPAGER + '_status"><span></span></div>';
       }
@@ -695,28 +689,31 @@ TODO:
     return this.each(function() {
       // create list wrappers and references
       list = $(this);
-      list.removeClass(ONOPAGER + '_noJs');
-      list.addClass(ONOPAGER + '_list');
-      list.wrap('<div class="' + ONOPAGER + '_listContainer"></div>');
-      listContainer = list.parent();
-      listContainer.wrap('<div class="' + ONOPAGER + ' ' +
-                         config.cssClass + '"/>');
-      root = listContainer.parent();
-      root.addClass(config.animationType);
-      listItems = $(this).find(' > li, .' + ONOPAGER + '_listItem');
-      listItems.addClass(ONOPAGER + '_listItem');
-      listItems.each(function(index) {
-        jQuery(this).attr('data-onopager-list-index', index);
-      });
+      listItems = list.find(' > li, .' + ONOPAGER + '_listItem');
 
-      // Set up ono pager
-      setStyles();
-      createControls();
-      setAnimation();
-      setPageByNumber();
-      setPager();
-      setControlEvents();
-      addBrowserClass();
+      if (listItems.size() > 0) {
+        list.removeClass(ONOPAGER + '_noJs');
+        list.addClass(ONOPAGER + '_list');
+        list.wrap('<div class="' + ONOPAGER + '_listContainer"></div>');
+        listContainer = list.parent();
+        listContainer.wrap('<div class="' + ONOPAGER + ' ' +
+                           config.cssClass + '"/>');
+        root = listContainer.parent();
+        root.addClass(config.animationType);
+        listItems.addClass(ONOPAGER + '_listItem');
+        listItems.each(function(index) {
+          jQuery(this).attr('data-onopager-list-index', index);
+        });
+
+        // Set up ono pager
+        setStyles();
+        createControls();
+        setAnimation();
+        setPageByNumber();
+        setPager();
+        setControlEvents();
+        addBrowserClass();
+      }
     });
   }
 })(jQuery);
