@@ -1301,7 +1301,7 @@ onoPager.animation.linearScroller = function(newConfig, extraConfig) {
     );
     var maxMarginBound = listSize - viewportSize;
     var newMargin = currentMargin - move;
-    var DISABLED = 'disabled';
+    var DISABLED = 'onoPager_disabled';
 
     if (newMargin >= 0) {
       pagePrevious.addClass(DISABLED);

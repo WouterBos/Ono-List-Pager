@@ -3,24 +3,23 @@
  */
 
 /* Start pager */
-div.onoPager {
+.onoPager {
     position: relative;
 }
 
-*.onoPager_listContainer {
+.onoPager_listContainer {
     position: relative;
     overflow: hidden;
 }
 
-*.onoPager_listItem {
+.onoPager_listItem {
     margin: 0;
     overflow: hidden;
 }
 /* End pager */
 
 /* Start controls */
-a.onoPager_previous,
-a.onoPager_next {
+a.onoPager_step {
     -moz-transition: all 0.3s ease-out;  
     -o-transition: all 0.3s ease-out;  
     -webkit-transition: all 0.3s ease-out;  
@@ -28,23 +27,24 @@ a.onoPager_next {
     transition: all 0.3s ease-out;  
 }
 
-a.onoPager_previous.disabled,
-a.onoPager_next.disabled {
+a.onoPager_step.onoPager_disabled {
     cursor: default;
     opacity: 0.3;
+	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=30)';
+	filter: alpha(opacity=30);
 }
 
-div.onoPager_pageByNumber a.onoPager_active {
+.onoPager_pageByNumber a.onoPager_active {
     font-weight: bold;
 }
 
-div.onoPager_scroller {
+.onoPager_scroller {
     position: relative;
     height: 20px;
     background: #cccccc;
 }
 
-div.onoPager_scrollerHandle {
+.onoPager_scrollerHandle {
     cursor: w-resize;
     position: absolute;
     left: 0;
@@ -56,14 +56,14 @@ div.onoPager_scrollerHandle {
 
 
 
-div.onoPager_autopageAnimation_timeline {
+.onoPager_autopageAnimation_timeline {
     left: 0;
   	width: 100%;
   	height: 2px;
   	background: #9a9abb;
 }
 
-div.onoPager_autopageAnimation_timeline div.onoPager_autoPageBar {
+.onoPager_autopageAnimation_timeline .onoPager_autoPageBar {
   	width: 0;
   	height: 2px;
   	background: #0000ff;
@@ -73,16 +73,16 @@ div.onoPager_autopageAnimation_timeline div.onoPager_autoPageBar {
 
 
 /* Start linearContinuous animation */
-div.onoPager_animation_linearContinuous {
+.onoPager_animation_linearContinuous {
     overflow: hidden;
 }
 
-div.onoPager_animation_linearContinuous *.onoPager_listItem {
+.onoPager_animation_linearContinuous .onoPager_listItem {
     position: relative;
     overflow: hidden;  
 }
 
-div.onoPager_animation_linearContinuous *.onoPager_linearContinuous_background {
+.onoPager_animation_linearContinuous .onoPager_linearContinuous_background {
     position: absolute;
     left: -9999em;
     top: 0;
@@ -92,26 +92,25 @@ div.onoPager_animation_linearContinuous *.onoPager_linearContinuous_background {
     background: #e368df;
 }
 
-div.onoPager_animation_linearContinuous *.onoPager_linearContinuous_content {
+.onoPager_animation_linearContinuous .onoPager_linearContinuous_content {
     position: relative;
 }
 
-div.onoPager_animation_linearContinuous *.onoPager_listContainer {
+.onoPager_animation_linearContinuous .onoPager_listContainer {
   margin: 0 auto;
   overflow: visible;
 }
-div.onoPager_animation_linearContinuous.msie7 *.onoPager_listContainer {
+.onoPager_animation_linearContinuous.msie7 .onoPager_listContainer {
   position: static !important;
 }
 
-div.onoPager_animation_linearContinuous div.onoPager_controls {
+.onoPager_animation_linearContinuous .onoPager_controls {
   position: relative;
   margin: 0 auto;
 }
 
 
-div.onoPager_animation_linearContinuous *.onoPager_listItem:nth-child(2n) *.onoPager_linearContinuous_background {
+.onoPager_animation_linearContinuous .onoPager_listItem:nth-child(2n) .onoPager_linearContinuous_background {
   background: #7fe368;
 }
-
 /* End linearContinuous animation */

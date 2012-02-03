@@ -181,13 +181,13 @@ onoPager.scroller.dragHandle = function(arg_handle,
 
     if (offset < 0) {
       offset = 0;
-      pagePrevious.addClass('disabled');
+      pagePrevious.addClass('onoPager_disabled');
     } else if (offset > totalScroll) {
       offset = totalScroll;
-      pageNext.addClass('disabled');
+      pageNext.addClass('onoPager_disabled');
     } else {
-      pageNext.removeClass('disabled');
-      pagePrevious.removeClass('disabled');
+      pageNext.removeClass('onoPager_disabled');
+      pagePrevious.removeClass('onoPager_disabled');
     }
 
     return offset;

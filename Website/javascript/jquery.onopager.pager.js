@@ -99,8 +99,8 @@ onoPager.pager = function(arg_index,
 
   // Update the paging controls
   function setPagerButtons(index) {
-    var DISABLED = 'disabled';
-    var ENABLED = 'enabled';
+    var DISABLED = 'onoPager_disabled';
+    var ENABLED = 'onoPager_enabled';
     if (controls.gotoLinks) {
       var activeLink = controls.gotoLinks.find('a:eq(' + index + ')');
       activeLink.siblings().removeClass('onoPager_active');
