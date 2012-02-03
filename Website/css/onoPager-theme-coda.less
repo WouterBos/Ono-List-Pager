@@ -1,0 +1,236 @@
+/**
+ * Ono pager theme coda
+ * Written by Rostislav Ustiujaninov and Wouter Bos
+ */
+
+div.onoPager_coda div.onoPager_controls{
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+
+/* List container */
+div.onoPager_coda div.onoPager_listContainer {
+    position: relative;
+    background-color: #EBEBEB;
+}
+
+
+
+/* List items */
+div.onoPager_coda *.onoPager_listItem {
+    padding: 10px;
+}
+
+
+
+/* Controls - Base */
+div.onoPager_coda div.onoPager_controls div.onoPager_status,
+div.onoPager_coda div.onoPager_controls a.onoPager_step,
+div.onoPager_coda div.onoPager_controls div.onoPager_pageByNumber {
+    min-height: 0;
+    font-size: 1em;
+}
+
+div.onoPager_coda div.onoPager_controls:after {
+    clear: both;
+    display: block;
+    content: "";
+}
+div.onoPager_coda div.onoPager_controls a span,
+div.onoPager_coda.onoPager_disabled div.onoPager_controls.active a span {
+    color: #222;
+    text-decoration: none;
+}
+div.onoPager_coda:hover div.onoPager_controls a,
+div.onoPager_coda div.onoPager_controls.active a {
+    text-decoration: none;
+    color: #47478b;
+}
+
+
+
+/* Controls - Previous and next */
+div.onoPager_coda a.onoPager_step,
+div.onoPager_coda.onoPager_disabled div.onoPager_controls.active a.onoPager_step {
+    position: relative;
+    z-index: 1;
+    width: 90px;
+    padding: 1px 0;
+    color: #fff;
+    font-size: 1.2em !important;
+    text-align: center;
+	background: #000;
+}
+
+div.onoPager_coda a.onoPager_step {
+	bottom: -22px;
+}
+
+div.onoPager_coda div.onoPager_controls a.onoPager_step span {
+	color: #fff;
+}
+
+
+div.onoPager_coda.onoPager_animation_linearScroller a.onoPager_step {
+    outline: 0;
+    font-size: 3em !important;
+    line-height: 0.7em;
+    text-decoration: none !important;
+}
+div.onoPager_coda.onoPager_animation_linearScroller a.onoPager_step span {
+	position: relative;
+	top: -3px;
+}
+
+div.onoPager_coda a.onoPager_step.disabled {
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)" !important;
+    filter: alpha(opacity=30) !important;
+    opacity: 0.3 !important;
+    cursor: default;
+    text-decoration: none !important;
+}
+
+div.onoPager_coda a.onoPager_previous {
+	position: absolute;
+	left: -100px;
+} 
+
+div.onoPager_coda a.onoPager_next {
+	position: absolute;
+	right: -100px;
+}
+
+
+
+/* Controls - Page by number */
+div.onoPager_coda div.onoPager_pageByNumber,
+div.onoPager_coda.onoPager_disabled div.onoPager_controls.active div.onoPager_pageByNumber {
+    position: absolute;
+    top: -18px;
+    text-align: center;
+}
+
+div.onoPager_coda div.onoPager_pageByNumber a {
+    margin-right: 1px;
+    text-decoration: none !important;
+}
+
+div.onoPager_coda div.onoPager_pageByNumber a span {
+    padding: 2px 4px;
+	background: #000;
+	color: #fff;
+}
+
+div.onoPager_coda.msie7  div.onoPager_pageByNumber a span {
+	display: inline-block;
+    padding-top: 1px;
+	padding-bottom: 1px;
+}
+
+div.onoPager_coda div.onoPager_pageByNumber a.onoPager_active span {
+    cursor: default;
+	background: #39c;
+	font-weight: normal
+}
+
+
+
+/* Controls - Status */
+div.onoPager_coda div.onoPager_status,
+div.onoPager_coda.onoPager_disabled div.onoPager_controls.active div.onoPager_status {
+    position: absolute;
+    top: -18px;
+    width: 100%;
+    text-align: center;
+}
+
+div.onoPager_coda div.onoPager_status span {
+    padding: 2px 4px;
+	color: #ffffff;
+	background: #000000;
+}
+
+
+
+/* Controls - Scrollbar */
+div.onoPager_coda div.onoPager_scroller {
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+    margin-left: -1px;
+    opacity: 0;
+    background: #EBEBEB;
+}
+div.onoPager_coda.msie7 div.onoPager_scroller,
+div.onoPager_coda.msie8 div.onoPager_scroller {
+    padding-bottom: 2px;
+}
+div.onoPager_coda:hover div.onoPager_scroller,
+div.onoPager_coda div.onoPager_scroller.active {
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: alpha(opacity=100);
+    opacity: 1;
+}
+
+div.onoPager_coda div.onoPager_scrollerHandle,
+div.onoPager_coda.onoPager_disabled div.onoPager_scrollerHandle:hover,
+div.onoPager_coda.onoPager_disabled div.onoPager_scroller.active div.onoPager_scrollerHandle {
+    border: 1px solid #000000;
+    width: 8px;
+    height: 8px;
+    background: #000000
+}
+div.onoPager_coda div.onoPager_scrollerHandle:hover,
+div.onoPager_coda div.onoPager_scroller.active div.onoPager_scrollerHandle {
+    background: #3399CC;
+}
+
+
+
+/* Controls - autopage animation */
+div.onoPager_coda div.onoPager_autopageAnimation_clock canvas {
+    position: absolute;
+    top: 30px;
+    right: -29px;
+}
+
+
+
+
+/* Controls - timeline */
+div.onoPager_coda div.onoPager_autopageAnimation_timeline {
+  	background: #EBEBEB;
+}
+
+div.onoPager_coda div.onoPager_autopageAnimation_timeline div.onoPager_autoPageBar {
+  	background: #000000;
+}
+
+
+
+
+
+/* Animation type - linearContinuous */
+div.onoPager_coda.onoPager_animation_linearContinuous {
+  padding-top: 22px;
+}
+
+div.onoPager_coda.onoPager_animation_linearContinuous div.onoPager_controlsContainer {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 22px;
+}
+
+div.onoPager_coda.onoPager_animation_linearContinuous div.onoPager_controls {
+	position: relative;
+	margin: 0 auto;
+}
+
+div.onoPager_coda.onoPager_animation_linearContinuous div.onoPager_listContainer.onoPager_backgroundAnimation {
+    outline: 0 solid #aaaaaa;
+    border-width: 0;
+    background: none;
+    filter: none;
+}
