@@ -161,7 +161,6 @@ onoPager.autopageAnimation.timeline = function(newConfig) {
    * @memberOf onoPager.autopageAnimation.timeline
    */
   var timelineInstance = new onoPager.autopageAnimation._standard(newConfig);
-  var tools = onoPager.tools;
   var bar = jQuery([]);
   var root = timelineInstance._config.root;
   var listContainer = timelineInstance._config.listContainer;
@@ -273,6 +272,7 @@ onoPager.autopageAnimation.clock = function(newConfig, arg_extraConfig) {
    * @memberOf onoPager.autopageAnimation.clock
    */
   var clockInstance = new onoPager.autopageAnimation._standard(newConfig);
+  var tools = onoPager.tools;
   var extraConfig = {
     widthHeight: 16,
     color: '#ffffff',
@@ -389,10 +389,5 @@ onoPager.autopageAnimation.clock = function(newConfig, arg_extraConfig) {
  * @return {object} The animation object.
  */
 onoPager.autopageAnimation.clock.isSupportedByBrowser = function() {
-  var canvas = document.createElement('canvas');
-  if (canvas.getContext) {
-    return true;
-  } else {
-    return false;
-  }
+  return tools.supportsCanvas();
 };

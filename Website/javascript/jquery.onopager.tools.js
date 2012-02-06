@@ -16,6 +16,19 @@ onoPager.tools = (function() {
 
   return {
     /**
+     * Checks if browser supports canvas
+     * @return {Boolean} If true, the browser supports canvas
+     */
+    supportsCanvas: function() {
+      var canvas = document.createElement('canvas');
+      if (canvas.getContext) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+
+    /**
      * Determines wether a page action is allowed
      * @return {Boolean} A page action can be done if return value is true.
      * @param {Object} root The root object of a pager (div.onoPager).

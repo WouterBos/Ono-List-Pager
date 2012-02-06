@@ -16,12 +16,12 @@
  * @param {Object|Null} extraConfig Optional extra configuration object.
  * @return {Object} instance of an animation object.
  */
-onoPager.animation.slides = function(newConfig, extraConfig) {
+onoPager.animation.canvas2d_Square1 = function(newConfig, extraConfig) {
   /**
    * New animation object.
    * @memberOf onoPager.animation.slides
    */
-  var slidesInstance = new onoPager.animation._standard(newConfig, extraConfig);
+  var square1Instance = new onoPager.animation._standard(newConfig, extraConfig);
   var tools = onoPager.tools;
 
   /**
@@ -29,11 +29,13 @@ onoPager.animation.slides = function(newConfig, extraConfig) {
    * @memberOf onoPager.animation.slides
    * @this
    */
-  slidesInstance.init = function() {
-    this._config.listItems.hide();
+  square1Instance.init = function() {
     this._config.listItems.css(
       {
-        'position': 'absolute'
+        display: 'none',
+        position: 'absolute',
+        top: 0,
+        left: 0
       }
     );
     jQuery(this._config.listItems[0]).show();
@@ -44,62 +46,67 @@ onoPager.animation.slides = function(newConfig, extraConfig) {
    * @memberOf onoPager.animation.slides
    * @this
    */
-  slidesInstance.page = function(oldIndex, newIndex, direction) {
-    var oldItemLeft = 0;
-    var newItemLeft = 0;
-    var pageSize = tools.getInnerSize(
-      slidesInstance._config.orientation,
-      slidesInstance._config.listItems
-    );
+  square1Instance.page = function(oldIndex, newIndex, direction) {
+    var frames = 100;
+    var counter = 0;
+    var interval = 5
+    var drawClockInterval;
+    var theCanvas;
+    var context;
+    var canvasWidth;
+    var canvasHeight;
 
-    if (oldIndex < newIndex) {
-      // Next
-      oldItemLeft = pageSize;
-      newItemLeft = -pageSize;
+    this._config.listItems.hide();
+    jQuery(this._config.listItems[oldIndex]).show();
+    
+    init();
+    
+    function init() {
+      this._config.listContainer###################;
+      theCanvas = document.getElementById("canvas");
+      context = theCanvas.getContext("2d");
+      canvasWidth = context.canvas.width;
+      canvasHeight = context.canvas.height;
+      drawClockInterval = setInterval(draw, interval);
     }
-    if (oldIndex > newIndex) {
-      // Previous
-      oldItemLeft = -pageSize;
-      newItemLeft = pageSize;
+
+    function draw() {
+      if (counter <= frames) {
+        context.fillStyle = '#ff00ff';
+        var width = parseInt((canvasWidth/frames) * counter);
+        var height = parseInt((canvasHeight/frames) * counter);
+        context.fillRect(
+          parseInt(canvasWidth/2) - parseInt(width/2),
+          parseInt(canvasHeight/2) - parseInt(height/2),
+          width,
+          height
+        );
+        counter++;
+      } else {
+        clearInterval(drawClockInterval);
+        counter = 0;
+        drawClockInterval = setInterval(clearDraw, interval);
+      }
+    }
+    
+    function clearDraw() {
+      if (counter <= frames) {
+        var width = parseInt((canvasWidth/frames) * counter);
+        var height = parseInt((canvasHeight/frames) * counter);
+        context.clearRect(
+          parseInt(canvasWidth/2) - parseInt(width/2),
+          parseInt(canvasHeight/2) - parseInt(height/2),
+          width,
+          height
+        );
+        counter++;
+      } else {
+        clearInterval(drawClockInterval);
+      }
     }
 
-    jQuery(this._config.listItems[oldIndex]).stop(true, true);
-    jQuery(this._config.listItems[newIndex]).stop(true, true);
-
-    this._config.listItems.each(function() {
-      var item = jQuery(this);
-      if (item.index() != oldIndex && item.index() != newIndex) {
-        item.hide();
-      }
-    });
-
-    var newCss = {};
-    var topLeft = tools.getTopLeft(slidesInstance._config.orientation);
-    newCss['display'] = 'block';
-    newCss[topLeft] = oldItemLeft + 'px';
-    jQuery(this._config.listItems[newIndex]).css(newCss);
-
-    var oldAni = {};
-    oldAni[topLeft] = newItemLeft + 'px';
-    jQuery(this._config.listItems[oldIndex]).animate(
-      oldAni,
-      {
-        duration: this._config.animationSpeed,
-        easing: this._config.animationEasing
-      }
-    );
-
-    var newAni = {};
-    newAni[topLeft] = '0';
-    jQuery(this._config.listItems[newIndex])
-      .delay(this._config.animationSpeed / this._config.extraConfig.delay)
-      .animate(
-        newAni,
-        {
-          duration: this._config.animationSpeed,
-          easing: this._config.animationEasing
-        }
-      );
+    //jQuery(this._config.listItems[newIndex]).show();
+    //jQuery(this._config.listItems[oldIndex]).show();
   }
 
   /**
@@ -107,9 +114,9 @@ onoPager.animation.slides = function(newConfig, extraConfig) {
    * @memberOf onoPager.animation.slides
    * @this
    */
-  slidesInstance.pagerHover = function(move) {
+  square1Instance.pagerHover = function(move) {
     // Not implemented
   }
 
-  return slidesInstance;
+  return square1Instance;
 };
