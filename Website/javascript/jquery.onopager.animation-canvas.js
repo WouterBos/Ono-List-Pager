@@ -16,7 +16,7 @@
  * @param {Object|Null} extraConfig Optional extra configuration object.
  * @return {Object} instance of an animation object.
  */
-onoPager.animation.canvas2d_Square1 = function(newConfig, extraConfig) {
+onoPager.animation.canvas2d_square1 = function(newConfig, extraConfig) {
   /**
    * New animation object.
    * @memberOf onoPager.animation.slides
@@ -62,8 +62,13 @@ onoPager.animation.canvas2d_Square1 = function(newConfig, extraConfig) {
     init();
     
     function init() {
-      this._config.listContainer###################;
-      theCanvas = document.getElementById("canvas");
+      console.log('init');
+      if (typeof(theCanvas) == 'undefined') {
+        var containerWidth = onoPager.animation.listContainer.outerWidth();
+        var containerHeight = onoPager.animation.listContainer.outerHeight();
+        square1Instance._config.listContainer.append('<canvas width="' + containerWidth + '" height="' + containerHeight + '"></canvas>');
+      }
+      theCanvas = square1Instance._config.listContainer.find('canvas')[0];
       context = theCanvas.getContext("2d");
       canvasWidth = context.canvas.width;
       canvasHeight = context.canvas.height;

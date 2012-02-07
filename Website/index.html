@@ -91,6 +91,9 @@
               <option value="continuousFaux">Continuous, with faux background</option>
               <option value="scroller">Scroller</option>
             </optgroup>
+            <optgroup label="Animation types (canvas)">
+              <option value="square1">Square 1</option>
+            </optgroup>
             <optgroup label="Themes">
               <option value="basic">No styling</option>
               <option value="simplest">Greyscale</option>
@@ -417,6 +420,26 @@
                 "}\n",
         animationConfig: "{\n" +
                          "  delay: 4\n" +
+                         "}\n"
+      },
+      square1: {
+        description: 'Canvas rules!',
+        html: standardHtml,
+        config: "{\n" +
+                "  doesLoop: false,\n" +
+                "  listContainer: {\n" +
+                "    width: '280px',\n" +
+                "    height: '100px'\n" +
+                "  },\n" +
+                "  listItems: {\n" +
+                "    width: '260px',\n" +
+                "    height: '80px'\n" +
+                "  },\n" +
+                "  animationType: 'canvas2d_square1',\n" +
+                "  animationEasing: 'easeOutCubic'\n" +
+                "}\n",
+        animationConfig: "{\n" +
+                         "  foo: 4\n" +
                          "}\n"
       },
       wide: {
