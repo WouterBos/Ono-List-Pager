@@ -543,6 +543,58 @@ onoPager.animation.slides = function(newConfig, extraConfig) {
 
 
 /**
+ * @namespace Animation object. Animation object only in name. It wil just
+ *    switch page elements without any transition.
+ *
+ * @param {Object} newConfig Standard configuration object.
+ * @param {Object|Null} extraConfig Optional extra configuration object.
+ * @return {Object} instance of an animation object.
+ */
+onoPager.animation.snap = function(newConfig, extraConfig) {
+  /**
+   * New animation object.
+   * @memberOf onoPager.animation.slides
+   */
+  var snapInstance = new onoPager.animation._standard(newConfig, extraConfig);
+
+  /**
+   * @see onoPager.animation._standard#init
+   * @memberOf onoPager.animation.snap
+   * @this
+   */
+  snapInstance.init = function() {
+    this._config.listItems.hide();
+    jQuery(this._config.listItems[0]).show();
+  }
+
+  /**
+   * @see onoPager.animation._standard#page
+   * @memberOf onoPager.animation.snap
+   * @this
+   */
+  snapInstance.page = function(oldIndex, newIndex, direction) {
+    jQuery(this._config.listItems[oldIndex]).hide();
+    jQuery(this._config.listItems[newIndex]).show();
+  }
+
+  /**
+   * @see onoPager.animation._standard#pagerHover
+   * @memberOf onoPager.animation.snap
+   * @this
+   */
+  snapInstance.pagerHover = function(move) {
+    // Not implemented
+  }
+
+  return snapInstance;
+};
+
+
+
+
+
+
+/**
  * @namespace Animation object. The old item fades away, while the new one fades
  * in at the same time.
  *

@@ -28,7 +28,7 @@
         <div class="hgroup">
           <header>
             <!-- AddThis Button BEGIN -->
-            <div class="addthis_toolbox addthis_default_style">
+            <!--<div class="addthis_toolbox addthis_default_style">
               <a class="addthis_counter addthis_pill_style"></a>
               <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
               <a class="addthis_button_tweet"></a>
@@ -85,6 +85,7 @@
             </optgroup>
             <optgroup label="Animation types">
               <option value="slides">Slides</option>
+              <option value="snap">Snap (no transition)</option>
               <option value="wide">Wide (viewport wider than the list items)</option>
               <option value="fade">With fade transition</option>
               <option value="continuous">Continuous, basic</option>
@@ -92,7 +93,7 @@
               <option value="scroller">Scroller</option>
             </optgroup>
             <optgroup label="Animation types (canvas)">
-              <option value="square1">Square 1</option>
+              <option value="square1" selected="selected">Square 1</option>
             </optgroup>
             <optgroup label="Themes">
               <option value="basic">No styling</option>
@@ -152,7 +153,7 @@
   </script>
 
   <script src="javascript/jquery.js"></script>
-  <script src="javascript/jquery.easing.1.3.min.js"></script>
+  <!--<script src="javascript/jquery.easing.1.3.min.js"></script>-->
   <!--<script src="javascript/jquery.onopager.min.js"></script>-->
   <script src="javascript/jquery.onopager.core.js"></script>
   <script src="javascript/jquery.onopagerswipe.js"></script>
@@ -326,9 +327,6 @@
                 "    width: '260px',\n" +
                 "    height: ''\n" +
                 "  },\n" +
-                "  pageByNumber: {\n" +
-                "    hideThreshold: 1\n" +
-                "  },\n" +
                 "  swipeTriggersPage: false,\n" +
                 "  animationEasing: 'easeOutCubic'\n" +
                 "}\n",
@@ -412,15 +410,29 @@
                 "    width: '260px',\n" +
                 "    height: '80px'\n" +
                 "  },\n" +
-                "  pageByNumber: {\n" +
-                "    active: true\n" +
-                "  },\n" +
                 "  animationType: 'slides',\n" +
                 "  animationEasing: 'easeOutCubic'\n" +
                 "}\n",
         animationConfig: "{\n" +
                          "  delay: 4\n" +
                          "}\n"
+      },
+      snap: {
+        description: 'Switches between page items without any transition.',
+        html: standardHtml,
+        config: "{\n" +
+                "  listContainer: {\n" +
+                "    width: '280px',\n" +
+                "    height: '100px'\n" +
+                "  },\n" +
+                "  listItems: {\n" +
+                "    width: '260px',\n" +
+                "    height: '80px'\n" +
+                "  },\n" +
+                "  animationType: 'snap',\n" +
+                "  animationEasing: 'easeOutCubic'\n" +
+                "}\n",
+        animationConfig: "{}"
       },
       square1: {
         description: 'Canvas rules!',
@@ -436,10 +448,11 @@
                 "    height: '80px'\n" +
                 "  },\n" +
                 "  animationType: 'canvas2d_square1',\n" +
-                "  animationEasing: 'easeOutCubic'\n" +
+                "  animationEasing: 'easeOutCubic',\n" +
+                "  animationSpeed: 500\n" +
                 "}\n",
         animationConfig: "{\n" +
-                         "  foo: 4\n" +
+                         "  color: '#EB7D2C'\n" +
                          "}\n"
       },
       wide: {
@@ -455,7 +468,6 @@
                 "    width: '260px',\n" +
                 "    height: '80px'\n" +
                 "  },\n" +
-                "  animationType: 'linear',\n" +
                 "  animationEasing: 'easeOutCubic',\n" +
                 "  orientation: 'horizontal'\n" +
                 "}\n",
@@ -501,7 +513,6 @@
                 "    next: '&raquo;'\n," +
                 "    previous: '&laquo;'\n" +
                 "  },\n" +
-                "  animationType: 'linear',\n" +
                 "  animationEasing: 'easeOutCubic',\n" +
                 "  animationSpeed: 1000\n" +
                 "}\n",
@@ -612,11 +623,7 @@
                 "    active: true,\n" +
                 "    preventDefault: false\n" +
                 "  },\n" +
-                "  pageByNumber: {\n" +
-                "    hideThreshold: 1\n" +
-                "  },\n" +
                 "  swipeTriggersPage: true,\n" +
-                "  animationType: 'linear',\n" +
                 "  animationEasing: 'easeOutCubic',\n" +
                 "  animationSpeed: 1000\n" +
                 "}\n",
@@ -638,11 +645,7 @@
                 "    active: true,\n" +
                 "    interval: 3000\n" +
                 "  },\n" +
-                "  pageByNumber: {\n" +
-                "    hideThreshold: 1\n" +
-                "  },\n" +
                 "  swipeTriggersPage: true,\n" +
-                "  animationType: 'linear',\n" +
                 "  animationEasing: 'easeOutCubic',\n" +
                 "  animationSpeed: 1000\n" +
                 "}\n",
@@ -665,11 +668,7 @@
                 "    interval: 3000,\n" +
                 "    pauseOnHover: true\n" +
                 "  },\n" +
-                "  pageByNumber: {\n" +
-                "    hideThreshold: 1\n" +
-                "  },\n" +
                 "  swipeTriggersPage: true,\n" +
-                "  animationType: 'linear',\n" +
                 "  animationEasing: 'easeOutCubic',\n" +
                 "  animationSpeed: 1000\n" +
                 "}\n",
@@ -692,11 +691,7 @@
                 "    interval: 5000,\n" +
                 "    autoPageAnimationType: 'timeline'\n" +
                 "  },\n" +
-                "  pageByNumber: {\n" +
-                "    hideThreshold: 1\n" +
-                "  },\n" +
                 "  swipeTriggersPage: true,\n" +
-                "  animationType: 'linear',\n" +
                 "  animationEasing: 'easeOutCubic',\n" +
                 "  animationSpeed: 1000\n" +
                 "}\n",
@@ -727,11 +722,7 @@
                 "      shadowBackgroundColor: '#999999'\n" +
                 "    }\n" +
                 "  },\n" +
-                "  pageByNumber: {\n" +
-                "    hideThreshold: 1\n" +
-                "  },\n" +
                 "  swipeTriggersPage: true,\n" +
-                "  animationType: 'linear',\n" +
                 "  animationEasing: 'easeOutCubic',\n" +
                 "  animationSpeed: 1000\n" +
                 "}\n",
