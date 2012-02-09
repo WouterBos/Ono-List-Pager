@@ -156,7 +156,7 @@ TODO:
    *    Default is false for that reason.
    *
    * @param {Boolean} arg_config.swipeTriggersPage Activates page
-   *    navigation by swiping on the screen. Default is false.
+   *    navigation by swiping on the screen. Default is true.
    *
    * @param {String} arg_config.swipePlatforms Determines on what platforms
    *    the user is able to page by swiping. 'touch' activates swiping only on
@@ -171,7 +171,8 @@ TODO:
    *    value is 'linear'.
    *
    * @param {String} arg_config.animationEasing Determines the easing type
-   *    to be used by the animation object. Default value is 'linear'.
+   *    to be used by the animation object. Default value is 'linear'. If
+   *    'easeOutCubic' is available, it will use that as default value.
    *
    * @param {String} arg_config.orientation Determines on what axis the
    *    animation moves. Possible values are 'horizontal' and 'vertical' though
@@ -269,7 +270,7 @@ TODO:
         active: false,
         preventDefault: false
       },
-      swipeTriggersPage: false,
+      swipeTriggersPage: true,
       swipePlatforms: 'touch',
       animationType: 'linear',
       animationEasing: 'linear',
@@ -280,7 +281,6 @@ TODO:
     if (typeof(jQuery.easing.easeOutCubic)) {
       config.animationEasing = 'easeOutCubic';
     }
-    console.log(config.animationEasing);
     var EMPTY_HREF = ' href="javascript:void(0)"';
     var ONOPAGER = 'onoPager';
     var HORIZONTAL = 'horizontal';
