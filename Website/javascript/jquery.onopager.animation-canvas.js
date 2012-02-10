@@ -171,7 +171,7 @@ onoPager.animation.canvas2d_clock = function(newConfig, extraConfig) {
   var tools = onoPager.tools;
   var drawClockInterval = null;
   var theCanvas;
-  var interval = 10;
+  var interval = 20;
   var frames = clockInstance._config.animationSpeed / interval;
 
   /**
@@ -223,7 +223,7 @@ onoPager.animation.canvas2d_clock = function(newConfig, extraConfig) {
       }
       
       degrees = -80;
-      drawClockInterval = setInterval(draw, interval);
+      drawClockInterval = setInterval(function() { draw(false) }, interval);
     }
     
     function resetStage() {
@@ -232,33 +232,38 @@ onoPager.animation.canvas2d_clock = function(newConfig, extraConfig) {
       context.clearRect(0, 0, canvasWidth, canvasHeight);
     }
 
-    function draw() {
-      degrees += extraConfig.intervalPrecision;
+    function draw(oppositeDirection) {
+      degrees += 360 / (clockInstance._config.animationSpeed / interval);
 
-      var centerX = Math.floor((extraConfig.widthHeight / 2) +
-                               extraConfig.shadowOffsetX);
-      var centerY = Math.floor((extraConfig.widthHeight / 2) +
-                               extraConfig.shadowOffsetY);
-      var radius = Math.floor(extraConfig.widthHeight / 2);
+      var centerX = Math.floor(canvasWidth / 2);
+      var centerY = Math.floor(canvasHeight / 2);
+      var radius = Math.floor(canvasWidth);
+      var radian = (Math.PI / 180) * degrees;
+      
+      if (oppositeDirection == true) {
+        radian = -radian;
+      }
 
-      context.clearRect(0, 0, canvasWidth + 10, canvasHeight + 10);
+      context.clearRect(0, 0, canvasWidth, canvasHeight);
       context.beginPath();
       context.moveTo(centerX, centerY);
       context.arc(centerX,
                   centerY,
                   radius,
                   (Math.PI / 180) * -90,
-                  (Math.PI / 180) * degrees,
+                  radian,
                   false);
       context.lineTo(centerX, centerY);
       context.closePath();
 
       context.fillStyle = extraConfig.color;
-      context.shadowColor = extraConfig.shadowBackgroundColor;
-      context.shadowBlur = extraConfig.shadowBlur;
-      context.shadowOffsetX = extraConfig.shadowOffsetX;
-      context.shadowOffsetY = extraConfig.shadowOffsetY;
       context.fill();
+      if (degrees > 360) {
+        clearInterval(drawClockInterval);
+        if (oppositeDirection == false) {
+          drawClockInterval = setInterval(function() { draw(true) }, interval);
+        }
+      }
     }
     
     function clearDraw() {

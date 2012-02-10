@@ -278,9 +278,10 @@ TODO:
       animationSpeed: 1000
     };
     config = $.extend(true, config, arg_config);
-    if (typeof(jQuery.easing.easeOutCubic)) {
+    if (typeof(jQuery.easing.easeOutCubic) == 'function') {
       config.animationEasing = 'easeOutCubic';
     }
+    console.log(typeof(jQuery.easing.easeOutCubic))
     var EMPTY_HREF = ' href="javascript:void(0)"';
     var ONOPAGER = 'onoPager';
     var HORIZONTAL = 'horizontal';

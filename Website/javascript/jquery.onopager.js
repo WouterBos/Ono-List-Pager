@@ -156,7 +156,7 @@ TODO:
    *    Default is false for that reason.
    *
    * @param {Boolean} arg_config.swipeTriggersPage Activates page
-   *    navigation by swiping on the screen. Default is false.
+   *    navigation by swiping on the screen. Default is true.
    *
    * @param {String} arg_config.swipePlatforms Determines on what platforms
    *    the user is able to page by swiping. 'touch' activates swiping only on
@@ -171,7 +171,8 @@ TODO:
    *    value is 'linear'.
    *
    * @param {String} arg_config.animationEasing Determines the easing type
-   *    to be used by the animation object. Default value is 'linear'.
+   *    to be used by the animation object. Default value is 'linear'. If
+   *    'easeOutCubic' is available, it will use that as default value.
    *
    * @param {String} arg_config.orientation Determines on what axis the
    *    animation moves. Possible values are 'horizontal' and 'vertical' though
@@ -269,7 +270,7 @@ TODO:
         active: false,
         preventDefault: false
       },
-      swipeTriggersPage: false,
+      swipeTriggersPage: true,
       swipePlatforms: 'touch',
       animationType: 'linear',
       animationEasing: 'linear',
@@ -277,6 +278,9 @@ TODO:
       animationSpeed: 1000
     };
     config = $.extend(true, config, arg_config);
+    if (typeof(jQuery.easing.easeOutCubic)) {
+      config.animationEasing = 'easeOutCubic';
+    }
     var EMPTY_HREF = ' href="javascript:void(0)"';
     var ONOPAGER = 'onoPager';
     var HORIZONTAL = 'horizontal';
@@ -1625,7 +1629,6 @@ onoPager.autopageAnimation.timeline = function(newConfig) {
    * @memberOf onoPager.autopageAnimation.timeline
    */
   var timelineInstance = new onoPager.autopageAnimation._standard(newConfig);
-  var tools = onoPager.tools;
   var bar = jQuery([]);
   var root = timelineInstance._config.root;
   var listContainer = timelineInstance._config.listContainer;
@@ -1737,6 +1740,7 @@ onoPager.autopageAnimation.clock = function(newConfig, arg_extraConfig) {
    * @memberOf onoPager.autopageAnimation.clock
    */
   var clockInstance = new onoPager.autopageAnimation._standard(newConfig);
+  var tools = onoPager.tools;
   var extraConfig = {
     widthHeight: 16,
     color: '#ffffff',
@@ -1853,12 +1857,7 @@ onoPager.autopageAnimation.clock = function(newConfig, arg_extraConfig) {
  * @return {object} The animation object.
  */
 onoPager.autopageAnimation.clock.isSupportedByBrowser = function() {
-  var canvas = document.createElement('canvas');
-  if (canvas.getContext) {
-    return true;
-  } else {
-    return false;
-  }
+  return tools.supportsCanvas();
 };
 /**
  * @fileOverview Animation objects factory. These animations are used to create
@@ -2397,6 +2396,58 @@ onoPager.animation.slides = function(newConfig, extraConfig) {
   }
 
   return slidesInstance;
+};
+
+
+
+
+
+
+/**
+ * @namespace Animation object. Animation object only in name. It wil just
+ *    switch page elements without any transition.
+ *
+ * @param {Object} newConfig Standard configuration object.
+ * @param {Object|Null} extraConfig Optional extra configuration object.
+ * @return {Object} instance of an animation object.
+ */
+onoPager.animation.snap = function(newConfig, extraConfig) {
+  /**
+   * New animation object.
+   * @memberOf onoPager.animation.slides
+   */
+  var snapInstance = new onoPager.animation._standard(newConfig, extraConfig);
+
+  /**
+   * @see onoPager.animation._standard#init
+   * @memberOf onoPager.animation.snap
+   * @this
+   */
+  snapInstance.init = function() {
+    this._config.listItems.hide();
+    jQuery(this._config.listItems[0]).show();
+  }
+
+  /**
+   * @see onoPager.animation._standard#page
+   * @memberOf onoPager.animation.snap
+   * @this
+   */
+  snapInstance.page = function(oldIndex, newIndex, direction) {
+    jQuery(this._config.listItems[oldIndex]).hide();
+    jQuery(this._config.listItems[newIndex]).show();
+  }
+
+  /**
+   * @see onoPager.animation._standard#pagerHover
+   * @memberOf onoPager.animation.snap
+   * @this
+   */
+  snapInstance.pagerHover = function(move) {
+    // Not implemented
+  }
+
+  return snapInstance;
 };
 
 
@@ -3269,6 +3320,19 @@ onoPager.tools = (function() {
   var VERTICAL = 'vertical';
 
   return {
+    /**
+     * Checks if browser supports canvas
+     * @return {Boolean} If true, the browser supports canvas
+     */
+    supportsCanvas: function() {
+      var canvas = document.createElement('canvas');
+      if (canvas.getContext) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+
     /**
      * Determines wether a page action is allowed
      * @return {Boolean} A page action can be done if return value is true.
