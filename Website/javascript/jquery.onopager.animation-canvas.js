@@ -168,11 +168,14 @@ onoPager.animation.canvas2d_clock = function(newConfig, extraConfig) {
   if (!clockInstance._config.extraConfig.color) {
     clockInstance._config.extraConfig.color = '#EB7D2C';
   }
+  if (!clockInstance._config.extraConfig.interval) {
+    clockInstance._config.extraConfig.interval = 10;
+  }
   var tools = onoPager.tools;
   var drawClockInterval = null;
   var theCanvas;
-  var interval = 20;
-  var frames = clockInstance._config.animationSpeed / interval;
+  var interval = clockInstance._config.extraConfig.interval;
+  var frames = (clockInstance._config.animationSpeed/2) / interval;
 
   /**
    * @see onoPager.animation._standard#init
@@ -222,8 +225,10 @@ onoPager.animation.canvas2d_clock = function(newConfig, extraConfig) {
         resetStage();
       }
       
-      degrees = -80;
+      degrees = -90;
       drawClockInterval = setInterval(function() { draw(false) }, interval);
+      jQuery(clockInstance._config.listItems.filter(':visible')).hide();
+      jQuery(clockInstance._config.listItems[oldIndex]).show();
     }
     
     function resetStage() {
@@ -233,17 +238,26 @@ onoPager.animation.canvas2d_clock = function(newConfig, extraConfig) {
     }
 
     function draw(oppositeDirection) {
-      degrees += 360 / (clockInstance._config.animationSpeed / interval);
+      degrees += 360 / ((clockInstance._config.animationSpeed/2) / interval);
+      
+      if (degrees >= 270) {
+        clearInterval(drawClockInterval);
+        if (oppositeDirection == false) {
+          degrees = -90;
+          drawClockInterval = setInterval(function() { draw(true) }, interval);
+          jQuery(clockInstance._config.listItems[oldIndex]).hide();
+          jQuery(clockInstance._config.listItems[newIndex]).show();
+        } else {
+          resetStage();
+        }
+        return;
+      }
 
       var centerX = Math.floor(canvasWidth / 2);
       var centerY = Math.floor(canvasHeight / 2);
       var radius = Math.floor(canvasWidth);
       var radian = (Math.PI / 180) * degrees;
       
-      if (oppositeDirection == true) {
-        radian = -radian;
-      }
-
       context.clearRect(0, 0, canvasWidth, canvasHeight);
       context.beginPath();
       context.moveTo(centerX, centerY);
@@ -252,18 +266,12 @@ onoPager.animation.canvas2d_clock = function(newConfig, extraConfig) {
                   radius,
                   (Math.PI / 180) * -90,
                   radian,
-                  false);
+                  oppositeDirection);
       context.lineTo(centerX, centerY);
       context.closePath();
 
       context.fillStyle = extraConfig.color;
       context.fill();
-      if (degrees > 360) {
-        clearInterval(drawClockInterval);
-        if (oppositeDirection == false) {
-          drawClockInterval = setInterval(function() { draw(true) }, interval);
-        }
-      }
     }
     
     function clearDraw() {

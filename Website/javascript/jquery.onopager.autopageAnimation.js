@@ -272,7 +272,6 @@ onoPager.autopageAnimation.clock = function(newConfig, arg_extraConfig) {
    * @memberOf onoPager.autopageAnimation.clock
    */
   var clockInstance = new onoPager.autopageAnimation._standard(newConfig);
-  var tools = onoPager.tools;
   var extraConfig = {
     widthHeight: 16,
     color: '#ffffff',
@@ -280,7 +279,8 @@ onoPager.autopageAnimation.clock = function(newConfig, arg_extraConfig) {
     shadowOffsetX: 2,
     shadowOffsetY: 2,
     shadowBackgroundColor: '#999999',
-    intervalPrecision: 4
+    intervalPrecision: 4,
+    type: 'disc'
   };
   jQuery.extend(true, extraConfig, arg_extraConfig);
   var canvasWidth = extraConfig.widthHeight + extraConfig.shadowBlur;
@@ -326,8 +326,17 @@ onoPager.autopageAnimation.clock = function(newConfig, arg_extraConfig) {
                   false);
       context.lineTo(centerX, centerY);
       context.closePath();
+      
+      console.log(extraConfig.type)
+      switch (extraConfig.type) {
+        case 'cirlce':
+          context.strokeStyle = extraConfig.color;
+          context.lineWidth = 2;
+        break;
+        default:
+          context.fillStyle = extraConfig.color;
+      }
 
-      context.fillStyle = extraConfig.color;
       context.shadowColor = extraConfig.shadowBackgroundColor;
       context.shadowBlur = extraConfig.shadowBlur;
       context.shadowOffsetX = extraConfig.shadowOffsetX;
@@ -389,5 +398,5 @@ onoPager.autopageAnimation.clock = function(newConfig, arg_extraConfig) {
  * @return {object} The animation object.
  */
 onoPager.autopageAnimation.clock.isSupportedByBrowser = function() {
-  return tools.supportsCanvas();
+  return onoPager.tools.supportsCanvas();
 };
