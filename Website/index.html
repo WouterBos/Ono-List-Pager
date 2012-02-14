@@ -90,11 +90,11 @@
               <option value="fade">With fade transition</option>
               <option value="continuous">Continuous, basic</option>
               <option value="continuousFaux">Continuous, with faux background</option>
-              <option value="scroller">Scroller</option>
+              <option value="scroller" selected="selected">Scroller</option>
             </optgroup>
             <optgroup label="Animation types (canvas)">
-              <option value="canvas2d_square1" selected="selected">Square 1</option>
-              <option value="canvas2d_clock" selected="selected">Clock</option>
+              <option value="canvas2d_square1">Square 1</option>
+              <option value="canvas2d_clock">Clock</option>
             </optgroup>
             <optgroup label="Themes">
               <option value="basic">No styling</option>
@@ -103,10 +103,13 @@
             </optgroup>
             <optgroup label="Autopage">
               <option value="autopage">Basic</option>
-              <option value="autopageTimeline">Time indicator 'timeline'</option>
-              <option value="autopageClock">Time indicator 'clock' (IE9+)</option>
               <option value="autopageDisable">Disable auto pager</option>
               <option value="autopageDisableHover">Disable auto pager on hover</option>
+            </optgroup>
+            <optgroup label="Autopage time indicators">
+              <option value="autopageTimeline">Timeline</option>
+              <option value="autopageClockPie">Clock - pie (canvas)</option>
+              <option value="autopageClockCircle">Clock - circle (canvas)</option>
             </optgroup>
           </select>
         </div>
@@ -190,6 +193,7 @@
               '  <li>Third item Lorem ipsum dolor sit amet site amet site amet. Etiam vitae massa</li>\n' +
               '  <li>Fourth item Aliquam arcu odio, sollicitudin. Curabitur convallis blandit lectus. Cras vulputate neque ut leo aliquet scelerisque. ipsum dolor sit amet site amet.</li>\n' +
               '</ul>'
+    var canvasAlert = '<strong>This demo requires canvas</strong>. It won\'t work in older browsers, notably IE8 and lower. If you would like to use this pager configuration, check if the browser supports canvas. If not, you should use an alternative configuration.'
     
     var pagers = {
       simplest: {
@@ -671,8 +675,8 @@
                 "}\n",
         animationConfig: "{}"
       },
-      autopageClock: {
-        description: 'This pager has a time indicator called \'clock\'. <strong>Clock is built with canvas, so won\'t work in older browsers, notably IE8 and lower</strong>. If you would like to use this configuration, I advise to supply non-canvas browsers a different configuration with \'timeline\' instead of \'clock\'.',
+      autopageClockPie: {
+        description: '<p>This pager has a time indicator called \'clock\'.</p><p>' + canvasAlert + '</p>',
         html: standardHtml,
         config: "{\n" +
                 "  listContainer: {\n" +
@@ -693,6 +697,35 @@
                 "      shadowBlur: 5,\n" +
                 "      shadowOffsetX: 2,\n" +
                 "      shadowOffsetY: 2,\n" +
+                "      shadowBackgroundColor: '#999999'\n" +
+                "    }\n" +
+                "  }\n" +
+                "}\n",
+        animationConfig: "{}"
+      },
+      autopageClockCircle: {
+        description: '<p>This time indicator is almost identical to \'clock\' with one extra configuration option added: <code>type: \'circle\'</code>.</p><p>' + canvasAlert + '</p>',
+        html: standardHtml,
+        config: "{\n" +
+                "  listContainer: {\n" +
+                "    width: '280px',\n" +
+                "    height: '100px'\n" +
+                "  },\n" +
+                "  listItems: {\n" +
+                "    width: '260px',\n" +
+                "    height: '80px'\n" +
+                "  },\n" +
+                "  autoPage: {\n" +
+                "    active: true,\n" +
+                "    interval: 10000,\n" +
+                "    autoPageAnimationType: 'clock',\n" +
+                "    extraConfig: {\n" +
+                "      widthHeight: 12,\n" +
+                "      color: '#000000',\n" +
+                "      shadowBlur: 5,\n" +
+                "      shadowOffsetX: 2,\n" +
+                "      shadowOffsetY: 2,\n" +
+                "      type: 'circle',\n" +
                 "      shadowBackgroundColor: '#999999'\n" +
                 "    }\n" +
                 "  }\n" +

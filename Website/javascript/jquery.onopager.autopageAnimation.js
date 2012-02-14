@@ -280,7 +280,7 @@ onoPager.autopageAnimation.clock = function(newConfig, arg_extraConfig) {
     shadowOffsetY: 2,
     shadowBackgroundColor: '#999999',
     intervalPrecision: 4,
-    type: 'disc'
+    type: 'pie'
   };
   jQuery.extend(true, extraConfig, arg_extraConfig);
   var canvasWidth = extraConfig.widthHeight + extraConfig.shadowBlur;
@@ -316,32 +316,40 @@ onoPager.autopageAnimation.clock = function(newConfig, arg_extraConfig) {
       var radius = Math.floor(extraConfig.widthHeight / 2);
 
       context.clearRect(0, 0, canvasWidth + 10, canvasHeight + 10);
-      context.beginPath();
+      if (extraConfig.type == 'pie') {
+        context.beginPath();
+      }
       context.moveTo(centerX, centerY);
+      if (extraConfig.type == 'circle') {
+        context.beginPath();
+      }
       context.arc(centerX,
                   centerY,
                   radius,
                   (Math.PI / 180) * -90,
                   (Math.PI / 180) * degrees,
                   false);
-      context.lineTo(centerX, centerY);
-      context.closePath();
-      
-      console.log(extraConfig.type)
-      switch (extraConfig.type) {
-        case 'cirlce':
-          context.strokeStyle = extraConfig.color;
-          context.lineWidth = 2;
-        break;
-        default:
-          context.fillStyle = extraConfig.color;
+      if (extraConfig.type == 'pie') {
+        context.lineTo(centerX, centerY);
       }
-
+      
       context.shadowColor = extraConfig.shadowBackgroundColor;
       context.shadowBlur = extraConfig.shadowBlur;
       context.shadowOffsetX = extraConfig.shadowOffsetX;
       context.shadowOffsetY = extraConfig.shadowOffsetY;
-      context.fill();
+
+      switch (extraConfig.type) {
+        case 'circle':
+          context.strokeStyle = extraConfig.color;
+          context.lineWidth = 2;
+          context.stroke();
+          context.closePath();
+        break;
+        default:
+          context.fillStyle = extraConfig.color;
+          context.fill();
+      }
+      
   };
 
   /**
