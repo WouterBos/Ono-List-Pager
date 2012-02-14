@@ -11,6 +11,7 @@
 
 /*
 TODO:
+- Add documentation maxHeight
 - Restructure OnoPager CSS
 - Offer some interface to control OnoPager after the UI object is created.
 - Cancel loading of images until (almost) needed.
@@ -226,6 +227,7 @@ TODO:
       listContainer: {
         width: '280px',
         height: '',
+        maxHeight: '',
         adjustHeightToListItem: {
           active: false,
           animate: false
@@ -234,6 +236,7 @@ TODO:
       listItems: {
         width: '260px',
         height: '',
+        maxHeight: '',
         triggersPagingOnClick: false
       },
       activeIndex: 0,
@@ -310,15 +313,24 @@ TODO:
           config.listItems.width.length > 0) {
         listItems.css('width', config.listItems.width);
       }
-      if (typeof(config.listItems.height) == 'string' &&
+
+      if (typeof(config.listItems.maxHeight) == 'string' &&
+          config.listItems.maxHeight.length > 0) {
+        listItems.css('max-height', config.listItems.maxHeight);
+      } else if (typeof(config.listItems.height) == 'string' &&
           config.listItems.height.length > 0) {
         listItems.css('height', config.listItems.height);
       }
+
       if (typeof(config.listContainer.width) == 'string' &&
           config.listContainer.width.length > 0) {
         listContainer.css('width', config.listContainer.width);
       }
-      if (typeof(config.listContainer.height) == 'string' &&
+
+      if (typeof(config.listContainer.maxHeight) == 'string' &&
+          config.listContainer.maxHeight.length > 0) {
+        listContainer.css('max-height', config.listContainer.maxHeight);
+      } else if (typeof(config.listContainer.height) == 'string' &&
           config.listContainer.height.length > 0) {
         listContainer.css('height', config.listContainer.height);
       }
