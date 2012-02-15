@@ -3,6 +3,8 @@
  */
 
 .onoPager_greyscale {
+    @linearScroller_padding: 12px;
+    
     padding-bottom: 10px;
 
 	/* List container */
@@ -154,6 +156,13 @@
 			text-shadow: 0 0 5px #ffffff;
 		}
 	}
+    
+    &.onoPager_animation_linearScroller {
+        margin-top: -@linearScroller_padding;
+        padding-top: @linearScroller_padding;
+        margin-right: -@linearScroller_padding;
+        padding-right: @linearScroller_padding * 2;
+    }
 	
 	&.onoPager_animation_linearScroller,
 	&.onoPager_animation_linearScroller.onoPager_disabled {
@@ -176,7 +185,7 @@
 		    filter: alpha(opacity=30) !important;
 		    opacity: 0.3 !important;
 		    cursor: default;
-	    text-decoration: none !important;
+	        text-decoration: none !important;
 		}
 		
 		&.onoPager_previous {
@@ -281,6 +290,7 @@
 		.onoPager_scroller {
 		    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 		    filter: alpha(opacity=0);
+            margin-top: @linearScroller_padding;
 		    margin-left: 1px;
 		    opacity: 0;
 		}
@@ -301,9 +311,9 @@
 	}
 	
 	.onoPager_scrollerHandle {
-	    width: 15px !important;
-	    height: 15px !important;
-	    border-radius: 15px !important;
+	    width: @linearScroller_padding !important;
+	    height: @linearScroller_padding !important;
+	    border-radius: @linearScroller_padding !important;
 	}
 	.onoPager_scroller.active {
 		.onoPager_scrollerHandle {

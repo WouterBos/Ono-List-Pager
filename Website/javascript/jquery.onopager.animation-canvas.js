@@ -240,7 +240,7 @@ onoPager.animation.canvas2d_clock = function(newConfig, extraConfig) {
     function draw(oppositeDirection) {
       degrees += 360 / ((clockInstance._config.animationSpeed/2) / interval);
       
-      if (degrees >= 270) {
+      if (degrees >= 269) {
         clearInterval(drawClockInterval);
         if (oppositeDirection == false) {
           degrees = -90;
