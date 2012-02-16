@@ -1,15 +1,116 @@
-/* CSS crunched with Crunch - http://crunchapp.net/ */
-.onoPager{position:relative;}.onoPager .onoPager_listContainer{position:relative;overflow:hidden;}.onoPager .onoPager_listContainer .onoPager_listItem{margin:0;overflow:hidden;}
-.onoPager .onoPager_controlsContainer a.onoPager_step{-moz-transition:all 0.3s ease-out;-o-transition:all 0.3s ease-out;-webkit-transition:all 0.3s ease-out;-ms-transition:all 0.3s ease-out;transition:all 0.3s ease-out;}
-.onoPager .onoPager_controlsContainer a.onoPager_step.onoPager_disabled{cursor:default;opacity:0.3;-ms-filter:'progid:DXImageTransform.Microsoft.Alpha(Opacity=30)';filter:alpha(opacity=30);}
-.onoPager .onoPager_controlsContainer .onoPager_pageByNumber a.onoPager_active{font-weight:bold;}
-.onoPager .onoPager_controlsContainer .onoPager_scroller{position:relative;height:20px;background:#cccccc;}
-.onoPager .onoPager_controlsContainer .onoPager_scrollerHandle{cursor:w-resize;position:absolute;left:0;top:0;border:1px solid #333333;width:18px;height:18px;}
-.onoPager .onoPager_controlsContainer .onoPager_autopageAnimation_timeline{left:0;width:100%;height:2px;background:#9a9abb;}
-.onoPager .onoPager_controlsContainer .onoPager_autopageAnimation_timeline .onoPager_autoPageBar{width:0;height:2px;background:#0000ff;}
-.onoPager .onoPager_animation_linearContinuous{overflow:hidden;}.onoPager .onoPager_animation_linearContinuous .onoPager_listItem{position:relative;overflow:hidden;}.onoPager .onoPager_animation_linearContinuous .onoPager_listItem:nth-child(2n) .onoPager_linearContinuous_background{background:#7fe368;}
-.onoPager .onoPager_animation_linearContinuous .onoPager_linearContinuous_background{position:absolute;left:-9999em;top:0;bottom:0;width:100%;height:100%;background:#e368df;}
-.onoPager .onoPager_animation_linearContinuous .onoPager_linearContinuous_content{position:relative;}
-.onoPager .onoPager_animation_linearContinuous .onoPager_listContainer{margin:0 auto;overflow:visible;}
-.onoPager .onoPager_animation_linearContinuous.msie7 .onoPager_listContainer{position:static !important;}
-.onoPager .onoPager_animation_linearContinuous .onoPager_controls{position:relative;margin:0 auto;}
+/**
+ * 	Ono pager basic style
+ */
+
+/* Start pager */
+.onoPager {
+    position: relative;
+}
+
+.onoPager_listContainer {
+    position: relative;
+    overflow: hidden;
+}
+
+.onoPager_listItem {
+    margin: 0;
+    overflow: hidden;
+}
+/* End pager */
+
+/* Start controls */
+a.onoPager_step {
+    -moz-transition: all 0.3s ease-out;  
+    -o-transition: all 0.3s ease-out;  
+    -webkit-transition: all 0.3s ease-out;  
+    -ms-transition: all 0.3s ease-out;  
+    transition: all 0.3s ease-out;  
+}
+
+a.onoPager_step.onoPager_disabled {
+    cursor: default;
+    opacity: 0.3;
+	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=30)';
+	filter: alpha(opacity=30);
+}
+
+.onoPager_pageByNumber a.onoPager_active {
+    font-weight: bold;
+}
+
+.onoPager_scroller {
+    position: relative;
+    height: 20px;
+    background: #cccccc;
+}
+
+.onoPager_scrollerHandle {
+    cursor: w-resize;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border: 1px solid #333333;
+    width: 18px;
+    height: 18px;
+}
+
+
+
+.onoPager_autopageAnimation_timeline {
+    left: 0;
+  	width: 100%;
+  	height: 2px;
+  	background: #9a9abb;
+}
+
+.onoPager_autopageAnimation_timeline .onoPager_autoPageBar {
+  	width: 0;
+  	height: 2px;
+  	background: #0000ff;
+}
+/* End controls */
+
+
+
+/* Start linearContinuous animation */
+.onoPager_animation_linearContinuous {
+    overflow: hidden;
+}
+
+.onoPager_animation_linearContinuous .onoPager_listItem {
+    position: relative;
+    overflow: hidden;  
+}
+
+.onoPager_animation_linearContinuous .onoPager_linearContinuous_background {
+    position: absolute;
+    left: -9999em;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: #e368df;
+}
+
+.onoPager_animation_linearContinuous .onoPager_linearContinuous_content {
+    position: relative;
+}
+
+.onoPager_animation_linearContinuous .onoPager_listContainer {
+  margin: 0 auto;
+  overflow: visible;
+}
+.onoPager_animation_linearContinuous.msie7 .onoPager_listContainer {
+  position: static !important;
+}
+
+.onoPager_animation_linearContinuous .onoPager_controls {
+  position: relative;
+  margin: 0 auto;
+}
+
+
+.onoPager_animation_linearContinuous .onoPager_listItem:nth-child(2n) .onoPager_linearContinuous_background {
+  background: #7fe368;
+}
+/* End linearContinuous animation */

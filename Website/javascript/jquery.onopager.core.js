@@ -11,7 +11,6 @@
 
 /*
 TODO:
-- Restructure OnoPager CSS
 - Offer some interface to control OnoPager after the UI object is created.
 - Cancel loading of images until (almost) needed.
 - Option to hide navigation controls altogether

@@ -95,7 +95,8 @@
             </optgroup>
             <optgroup label="Animation types (canvas)">
               <option value="canvas2d_square1">Square 1</option>
-              <option value="canvas2d_clock" selected="selected">Clock</option>
+              <option value="canvas2d_clock">Clock</option>
+              <option value="canvas2d_shutters" selected="selected">Shutters</option>
             </optgroup>
             <optgroup label="Themes">
               <option value="basic">No styling</option>
@@ -419,7 +420,7 @@
         animationConfig: "{}"
       },
       canvas2d_square1: {
-        description: 'Canvas rules!',
+        description: canvasAlert,
         html: standardHtml,
         config: "{\n" +
                 "  listContainer: {\n" +
@@ -438,7 +439,7 @@
                          "}\n"
       },
       canvas2d_clock: {
-        description: 'Canvas rules!',
+        description: canvasAlert,
         html: standardHtml,
         config: "{\n" +
                 "  listContainer: {\n" +

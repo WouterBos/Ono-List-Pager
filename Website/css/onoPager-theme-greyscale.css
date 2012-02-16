@@ -1,39 +1,309 @@
-/* CSS crunched with Crunch - http://crunchapp.net/ */
-.onoPager_greyscale{padding-bottom:10px;}.onoPager_greyscale .onoPager_listContainer,.onoPager_greyscale.onoPager_disabled:hover .onoPager_listContainer{position:relative;-moz-transition:box-shadow 0.2s ease-out;-o-transition:box-shadow 0.2s ease-out;-webkit-transition:box-shadow 0.2s ease-out;-ms-transition:box-shadow 0.2s ease-out;transition:box-shadow 0.2s ease-out;margin-bottom:15px;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;-moz-background-clip:padding;-webkit-background-clip:padding-box;background-clip:padding-box;border:1px solid #aaaaaa;box-shadow:1px 1px 3px 1px #ccc;background-color:#ffffff;background-image:-webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#eeeeee));background-image:-webkit-linear-gradient(top, #ffffff, #eeeeee);background-image:-moz-linear-gradient(top, #ffffff, #eeeeee);background-image:-ms-linear-gradient(top, #ffffff, #eeeeee);background-image:-o-linear-gradient(top, #ffffff, #eeeeee);background-image:linear-gradient(top, #ffffff, #eeeeee);filter:progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff', EndColorStr='#eeeeee');}
-.onoPager_greyscale:hover .onoPager_listContainer{box-shadow:2px 2px 8px 1px #CCC;}
-.onoPager_greyscale .onoPager_listItem{padding:10px;}
-.onoPager_greyscale .onoPager_controls:after,.onoPager_greyscale.onoPager_disabled:hover .onoPager_controls:after{clear:both;display:block;content:"";}
-.onoPager_greyscale .onoPager_controls .onoPager_status,.onoPager_greyscale.onoPager_disabled:hover .onoPager_controls .onoPager_status,.onoPager_greyscale .onoPager_controls .onoPager_step,.onoPager_greyscale.onoPager_disabled:hover .onoPager_controls .onoPager_step,.onoPager_greyscale .onoPager_controls .onoPager_pageByNumber,.onoPager_greyscale.onoPager_disabled:hover .onoPager_controls .onoPager_pageByNumber{-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";filter:alpha(opacity=50);opacity:0.5;min-height:0;-moz-transition:all 0.2s ease-out;-o-transition:all 0.2s ease-out;-webkit-transition:all 0.2s ease-out;-ms-transition:all 0.2s ease-out;transition:all 0.2s ease-out;font-size:0.9em;}
-.onoPager_greyscale.msie7 .onoPager_controls .onoPager_status,.onoPager_greyscale.msie7.onoPager_disabled:hover .onoPager_controls .onoPager_status,.onoPager_greyscale.msie7 .onoPager_controls .onoPager_step,.onoPager_greyscale.msie7.onoPager_disabled:hover .onoPager_controls .onoPager_step,.onoPager_greyscale.msie7 .onoPager_controls .onoPager_pageByNumber,.onoPager_greyscale.msie7.onoPager_disabled:hover .onoPager_controls .onoPager_pageByNumber{left:0;}
-.onoPager_greyscale:hover .onoPager_controls .onoPager_status,.onoPager_greyscale:hover .onoPager_controls.active .onoPager_status,.onoPager_greyscale:hover .onoPager_controls .onoPager_step,.onoPager_greyscale:hover .onoPager_controls.active .onoPager_step,.onoPager_greyscale:hover .onoPager_controls .onoPager_pageByNumber,.onoPager_greyscale:hover .onoPager_controls.active .onoPager_pageByNumber{-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";filter:alpha(opacity=100);opacity:1;}
-.onoPager_greyscale .onoPager_controls a span,.onoPager_greyscale.onoPager_disabled .onoPager_controls a span,.onoPager_greyscale .onoPager_controls.active a span,.onoPager_greyscale.onoPager_disabled .onoPager_controls.active a span{color:#666666;text-decoration:none;-moz-transition:all 0.2s ease-out;-o-transition:all 0.2s ease-out;-webkit-transition:all 0.2s ease-out;-ms-transition:all 0.2s ease-out;transition:all 0.2s ease-out;}
-.onoPager_greyscale:hover .onoPager_controls a,.onoPager_greyscale .onoPager_controls.active a{text-decoration:none;color:#47478b;}
-.onoPager_greyscale .onoPager_controls a:hover{text-decoration:underline;}
-.onoPager_greyscale .onoPager_step,.onoPager_greyscale.onoPager_disabled:hover .onoPager_step,.onoPager_greyscale.onoPager_disabled .onoPager_controls.active .onoPager_step{position:relative;z-index:1;top:-20px;border:10px solid transparent;}
-.onoPager_greyscale.msie7 .onoPager_step{top:-15px !important;}
-.onoPager_greyscale:hover .onoPager_step,.onoPager_greyscale .onoPager_controls.active .onoPager_step{top:-10px;}
-.onoPager_greyscale .onoPager_step:hover,.onoPager_greyscale .onoPager_step:hover span{color:#0c0ca6 !important;text-decoration:none !important;}
-.onoPager_greyscale .onoPager_step:hover span{text-shadow:0 0 5px #ffffff;}
-.onoPager_greyscale.onoPager_animation_linearScroller{margin-top:-12px;padding-top:12px;margin-right:-12px;padding-right:24px;}
-.onoPager_greyscale.onoPager_animation_linearScroller .onoPager_step,.onoPager_greyscale.onoPager_animation_linearScroller.onoPager_disabled .onoPager_step{margin-top:-8px;outline:0;font-size:3em !important;line-height:0.7em;text-decoration:none !important;}
-.onoPager_greyscale.onoPager_animation_linearScroller .onoPager_step:hover span,.onoPager_greyscale.onoPager_animation_linearScroller.onoPager_disabled .onoPager_step:hover span{color:#ff0000;}
-.onoPager_greyscale .onoPager_step.onoPager_disabled{-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)" !important;filter:alpha(opacity=30) !important;opacity:0.3 !important;cursor:default;text-decoration:none !important;}
-.onoPager_greyscale .onoPager_step.onoPager_previous{float:left;}
-.onoPager_greyscale .onoPager_step.onoPager_next{float:right;}
-.onoPager_greyscale .onoPager_pageByNumber,.onoPager_greyscale.onoPager_disabled:hover .onoPager_pageByNumber,.onoPager_greyscale.onoPager_disabled .onoPager_controls.active .onoPager_pageByNumber{position:absolute;margin-top:-10px;text-align:center;-moz-transition:all 0.2s ease-out;-o-transition:all 0.2s ease-out;-webkit-transition:all 0.2s ease-out;-ms-transition:all 0.2s ease-out;transition:all 0.2s ease-out;}
-.onoPager_greyscale.msie7 .onoPager_pageByNumber{margin-top:-5px !important;}
-.onoPager_greyscale:hover .onoPager_pageByNumber,.onoPager_greyscale .onoPager_controls.active .onoPager_pageByNumber{margin-top:0;}
-.onoPager_greyscale .onoPager_pageByNumber a{border:10px solid transparent;border-left-width:2px;border-right-width:2px;text-decoration:none !important;}.onoPager_greyscale .onoPager_pageByNumber a span{padding:4px 4px;}
-.onoPager_greyscale .onoPager_pageByNumber a.onoPager_active span{cursor:default;padding-top:0;padding-bottom:0;color:#ffffff !important;font-weight:normal;background:#999999 !important;}
-.onoPager_greyscale .onoPager_pageByNumber a a:hover span{padding-top:0;padding-bottom:0;background:#cccccc;}
-.onoPager_greyscale.msie9 .onoPager_pageByNumber .onoPager_active span{padding-top:2px;}
-.onoPager_greyscale .onoPager_status,.onoPager_greyscale.onoPager_disabled:hover .onoPager_status,.onoPager_greyscale.onoPager_disabled .onoPager_controls.active .onoPager_status{position:absolute;margin-top:-10px;width:100%;color:#666666;text-align:center;-moz-transition:all 0.2s ease-out;-o-transition:all 0.2s ease-out;-webkit-transition:all 0.2s ease-out;-ms-transition:all 0.2s ease-out;transition:all 0.2s ease-out;}
-.onoPager_greyscale:hover .onoPager_status,.onoPager_greyscale .onoPager_controls.active .onoPager_status{margin-top:0;}
-.onoPager_greyscale .onoPager_scroller,.onoPager_greyscale.onoPager_disabled:hover .onoPager_scroller,.onoPager_greyscale.onoPager_disabled .onoPager_scroller{-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";filter:alpha(opacity=0);margin-top:12px;margin-left:1px;opacity:0;}
-.onoPager_greyscale.msie7 .onoPager_scroller,.onoPager_greyscale.msie8 .onoPager_scroller{padding-bottom:2px;}
-.onoPager_greyscale:hover .onoPager_scroller,.onoPager_greyscale .onoPager_scroller.active{-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";filter:alpha(opacity=100);opacity:1;box-shadow:1px 1px 3px 1px #ddd;background:rgba(0, 0, 0, 0.05);}
-.onoPager_greyscale .onoPager_scrollerHandle{width:12px !important;height:12px !important;border-radius:12px !important;}
-.onoPager_greyscale .onoPager_scroller.active .onoPager_scrollerHandle{background:#333333;}
-.onoPager_greyscale .onoPager_autopageAnimation_clock{position:relative;}.onoPager_greyscale .onoPager_autopageAnimation_clock canvas{position:absolute;top:-116px;right:-32px;}
-.onoPager_greyscale.onoPager_animation_linearContinuous:hover .onoPager_listContainer{top:0;}
-.onoPager_greyscale.onoPager_animation_linearContinuous .onoPager_listContainer.onoPager_backgroundAnimation{outline:0 solid #aaaaaa;border-width:0;background:none;filter:none;}
+/**
+ * 	Ono pager theme greyscale
+ */
+
+div.onoPager_greyscale {
+    padding-bottom: 10px;
+}
+
+
+
+/* List container */
+div.onoPager_greyscale div.onoPager_listContainer,
+div.onoPager_greyscale.onoPager_disabled:hover div.onoPager_listContainer {
+    position: relative;
+    -moz-transition: box-shadow 0.2s ease-out;  
+    -o-transition: box-shadow 0.2s ease-out;  
+    -webkit-transition: box-shadow 0.2s ease-out;  
+    -ms-transition: box-shadow 0.2s ease-out;  
+    transition: box-shadow 0.2s ease-out;  
+    margin-bottom: 15px; 
+    -moz-border-radius: 3px; 
+    -webkit-border-radius: 3px; 
+    border-radius: 3px; 
+    -moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box; 
+    border: 1px solid #aaaaaa;
+    box-shadow: 1px 1px 3px 1px #ccc;
+    background-color: #ffffff;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#eeeeee)); 
+    background-image: -webkit-linear-gradient(top, #ffffff, #eeeeee); 
+    background-image:    -moz-linear-gradient(top, #ffffff, #eeeeee); 
+    background-image:     -ms-linear-gradient(top, #ffffff, #eeeeee); 
+    background-image:      -o-linear-gradient(top, #ffffff, #eeeeee); 
+    background-image:         linear-gradient(top, #ffffff, #eeeeee);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff', EndColorStr='#eeeeee'); 
+}
+
+div.onoPager_greyscale:hover div.onoPager_listContainer {
+    box-shadow: 2px 2px 8px 1px #CCC;
+}
+
+
+
+/* List items */
+div.onoPager_greyscale *.onoPager_listItem {
+    padding: 10px;
+}
+
+
+
+/* Controls - Base */
+div.onoPager_greyscale div.onoPager_controls div.onoPager_status,
+div.onoPager_greyscale div.onoPager_controls a.onoPager_step,
+div.onoPager_greyscale div.onoPager_controls div.onoPager_pageByNumber,
+div.onoPager_greyscale.onoPager_disabled:hover div.onoPager_controls a.onoPager_step,
+div.onoPager_greyscale.onoPager_disabled:hover div.onoPager_controls div.onoPager_pageByNumber {
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+    filter: alpha(opacity=50);
+    opacity: 0.5;
+    min-height: 0;
+    -moz-transition: all 0.2s ease-out;  
+    -o-transition: all 0.2s ease-out;  
+    -webkit-transition: all 0.2s ease-out;  
+    -ms-transition: all 0.2s ease-out;  
+    transition: all 0.2s ease-out;
+    font-size: 0.9em;
+}
+div.onoPager_greyscale.msie7 div.onoPager_controls div.onoPager_status,
+div.onoPager_greyscale.msie7 div.onoPager_controls a.onoPager_step,
+div.onoPager_greyscale.msie7 div.onoPager_controls div.onoPager_pageByNumber,
+div.onoPager_greyscale.msie7.onoPager_disabled:hover div.onoPager_controls a.onoPager_step,
+div.onoPager_greyscale.msie7.onoPager_disabled:hover div.onoPager_controls div.onoPager_pageByNumber {
+   left: 0;
+}
+div.onoPager_greyscale div.onoPager_controls:after {
+    clear: both;
+    display: block;
+    content: "";
+}
+div.onoPager_greyscale:hover div.onoPager_controls div.onoPager_status,
+div.onoPager_greyscale:hover div.onoPager_controls a.onoPager_step,
+div.onoPager_greyscale:hover div.onoPager_controls div.onoPager_pageByNumber,
+div.onoPager_greyscale:hover div.onoPager_controls.active a.onoPager_step,
+div.onoPager_greyscale:hover div.onoPager_controls.active div.onoPager_pageByNumber {
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: alpha(opacity=100);
+    opacity: 1;
+}
+
+div.onoPager_greyscale div.onoPager_controls a span,
+div.onoPager_greyscale.onoPager_disabled:hover div.onoPager_controls a span,
+div.onoPager_greyscale.onoPager_disabled div.onoPager_controls.active a span {
+    color: #666666;
+    text-decoration: none;
+    -moz-transition: all 0.2s ease-out;  
+    -o-transition: all 0.2s ease-out;  
+    -webkit-transition: all 0.2s ease-out;  
+    -ms-transition: all 0.2s ease-out;  
+    transition: all 0.2s ease-out;  
+}
+div.onoPager_greyscale:hover div.onoPager_controls a,
+div.onoPager_greyscale div.onoPager_controls.active a {
+    text-decoration: none;
+    color: #47478b;
+}
+div.onoPager_greyscale div.onoPager_controls a:hover {
+    text-decoration: underline;
+}
+
+
+
+/* Controls - Previous and next */
+div.onoPager_greyscale a.onoPager_step,
+div.onoPager_greyscale.onoPager_disabled:hover a.onoPager_step,
+div.onoPager_greyscale.onoPager_disabled div.onoPager_controls.active a.onoPager_step {
+    position: relative;
+    z-index: 1;
+    top: -20px;
+    border: 10px solid transparent;
+}
+div.onoPager_greyscale.msie7 a.onoPager_step {
+   top: -15px !important;
+}
+div.onoPager_greyscale:hover a.onoPager_step,
+div.onoPager_greyscale div.onoPager_controls.active a.onoPager_step {
+    top: -10px;
+}
+
+div.onoPager_greyscale a.onoPager_step:hover,
+div.onoPager_greyscale a.onoPager_step:hover span {
+  color: #0c0ca6 !important;
+  text-decoration: none !important;
+}
+div.onoPager_greyscale a.onoPager_step:hover span {
+  text-shadow: 0 0 5px #ffffff;
+}
+
+div.onoPager_greyscale.onoPager_animation_linearScroller a.onoPager_step,
+div.onoPager_greyscale.onoPager_disabled.onoPager_animation_linearScroller a.onoPager_step:hover {
+    margin-top: -8px;
+    outline: 0;
+    font-size: 3em !important;
+    line-height: 0.7em;
+    text-decoration: none !important;
+}
+div.onoPager_greyscale.onoPager_animation_linearScroller a.onoPager_step:hover span {
+    color: #ff0000;
+}
+
+div.onoPager_animation_linearScroller {
+    margin-top: -12px;
+    padding-top: 12px;
+    margin-right: -12px;
+    padding-right: 24px;
+}
+
+
+
+div.onoPager_greyscale a.onoPager_step.disabled {
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)" !important;
+    filter: alpha(opacity=30) !important;
+    opacity: 0.3 !important;
+    cursor: default;
+    text-decoration: none !important;
+}
+
+div.onoPager_greyscale a.onoPager_previous {
+    float: left;
+} 
+
+div.onoPager_greyscale a.onoPager_next {
+    float: right;
+}
+
+
+
+/* Controls - Page by number */
+div.onoPager_greyscale div.onoPager_pageByNumber,
+div.onoPager_greyscale.onoPager_disabled:hover div.onoPager_pageByNumber,
+div.onoPager_greyscale.onoPager_disabled div.onoPager_controls.active div.onoPager_pageByNumber {
+    position: absolute;
+    margin-top: -10px;
+    text-align: center;
+    -moz-transition: all 0.2s ease-out;  
+    -o-transition: all 0.2s ease-out;  
+    -webkit-transition: all 0.2s ease-out;  
+    -ms-transition: all 0.2s ease-out;  
+    transition: all 0.2s ease-out;  
+}
+div.onoPager_greyscale.msie7 div.onoPager_pageByNumber {
+    margin-top: -5px !important;
+}
+div.onoPager_greyscale:hover div.onoPager_pageByNumber,
+div.onoPager_greyscale div.onoPager_controls.active div.onoPager_pageByNumber {
+    margin-top: 0;
+}
+
+div.onoPager_greyscale div.onoPager_pageByNumber a {
+    border: 10px solid transparent;
+    border-left-width: 2px;
+    border-right-width: 2px;
+    text-decoration: none !important;
+}
+
+div.onoPager_greyscale div.onoPager_pageByNumber a span {
+    padding: 4px 4px;
+}
+div.onoPager_greyscale div.onoPager_pageByNumber a.onoPager_active span {
+    cursor: default;
+    padding-top: 0;
+    padding-bottom: 0;
+    color: #ffffff !important;
+    font-weight: normal;
+    background: #999999 !important;
+}
+div.onoPager_greyscale div.onoPager_pageByNumber a:hover span {
+    padding-top: 0;
+    padding-bottom: 0;
+    background: #cccccc;
+}
+div.onoPager_greyscale.msie9 div.onoPager_pageByNumber a.onoPager_active span {
+    padding-top: 2px;
+}
+
+
+
+/* Controls - Status */
+div.onoPager_greyscale div.onoPager_status,
+div.onoPager_greyscale.onoPager_disabled:hover div.onoPager_status,
+div.onoPager_greyscale.onoPager_disabled div.onoPager_controls.active div.onoPager_status {
+    position: absolute;
+    margin-top: -10px;
+    width: 100%;
+    color: #666666;
+    text-align: center;
+    -moz-transition: all 0.2s ease-out;  
+    -o-transition: all 0.2s ease-out;  
+    -webkit-transition: all 0.2s ease-out;  
+    -ms-transition: all 0.2s ease-out;  
+    transition: all 0.2s ease-out;  
+}
+div.onoPager_greyscale:hover div.onoPager_status,
+div.onoPager_greyscale div.onoPager_controls.active div.onoPager_status {
+    margin-top: 0;
+}
+
+
+
+/* Controls - Scrollbar */
+div.onoPager_greyscale div.onoPager_scroller,
+div.onoPager_greyscale.onoPager_disabled:hover div.onoPager_scroller,
+div.onoPager_greyscale.onoPager_disabled div.onoPager_scroller.active {
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+    margin-top: 12px;
+    margin-left: 1px;
+    opacity: 0;
+}
+div.onoPager_greyscale.msie7 div.onoPager_scroller,
+div.onoPager_greyscale.msie8 div.onoPager_scroller {
+    padding-bottom: 2px;
+}
+div.onoPager_greyscale:hover div.onoPager_scroller,
+div.onoPager_greyscale div.onoPager_scroller.active {
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: alpha(opacity=100);
+    opacity: 1;
+    box-shadow: 1px 1px 3px 1px #ddd;
+    background: rgba(0, 0, 0, 0.05);
+}
+
+div.onoPager_greyscale div.onoPager_scrollerHandle,
+div.onoPager_greyscale.onoPager_disabled div.onoPager_scrollerHandle:hover,
+div.onoPager_greyscale.onoPager_disabled div.onoPager_scroller.active div.onoPager_scrollerHandle {
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+}
+div.onoPager_greyscale div.onoPager_scrollerHandle:hover,
+div.onoPager_greyscale div.onoPager_scroller.active div.onoPager_scrollerHandle {
+    background: #333333;
+}
+
+
+
+/* Controls - autopage animation */
+div.onoPager_greyscale.onoPager_autopageAnimation_clock {
+    position: relative;
+}
+
+div.onoPager_greyscale.onoPager_autopageAnimation_clock canvas {
+    position: absolute;
+    top: -116px;
+    right: -32px;
+}
+
+
+
+
+/* Animation type - linearContinuous */
+div.onoPager_greyscale.onoPager_animation_linearContinuous:hover div.onoPager_listContainer {
+    top: 0;  
+}
+
+div.onoPager_greyscale.onoPager_animation_linearContinuous div.onoPager_listContainer.onoPager_backgroundAnimation {
+    outline: 0 solid #aaaaaa;
+    border-width: 0;
+    background: none;
+    filter: none;
+}
