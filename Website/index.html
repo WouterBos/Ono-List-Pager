@@ -96,7 +96,7 @@
             <optgroup label="Animation types (canvas)">
               <option value="canvas2d_square1">Square 1</option>
               <option value="canvas2d_clock">Clock</option>
-              <option value="canvas2d_shutters" selected="selected">Shutters</option>
+              <option value="canvas2d_frost" selected="selected">Frost</option>
             </optgroup>
             <optgroup label="Themes">
               <option value="basic">No styling</option>
@@ -451,6 +451,26 @@
                 "    height: '80px'\n" +
                 "  },\n" +
                 "  animationType: 'canvas2d_clock',\n" +
+                "  animationSpeed: 1000\n" +
+                "}\n",
+        animationConfig: "{\n" +
+                         "  color: '#EB7D2C',\n" +
+                         "  interval: 15\n" +
+                         "}\n"
+      },
+      canvas2d_frost: {
+        description: canvasAlert,
+        html: standardHtml,
+        config: "{\n" +
+                "  listContainer: {\n" +
+                "    width: '280px',\n" +
+                "    height: '100px'\n" +
+                "  },\n" +
+                "  listItems: {\n" +
+                "    width: '260px',\n" +
+                "    height: '80px'\n" +
+                "  },\n" +
+                "  animationType: 'canvas2d_frost',\n" +
                 "  animationSpeed: 1000\n" +
                 "}\n",
         animationConfig: "{\n" +
