@@ -6,12 +6,11 @@
  * Demos an documentation on http://www.thebrightlines.com/onopager/website/
  *
  * @since 0.1 - 2011-3-28
- * @version 1.2 - 2012-1-2
+ * @version 1.2 - 2012-2-19
  */
 
 /*
 TODO:
-- Restructure OnoPager CSS
 - Offer some interface to control OnoPager after the UI object is created.
 - Cancel loading of images until (almost) needed.
 - Option to hide navigation controls altogether
@@ -69,6 +68,10 @@ TODO:
    *
    * @param {String} arg_config.listContainer.height Height of list
    *    container, like '200px'.
+   *
+   * @param {String} arg_config.listContainer.maxHeight Maximum height of list
+   *    container, like '200px'. The maximum height will also be applied to all
+   *    list Items.
    *
    * @param {Boolean} arg_config.listContainer.adjustHeightToListItem.active If
    *    you also set pagePerItem to true, the height of the list container will
@@ -226,6 +229,7 @@ TODO:
       listContainer: {
         width: '280px',
         height: '',
+        maxHeight: '',
         adjustHeightToListItem: {
           active: false,
           animate: false
@@ -278,7 +282,7 @@ TODO:
       animationSpeed: 1000
     };
     config = $.extend(true, config, arg_config);
-    if (typeof(jQuery.easing.easeOutCubic)) {
+    if (typeof(jQuery.easing.easeOutCubic) == 'function') {
       config.animationEasing = 'easeOutCubic';
     }
     var EMPTY_HREF = ' href="javascript:void(0)"';
@@ -309,14 +313,21 @@ TODO:
           config.listItems.width.length > 0) {
         listItems.css('width', config.listItems.width);
       }
-      if (typeof(config.listItems.height) == 'string' &&
+
+      if (typeof(config.listItems.maxHeight) == 'string' &&
+          config.listItems.maxHeight.length > 0) {
+        listItems.css('max-height', config.listItems.maxHeight);
+        listContainer.css('max-height', config.listContainer.maxHeight);
+      } else if (typeof(config.listItems.height) == 'string' &&
           config.listItems.height.length > 0) {
         listItems.css('height', config.listItems.height);
       }
+
       if (typeof(config.listContainer.width) == 'string' &&
           config.listContainer.width.length > 0) {
         listContainer.css('width', config.listContainer.width);
       }
+
       if (typeof(config.listContainer.height) == 'string' &&
           config.listContainer.height.length > 0) {
         listContainer.css('height', config.listContainer.height);
@@ -1740,7 +1751,6 @@ onoPager.autopageAnimation.clock = function(newConfig, arg_extraConfig) {
    * @memberOf onoPager.autopageAnimation.clock
    */
   var clockInstance = new onoPager.autopageAnimation._standard(newConfig);
-  var tools = onoPager.tools;
   var extraConfig = {
     widthHeight: 16,
     color: '#ffffff',
@@ -1748,7 +1758,8 @@ onoPager.autopageAnimation.clock = function(newConfig, arg_extraConfig) {
     shadowOffsetX: 2,
     shadowOffsetY: 2,
     shadowBackgroundColor: '#999999',
-    intervalPrecision: 4
+    intervalPrecision: 4,
+    type: 'pie'
   };
   jQuery.extend(true, extraConfig, arg_extraConfig);
   var canvasWidth = extraConfig.widthHeight + extraConfig.shadowBlur;
@@ -1784,23 +1795,40 @@ onoPager.autopageAnimation.clock = function(newConfig, arg_extraConfig) {
       var radius = Math.floor(extraConfig.widthHeight / 2);
 
       context.clearRect(0, 0, canvasWidth + 10, canvasHeight + 10);
-      context.beginPath();
+      if (extraConfig.type == 'pie') {
+        context.beginPath();
+      }
       context.moveTo(centerX, centerY);
+      if (extraConfig.type == 'circle') {
+        context.beginPath();
+      }
       context.arc(centerX,
                   centerY,
                   radius,
                   (Math.PI / 180) * -90,
                   (Math.PI / 180) * degrees,
                   false);
-      context.lineTo(centerX, centerY);
-      context.closePath();
+      if (extraConfig.type == 'pie') {
+        context.lineTo(centerX, centerY);
+      }
 
-      context.fillStyle = extraConfig.color;
       context.shadowColor = extraConfig.shadowBackgroundColor;
       context.shadowBlur = extraConfig.shadowBlur;
       context.shadowOffsetX = extraConfig.shadowOffsetX;
       context.shadowOffsetY = extraConfig.shadowOffsetY;
-      context.fill();
+
+      switch (extraConfig.type) {
+        case 'circle':
+          context.strokeStyle = extraConfig.color;
+          context.lineWidth = 2;
+          context.stroke();
+          context.closePath();
+        break;
+        default:
+          context.fillStyle = extraConfig.color;
+          context.fill();
+      }
+
   };
 
   /**
@@ -1857,7 +1885,7 @@ onoPager.autopageAnimation.clock = function(newConfig, arg_extraConfig) {
  * @return {object} The animation object.
  */
 onoPager.autopageAnimation.clock.isSupportedByBrowser = function() {
-  return tools.supportsCanvas();
+  return onoPager.tools.supportsCanvas();
 };
 /**
  * @fileOverview Animation objects factory. These animations are used to create
@@ -3322,7 +3350,7 @@ onoPager.tools = (function() {
   return {
     /**
      * Checks if browser supports canvas
-     * @return {Boolean} If true, the browser supports canvas
+     * @return {Boolean} If true, the browser supports canvas.
      */
     supportsCanvas: function() {
       var canvas = document.createElement('canvas');

@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
-		<title>onoPager.animation | Ono List Pager Reference</title>
+		<title>onoPager.animation.canvas2d_frost | Ono List Pager Reference</title>
 
 		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;" />
 		<meta name="mobileoptimized" content="0" />
@@ -106,12 +106,12 @@
 			<header>
 				<h1 class="classTitle">
 					
-					Namespace <span>onoPager.animation</span>
+					Function Namespace <span>onoPager.animation.canvas2d_frost</span>
 				</h1>
 				
 				<div class="intro">
 					<p class="description summary">
-						Animation namespace
+						Animation object. A solid color, appearing from the borders, will   obscure the viewport. After it recedes, the new slide appears.
 					</p>
 						
 					
@@ -119,7 +119,7 @@
 							
 							
 							
-								<li>Defined in: <a href="../symbols/src/Website_javaScript_jquery.onopager.animation.js.html">jquery.onopager.animation.js</a></li>
+								<li>Defined in: <a href="../symbols/src/Website_javaScript_jquery.onopager.animation-canvas.js.html">jquery.onopager.animation-canvas.js</a></li>
 							
 							
 						</ul>
@@ -130,8 +130,8 @@
 			
 				<section>
 					<div class="props">
-						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class onoPager.animation.">
-							<caption class="sectionTitle">Namespace Summary</caption>
+						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class onoPager.animation.canvas2d_frost.">
+							<caption class="sectionTitle">Function Namespace Summary</caption>
 							<thead>
 								<tr>
 									<th scope="col">Constructor Attributes</th>
@@ -143,7 +143,7 @@
 									<td class="attributes">&nbsp;</td>
 									<td class="nameDescription" >
 										<div class="fixedFont">
-											<b><a href="../symbols/onoPager.animation.html#constructor">onoPager.animation</a></b>
+											<b><a href="../symbols/onoPager.animation.canvas2d_frost.html#constructor">onoPager.animation.canvas2d_frost</a></b>(newConfig, extraConfig)
 										</div>
 										<div class="description"></div>
 									</td>
@@ -154,6 +154,42 @@
 				</section>
 			
 			
+			
+				
+				<section>
+					
+						<nav>
+							<div class="props">
+								<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class onoPager.animation.canvas2d_frost.">
+									<caption class="sectionTitle">Field Summary</caption>
+									
+									<thead>
+										<tr>
+											<th scope="col">Field Attributes</th>
+											<th scope="col">Field Name and Description</th>
+										</tr>
+									</thead>
+									
+									<tbody>
+										
+											<tr>
+												<td class="attributes">&lt;inner&gt; &lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">
+													onoPager.animation.canvas2d_frost.<b><a href="../symbols/onoPager.animation.canvas2d_frost.html#.frostInstance">frostInstance</a></b>
+													</div>
+													<div class="description">New animation object.</div>
+												</td>
+											</tr>
+										
+									</tbody>
+								</table>
+							</div>
+						</nav>
+					
+					
+					
+				</section>
 			
 	<!--
 	#### METHODS SUMMARY
@@ -167,7 +203,7 @@
 						
 						
 							<nav>
-								<table class="summaryTable" id="MethodsList" cellspacing="0" summary="A summary of the methods documented in the class onoPager.animation.">
+								<table class="summaryTable" id="MethodsList" cellspacing="0" summary="A summary of the methods documented in the class onoPager.animation.canvas2d_frost.">
 									<thead>
 										<tr>
 											<th scope="col">Method Attributes</th>
@@ -183,9 +219,31 @@
 											>
 												<td class="attributes">&lt;static&gt; &nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont">onoPager.animation.<b><a href="../symbols/onoPager.animation.html#.createAnimation">createAnimation</a></b>(animationType, config, extraConfig)
+													<div class="fixedFont">onoPager.animation.canvas2d_frost.<b><a href="../symbols/onoPager.animation.canvas2d_frost.html#.frostInstance.init">frostInstance.init</a></b>()
 													</div>
-													<div class="description">This method creates and returns an animation object.</div>
+													<div class="description"></div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item1'
+											>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">onoPager.animation.canvas2d_frost.<b><a href="../symbols/onoPager.animation.canvas2d_frost.html#.frostInstance.page">frostInstance.page</a></b>(oldIndex, newIndex, direction)
+													</div>
+													<div class="description"></div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item2'
+											>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">onoPager.animation.canvas2d_frost.<b><a href="../symbols/onoPager.animation.canvas2d_frost.html#.frostInstance.pagerHover">frostInstance.pagerHover</a></b>(move)
+													</div>
+													<div class="description"></div>
 												</td>
 											</tr>
 										
@@ -211,11 +269,11 @@
 					<div class="details props">
 						<div class="innerProps">
 							<h2 class="sectionTitle" id="constructor">
-								Namespace Detail
+								Function Namespace Detail
 							</h2>
 							
 							<div class="fixedFont">
-								<b>onoPager.animation</b>
+								<b>onoPager.animation.canvas2d_frost</b>(newConfig, extraConfig)
 							</div>
 							
 							<div class="description">
@@ -226,7 +284,49 @@
 							
 						
 							
+								<dl class="detailList params">
+									<dt class="heading">Parameters:</dt>
+									
+										<dt>
+											<span class="light fixedFont">{Object}</span>  <b>newConfig</b>
+											
+										</dt>
+										<dd>Standard configuration object.</dd>
+									
+										<dt>
+											<span class="light fixedFont">{Object}</span>  <b>extraConfig</b>
+											
+										</dt>
+										<dd>Optional extra configuration object.</dd>
+									
+										<dt>
+											<span class="light fixedFont">{String}</span>  <b>extraConfig.color</b>
+											
+										</dt>
+										<dd>Fill color. Default is '#EB7D2C'.</dd>
+									
+								</dl>
 							
+							
+							
+								<dl class="detailList nomargin">
+									
+									
+									
+									
+									
+									
+									
+										<dt class="heading">Returns:</dt>
+										
+												<dd><span class="light fixedFont">{Object}</span> instance of an animation object.</dd>
+										
+									
+									
+									
+									
+									
+								</dl>
 							
 						</div>
 					</div>
@@ -235,6 +335,40 @@
 	<!--
 	#### FIELD DETAILS
 	-->
+			
+				<section>
+					<div class="details props">
+						<div class="innerProps">
+							<h2 class="sectionTitle">
+								Field Detail
+							</h2>
+							
+							
+								<div class="fixedFont heading" id=".frostInstance">
+									<span class='lighter'>
+									&lt;inner&gt; &lt;static&gt; 
+									</span>
+									
+									
+									
+									<span class="light">onoPager.animation.canvas2d_frost.</span><b>frostInstance</b>							
+								</div>
+								
+								<div class="description">
+									New animation object.
+									
+									
+									
+								</div>
+								
+								
+									
+								
+								
+							
+						</div>
+					</div>
+				</section>
 			
 	<!--
 	#### METHOD DETAILS
@@ -253,18 +387,68 @@
 									<li 
 										 class='item0'
 									>
-										<div class="fixedFont heading" id=".createAnimation">
+										<div class="fixedFont heading" id=".frostInstance.init">
 											<span class='lighter'>
 											&lt;static&gt; 
 											</span>
 											
-											<span class="light">{object}</span>
 											
-											<span class="light">onoPager.animation.</span><b>createAnimation</b>(animationType, config, extraConfig)
+											
+											<span class="light">onoPager.animation.canvas2d_frost.</span><b>frostInstance.init</b>()
 										</div>
 										
 										<div class="description">
-											This method creates and returns an animation object.
+											
+											
+											
+											
+											
+										</div>
+										
+										
+										
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">See:</dt>
+													
+														<dd><a href="../symbols/onoPager.animation._standard.html#init">onoPager.animation._standard#init</a></dd>
+													
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item1'
+									>
+										<div class="fixedFont heading" id=".frostInstance.page">
+											<span class='lighter'>
+											&lt;static&gt; 
+											</span>
+											
+											
+											
+											<span class="light">onoPager.animation.canvas2d_frost.</span><b>frostInstance.page</b>(oldIndex, newIndex, direction)
+										</div>
+										
+										<div class="description">
+											
 											
 											
 											
@@ -278,22 +462,22 @@
 												<dt class="heading">Parameters:</dt>
 												
 													<dt>
-														<span class="light fixedFont">{String}</span> <b>animationType</b>
+														<b>oldIndex</b>
 														
 													</dt>
-													<dd>Name of the animation that must be loaded.</dd>
+													<dd></dd>
 												
 													<dt>
-														<span class="light fixedFont">{Object}</span> <b>config</b>
+														<b>newIndex</b>
 														
 													</dt>
-													<dd>Configuration object.</dd>
+													<dd></dd>
 												
 													<dt>
-														<span class="light fixedFont">{Object}</span> <b>extraConfig</b>
+														<b>direction</b>
 														
 													</dt>
-													<dd>Extra, custom configuration object for the  animation object.</dd>
+													<dd></dd>
 												
 											</dl>
 										
@@ -308,14 +492,75 @@
 												
 												
 												
-													<dt class="heading">Returns:</dt>
+												
+												
+												
+												
+													<dt class="heading">See:</dt>
 													
-														<dd><span class="light fixedFont">{object}</span> The animation object.</dd>
+														<dd><a href="../symbols/onoPager.animation._standard.html#page">onoPager.animation._standard#page</a></dd>
 													
 												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item2'
+									>
+										<div class="fixedFont heading" id=".frostInstance.pagerHover">
+											<span class='lighter'>
+											&lt;static&gt; 
+											</span>
+											
+											
+											
+											<span class="light">onoPager.animation.canvas2d_frost.</span><b>frostInstance.pagerHover</b>(move)
+										</div>
+										
+										<div class="description">
+											
+											
+											
+											
+											
+										</div>
+										
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<b>move</b>
+														
+													</dt>
+													<dd></dd>
+												
+											</dl>
+										
+										
+										
+											<dl class="detailList nomargin">
+											
 												
 												
 												
+												
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">See:</dt>
+													
+														<dd><a href="../symbols/onoPager.animation._standard.html#pagerHover">onoPager.animation._standard#pagerHover</a></dd>
+													
 												
 											
 											</dl>
