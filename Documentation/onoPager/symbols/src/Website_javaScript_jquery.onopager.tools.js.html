@@ -23,129 +23,142 @@
 <span class='line'> 16</span> 
 <span class='line'> 17</span> </span><span class="WHIT">  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'> 18</span> </span><span class="WHIT">    </span><span class="COMM">/**
-<span class='line'> 19</span>      * Determines wether a page action is allowed
-<span class='line'> 20</span>      * @return {Boolean} A page action can be done if return value is true.
-<span class='line'> 21</span>      * @param {Object} root The root object of a pager (div.onoPager).
-<span class='line'> 22</span>      * @param {Boolean} arg_lockDuringTransition Determines of a user can make a
-<span class='line'> 23</span>      *    page before the current transition is finished.
-<span class='line'> 24</span>      * @param {Object} list The list, most of the times that's a UL.
-<span class='line'> 25</span>      * @param {Object} listItems The collection of the list items, most of the
-<span class='line'> 26</span>      *    the times it is a collection of LI's.
-<span class='line'> 27</span>      */</span><span class="WHIT">
-<span class='line'> 28</span> </span><span class="WHIT">    </span><span class="NAME">canPage</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">root</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 29</span> </span><span class="WHIT">                      </span><span class="NAME">lockDuringTransition</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 30</span> </span><span class="WHIT">                      </span><span class="NAME">list</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 31</span> </span><span class="WHIT">                      </span><span class="NAME">listItems</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 32</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">root.size</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT">
-<span class='line'> 33</span> </span><span class="WHIT">          </span><span class="NAME">root.hasClass</span><span class="PUNC">(</span><span class="STRN">'onoPager_disabled'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT">
-<span class='line'> 34</span> </span><span class="WHIT">          </span><span class="PUNC">(</span><span class="NAME">lockDuringTransition</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT">
-<span class='line'> 35</span> </span><span class="WHIT">          </span><span class="NAME">lockDuringTransition</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT">
-<span class='line'> 36</span> </span><span class="WHIT">          </span><span class="NAME">list.is</span><span class="PUNC">(</span><span class="STRN">':animated'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT">
-<span class='line'> 37</span> </span><span class="WHIT">          </span><span class="NAME">listItems.is</span><span class="PUNC">(</span><span class="STRN">':animated'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 38</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 39</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 40</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 41</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 42</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 43</span> 
-<span class='line'> 44</span> </span><span class="WHIT">    </span><span class="COMM">/**
-<span class='line'> 45</span>      * Determines wether the onoPager may do an auto page
-<span class='line'> 46</span>      * @return {Boolean} An auto page can be done if return value is true.
-<span class='line'> 47</span>      * @param {Object} root The root object of a pager (div.onoPager).
-<span class='line'> 48</span>      */</span><span class="WHIT">
-<span class='line'> 49</span> </span><span class="WHIT">    </span><span class="NAME">canAutoPage</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">root</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 50</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">root.size</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT">
-<span class='line'> 51</span> </span><span class="WHIT">          </span><span class="NAME">root.hasClass</span><span class="PUNC">(</span><span class="STRN">'onoPager_autoPageDisabled'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 52</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 53</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 54</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 55</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 56</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 57</span> 
-<span class='line'> 58</span> </span><span class="WHIT">    </span><span class="COMM">/**
-<span class='line'> 59</span>      * Returns either left or top position in pixels relative to the page.
-<span class='line'> 60</span>      * @param {Object} orientation Either 'horizontal' or 'vertical'.
-<span class='line'> 61</span>      * @param {Object} selector jQuery selector.
-<span class='line'> 62</span>      * @return {Number} Left or top offset in pixels.
-<span class='line'> 63</span>      */</span><span class="WHIT">
-<span class='line'> 64</span> </span><span class="WHIT">    </span><span class="NAME">getOffset</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">selector</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 65</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">HORIZONTAL</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 66</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="NAME">selector</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">offset</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">left</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 67</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">VERTICAL</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 68</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="NAME">selector</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">offset</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">top</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 69</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 70</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 71</span> 
-<span class='line'> 72</span> </span><span class="WHIT">    </span><span class="COMM">/**
-<span class='line'> 73</span>      * Returns either left or top position in pixels relative to its offset
-<span class='line'> 74</span>      * parent.
-<span class='line'> 75</span>      * @param {Object} orientation Either 'horizontal' or 'vertical'.
-<span class='line'> 76</span>      * @param {Object} selector jQuery selector.
-<span class='line'> 77</span>      * @return {Number} Left or top position in pixels.
-<span class='line'> 78</span>      */</span><span class="WHIT">
-<span class='line'> 79</span> </span><span class="WHIT">    </span><span class="NAME">getPosition</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">selector</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 80</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">HORIZONTAL</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 81</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="NAME">selector</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">position</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">left</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 82</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">VERTICAL</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 83</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="NAME">selector</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">position</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">top</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 84</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 85</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 86</span> 
-<span class='line'> 87</span> </span><span class="WHIT">    </span><span class="COMM">/**
-<span class='line'> 88</span>      * Returns either the string 'width' or 'height'.
-<span class='line'> 89</span>      * @param {Object} orientation Either 'horizontal' or 'vertical'.
-<span class='line'> 90</span>      * @return {String} Either 'width or 'height'.
+<span class='line'> 19</span>      * Checks if browser supports canvas
+<span class='line'> 20</span>      * @return {Boolean} If true, the browser supports canvas.
+<span class='line'> 21</span>      */</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="WHIT">    </span><span class="NAME">supportsCanvas</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="WHIT">      </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">canvas</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createElement</span><span class="PUNC">(</span><span class="STRN">'canvas'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">canvas.getContext</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 30</span> 
+<span class='line'> 31</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 32</span>      * Determines wether a page action is allowed
+<span class='line'> 33</span>      * @return {Boolean} A page action can be done if return value is true.
+<span class='line'> 34</span>      * @param {Object} root The root object of a pager (div.onoPager).
+<span class='line'> 35</span>      * @param {Boolean} arg_lockDuringTransition Determines of a user can make a
+<span class='line'> 36</span>      *    page before the current transition is finished.
+<span class='line'> 37</span>      * @param {Object} list The list, most of the times that's a UL.
+<span class='line'> 38</span>      * @param {Object} listItems The collection of the list items, most of the
+<span class='line'> 39</span>      *    the times it is a collection of LI's.
+<span class='line'> 40</span>      */</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">    </span><span class="NAME">canPage</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">root</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">                      </span><span class="NAME">lockDuringTransition</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 43</span> </span><span class="WHIT">                      </span><span class="NAME">list</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">                      </span><span class="NAME">listItems</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">root.size</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">          </span><span class="NAME">root.hasClass</span><span class="PUNC">(</span><span class="STRN">'onoPager_disabled'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="WHIT">          </span><span class="PUNC">(</span><span class="NAME">lockDuringTransition</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">          </span><span class="NAME">lockDuringTransition</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">          </span><span class="NAME">list.is</span><span class="PUNC">(</span><span class="STRN">':animated'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="WHIT">          </span><span class="NAME">listItems.is</span><span class="PUNC">(</span><span class="STRN">':animated'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 56</span> 
+<span class='line'> 57</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 58</span>      * Determines wether the onoPager may do an auto page
+<span class='line'> 59</span>      * @return {Boolean} An auto page can be done if return value is true.
+<span class='line'> 60</span>      * @param {Object} root The root object of a pager (div.onoPager).
+<span class='line'> 61</span>      */</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">    </span><span class="NAME">canAutoPage</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">root</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">root.size</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">          </span><span class="NAME">root.hasClass</span><span class="PUNC">(</span><span class="STRN">'onoPager_autoPageDisabled'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 70</span> 
+<span class='line'> 71</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 72</span>      * Returns either left or top position in pixels relative to the page.
+<span class='line'> 73</span>      * @param {Object} orientation Either 'horizontal' or 'vertical'.
+<span class='line'> 74</span>      * @param {Object} selector jQuery selector.
+<span class='line'> 75</span>      * @return {Number} Left or top offset in pixels.
+<span class='line'> 76</span>      */</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">    </span><span class="NAME">getOffset</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">selector</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">HORIZONTAL</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="NAME">selector</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">offset</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">left</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">VERTICAL</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 81</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="NAME">selector</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">offset</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">top</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 82</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 84</span> 
+<span class='line'> 85</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 86</span>      * Returns either left or top position in pixels relative to its offset
+<span class='line'> 87</span>      * parent.
+<span class='line'> 88</span>      * @param {Object} orientation Either 'horizontal' or 'vertical'.
+<span class='line'> 89</span>      * @param {Object} selector jQuery selector.
+<span class='line'> 90</span>      * @return {Number} Left or top position in pixels.
 <span class='line'> 91</span>      */</span><span class="WHIT">
-<span class='line'> 92</span> </span><span class="WHIT">    </span><span class="NAME">getWidthHeight</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">    </span><span class="NAME">getPosition</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">selector</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'> 93</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">HORIZONTAL</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 94</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">'width'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="NAME">selector</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">position</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">left</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 95</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">VERTICAL</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 96</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">'height'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="NAME">selector</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">position</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">top</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 97</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'> 98</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 99</span> 
 <span class='line'>100</span> </span><span class="WHIT">    </span><span class="COMM">/**
-<span class='line'>101</span>      * Returns either the string 'left' or 'top'.
+<span class='line'>101</span>      * Returns either the string 'width' or 'height'.
 <span class='line'>102</span>      * @param {Object} orientation Either 'horizontal' or 'vertical'.
-<span class='line'>103</span>      * @return {String} Either 'left or 'top'.
+<span class='line'>103</span>      * @return {String} Either 'width or 'height'.
 <span class='line'>104</span>      */</span><span class="WHIT">
-<span class='line'>105</span> </span><span class="WHIT">    </span><span class="NAME">getTopLeft</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">    </span><span class="NAME">getWidthHeight</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>106</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">HORIZONTAL</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>107</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">'left'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">'width'</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>108</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">VERTICAL</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>109</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">'top'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">'height'</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>110</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'>111</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>112</span> 
 <span class='line'>113</span> </span><span class="WHIT">    </span><span class="COMM">/**
-<span class='line'>114</span>      * Returns either the width or height of an element in pixels. Padding,
-<span class='line'>115</span>      *   border and margin included.
-<span class='line'>116</span>      * @param {Object} orientation Either 'horizontal' or 'vertical'.
-<span class='line'>117</span>      * @param {Object} selector jQuery selector.
-<span class='line'>118</span>      * @return {String} Either width or height in pixels.
-<span class='line'>119</span>      */</span><span class="WHIT">
-<span class='line'>120</span> </span><span class="WHIT">    </span><span class="NAME">getOuterSize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">selector</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">withMargin</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>121</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">HORIZONTAL</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>122</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="NAME">selector</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">outerWidth</span><span class="PUNC">(</span><span class="NAME">withMargin</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>123</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">VERTICAL</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>124</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="NAME">selector</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">outerHeight</span><span class="PUNC">(</span><span class="NAME">withMargin</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>125</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>126</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>127</span> 
-<span class='line'>128</span> </span><span class="WHIT">    </span><span class="COMM">/**
-<span class='line'>129</span>      * Returns either the width or height of an element in pixels. Padding
-<span class='line'>130</span>      *   included.
-<span class='line'>131</span>      * @param {Object} orientation Either 'horizontal' or 'vertical'.
-<span class='line'>132</span>      * @param {Object} selector jQuery selector.
-<span class='line'>133</span>      * @return {String} Either width or height in pixels.
-<span class='line'>134</span>      */</span><span class="WHIT">
-<span class='line'>135</span> </span><span class="WHIT">    </span><span class="NAME">getInnerSize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">selector</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>136</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">HORIZONTAL</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>137</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="NAME">selector</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">innerWidth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>138</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">VERTICAL</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>139</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="NAME">selector</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">innerHeight</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>140</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>141</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>142</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>143</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>144</span> </span></pre></body></html>
+<span class='line'>114</span>      * Returns either the string 'left' or 'top'.
+<span class='line'>115</span>      * @param {Object} orientation Either 'horizontal' or 'vertical'.
+<span class='line'>116</span>      * @return {String} Either 'left or 'top'.
+<span class='line'>117</span>      */</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="WHIT">    </span><span class="NAME">getTopLeft</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">HORIZONTAL</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">'left'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">VERTICAL</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>122</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">'top'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>123</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>124</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>125</span> 
+<span class='line'>126</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>127</span>      * Returns either the width or height of an element in pixels. Padding,
+<span class='line'>128</span>      *   border and margin included.
+<span class='line'>129</span>      * @param {Object} orientation Either 'horizontal' or 'vertical'.
+<span class='line'>130</span>      * @param {Object} selector jQuery selector.
+<span class='line'>131</span>      * @return {String} Either width or height in pixels.
+<span class='line'>132</span>      */</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="WHIT">    </span><span class="NAME">getOuterSize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">selector</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">withMargin</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">HORIZONTAL</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>135</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="NAME">selector</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">outerWidth</span><span class="PUNC">(</span><span class="NAME">withMargin</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>136</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">VERTICAL</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="NAME">selector</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">outerHeight</span><span class="PUNC">(</span><span class="NAME">withMargin</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>140</span> 
+<span class='line'>141</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>142</span>      * Returns either the width or height of an element in pixels. Padding
+<span class='line'>143</span>      *   included.
+<span class='line'>144</span>      * @param {Object} orientation Either 'horizontal' or 'vertical'.
+<span class='line'>145</span>      * @param {Object} selector jQuery selector.
+<span class='line'>146</span>      * @return {String} Either width or height in pixels.
+<span class='line'>147</span>      */</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="WHIT">    </span><span class="NAME">getInnerSize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">selector</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>149</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">HORIZONTAL</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="NAME">selector</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">innerWidth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">VERTICAL</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="NAME">selector</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">innerHeight</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>153</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>154</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>157</span> </span></pre></body></html>

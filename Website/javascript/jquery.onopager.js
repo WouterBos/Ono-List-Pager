@@ -6,7 +6,7 @@
  * Demos an documentation on http://www.thebrightlines.com/onopager/website/
  *
  * @since 0.1 - 2011-3-28
- * @version 1.2 - 2012-1-2
+ * @version 1.2 - 2012-2-19
  */
 
 /*
@@ -1811,7 +1811,7 @@ onoPager.autopageAnimation.clock = function(newConfig, arg_extraConfig) {
       if (extraConfig.type == 'pie') {
         context.lineTo(centerX, centerY);
       }
-      
+
       context.shadowColor = extraConfig.shadowBackgroundColor;
       context.shadowBlur = extraConfig.shadowBlur;
       context.shadowOffsetX = extraConfig.shadowOffsetX;
@@ -1828,7 +1828,7 @@ onoPager.autopageAnimation.clock = function(newConfig, arg_extraConfig) {
           context.fillStyle = extraConfig.color;
           context.fill();
       }
-      
+
   };
 
   /**
@@ -3350,7 +3350,7 @@ onoPager.tools = (function() {
   return {
     /**
      * Checks if browser supports canvas
-     * @return {Boolean} If true, the browser supports canvas
+     * @return {Boolean} If true, the browser supports canvas.
      */
     supportsCanvas: function() {
       var canvas = document.createElement('canvas');

@@ -17,7 +17,7 @@ onoPager.tools = (function() {
   return {
     /**
      * Checks if browser supports canvas
-     * @return {Boolean} If true, the browser supports canvas
+     * @return {Boolean} If true, the browser supports canvas.
      */
     supportsCanvas: function() {
       var canvas = document.createElement('canvas');

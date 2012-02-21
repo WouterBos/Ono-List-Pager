@@ -332,7 +332,7 @@ onoPager.autopageAnimation.clock = function(newConfig, arg_extraConfig) {
       if (extraConfig.type == 'pie') {
         context.lineTo(centerX, centerY);
       }
-      
+
       context.shadowColor = extraConfig.shadowBackgroundColor;
       context.shadowBlur = extraConfig.shadowBlur;
       context.shadowOffsetX = extraConfig.shadowOffsetX;
@@ -349,7 +349,7 @@ onoPager.autopageAnimation.clock = function(newConfig, arg_extraConfig) {
           context.fillStyle = extraConfig.color;
           context.fill();
       }
-      
+
   };
 
   /**
