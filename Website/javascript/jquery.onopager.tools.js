@@ -151,6 +151,16 @@ onoPager.tools = (function() {
       } else if (orientation == VERTICAL) {
         return jQuery(selector).innerHeight();
       }
+    },
+
+    /**
+     * Returns a canvas string, ready to insert into the DOM.
+     * @param {Number} width Canvas width.
+     * @param {Number} height Canvas height.
+     * @return {String} Either width or height in pixels.
+     */
+    createCanvas: function(width, height) {
+      return '<canvas width="' + width + '" height="' + height + '"></canvas>'
     }
   };
 })();

@@ -73,12 +73,12 @@ onoPager.animation.canvas2d_square1 = function(newConfig, extraConfig) {
 
     function init() {
       if (typeof(theCanvas) == 'undefined') {
-        var containerWidth = square1Instance._config.listContainer.outerWidth();
-        var containerHeight = square1Instance._config.listContainer
-                                                     .outerHeight();
         square1Instance._config.listContainer.append(
-          '<canvas width="' + containerWidth + '" height="' + containerHeight +
-          '" style="position: relative;"></canvas>'
+          onoPager.tools.createCanvas(square1Instance._config.listContainer
+                                                             .outerWidth(),
+                                      square1Instance._config.listContainer
+                                                             .outerHeight()
+          )
         );
       }
       theCanvas = square1Instance._config.listContainer.find('canvas')[0];
@@ -219,11 +219,12 @@ onoPager.animation.canvas2d_clock = function(newConfig, extraConfig) {
 
     function init() {
       if (typeof(theCanvas) == 'undefined') {
-        var containerWidth = clockInstance._config.listContainer.outerWidth();
-        var containerHeight = clockInstance._config.listContainer.outerHeight();
         clockInstance._config.listContainer.append(
-          '<canvas width="' + containerWidth + '" height="' + containerHeight +
-          '" style="position: relative;"></canvas>'
+          onoPager.tools.createCanvas(clockInstance._config.listContainer
+                                                           .outerWidth(),
+                                      clockInstance._config.listContainer
+                                                           .outerHeight()
+          )
         );
       }
       theCanvas = clockInstance._config.listContainer.find('canvas')[0];
@@ -335,7 +336,7 @@ onoPager.animation.canvas2d_frost = function(newConfig, extraConfig) {
   var frostInstance = new onoPager.animation._standard(newConfig, extraConfig);
   var extraConfig = frostInstance._config.extraConfig;
   if (!frostInstance._config.extraConfig.color) {
-    frostInstance._config.extraConfig.color = '#EB7D2C';
+    frostInstance._config.extraConfig.color = '235,125,44';
   }
   if (!frostInstance._config.extraConfig.interval) {
     frostInstance._config.extraConfig.interval = 10;
@@ -344,6 +345,7 @@ onoPager.animation.canvas2d_frost = function(newConfig, extraConfig) {
   var drawFrostInterval = null;
   var theCanvas;
   var interval = frostInstance._config.extraConfig.interval;
+  var color = frostInstance._config.extraConfig.color;
   var frames = (frostInstance._config.animationSpeed / 2) / interval;
 
   /**
@@ -373,6 +375,7 @@ onoPager.animation.canvas2d_frost = function(newConfig, extraConfig) {
     var context;
     var canvasWidth;
     var canvasHeight;
+    var diagonalLength;
 
     this._config.listItems.hide();
     jQuery(this._config.listItems[oldIndex]).show();
@@ -381,50 +384,83 @@ onoPager.animation.canvas2d_frost = function(newConfig, extraConfig) {
 
     function init() {
       if (typeof(theCanvas) == 'undefined') {
-        var containerWidth = frostInstance._config.listContainer.outerWidth();
-        var containerHeight = frostInstance._config.listContainer.outerHeight();
         frostInstance._config.listContainer.append(
-          '<canvas width="' + containerWidth + '" height="' + containerHeight +
-          '" style="position: relative;"></canvas>'
+          onoPager.tools.createCanvas(frostInstance._config.listContainer
+                                                           .outerWidth(),
+                                      frostInstance._config.listContainer
+                                                           .outerHeight()
+          )
         );
       }
       theCanvas = frostInstance._config.listContainer.find('canvas')[0];
       context = theCanvas.getContext('2d');
       canvasWidth = context.canvas.width;
       canvasHeight = context.canvas.height;
+      diagonalLength = Math.max(context.canvas.height, context.canvas.width);
       if (drawFrostInterval != null) {
         resetStage();
       }
-
-      drawFrostInterval = setInterval(function() { draw(false) }, interval);
+      
+      drawFrostInterval = setInterval(
+        function() {
+          draw(false)
+        },
+        interval
+      );
       jQuery(frostInstance._config.listItems.filter(':visible')).hide();
       jQuery(frostInstance._config.listItems[oldIndex]).show();
     }
 
     function resetStage() {
       clearInterval(drawFrostInterval);
-      counter = (frames - 1);
       context.clearRect(0, 0, canvasWidth, canvasHeight);
     }
 
-    function draw() {
-      var centerX = Math.floor(canvasWidth / 2);
-      var centerY = Math.floor(canvasHeight / 2);
-
-      context.clearRect(0, 0, canvasWidth, canvasHeight);
-      context.moveTo(centerX, centerY);
-      context.beginPath();
-      context.arc(centerX,
-                  centerY,
-                  radius,
-                  0,
-                  (Math.PI / 180) * 360,
-                  true);
-      context.closePath();
-
-      context.fillStyle = extraConfig.color;
-      context.fill();
-      // Draw
+    function draw(oppositeDirection) {
+      if (counter <= frames && counter >= 0) {
+        if (oppositeDirection == true) {
+          counter--;
+        } else {
+          counter++;
+        }
+        var centerX = Math.floor(canvasWidth / 2);
+        var centerY = Math.floor(canvasHeight / 2);
+        var percentage = (counter / frames) * 100;
+        if (percentage > 100) {
+          percentage = 100;
+        }
+        if (percentage < 0) {
+          percentage = 0;
+        }
+        var stopPosition = 1-(percentage/100);
+        if (stopPosition == 0) {
+          stopPosition = 0.001;
+        }
+        
+        context.clearRect(0, 0, canvasWidth, canvasHeight);
+        var gr = context.createRadialGradient(centerX,centerY,25,centerX,centerY,diagonalLength/2);
+        gr.addColorStop(0, 'rgba(' + color + ', ' + (((percentage/100) / 100) * percentage) + ')');
+        gr.addColorStop(stopPosition, 'rgba(' + color + ', ' + (percentage/100) + ')');
+        gr.addColorStop(1, 'rgba(' + color + ', 1)');
+  
+        context.fillStyle = gr;
+        context.fillRect(0, 0, canvasWidth, canvasHeight);
+      } else {
+        clearInterval(drawFrostInterval);
+        if (oppositeDirection == false) {
+          jQuery(frostInstance._config.listItems[oldIndex]).hide();
+          jQuery(frostInstance._config.listItems[newIndex]).show();
+          counter = frames;
+          drawFrostInterval = setInterval(
+            function() {
+              draw(true)
+            },
+            interval
+          );
+        } else {
+          context.clearRect(0, 0, canvasWidth, canvasHeight);
+        }
+      }
     }
   }
 

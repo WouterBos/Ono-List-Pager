@@ -114,3 +114,13 @@ a.onoPager_step.onoPager_disabled {
   background: #7fe368;
 }
 /* End linearContinuous animation */
+
+
+
+/* Start canvas styling */
+.onoPager_listContainer canvas {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+/* End canvas styling */

@@ -464,17 +464,19 @@
         config: "{\n" +
                 "  listContainer: {\n" +
                 "    width: '280px',\n" +
-                "    height: '100px'\n" +
+                "    adjustHeightToListItem: {\n" +
+                "      active: true,\n" +
+                "      animate: true\n" +
+                "      }\n" +
                 "  },\n" +
                 "  listItems: {\n" +
-                "    width: '260px',\n" +
-                "    height: '80px'\n" +
+                "    width: '260px'\n" +
                 "  },\n" +
                 "  animationType: 'canvas2d_frost',\n" +
                 "  animationSpeed: 1000\n" +
                 "}\n",
         animationConfig: "{\n" +
-                         "  color: '#EB7D2C',\n" +
+                         "  color: '235,125,44', /* RGB */\n" +
                          "  interval: 15\n" +
                          "}\n"
       },
