@@ -439,8 +439,9 @@ onoPager.animation.canvas2d_frost = function(newConfig, extraConfig) {
         
         context.clearRect(0, 0, canvasWidth, canvasHeight);
         var gr = context.createRadialGradient(centerX,centerY,25,centerX,centerY,diagonalLength/2);
-        gr.addColorStop(0, 'rgba(' + color + ', ' + (((percentage/100) / 100) * percentage) + ')');
-        gr.addColorStop(stopPosition, 'rgba(' + color + ', ' + (percentage/100) + ')');
+        opacityEased = (((percentage/100) / 100) * percentage);
+        gr.addColorStop(0, 'rgba(' + color + ', ' + opacityEased + ')');
+        gr.addColorStop(stopPosition, 'rgba(' + color + ', ' + opacityEased + ')');
         gr.addColorStop(1, 'rgba(' + color + ', 1)');
   
         context.fillStyle = gr;
