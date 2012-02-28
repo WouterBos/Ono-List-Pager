@@ -396,7 +396,6 @@ onoPager.animation.canvas2d_frost = function(newConfig, extraConfig) {
       context = theCanvas.getContext('2d');
       canvasWidth = context.canvas.width;
       canvasHeight = context.canvas.height;
-      diagonalLength = Math.max(context.canvas.height, context.canvas.width);
       if (drawFrostInterval != null) {
         resetStage();
       }
@@ -425,6 +424,7 @@ onoPager.animation.canvas2d_frost = function(newConfig, extraConfig) {
         }
         var centerX = Math.floor(canvasWidth / 2);
         var centerY = Math.floor(canvasHeight / 2);
+        diagonalLength = Math.sqrt(centerX*centerX + centerY*centerY);
         var percentage = (counter / frames) * 100;
         if (percentage > 100) {
           percentage = 100;
@@ -438,10 +438,10 @@ onoPager.animation.canvas2d_frost = function(newConfig, extraConfig) {
         }
         
         context.clearRect(0, 0, canvasWidth, canvasHeight);
-        var gr = context.createRadialGradient(centerX,centerY,25,centerX,centerY,diagonalLength/2);
+        var gr = context.createRadialGradient(centerX,centerY,25,centerX,centerY,diagonalLength);
         opacityEased = (((percentage/100) / 100) * percentage);
         gr.addColorStop(0, 'rgba(' + color + ', ' + opacityEased + ')');
-        gr.addColorStop(stopPosition, 'rgba(' + color + ', ' + opacityEased + ')');
+        gr.addColorStop(stopPosition, 'rgba(' + color + ', ' + (percentage/100) + ')');
         gr.addColorStop(1, 'rgba(' + color + ', 1)');
   
         context.fillStyle = gr;
