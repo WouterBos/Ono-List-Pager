@@ -96,7 +96,8 @@
             <optgroup label="Animation types (canvas)">
               <option value="canvas2d_square1">Square 1</option>
               <option value="canvas2d_clock">Clock</option>
-              <option value="canvas2d_frost" selected="selected">Frost</option>
+              <option value="canvas2d_frost">Frost</option>
+              <option value="canvas2d_imageGrid" selected="selected">Image grid</option>
             </optgroup>
             <optgroup label="Themes">
               <option value="basic">No styling</option>
@@ -474,6 +475,31 @@
         animationConfig: "{\n" +
                          "  color: '235,125,44', /* RGB */\n" +
                          "  interval: 15\n" +
+                         "}\n"
+      },
+      canvas2d_imageGrid: {
+        description: canvasAlert,
+        html: '<ul class="onoPager_noJs">\n' +
+              '  <li data-onopagerbackgroundimage="/images/imagegrid/1.png">First item Curabitur convallis blandit lectus. Cras vulputate neque. Vestibulum tempus neque enim, eget placerat risus. Sed sagittis mollis dolor id.</li>\n' +
+              '  <li data-onopagerbackgroundimage="/images/imagegrid/2.png">Second item Aliquam arcu odio, sollicitudin. Maecenas vitae justo velit, eget bibendum est sit amet site amet.</li>\n' +
+              '  <li data-onopagerbackgroundimage="/images/imagegrid/3.png">Third item Lorem ipsum dolor sit amet site amet site amet. Etiam vitae massa</li>\n' +
+              '</ul>',
+        config: "{\n" +
+                "  cssClass: '',\n" +
+                "  activeIndex: 1,\n" +
+                "  listContainer: {\n" +
+                "    width: '280px'\n" +
+                "  },\n" +
+                "  listItems: {\n" +
+                "    width: '260px'\n" +
+                "  },\n" +
+                "  animationType: 'canvas2d_imageGrid',\n" +
+                "  animationSpeed: 1000\n" +
+                "}\n",
+        animationConfig: "{\n" +
+                         "  color: '235,125,44', /* RGB */\n" +
+                         "  interval: 15,\n" +
+                         "  freezeUntilImagesPreloaded: true\n" +
                          "}\n"
       },
       wide: {

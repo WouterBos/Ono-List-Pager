@@ -52,7 +52,7 @@ onoPager.animation.canvas2d_square1 = function(newConfig, extraConfig) {
         left: 0
       }
     );
-    jQuery(this._config.listItems[0]).show();
+    jQuery(this._config.listItems[this._config.activeIndex]).show();
   }
 
   /**
@@ -170,13 +170,13 @@ onoPager.animation.canvas2d_clock = function(newConfig, extraConfig) {
    * @memberOf onoPager.animation.canvas2d_clock
    */
   var clockInstance = new onoPager.animation._standard(newConfig, extraConfig);
-  var extraConfig = clockInstance._config.extraConfig;
-  if (!clockInstance._config.extraConfig.color) {
-    clockInstance._config.extraConfig.color = '#EB7D2C';
-  }
-  if (!clockInstance._config.extraConfig.interval) {
-    clockInstance._config.extraConfig.interval = 10;
-  }
+  clockInstance._config.extraConfig = jQuery.extend(
+    {
+      color:'#EB7D2C',
+      interval: 10
+    },
+    clockInstance._config.extraConfig
+  );
   var tools = onoPager.tools;
   var drawClockInterval = null;
   var theCanvas;
@@ -197,7 +197,7 @@ onoPager.animation.canvas2d_clock = function(newConfig, extraConfig) {
         left: 0
       }
     );
-    jQuery(this._config.listItems[0]).show();
+    jQuery(this._config.listItems[this._config.activeIndex]).show();
   }
 
   /**
@@ -280,7 +280,7 @@ onoPager.animation.canvas2d_clock = function(newConfig, extraConfig) {
       context.lineTo(centerX, centerY);
       context.closePath();
 
-      context.fillStyle = extraConfig.color;
+      context.fillStyle = clockInstance._config.extraConfig.color;
       context.fill();
     }
 
@@ -334,15 +334,15 @@ onoPager.animation.canvas2d_frost = function(newConfig, extraConfig) {
    * @memberOf onoPager.animation.canvas2d_frost
    */
   var frostInstance = new onoPager.animation._standard(newConfig, extraConfig);
-  var extraConfig = frostInstance._config.extraConfig;
-  if (!frostInstance._config.extraConfig.color) {
-    frostInstance._config.extraConfig.color = '235,125,44';
-  }
-  if (!frostInstance._config.extraConfig.interval) {
-    frostInstance._config.extraConfig.interval = 10;
-  }
+  frostInstance._config.extraConfig = jQuery.extend(
+    {
+      color:'235,125,44',
+      interval: 10
+    },
+    frostInstance._config.extraConfig
+  );
   var tools = onoPager.tools;
-  var drawFrostInterval = null;
+  var drawInterval = null;
   var theCanvas;
   var interval = frostInstance._config.extraConfig.interval;
   var color = frostInstance._config.extraConfig.color;
@@ -362,7 +362,7 @@ onoPager.animation.canvas2d_frost = function(newConfig, extraConfig) {
         left: 0
       }
     );
-    jQuery(this._config.listItems[0]).show();
+    jQuery(this._config.listItems[this._config.activeIndex]).show();
   }
 
   /**
@@ -396,11 +396,11 @@ onoPager.animation.canvas2d_frost = function(newConfig, extraConfig) {
       context = theCanvas.getContext('2d');
       canvasWidth = context.canvas.width;
       canvasHeight = context.canvas.height;
-      if (drawFrostInterval != null) {
+      if (drawInterval != null) {
         resetStage();
       }
       
-      drawFrostInterval = setInterval(
+      drawInterval = setInterval(
         function() {
           draw(false)
         },
@@ -411,7 +411,7 @@ onoPager.animation.canvas2d_frost = function(newConfig, extraConfig) {
     }
 
     function resetStage() {
-      clearInterval(drawFrostInterval);
+      clearInterval(drawInterval);
       context.clearRect(0, 0, canvasWidth, canvasHeight);
     }
 
@@ -447,12 +447,12 @@ onoPager.animation.canvas2d_frost = function(newConfig, extraConfig) {
         context.fillStyle = gr;
         context.fillRect(0, 0, canvasWidth, canvasHeight);
       } else {
-        clearInterval(drawFrostInterval);
+        clearInterval(drawInterval);
         if (oppositeDirection == false) {
           jQuery(frostInstance._config.listItems[oldIndex]).hide();
           jQuery(frostInstance._config.listItems[newIndex]).show();
           counter = frames;
-          drawFrostInterval = setInterval(
+          drawInterval = setInterval(
             function() {
               draw(true)
             },
@@ -475,4 +475,203 @@ onoPager.animation.canvas2d_frost = function(newConfig, extraConfig) {
   }
 
   return frostInstance;
+};
+
+
+
+
+
+
+/**
+ * @namespace Animation object. 
+ *
+ * @param {Object} newConfig Standard configuration object.
+ * @param {Object} extraConfig Optional extra configuration object.
+ * @param {String} extraConfig.image
+ * @param {Object} extraConfig.square
+ * @param {Number} extraConfig.square.x
+ * @param {Number} extraConfig.square.y
+ * @return {Object} instance of an animation object.
+ */
+onoPager.animation.canvas2d_imageGrid = function(newConfig, arg_extraConfig) {
+  /**
+   * New animation object.
+   * @memberOf onoPager.animation.canvas2d_imageGrid
+   */
+  var imageGridInstance = new onoPager.animation._standard(newConfig, arg_extraConfig);
+  var extraConfig = jQuery.extend(
+    {
+      color:'235,125,44',
+      interval: 10,
+      freezeUntilImagesPreloaded: false,
+      bgColor: '#ffffff'
+    },
+    imageGridInstance._config.extraConfig
+  );
+  var config = imageGridInstance._config;
+  var tools = onoPager.tools;
+  var drawInterval = null;
+  var theCanvas;
+  var frames = (config.animationSpeed / 2) / extraConfig.interval;
+
+  /**
+   * @see onoPager.animation._standard#init
+   * @memberOf onoPager.animation.canvas2d_imageGrid
+   * @this
+   */
+  imageGridInstance.init = function() {
+    this._config.listItems.css(
+      {
+        display: 'none',
+        position: 'absolute',
+        top: 0,
+        left: 0
+      }
+    );
+    jQuery(this._config.listItems[this._config.activeIndex]).show();
+    
+    preloadImages();
+    
+    // Preload all images that are needed for the transistions
+    function preloadImages() {
+      var imageTotal = 0;
+      var imageCount = 0;
+      
+      var images = new Array();
+      if (extraConfig.freezeUntilImagesPreloaded == true) {
+        config.listContainer.parent().addClass('onoPager_disabled');
+      }
+      imageTotal = config.listItems.filter('[data-onopagerbackgroundimage]').size();
+      config.listItems.each(function() {
+        var img = new Image();
+        if (extraConfig.freezeUntilImagesPreloaded == true) {
+          img.addEventListener('load', imgCounter , false);
+        }
+        img.src = jQuery(this).attr('data-onopagerbackgroundimage');
+      });
+      
+      // Unlock pager if all images are either loaded or failed loading
+      function imgCounter(e) {
+        imageCount++;
+        if (imageCount == imageTotal) {
+          config.listContainer.parent().removeClass('onoPager_disabled');
+        }
+      }
+    }
+  }
+
+  /**
+   * @see onoPager.animation._standard#page
+   * @memberOf onoPager.animation.canvas2d_imageGrid
+   * @this
+   */
+  imageGridInstance.page = function(oldIndex, newIndex, direction) {
+    var counter = 0;
+    var context;
+    var canvasWidth;
+    var canvasHeight;
+
+    this._config.listItems.hide();
+    jQuery(this._config.listItems[oldIndex]).show();
+
+    init();
+
+    function init() {
+      if (typeof(theCanvas) == 'undefined') {
+        config.listContainer.append(
+          onoPager.tools.createCanvas(config.listContainer.outerWidth(),
+                                      config.listContainer.outerHeight()
+          )
+        );
+      }
+      theCanvas = config.listContainer.find('canvas')[0];
+      context = theCanvas.getContext('2d');
+      canvasWidth = context.canvas.width;
+      canvasHeight = context.canvas.height;
+      if (drawInterval != null) {
+        resetStage();
+      }
+      
+      drawInterval = setInterval(
+        function() {
+          draw(false)
+        },
+        extraConfig.interval
+      );
+      jQuery(config.listItems.filter(':visible')).hide();
+      jQuery(config.listItems[oldIndex]).show();
+      // Decide which image to load now
+    }
+
+    function resetStage() {
+      clearInterval(drawInterval);
+      context.clearRect(0, 0, canvasWidth, canvasHeight);
+    }
+
+    function draw(oppositeDirection) {
+      if (counter <= frames) {
+        counter++;
+        
+        // Wait for page event
+        // Calculate number of blocks on stage (extraConfig.gridSize)
+        // Calculate size blocks and offset
+        // Let them grow from 0 to 100%
+        
+        
+        
+        
+        
+        /*var centerX = Math.floor(canvasWidth / 2);
+        var centerY = Math.floor(canvasHeight / 2);
+        diagonalLength = Math.sqrt(centerX*centerX + centerY*centerY);
+        var percentage = (counter / frames) * 100;
+        if (percentage > 100) {
+          percentage = 100;
+        }
+        if (percentage < 0) {
+          percentage = 0;
+        }
+        var stopPosition = 1-(percentage/100);
+        if (stopPosition == 0) {
+          stopPosition = 0.001;
+        }*/
+        
+        context.clearRect(0, 0, canvasWidth, canvasHeight);
+        //var gr = context.createRadialGradient(centerX,centerY,25,centerX,centerY,diagonalLength);
+        //opacityEased = (((percentage/100) / 100) * percentage);
+        //gr.addColorStop(0, 'rgba(' + extraConfig.color + ', ' + opacityEased + ')');
+        //gr.addColorStop(stopPosition, 'rgba(' + extraConfig.color + ', ' + (percentage/100) + ')');
+        //gr.addColorStop(1, 'rgba(' + extraConfig.color + ', 1)');
+  
+        //context.fillStyle = gr;
+        //context.fillRect(0, 0, canvasWidth, canvasHeight);
+      } else {
+        clearInterval(drawInterval);
+        if (oppositeDirection == false) {
+          jQuery(config.listItems[oldIndex]).hide();
+          jQuery(config.listItems[newIndex]).show();
+          counter = frames;
+          drawInterval = setInterval(
+            function() {
+              draw(true)
+            },
+            extraConfig.interval
+          );
+        } else {
+          context.clearRect(0, 0, canvasWidth, canvasHeight);
+        }
+      }
+    }
+  }
+
+  /**
+   * @see onoPager.animation._standard#pagerHover
+   * @memberOf onoPager.animation.canvas2d_imageGrid
+   * @this
+   */
+  imageGridInstance.pagerHover = function(move) {
+    // Not implemented
+  }
+
+  return imageGridInstance;
 };
