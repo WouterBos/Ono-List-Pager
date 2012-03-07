@@ -512,6 +512,7 @@ onoPager.animation.canvas2d_imageGrid = function(newConfig, arg_extraConfig) {
   var tools = onoPager.tools;
   var drawInterval = null;
   var theCanvas;
+  var images = new Array();
   var frames = (config.animationSpeed / 2) / extraConfig.interval;
 
   /**
@@ -520,6 +521,19 @@ onoPager.animation.canvas2d_imageGrid = function(newConfig, arg_extraConfig) {
    * @this
    */
   imageGridInstance.init = function() {
+    if (typeof(theCanvas) == 'undefined') {
+      config.listContainer.append(
+        onoPager.tools.createCanvas(config.listContainer.outerWidth(),
+                                    config.listContainer.outerHeight()
+        )
+      );
+    }
+    theCanvas = config.listContainer.find('canvas')[0];
+    theCanvas.style.position = 'static';
+    context = theCanvas.getContext('2d');
+    canvasWidth = context.canvas.width;
+    canvasHeight = context.canvas.height;
+
     this._config.listItems.css(
       {
         display: 'none',
@@ -537,17 +551,21 @@ onoPager.animation.canvas2d_imageGrid = function(newConfig, arg_extraConfig) {
       var imageTotal = 0;
       var imageCount = 0;
       
-      var images = new Array();
       if (extraConfig.freezeUntilImagesPreloaded == true) {
         config.listContainer.parent().addClass('onoPager_disabled');
       }
       imageTotal = config.listItems.filter('[data-onopagerbackgroundimage]').size();
       config.listItems.each(function() {
-        var img = new Image();
-        if (extraConfig.freezeUntilImagesPreloaded == true) {
-          img.addEventListener('load', imgCounter , false);
+        if (jQuery(this).attr('data-onopagerbackgroundimage') == "") {
+          images.push(null);
+        } else {
+          var img = new Image();
+          if (extraConfig.freezeUntilImagesPreloaded == true) {
+            img.addEventListener('load', imgCounter , false);
+          }
+          img.src = jQuery(this).attr('data-onopagerbackgroundimage');
+          images.push(img);
         }
-        img.src = jQuery(this).attr('data-onopagerbackgroundimage');
       });
       
       // Unlock pager if all images are either loaded or failed loading
@@ -555,6 +573,10 @@ onoPager.animation.canvas2d_imageGrid = function(newConfig, arg_extraConfig) {
         imageCount++;
         if (imageCount == imageTotal) {
           config.listContainer.parent().removeClass('onoPager_disabled');
+          
+          //context.fillStyle = 'rgba(' + extraConfig.color +')';
+          //context.fillRect(0, 0, canvasWidth, canvasHeight);
+          context.drawImage(images[config.activeIndex], 0, 0);
         }
       }
     }
@@ -566,41 +588,46 @@ onoPager.animation.canvas2d_imageGrid = function(newConfig, arg_extraConfig) {
    * @this
    */
   imageGridInstance.page = function(oldIndex, newIndex, direction) {
-    var counter = 0;
-    var context;
-    var canvasWidth;
-    var canvasHeight;
-
     this._config.listItems.hide();
     jQuery(this._config.listItems[oldIndex]).show();
 
     init();
 
     function init() {
-      if (typeof(theCanvas) == 'undefined') {
-        config.listContainer.append(
-          onoPager.tools.createCanvas(config.listContainer.outerWidth(),
-                                      config.listContainer.outerHeight()
-          )
-        );
-      }
-      theCanvas = config.listContainer.find('canvas')[0];
-      context = theCanvas.getContext('2d');
-      canvasWidth = context.canvas.width;
-      canvasHeight = context.canvas.height;
       if (drawInterval != null) {
         resetStage();
       }
       
-      drawInterval = setInterval(
-        function() {
-          draw(false)
-        },
-        extraConfig.interval
-      );
       jQuery(config.listItems.filter(':visible')).hide();
       jQuery(config.listItems[oldIndex]).show();
-      // Decide which image to load now
+
+      // Fade out list item
+      jQuery(config.listItems[oldIndex]).fadeOut(config.animationSpeed/6);
+      
+      // Animate image
+      // Calculate number of blocks on stage (extraConfig.gridSize)
+      var gridX = Math.ceil(config.listContainer.outerWidth() / extraConfig.gridSize);
+      var gridY = Math.ceil(config.listContainer.outerHeight() / extraConfig.gridSize);
+      var maxGrid = Math.max(gridX, gridY);
+      
+      for (var i = 0; i < maxGrid; i++) {
+        context.drawImage(
+          images[newIndex],
+          i*extraConfig.gridSize,
+          i*extraConfig.gridSize,
+          extraConfig.gridSize,
+          extraConfig.gridSize,
+          i*extraConfig.gridSize,
+          i*extraConfig.gridSize,
+          extraConfig.gridSize,
+          extraConfig.gridSize
+        );
+      }
+      // Make animation 2* faster use leftover time to spread animation from left to right
+      // Run animation: loop through all blocks (for) and use settimeout to run animation function
+      
+      // Fade in new list item
+      jQuery(config.listItems[newIndex]).fadeIn(config.animationSpeed/6);
     }
 
     function resetStage() {
@@ -608,59 +635,7 @@ onoPager.animation.canvas2d_imageGrid = function(newConfig, arg_extraConfig) {
       context.clearRect(0, 0, canvasWidth, canvasHeight);
     }
 
-    function draw(oppositeDirection) {
-      if (counter <= frames) {
-        counter++;
-        
-        // Wait for page event
-        // Calculate number of blocks on stage (extraConfig.gridSize)
-        // Calculate size blocks and offset
-        // Let them grow from 0 to 100%
-        
-        
-        
-        
-        
-        /*var centerX = Math.floor(canvasWidth / 2);
-        var centerY = Math.floor(canvasHeight / 2);
-        diagonalLength = Math.sqrt(centerX*centerX + centerY*centerY);
-        var percentage = (counter / frames) * 100;
-        if (percentage > 100) {
-          percentage = 100;
-        }
-        if (percentage < 0) {
-          percentage = 0;
-        }
-        var stopPosition = 1-(percentage/100);
-        if (stopPosition == 0) {
-          stopPosition = 0.001;
-        }*/
-        
-        context.clearRect(0, 0, canvasWidth, canvasHeight);
-        //var gr = context.createRadialGradient(centerX,centerY,25,centerX,centerY,diagonalLength);
-        //opacityEased = (((percentage/100) / 100) * percentage);
-        //gr.addColorStop(0, 'rgba(' + extraConfig.color + ', ' + opacityEased + ')');
-        //gr.addColorStop(stopPosition, 'rgba(' + extraConfig.color + ', ' + (percentage/100) + ')');
-        //gr.addColorStop(1, 'rgba(' + extraConfig.color + ', 1)');
-  
-        //context.fillStyle = gr;
-        //context.fillRect(0, 0, canvasWidth, canvasHeight);
-      } else {
-        clearInterval(drawInterval);
-        if (oppositeDirection == false) {
-          jQuery(config.listItems[oldIndex]).hide();
-          jQuery(config.listItems[newIndex]).show();
-          counter = frames;
-          drawInterval = setInterval(
-            function() {
-              draw(true)
-            },
-            extraConfig.interval
-          );
-        } else {
-          context.clearRect(0, 0, canvasWidth, canvasHeight);
-        }
-      }
+    function draw() {
     }
   }
 
