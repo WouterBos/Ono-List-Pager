@@ -622,6 +622,19 @@ onoPager.animation.canvas2d_imageGrid = function(newConfig, arg_extraConfig) {
           extraConfig.gridSize,
           extraConfig.gridSize
         );
+        for (var ii = 0; ii < i; ii++) { // something with *2
+          context.drawImage(
+            images[newIndex],
+            i*extraConfig.gridSize,
+            i*extraConfig.gridSize,
+            extraConfig.gridSize,
+            extraConfig.gridSize,
+            i*extraConfig.gridSize,
+            i*extraConfig.gridSize,
+            extraConfig.gridSize,
+            extraConfig.gridSize
+          );
+        }
       }
       // Make animation 2* faster use leftover time to spread animation from left to right
       // Run animation: loop through all blocks (for) and use settimeout to run animation function
