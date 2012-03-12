@@ -97,7 +97,7 @@
               <option value="canvas2d_square1">Square 1</option>
               <option value="canvas2d_clock">Clock</option>
               <option value="canvas2d_frost">Frost</option>
-              <option value="canvas2d_imageGrid" selected="selected">Image grid</option>
+              <option value="canvas2d_imageGrid">Image grid</option>
             </optgroup>
             <optgroup label="Themes">
               <option value="basic">No styling</option>
@@ -792,6 +792,16 @@
     });
     
     function getConfig(element) {
+      var example = getQueryString('example');
+      if (example != '') {
+        for (var i = 0; i < element.options.length; i++) {
+          if (element.options[i].value == example) {
+            element.options[i].selected = true;
+            break;
+          }
+        }
+      }
+      
       var config = jQuery(element).val();
       jQuery('#editDemo_result').attr('class', config)
       jQuery('#editDemo_html').val(pagers[config].html);
@@ -806,6 +816,23 @@
       eval('var onoAnimationConfig = ' + jQuery('#editDemo_jsAnimationConfig').val());
       jQuery('#editDemo_result > ul, #editDemo_result > div').onoPager(onoConfig, onoAnimationConfig);
       setDisableButtons();
+    }
+
+    function getQueryString(key, custom_url) {
+      var query
+      if (typeof(custom_url) == "string") {
+        query = custom_url.substring(custom_url.indexOf('?')+1)
+      } else {
+        query = window.location.search.substring(1)
+      }
+      var vars = query.split("&");
+      
+      for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split("=");
+        if (pair[0] == key) {
+          return pair[1];
+        }
+      }
     }
 
     getConfig(document.getElementById('examples'));

@@ -597,50 +597,79 @@ onoPager.animation.canvas2d_imageGrid = function(newConfig, arg_extraConfig) {
       if (drawInterval != null) {
         resetStage();
       }
+      var contentAniSpeed = config.animationSpeed/6
+      var canvasAniSpeed = config.animationSpeed - (contentAniSpeed * 2);
       
       jQuery(config.listItems.filter(':visible')).hide();
       jQuery(config.listItems[oldIndex]).show();
 
       // Fade out list item
-      jQuery(config.listItems[oldIndex]).fadeOut(config.animationSpeed/6);
+      jQuery(config.listItems[oldIndex]).fadeOut(contentAniSpeed);
       
       // Animate image
       // Calculate number of blocks on stage (extraConfig.gridSize)
-      var gridX = Math.ceil(config.listContainer.outerWidth() / extraConfig.gridSize);
-      var gridY = Math.ceil(config.listContainer.outerHeight() / extraConfig.gridSize);
-      var maxGrid = Math.max(gridX, gridY);
+      var containterWidth = config.listContainer.outerWidth();
+      var containterHeight = config.listContainer.outerHeight();
+      var diagonalGrid = Math.sqrt(containterWidth*containterWidth + containterHeight*containterHeight) / extraConfig.gridSize;
+      var timeouts = new Array();
+      var interval = canvasAniSpeed / diagonalGrid;
       
-      for (var i = 0; i < maxGrid; i++) {
-        context.drawImage(
-          images[newIndex],
-          i*extraConfig.gridSize,
-          i*extraConfig.gridSize,
-          extraConfig.gridSize,
-          extraConfig.gridSize,
-          i*extraConfig.gridSize,
-          i*extraConfig.gridSize,
-          extraConfig.gridSize,
-          extraConfig.gridSize
-        );
-        for (var ii = 0; ii < i; ii++) { // something with *2
-          context.drawImage(
-            images[newIndex],
-            i*extraConfig.gridSize,
-            i*extraConfig.gridSize,
-            extraConfig.gridSize,
-            extraConfig.gridSize,
-            i*extraConfig.gridSize,
-            i*extraConfig.gridSize,
-            extraConfig.gridSize,
-            extraConfig.gridSize
-          );
-        }
-      }
+      setTimeout(
+        function() {
+          for (var i = 0; i < (diagonalGrid * 2); i++) {
+            (function(i) {
+              var timeout = setTimeout(
+                function() {
+                  context.drawImage(
+                    images[newIndex],
+                    i * extraConfig.gridSize,
+                    i * extraConfig.gridSize,
+                    extraConfig.gridSize,
+                    extraConfig.gridSize,
+                    i * extraConfig.gridSize,
+                    i * extraConfig.gridSize,
+                    extraConfig.gridSize,
+                    extraConfig.gridSize
+                  );
+                },
+                (i * interval)
+              );
+              timeouts.push(timeout);
+    
+              var total = i
+              for (var ii = 0; ii <= total; ii++) {
+                (function(ii) {
+                  var timeout;
+                  var timeout = setTimeout(
+                    function() {
+                      context.drawImage(
+                        images[newIndex],
+                        (total - ii) * extraConfig.gridSize,
+                        ii * extraConfig.gridSize,
+                        extraConfig.gridSize,
+                        extraConfig.gridSize,
+                        (total - ii) * extraConfig.gridSize,
+                        ii * extraConfig.gridSize,
+                        extraConfig.gridSize,
+                        extraConfig.gridSize
+                      );
+                    },
+                    ((i * interval) / 2)
+                  );
+                  timeouts.push(timeout);
+                })(ii);
+              }
+            })(i);
+          }
+        },
+        contentAniSpeed
+      );
+        
       // Make animation 2* faster use leftover time to spread animation from left to right
       // Run animation: loop through all blocks (for) and use settimeout to run animation function
       
       // Fade in new list item
-      jQuery(config.listItems[newIndex]).fadeIn(config.animationSpeed/6);
+      jQuery(config.listItems[newIndex]).delay(canvasAniSpeed + contentAniSpeed).fadeIn(contentAniSpeed);
     }
 
     function resetStage() {
