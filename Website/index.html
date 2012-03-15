@@ -316,7 +316,7 @@
                 "    adjustHeightToListItem: {\n" +
                 "      active: true,\n" +
                 "      animate: true\n" +
-                "      }\n" +
+                "    }\n" +
                 "  },\n" +
                 "  listItems: {\n" +
                 "    width: '260px',\n" +
@@ -488,10 +488,15 @@
                 "  cssClass: '',\n" +
                 "  activeIndex: 1,\n" +
                 "  listContainer: {\n" +
-                "    width: '280px'\n" +
+                "    width: '280px',\n" +
+                "    height: '',\n" +
+                "    adjustHeightToListItem: {\n" +
+                "      active: true,\n" +
+                "      animate: true\n" +
+                "    }\n" +
                 "  },\n" +
                 "  listItems: {\n" +
-                "    width: '260px'\n" +
+                "    width: '280px'\n" +
                 "  },\n" +
                 "  animationType: 'canvas2d_imageGrid',\n" +
                 "  animationSpeed: 2000\n" +
@@ -783,7 +788,7 @@
     };
     
     jQuery('#examples').change(function() {
-      getConfig(this);
+      getConfig(this, false);
       runConfig();
     });
     
@@ -791,9 +796,9 @@
       runConfig();
     });
     
-    function getConfig(element) {
+    function getConfig(element, getValueFromURL) {
       var example = getQueryString('example');
-      if (example != '') {
+      if (example != '' && getValueFromURL == true) {
         for (var i = 0; i < element.options.length; i++) {
           if (element.options[i].value == example) {
             element.options[i].selected = true;
@@ -835,7 +840,7 @@
       }
     }
 
-    getConfig(document.getElementById('examples'));
+    getConfig(document.getElementById('examples'), true);
     runConfig();
     
     function setDisableButtons() {

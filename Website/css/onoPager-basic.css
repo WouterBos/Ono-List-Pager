@@ -119,8 +119,9 @@ a.onoPager_step.onoPager_disabled {
 
 /* Start canvas styling */
 .onoPager_listContainer canvas {
-	position: relative;
+	position: absolute;
 	width: 100%;
-	height: 100%;
+	top: 0;
+	bottom: 0;
 }
 /* End canvas styling */

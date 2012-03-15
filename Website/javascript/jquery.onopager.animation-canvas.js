@@ -608,15 +608,41 @@ onoPager.animation.canvas2d_imageGrid = function(newConfig, arg_extraConfig) {
       
       // Animate image
       // Calculate number of blocks on stage (extraConfig.gridSize)
-      var containterWidth = config.listContainer.outerWidth();
-      var containterHeight = config.listContainer.outerHeight();
-      var diagonalGrid = Math.sqrt(containterWidth*containterWidth + containterHeight*containterHeight) / extraConfig.gridSize;
+      var containerWidth = jQuery(config.listItems[newIndex]).outerWidth();
+      var containterHeight = jQuery(config.listItems[newIndex]).outerHeight();
+      var diagonalGrid = Math.sqrt(containerWidth*containerWidth + containterHeight*containterHeight) / extraConfig.gridSize;
       var timeouts = new Array();
-      var interval = canvasAniSpeed / diagonalGrid;
+      var loopTotal = (containerWidth + containterHeight) / extraConfig.gridSize;
+      var interval = canvasAniSpeed / loopTotal;
+      var maxTransitionDimensions = getMaxTransitionDimensions();
+      
+      function getMaxTransitionDimensions() {
+        var dimensions = {};
+        dimensions.width = Math.max(jQuery(config.listItems[oldIndex]).outerWidth(true), jQuery(config.listItems[newIndex]).outerWidth(true));
+        dimensions.height = Math.max(jQuery(config.listItems[oldIndex]).outerHeight(true), jQuery(config.listItems[newIndex]).outerHeight(true));
+        console.log(dimensions, jQuery(config.listItems[oldIndex]).outerHeight(true), jQuery(config.listItems[newIndex]).outerHeight(true));
+        return dimensions;
+      }
+      
+      //context.fillStyle = '#ff00ff';
+      //context.fillRect(0, 0, maxTransitionDimensions.width, maxTransitionDimensions.height);
+
+      context.drawImage(
+        images[oldIndex],
+        maxTransitionDimensions.width,
+        maxTransitionDimensions.height,
+        maxTransitionDimensions.width,
+        maxTransitionDimensions.height,
+        maxTransitionDimensions.width,
+        maxTransitionDimensions.height,
+        maxTransitionDimensions.width,
+        maxTransitionDimensions.height
+      );
+      /*theCanvas.style.height = maxTransitionDimensions.height + 'px';*/
       
       setTimeout(
         function() {
-          for (var i = 0; i < (diagonalGrid * 2); i++) {
+          for (var i = 0; i < loopTotal; i++) {
             (function(i) {
               var timeout = setTimeout(
                 function() {
@@ -661,15 +687,10 @@ onoPager.animation.canvas2d_imageGrid = function(newConfig, arg_extraConfig) {
               }
             })(i);
           }
+          jQuery(config.listItems[newIndex]).delay(canvasAniSpeed).fadeIn(contentAniSpeed);
         },
         contentAniSpeed
       );
-        
-      // Make animation 2* faster use leftover time to spread animation from left to right
-      // Run animation: loop through all blocks (for) and use settimeout to run animation function
-      
-      // Fade in new list item
-      jQuery(config.listItems[newIndex]).delay(canvasAniSpeed + contentAniSpeed).fadeIn(contentAniSpeed);
     }
 
     function resetStage() {
