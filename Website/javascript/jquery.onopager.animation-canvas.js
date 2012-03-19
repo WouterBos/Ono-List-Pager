@@ -620,7 +620,6 @@ onoPager.animation.canvas2d_imageGrid = function(newConfig, arg_extraConfig) {
         var dimensions = {};
         dimensions.width = Math.max(jQuery(config.listItems[oldIndex]).outerWidth(true), jQuery(config.listItems[newIndex]).outerWidth(true));
         dimensions.height = Math.max(jQuery(config.listItems[oldIndex]).outerHeight(true), jQuery(config.listItems[newIndex]).outerHeight(true));
-        console.log(dimensions, jQuery(config.listItems[oldIndex]).outerHeight(true), jQuery(config.listItems[newIndex]).outerHeight(true));
         return dimensions;
       }
       
@@ -642,6 +641,7 @@ onoPager.animation.canvas2d_imageGrid = function(newConfig, arg_extraConfig) {
       
       setTimeout(
         function() {
+          var newItemVisible = false;
           for (var i = 0; i < loopTotal; i++) {
             (function(i) {
               var timeout = setTimeout(
@@ -657,9 +657,17 @@ onoPager.animation.canvas2d_imageGrid = function(newConfig, arg_extraConfig) {
                     extraConfig.gridSize,
                     extraConfig.gridSize
                   );
+
+                  if ((i * extraConfig.gridSize) >= (maxTransitionDimensions.width - extraConfig.gridSize) &&
+                      (i * extraConfig.gridSize) >= maxTransitionDimensions.height &&
+                      newItemVisible == false) {
+                    jQuery(config.listItems[newIndex]).fadeIn(contentAniSpeed);
+                  }
                 },
                 (i * interval)
               );
+
+
               timeouts.push(timeout);
     
               var total = i
@@ -668,14 +676,16 @@ onoPager.animation.canvas2d_imageGrid = function(newConfig, arg_extraConfig) {
                   var timeout;
                   var timeout = setTimeout(
                     function() {
+                      var x = (total - ii) * extraConfig.gridSize;
+                      var y = ii * extraConfig.gridSize;
                       context.drawImage(
                         images[newIndex],
-                        (total - ii) * extraConfig.gridSize,
-                        ii * extraConfig.gridSize,
+                        x,
+                        y,
                         extraConfig.gridSize,
                         extraConfig.gridSize,
-                        (total - ii) * extraConfig.gridSize,
-                        ii * extraConfig.gridSize,
+                        x,
+                        y,
                         extraConfig.gridSize,
                         extraConfig.gridSize
                       );
@@ -687,7 +697,6 @@ onoPager.animation.canvas2d_imageGrid = function(newConfig, arg_extraConfig) {
               }
             })(i);
           }
-          jQuery(config.listItems[newIndex]).delay(canvasAniSpeed).fadeIn(contentAniSpeed);
         },
         contentAniSpeed
       );
