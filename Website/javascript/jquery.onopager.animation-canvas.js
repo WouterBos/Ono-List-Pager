@@ -508,6 +508,7 @@ onoPager.animation.canvas2d_imageGrid = function(newConfig, arg_extraConfig) {
     },
     imageGridInstance._config.extraConfig
   );
+  var timeouts = new Array();
   var config = imageGridInstance._config;
   var tools = onoPager.tools;
   var drawInterval = null;
@@ -574,8 +575,6 @@ onoPager.animation.canvas2d_imageGrid = function(newConfig, arg_extraConfig) {
         if (imageCount == imageTotal) {
           config.listContainer.parent().removeClass('onoPager_disabled');
           
-          //context.fillStyle = 'rgba(' + extraConfig.color +')';
-          //context.fillRect(0, 0, canvasWidth, canvasHeight);
           context.drawImage(images[config.activeIndex], 0, 0);
         }
       }
@@ -593,6 +592,7 @@ onoPager.animation.canvas2d_imageGrid = function(newConfig, arg_extraConfig) {
 
     init();
 
+    // Runs animation
     function init() {
       if (drawInterval != null) {
         resetStage();
@@ -606,45 +606,41 @@ onoPager.animation.canvas2d_imageGrid = function(newConfig, arg_extraConfig) {
       // Fade out list item
       jQuery(config.listItems[oldIndex]).fadeOut(contentAniSpeed);
       
-      // Animate image
-      // Calculate number of blocks on stage (extraConfig.gridSize)
+      // Set variables
       var containerWidth = jQuery(config.listItems[newIndex]).outerWidth();
       var containterHeight = jQuery(config.listItems[newIndex]).outerHeight();
-      var diagonalGrid = Math.sqrt(containerWidth*containerWidth + containterHeight*containterHeight) / extraConfig.gridSize;
-      var timeouts = new Array();
-      var loopTotal = (containerWidth + containterHeight) / extraConfig.gridSize;
+      var diagonalGrid = Math.sqrt(containerWidth*containerWidth +
+                                   containterHeight*containterHeight) /
+                                   extraConfig.gridSize;
+      clearTimeouts(timeouts);
+      timeouts = new Array();
+      var loopTotal = (containerWidth + containterHeight) /
+                      extraConfig.gridSize;
       var interval = canvasAniSpeed / loopTotal;
       var maxTransitionDimensions = getMaxTransitionDimensions();
       
-      function getMaxTransitionDimensions() {
-        var dimensions = {};
-        dimensions.width = Math.max(jQuery(config.listItems[oldIndex]).outerWidth(true), jQuery(config.listItems[newIndex]).outerWidth(true));
-        dimensions.height = Math.max(jQuery(config.listItems[oldIndex]).outerHeight(true), jQuery(config.listItems[newIndex]).outerHeight(true));
-        return dimensions;
-      }
-      
-      //context.fillStyle = '#ff00ff';
-      //context.fillRect(0, 0, maxTransitionDimensions.width, maxTransitionDimensions.height);
-
+      // draws the image of the current list item
       context.drawImage(
         images[oldIndex],
+        0,
+        0,
         maxTransitionDimensions.width,
         maxTransitionDimensions.height,
-        maxTransitionDimensions.width,
-        maxTransitionDimensions.height,
-        maxTransitionDimensions.width,
-        maxTransitionDimensions.height,
+        0,
+        0,
         maxTransitionDimensions.width,
         maxTransitionDimensions.height
       );
-      /*theCanvas.style.height = maxTransitionDimensions.height + 'px';*/
+      console.log(maxTransitionDimensions)
       
-      setTimeout(
+      // Animates the image of the new list item
+      timeouts.push(setTimeout(
         function() {
           var newItemVisible = false;
           for (var i = 0; i < loopTotal; i++) {
+            // Draws the diagonal top-left / bottom right
             (function(i) {
-              var timeout = setTimeout(
+              timeouts.push(setTimeout(
                 function() {
                   context.drawImage(
                     images[newIndex],
@@ -662,19 +658,19 @@ onoPager.animation.canvas2d_imageGrid = function(newConfig, arg_extraConfig) {
                       (i * extraConfig.gridSize) >= maxTransitionDimensions.height &&
                       newItemVisible == false) {
                     jQuery(config.listItems[newIndex]).fadeIn(contentAniSpeed);
+                    timeouts = new Array();
                   }
                 },
                 (i * interval)
-              );
-
-
-              timeouts.push(timeout);
+              ));
     
               var total = i
               for (var ii = 0; ii <= total; ii++) {
+                // After each block has been drawn of the diagonal
+                // top-left / bottom right, a complete diagonal is drawn from
+                // bottom-left to top-right.
                 (function(ii) {
-                  var timeout;
-                  var timeout = setTimeout(
+                  timeouts.push(setTimeout(
                     function() {
                       var x = (total - ii) * extraConfig.gridSize;
                       var y = ii * extraConfig.gridSize;
@@ -691,23 +687,42 @@ onoPager.animation.canvas2d_imageGrid = function(newConfig, arg_extraConfig) {
                       );
                     },
                     ((i * interval) / 2)
-                  );
-                  timeouts.push(timeout);
+                  ));
                 })(ii);
               }
             })(i);
           }
         },
         contentAniSpeed
-      );
+      ));
+
+      function clearTimeouts(timeouts) {
+        if (timeouts.length > 0) {
+          config.listItems.stop(true, true).hide();
+          jQuery(config.listItems[oldIndex]).show();
+          jQuery(config.listItems[oldIndex]).fadeOut(contentAniSpeed);
+          console.log(timeouts);
+        }
+        for (var i = 0; i < timeouts.length; i++){
+          clearTimeout(timeouts[i]);
+        };
+      }
+      
+      function getMaxTransitionDimensions() {
+        var dimensions = {};
+        var oldListItem = jQuery(config.listItems[oldIndex]);
+        var newListItem = jQuery(config.listItems[newIndex]);
+        dimensions.width = Math.max(oldListItem.outerWidth(true),
+                                    newListItem.outerWidth(true));
+        dimensions.height = Math.max(oldListItem.outerHeight(true),
+                                     newListItem.outerHeight(true));
+        return dimensions;
+      }
     }
 
     function resetStage() {
       clearInterval(drawInterval);
       context.clearRect(0, 0, canvasWidth, canvasHeight);
-    }
-
-    function draw() {
     }
   }
 
