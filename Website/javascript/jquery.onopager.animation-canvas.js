@@ -587,9 +587,6 @@ onoPager.animation.canvas2d_imageGrid = function(newConfig, arg_extraConfig) {
    * @this
    */
   imageGridInstance.page = function(oldIndex, newIndex, direction) {
-    this._config.listItems.hide();
-    jQuery(this._config.listItems[oldIndex]).show();
-
     init();
 
     // Runs animation
@@ -597,27 +594,28 @@ onoPager.animation.canvas2d_imageGrid = function(newConfig, arg_extraConfig) {
       if (drawInterval != null) {
         resetStage();
       }
-      var contentAniSpeed = config.animationSpeed/6
-      var canvasAniSpeed = config.animationSpeed - (contentAniSpeed * 2);
-      
-      jQuery(config.listItems.filter(':visible')).hide();
-      jQuery(config.listItems[oldIndex]).show();
+      var contentFadeSpeed = config.animationSpeed/6
+      var contentAniSpeedStart;
+      var canvasAniSpeed = config.animationSpeed - (contentFadeSpeed * 2);
 
-      // Fade out list item
-      jQuery(config.listItems[oldIndex]).fadeOut(contentAniSpeed);
+      config.listItems.stop(true, true)
+                      .hide();
+      if (timeouts.length == 0) {
+        // There's no transition still in progress
+        jQuery(config.listItems[oldIndex]).show()
+                                          .fadeOut(contentAniSpeed);
+        contentAniSpeedStart = contentFadeSpeed;
+      } else {
+        contentAniSpeedStart = 0;
+      }
       
       // Set variables
-      var containerWidth = jQuery(config.listItems[newIndex]).outerWidth();
-      var containterHeight = jQuery(config.listItems[newIndex]).outerHeight();
-      var diagonalGrid = Math.sqrt(containerWidth*containerWidth +
-                                   containterHeight*containterHeight) /
-                                   extraConfig.gridSize;
+      var maxTransitionDimensions = getMaxTransitionDimensions();
       clearTimeouts(timeouts);
       timeouts = new Array();
-      var loopTotal = (containerWidth + containterHeight) /
-                      extraConfig.gridSize;
+      var loopTotal = (maxTransitionDimensions.width +
+                       maxTransitionDimensions.height) / extraConfig.gridSize;
       var interval = canvasAniSpeed / loopTotal;
-      var maxTransitionDimensions = getMaxTransitionDimensions();
       
       // draws the image of the current list item
       context.drawImage(
@@ -631,78 +629,78 @@ onoPager.animation.canvas2d_imageGrid = function(newConfig, arg_extraConfig) {
         maxTransitionDimensions.width,
         maxTransitionDimensions.height
       );
-      console.log(maxTransitionDimensions)
       
       // Animates the image of the new list item
       timeouts.push(setTimeout(
         function() {
-          var newItemVisible = false;
           for (var i = 0; i < loopTotal; i++) {
             // Draws the diagonal top-left / bottom right
-            (function(i) {
-              timeouts.push(setTimeout(
-                function() {
-                  context.drawImage(
-                    images[newIndex],
-                    i * extraConfig.gridSize,
-                    i * extraConfig.gridSize,
-                    extraConfig.gridSize,
-                    extraConfig.gridSize,
-                    i * extraConfig.gridSize,
-                    i * extraConfig.gridSize,
-                    extraConfig.gridSize,
-                    extraConfig.gridSize
-                  );
-
-                  if ((i * extraConfig.gridSize) >= (maxTransitionDimensions.width - extraConfig.gridSize) &&
-                      (i * extraConfig.gridSize) >= maxTransitionDimensions.height &&
-                      newItemVisible == false) {
-                    jQuery(config.listItems[newIndex]).fadeIn(contentAniSpeed);
-                    timeouts = new Array();
-                  }
-                },
-                (i * interval)
-              ));
-    
-              var total = i
-              for (var ii = 0; ii <= total; ii++) {
-                // After each block has been drawn of the diagonal
-                // top-left / bottom right, a complete diagonal is drawn from
-                // bottom-left to top-right.
-                (function(ii) {
-                  timeouts.push(setTimeout(
-                    function() {
-                      var x = (total - ii) * extraConfig.gridSize;
-                      var y = ii * extraConfig.gridSize;
-                      context.drawImage(
-                        images[newIndex],
-                        x,
-                        y,
-                        extraConfig.gridSize,
-                        extraConfig.gridSize,
-                        x,
-                        y,
-                        extraConfig.gridSize,
-                        extraConfig.gridSize
-                      );
-                    },
-                    ((i * interval) / 2)
-                  ));
-                })(ii);
-              }
-            })(i);
+            if ((i * extraConfig.gridSize) >= (maxTransitionDimensions.width - extraConfig.gridSize) &&
+                (i * extraConfig.gridSize) >= maxTransitionDimensions.height) {
+              (function(i) {
+                timeouts.push(setTimeout(
+                  function() {
+                    context.drawImage(
+                      images[newIndex],
+                      i * extraConfig.gridSize,
+                      i * extraConfig.gridSize,
+                      extraConfig.gridSize,
+                      extraConfig.gridSize,
+                      i * extraConfig.gridSize,
+                      i * extraConfig.gridSize,
+                      extraConfig.gridSize,
+                      extraConfig.gridSize
+                    );
+                  },
+                  (i * interval)
+                ));
+      
+                var total = i
+                for (var ii = 0; ii <= total; ii++) {
+                  // After each block has been drawn of the diagonal
+                  // top-left / bottom right, a complete diagonal is drawn from
+                  // bottom-left to top-right.
+                  (function(ii) {
+                    timeouts.push(setTimeout(
+                      function() {
+                        var x = (total - ii) * extraConfig.gridSize;
+                        var y = ii * extraConfig.gridSize;
+                        context.drawImage(
+                          images[newIndex],
+                          x,
+                          y,
+                          extraConfig.gridSize,
+                          extraConfig.gridSize,
+                          x,
+                          y,
+                          extraConfig.gridSize,
+                          extraConfig.gridSize
+                        );
+                      },
+                      ((i * interval) / 2)
+                    ));
+                  })(ii);
+                }
+              })(i);
+            }
           }
         },
-        contentAniSpeed
+        contentAniSpeedStart
+      ));
+      
+      timeouts.push(setTimeout(
+        function() {
+          jQuery(config.listItems[newIndex]).fadeIn(
+            contentAniSpeed,
+            function() {
+              timeouts = new Array();
+            }
+          );
+        },
+        canvasAniSpeed + contentFadeSpeed
       ));
 
       function clearTimeouts(timeouts) {
-        if (timeouts.length > 0) {
-          config.listItems.stop(true, true).hide();
-          jQuery(config.listItems[oldIndex]).show();
-          jQuery(config.listItems[oldIndex]).fadeOut(contentAniSpeed);
-          console.log(timeouts);
-        }
         for (var i = 0; i < timeouts.length; i++){
           clearTimeout(timeouts[i]);
         };
@@ -713,9 +711,11 @@ onoPager.animation.canvas2d_imageGrid = function(newConfig, arg_extraConfig) {
         var oldListItem = jQuery(config.listItems[oldIndex]);
         var newListItem = jQuery(config.listItems[newIndex]);
         dimensions.width = Math.max(oldListItem.outerWidth(true),
-                                    newListItem.outerWidth(true));
+                                    newListItem.outerWidth(true),
+                                    config.listContainer.outerWidth(true));
         dimensions.height = Math.max(oldListItem.outerHeight(true),
-                                     newListItem.outerHeight(true));
+                                     newListItem.outerHeight(true),
+                                     config.listContainer.outerHeight(true));
         return dimensions;
       }
     }
