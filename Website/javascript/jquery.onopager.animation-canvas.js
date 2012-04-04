@@ -603,7 +603,7 @@ onoPager.animation.canvas2d_imageGrid = function(newConfig, arg_extraConfig) {
       if (timeouts.length == 0) {
         // There's no transition still in progress
         jQuery(config.listItems[oldIndex]).show()
-                                          .fadeOut(contentAniSpeed);
+                                          .fadeOut(contentFadeSpeed);
         contentAniSpeedStart = contentFadeSpeed;
       } else {
         contentAniSpeedStart = 0;
@@ -613,76 +613,69 @@ onoPager.animation.canvas2d_imageGrid = function(newConfig, arg_extraConfig) {
       var maxTransitionDimensions = getMaxTransitionDimensions();
       clearTimeouts(timeouts);
       timeouts = new Array();
-      var loopTotal = (maxTransitionDimensions.width +
-                       maxTransitionDimensions.height) / extraConfig.gridSize;
+      var min = Math.min(maxTransitionDimensions.width,
+                         maxTransitionDimensions.height)
+      min = Math.ceil(min / extraConfig.gridSize);
+      var max = Math.max(maxTransitionDimensions.width,
+                         maxTransitionDimensions.height)
+      max = Math.ceil(max / extraConfig.gridSize);
+      var loopTotal = (min + ((max - min) / 2)) * 2;
+      console.log(min, max, loopTotal)
       var interval = canvasAniSpeed / loopTotal;
       
       // draws the image of the current list item
-      context.drawImage(
-        images[oldIndex],
-        0,
-        0,
-        maxTransitionDimensions.width,
-        maxTransitionDimensions.height,
-        0,
-        0,
-        maxTransitionDimensions.width,
-        maxTransitionDimensions.height
-      );
+      context.drawImage(images[oldIndex], 0, 0);
       
       // Animates the image of the new list item
       timeouts.push(setTimeout(
         function() {
           for (var i = 0; i < loopTotal; i++) {
             // Draws the diagonal top-left / bottom right
-            if ((i * extraConfig.gridSize) >= (maxTransitionDimensions.width - extraConfig.gridSize) &&
-                (i * extraConfig.gridSize) >= maxTransitionDimensions.height) {
-              (function(i) {
-                timeouts.push(setTimeout(
-                  function() {
-                    context.drawImage(
-                      images[newIndex],
-                      i * extraConfig.gridSize,
-                      i * extraConfig.gridSize,
-                      extraConfig.gridSize,
-                      extraConfig.gridSize,
-                      i * extraConfig.gridSize,
-                      i * extraConfig.gridSize,
-                      extraConfig.gridSize,
-                      extraConfig.gridSize
-                    );
-                  },
-                  (i * interval)
-                ));
-      
-                var total = i
-                for (var ii = 0; ii <= total; ii++) {
-                  // After each block has been drawn of the diagonal
-                  // top-left / bottom right, a complete diagonal is drawn from
-                  // bottom-left to top-right.
-                  (function(ii) {
-                    timeouts.push(setTimeout(
-                      function() {
-                        var x = (total - ii) * extraConfig.gridSize;
-                        var y = ii * extraConfig.gridSize;
-                        context.drawImage(
-                          images[newIndex],
-                          x,
-                          y,
-                          extraConfig.gridSize,
-                          extraConfig.gridSize,
-                          x,
-                          y,
-                          extraConfig.gridSize,
-                          extraConfig.gridSize
-                        );
-                      },
-                      ((i * interval) / 2)
-                    ));
-                  })(ii);
-                }
-              })(i);
-            }
+            (function(i) {
+              timeouts.push(setTimeout(
+                function() {
+                  context.drawImage(
+                    images[newIndex],
+                    i * extraConfig.gridSize,
+                    i * extraConfig.gridSize,
+                    extraConfig.gridSize,
+                    extraConfig.gridSize,
+                    i * extraConfig.gridSize,
+                    i * extraConfig.gridSize,
+                    extraConfig.gridSize,
+                    extraConfig.gridSize
+                  );
+                },
+                (i * interval)
+              ));
+    
+              var total = i
+              for (var ii = 0; ii <= total; ii++) {
+                // After each block has been drawn of the diagonal
+                // top-left / bottom right, a complete diagonal is drawn from
+                // bottom-left to top-right.
+                (function(ii) {
+                  timeouts.push(setTimeout(
+                    function() {
+                      var x = (total - ii) * extraConfig.gridSize;
+                      var y = ii * extraConfig.gridSize;
+                      context.drawImage(
+                        images[newIndex],
+                        x,
+                        y,
+                        extraConfig.gridSize,
+                        extraConfig.gridSize,
+                        x,
+                        y,
+                        extraConfig.gridSize,
+                        extraConfig.gridSize
+                      );
+                    },
+                    ((i * interval) / 2)
+                  ));
+                })(ii);
+              }
+            })(i);
           }
         },
         contentAniSpeedStart
@@ -690,14 +683,10 @@ onoPager.animation.canvas2d_imageGrid = function(newConfig, arg_extraConfig) {
       
       timeouts.push(setTimeout(
         function() {
-          jQuery(config.listItems[newIndex]).fadeIn(
-            contentAniSpeed,
-            function() {
-              timeouts = new Array();
-            }
-          );
+          jQuery(config.listItems[newIndex]).fadeIn(contentFadeSpeed);
+          timeouts = new Array();
         },
-        canvasAniSpeed + contentFadeSpeed
+        canvasAniSpeed
       ));
 
       function clearTimeouts(timeouts) {
@@ -710,12 +699,11 @@ onoPager.animation.canvas2d_imageGrid = function(newConfig, arg_extraConfig) {
         var dimensions = {};
         var oldListItem = jQuery(config.listItems[oldIndex]);
         var newListItem = jQuery(config.listItems[newIndex]);
-        dimensions.width = Math.max(oldListItem.outerWidth(true),
-                                    newListItem.outerWidth(true),
+        dimensions.width = Math.max(newListItem.outerWidth(true),
                                     config.listContainer.outerWidth(true));
-        dimensions.height = Math.max(oldListItem.outerHeight(true),
-                                     newListItem.outerHeight(true),
+        dimensions.height = Math.max(newListItem.outerHeight(true),
                                      config.listContainer.outerHeight(true));
+        console.log(dimensions)
         return dimensions;
       }
     }
