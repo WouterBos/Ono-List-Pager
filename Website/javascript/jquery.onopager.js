@@ -1453,10 +1453,10 @@ onoPager.pager = function(arg_index,
     }
 
     if (autoPageConfig.pauseOnHover == true) {
-      arg_listContainer.mouseenter(function() {
+      arg_listContainer.closest('.onoPager').mouseenter(function() {
         jQuery(this).addClass('onoPager_autoPageDisabled');
       });
-      arg_listContainer.mouseleave(function() {
+      arg_listContainer.closest('.onoPager').mouseleave(function() {
         jQuery(this).removeClass('onoPager_autoPageDisabled');
       });
     }
@@ -3393,6 +3393,7 @@ onoPager.tools = (function() {
      * @param {Object} root The root object of a pager (div.onoPager).
      */
     canAutoPage: function(root) {
+      console.log(root.attr('class'))
       if (root.size() > 0 &&
           root.hasClass('onoPager_autoPageDisabled') == false) {
         return true;
