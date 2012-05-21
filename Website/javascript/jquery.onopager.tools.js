@@ -60,7 +60,6 @@ onoPager.tools = (function() {
      * @param {Object} root The root object of a pager (div.onoPager).
      */
     canAutoPage: function(root) {
-      console.log(root.attr('class'))
       if (root.size() > 0 &&
           root.hasClass('onoPager_autoPageDisabled') == false) {
         return true;
