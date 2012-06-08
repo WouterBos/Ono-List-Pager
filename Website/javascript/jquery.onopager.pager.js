@@ -321,10 +321,10 @@ onoPager.pager = function(arg_index,
     }
 
     if (autoPageConfig.pauseOnHover == true) {
-      arg_listContainer.mouseenter(function() {
+      arg_listContainer.closest('.onoPager').mouseenter(function() {
         jQuery(this).addClass('onoPager_autoPageDisabled');
       });
-      arg_listContainer.mouseleave(function() {
+      arg_listContainer.closest('.onoPager').mouseleave(function() {
         jQuery(this).removeClass('onoPager_autoPageDisabled');
       });
     }
