@@ -44,6 +44,7 @@ onoPager.tools = (function() {
                       listItems) {
       if (root.size() > 0 &&
           root.hasClass('onoPager_disabled') == false &&
+          root.hasClass('onoPager_pause') == false &&
           (lockDuringTransition == false ||
           lockDuringTransition == true &&
           list.is(':animated') == false &&

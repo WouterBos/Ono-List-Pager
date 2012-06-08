@@ -250,7 +250,9 @@ TODO:
       },
       labels: {
         next: 'next',
-        previous: 'previous'
+        previous: 'previous',
+        play: 'play',
+        pause: 'pause'
       },
       status: {
         active: false,
@@ -301,6 +303,7 @@ TODO:
     var pageByNumber; // Container with list of links of available pages
     var pageStatus; // Container with feedback for user about the paging status
     var pageScroller; // Page by using the scroller
+    var pagePause; // The pause/play button. Only available with autopage
     var autoPageContainer; // Box that gives feedback about the autopage status
 
 
@@ -354,6 +357,10 @@ TODO:
         newHTML += '<div class="' + ONOPAGER + '_scroller"><div class="' +
           ONOPAGER + '_scrollerHandle"></div></div>';
       }
+      if (config.autoPage.active == true) {
+        newHTML += '<a' + EMPTY_HREF + ' class="' + ONOPAGER +
+                   '_pause"><span>' + config.labels.pause + '</span></a>';
+      }
       root.append(
         '<div class="' + ONOPAGER + '_controlsContainer">' +
         ' <div class="' + ONOPAGER + '_controls">' + newHTML + '</div>' +
@@ -377,6 +384,9 @@ TODO:
       );
       autoPageContainer = root.find(
         'div.' + ONOPAGER + '_controls > div.' + ONOPAGER + '_autoPageContainer'
+      );
+      pagePause = root.find(
+        'div.' + ONOPAGER + '_controls > a.' + ONOPAGER + '_pause'
       );
       if (config.listContainer.width) {
         root.find('.' + ONOPAGER + '_controls').css(
@@ -444,6 +454,7 @@ TODO:
         pagePrevious.hide();
         pageByNumber.hide();
         pageScroller.hide();
+        pagePause.hide();
         autoPageContainer.hide();
       }
       animation.extendConfig({pager: pager});
@@ -499,7 +510,7 @@ TODO:
         if (config.pageByNumber.enableClick == true) {
           pageByNumber.find('a').each(function(index) {
             $(this).click(function(event) {
-              var isActive = $(this).hasClass('onoPager_active');
+              var isActive = $(this).hasClass(ONOPAGER + '_active');
               if (isActive == false && $(this).attr('href') == hrefVoid) {
                 page(index);
               }
@@ -509,7 +520,7 @@ TODO:
         if (config.pageByNumber.enableHover == true) {
           pageByNumber.find('a').each(function(index) {
             $(this).mouseenter(function(event) {
-              if ($(this).hasClass('onoPager_active') == false) {
+              if ($(this).hasClass(ONOPAGER + '_active') == false) {
                 page(index);
               }
             });
@@ -518,7 +529,18 @@ TODO:
 
         if (config.pageByNumber.enableClick == false &&
             config.pageByNumber.enableHover == false) {
-          pageByNumber.find('a').addClass('onoPager_readonly');
+          pageByNumber.find('a').addClass(ONOPAGER + '_readonly');
+        }
+        
+        if (config.autoPage.active == true) {
+          pagePause.click(function() {
+            root.toggleClass(ONOPAGER + '_pause');
+            if (root.hasClass(ONOPAGER + '_pause') == true) {
+              pagePause.html(config.labels.play);
+            } else {
+              pagePause.html(config.labels.pause);
+            }
+          });
         }
       }
     }

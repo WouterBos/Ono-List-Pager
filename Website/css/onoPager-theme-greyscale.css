@@ -50,6 +50,7 @@ div.onoPager_greyscale *.onoPager_listItem {
 /* Controls - Base */
 div.onoPager_greyscale div.onoPager_controls div.onoPager_status,
 div.onoPager_greyscale div.onoPager_controls a.onoPager_step,
+div.onoPager_greyscale div.onoPager_controls a.onoPager_pause,
 div.onoPager_greyscale div.onoPager_controls div.onoPager_pageByNumber,
 div.onoPager_greyscale.onoPager_disabled:hover div.onoPager_controls a.onoPager_step,
 div.onoPager_greyscale.onoPager_disabled:hover div.onoPager_controls div.onoPager_pageByNumber {
@@ -78,6 +79,7 @@ div.onoPager_greyscale div.onoPager_controls:after {
 }
 div.onoPager_greyscale:hover div.onoPager_controls div.onoPager_status,
 div.onoPager_greyscale:hover div.onoPager_controls a.onoPager_step,
+div.onoPager_greyscale:hover div.onoPager_controls a.onoPager_pause,
 div.onoPager_greyscale:hover div.onoPager_controls div.onoPager_pageByNumber,
 div.onoPager_greyscale:hover div.onoPager_controls.active a.onoPager_step,
 div.onoPager_greyscale:hover div.onoPager_controls.active div.onoPager_pageByNumber {
@@ -104,6 +106,16 @@ div.onoPager_greyscale div.onoPager_controls.active a {
 }
 div.onoPager_greyscale div.onoPager_controls a:hover {
     text-decoration: underline;
+}
+
+
+
+/* Controls - pause */
+div.onoPager_greyscale div.onoPager_controls a.onoPager_pause {
+	position: absolute;
+	left: 100%;
+	top: 0;
+	padding-left: 10px;
 }
 
 
@@ -283,14 +295,11 @@ div.onoPager_greyscale div.onoPager_scroller.active div.onoPager_scrollerHandle 
 
 
 /* Controls - autopage animation */
-div.onoPager_greyscale .onoPager_autopageAnimation_clock {
-    position: relative;
-}
-
 div.onoPager_greyscale .onoPager_autopageAnimation_clock canvas {
     position: absolute;
-    top: -116px;
-    right: -32px;
+    top: 20px;
+    left: 100%;
+    margin-left: 10px;
 }
 
 

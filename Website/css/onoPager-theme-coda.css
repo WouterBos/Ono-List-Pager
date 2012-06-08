@@ -28,6 +28,7 @@ div.onoPager_coda *.onoPager_listItem {
 /* Controls - Base */
 div.onoPager_coda div.onoPager_controls div.onoPager_status,
 div.onoPager_coda div.onoPager_controls a.onoPager_step,
+div.onoPager_coda div.onoPager_controls a.onoPager_pause,
 div.onoPager_coda div.onoPager_controls div.onoPager_pageByNumber {
     min-height: 0;
     font-size: 1em;
@@ -49,6 +50,14 @@ div.onoPager_coda div.onoPager_controls.active a {
     color: #47478b;
 }
 
+
+
+/* Controls - pause */
+div.onoPager_coda a.onoPager_pause {
+	position: absolute;
+	bottom: 2px;
+	font-size: 0.9em;
+}
 
 
 /* Controls - Previous and next */
@@ -108,8 +117,11 @@ div.onoPager_coda a.onoPager_next {
 div.onoPager_coda div.onoPager_pageByNumber,
 div.onoPager_coda.onoPager_disabled div.onoPager_controls.active div.onoPager_pageByNumber {
     position: absolute;
-    top: -18px;
+    bottom: 2px;
     text-align: center;
+}
+*+html div.onoPager_coda div.onoPager_pageByNumber {
+	bottom: 2px;	
 }
 
 div.onoPager_coda div.onoPager_pageByNumber a {

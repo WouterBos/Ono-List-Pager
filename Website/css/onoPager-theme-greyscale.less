@@ -59,6 +59,7 @@
 
 			.onoPager_status,
 			.onoPager_step,
+			.onoPager_pause,
 			.onoPager_pageByNumber {
 			    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 			    filter: alpha(opacity=50);
@@ -88,6 +89,7 @@
 		.onoPager_controls.active {
 			.onoPager_status,
 			.onoPager_step,
+			.onoPager_pause
 			.onoPager_pageByNumber {
 			    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 			    filter: alpha(opacity=100);
@@ -111,7 +113,6 @@
 			}
 			
 		}
-		
 	}
 	
 	&:hover .onoPager_controls a,
@@ -123,8 +124,18 @@
 	    text-decoration: underline;
 	}
 	
-	
-	
+	/* Controls - pause */
+	&,
+	&.onoPager_disabled:hover,
+	&.onoPager_disabled .onoPager_controls.active {
+		.onoPager_pause {
+			position: absolute;
+			left: 100%;
+			top: 0;
+			padding-left: 10px;
+		}
+	}
+
 	/* Controls - Previous and next */
 	&,
 	&.onoPager_disabled:hover,
@@ -323,12 +334,11 @@
 	
 	/* Controls - autopage animation */
 	.onoPager_autopageAnimation_clock {
-	    position: relative;
-        
         canvas {
-    	    position: absolute;
-    	    top: -116px;
-    	    right: -32px;
+		    position: absolute;
+		    top: 20px;
+		    left: 100%;
+		    margin-left: 10px;
     	}
 	}
 	
