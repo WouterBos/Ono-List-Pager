@@ -81,12 +81,15 @@ TODO:
    *    true, the container will animatie to its new height. Default value is
    *    true.
    *
-   * @param {String} arg_config.ListItems.width Width of list items, like
+   * @param {String} arg_config.listItems.width Width of list items, like
    *    '200px'.
    *
-   * @param {String} arg_config.ListItems.height Height of list items,
+   * @param {String} arg_config.listItems.height Height of list items,
    *    like '200px'.
    *
+   * @param {Boolean} arg_config.listItems.triggersPagingOnClick If true, you
+   *    can page by clicking on adjacent list items (if visible).
+   * 
    * @param {Number} arg_config.activeIndex Sets initial visible page. By
    *    default the pager starts at index 0.
    *
@@ -185,6 +188,12 @@ TODO:
    * @param {Number} arg_config.animationSpeed Determines the speed at
    *    which the animations take place.
    *
+   * @param {Function|Null} onPageStart Custom callback that runs when a page
+   *    animation starts. Callback arguments: oldIndex, newIndex, direction.
+   * 
+   * @param {Function|Null} onPageEnd Custom callback that runs when a page
+   *    animation ends. Callback arguments: oldIndex, newIndex, direction.
+   *
    * @return {jQuery} chainable jQuery class.
    * @memberOf jQuery.fn
    *
@@ -250,7 +259,9 @@ TODO:
       },
       labels: {
         next: 'next',
-        previous: 'previous'
+        previous: 'previous',
+        play: 'play',
+        pause: 'pause'
       },
       status: {
         active: false,
@@ -279,7 +290,9 @@ TODO:
       animationType: 'linear',
       animationEasing: 'linear',
       orientation: 'horizontal',
-      animationSpeed: 1000
+      animationSpeed: 1000,
+      onPageStart: null,
+      onPageEnd: null
     };
     config = $.extend(true, config, arg_config);
     if (typeof(jQuery.easing.easeOutCubic) == 'function') {
@@ -301,6 +314,7 @@ TODO:
     var pageByNumber; // Container with list of links of available pages
     var pageStatus; // Container with feedback for user about the paging status
     var pageScroller; // Page by using the scroller
+    var pagePause; // The pause/play button. Only available with autopage
     var autoPageContainer; // Box that gives feedback about the autopage status
 
 
@@ -354,6 +368,10 @@ TODO:
         newHTML += '<div class="' + ONOPAGER + '_scroller"><div class="' +
           ONOPAGER + '_scrollerHandle"></div></div>';
       }
+      if (config.autoPage.active == true) {
+        newHTML += '<a' + EMPTY_HREF + ' class="' + ONOPAGER +
+                   '_pause" title="' + config.labels.pause + '"><span>' + config.labels.pause + '</span></a>';
+      }
       root.append(
         '<div class="' + ONOPAGER + '_controlsContainer">' +
         ' <div class="' + ONOPAGER + '_controls">' + newHTML + '</div>' +
@@ -377,6 +395,9 @@ TODO:
       );
       autoPageContainer = root.find(
         'div.' + ONOPAGER + '_controls > div.' + ONOPAGER + '_autoPageContainer'
+      );
+      pagePause = root.find(
+        'div.' + ONOPAGER + '_controls > a.' + ONOPAGER + '_pause'
       );
       if (config.listContainer.width) {
         root.find('.' + ONOPAGER + '_controls').css(
@@ -406,7 +427,9 @@ TODO:
           pagePrevious: pagePrevious,
           activeIndex: config.activeIndex,
           animationEasing: config.animationEasing,
-          autoPage: config.autoPage
+          autoPage: config.autoPage,
+          onPageStart: config.onPageStart,
+          onPageEnd: config.onPageEnd
         },
         animationConfig
       );
@@ -444,6 +467,7 @@ TODO:
         pagePrevious.hide();
         pageByNumber.hide();
         pageScroller.hide();
+        pagePause.hide();
         autoPageContainer.hide();
       }
       animation.extendConfig({pager: pager});
@@ -499,7 +523,7 @@ TODO:
         if (config.pageByNumber.enableClick == true) {
           pageByNumber.find('a').each(function(index) {
             $(this).click(function(event) {
-              var isActive = $(this).hasClass('onoPager_active');
+              var isActive = $(this).hasClass(ONOPAGER + '_active');
               if (isActive == false && $(this).attr('href') == hrefVoid) {
                 page(index);
               }
@@ -509,7 +533,7 @@ TODO:
         if (config.pageByNumber.enableHover == true) {
           pageByNumber.find('a').each(function(index) {
             $(this).mouseenter(function(event) {
-              if ($(this).hasClass('onoPager_active') == false) {
+              if ($(this).hasClass(ONOPAGER + '_active') == false) {
                 page(index);
               }
             });
@@ -518,7 +542,20 @@ TODO:
 
         if (config.pageByNumber.enableClick == false &&
             config.pageByNumber.enableHover == false) {
-          pageByNumber.find('a').addClass('onoPager_readonly');
+          pageByNumber.find('a').addClass(ONOPAGER + '_readonly');
+        }
+        
+        if (config.autoPage.active == true) {
+          pagePause.click(function() {
+            root.toggleClass(ONOPAGER + '_pauzed');
+            if (root.hasClass(ONOPAGER + '_pauzed') == true) {
+              pagePause.html(config.labels.play);
+			  pagePause.attr('title', config.labels.play);
+            } else {
+              pagePause.html(config.labels.pause);
+			  pagePause.attr('title', config.labels.pause);
+            }
+          });
         }
       }
     }
@@ -699,6 +736,30 @@ TODO:
       animation._pagerHover(moveIndex);
     }
 
+    // Picks up data attribute values that can override the config.
+    function configOverride() {
+      var attributePrefix = 'data-onoPager_';
+      var configs = new Array();
+      var configElement = list[0];
+      
+      for (var i = 0, len = configElement.attributes.length; i < len; i++) {
+        if (configElement[i].name.indexOf(attributePrefix) == 0) {
+          configs.push(
+            {
+              name: configElement[i].name.replace(attributePrefix, ''),
+              value: configElement[i].value
+            }
+          );
+        }
+      }
+
+      for (var i = 0, len = configs.length; i < len; i++) {
+        if (typeof(config[configs[i].name]) != undefined) {
+          config[configs[i].name] = configs[i].value;
+        }
+      }
+    }
+
 
 
     return this.each(function() {
@@ -721,6 +782,7 @@ TODO:
         });
 
         // Set up ono pager
+        //configOverride(); TODO
         setStyles();
         createControls();
         setAnimation();
@@ -1954,7 +2016,9 @@ onoPager.animation = (function() {
           pagePrevious: config.pagePrevious,
           activeIndex: config.activeIndex,
           animationEasing: config.animationEasing,
-          autoPage: config.autoPage
+          autoPage: config.autoPage,
+          onPageStart: config.onPageStart,
+          onPageEnd: config.onPageEnd
         },
         extraConfig
       );
@@ -2024,6 +2088,10 @@ onoPager.animation = (function() {
  * @param {Boolean} newConfig.autoPage.interval The interval between
  *    autopaging. Time value is set in milliseconds.
  * @param {Object|Null} extraConfig Optional extra configuration object.
+ * @param {Function|Null} onPageStart Custom callback that runs when a page
+ *    animation starts.
+ * @param {Function|Null} onPageEnd Custom callback that runs when a page
+ *    animation ends.
  */
 onoPager.animation._standard = function(newConfig, extraConfig) {
   this._config = {
@@ -2041,7 +2109,9 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
     pager: {},
     scroller: {},
     autoPage: {},
-    extraConfig: {}
+    extraConfig: {},
+    onPageStart: null,
+    onPageEnd: null
   };
   var containerHeightSetCount = 0;
 
@@ -2275,6 +2345,9 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
   this._page = function(oldIndex, newIndex, direction) {
     setContainerHeight(this._config, newIndex);
     this.page(oldIndex, newIndex, direction);
+    if (typeof(this._config.onPageStart) == "function") {
+      this._config.onPageStart(oldIndex, newIndex, direction);
+    }
   }
 
   /**
@@ -2409,7 +2482,12 @@ onoPager.animation.slides = function(newConfig, extraConfig) {
         newAni,
         {
           duration: this._config.animationSpeed,
-          easing: this._config.animationEasing
+          easing: this._config.animationEasing,
+          complete: function() {
+            if (typeof(slidesInstance._config.onPageEnd) == "function") {
+              slidesInstance._config.onPageEnd(oldIndex, newIndex, direction);
+            }
+          }
         }
       );
   }
@@ -2464,6 +2542,9 @@ onoPager.animation.snap = function(newConfig, extraConfig) {
   snapInstance.page = function(oldIndex, newIndex, direction) {
     jQuery(this._config.listItems[oldIndex]).hide();
     jQuery(this._config.listItems[newIndex]).show();
+    if (typeof(this._config.onPageEnd) == "function") {
+      this._config.onPageEnd(oldIndex, newIndex, direction);
+    }
   }
 
   /**
@@ -2575,6 +2656,9 @@ onoPager.animation.fade = function(newConfig, extraConfig) {
         easing: this._config.animationEasing,
         complete: function() {
           jQuery(this).css('filter', '');
+          if (typeof(fadeInstance._config.onPageEnd) == "function") {
+            fadeInstance._config.onPageEnd(oldIndex, newIndex, direction);
+          }
         }
       }
     );
@@ -2717,6 +2801,9 @@ onoPager.animation.linear = function(newConfig, extraConfig) {
         complete: function() {
           // Set active class on visible list item
           linearInstance._setActiveClass(newIndex, true);
+          if (typeof(linearInstance._config.onPageEnd) == "function") {
+            linearInstance._config.onPageEnd(oldIndex, newIndex, direction);
+          }
         }
       }
     );
@@ -2934,6 +3021,9 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
         easing: this._config.animationEasing,
         complete: function() {
           linearContinuousInstance._setActiveClass(newIndex, true);
+          if (typeof(linearContinuousInstance._config.onPageEnd) == "function") {
+            linearContinuousInstance._config.onPageEnd(oldIndex, newIndex, direction);
+          }
         }
       }
     );
@@ -3377,6 +3467,7 @@ onoPager.tools = (function() {
                       listItems) {
       if (root.size() > 0 &&
           root.hasClass('onoPager_disabled') == false &&
+          root.hasClass('onoPager_pauzed') == false &&
           (lockDuringTransition == false ||
           lockDuringTransition == true &&
           list.is(':animated') == false &&

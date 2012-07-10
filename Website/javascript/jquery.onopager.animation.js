@@ -65,7 +65,9 @@ onoPager.animation = (function() {
           pagePrevious: config.pagePrevious,
           activeIndex: config.activeIndex,
           animationEasing: config.animationEasing,
-          autoPage: config.autoPage
+          autoPage: config.autoPage,
+          onPageStart: config.onPageStart,
+          onPageEnd: config.onPageEnd
         },
         extraConfig
       );
@@ -135,6 +137,10 @@ onoPager.animation = (function() {
  * @param {Boolean} newConfig.autoPage.interval The interval between
  *    autopaging. Time value is set in milliseconds.
  * @param {Object|Null} extraConfig Optional extra configuration object.
+ * @param {Function|Null} onPageStart Custom callback that runs when a page
+ *    animation starts.
+ * @param {Function|Null} onPageEnd Custom callback that runs when a page
+ *    animation ends.
  */
 onoPager.animation._standard = function(newConfig, extraConfig) {
   this._config = {
@@ -152,7 +158,9 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
     pager: {},
     scroller: {},
     autoPage: {},
-    extraConfig: {}
+    extraConfig: {},
+    onPageStart: null,
+    onPageEnd: null
   };
   var containerHeightSetCount = 0;
 
@@ -386,6 +394,9 @@ onoPager.animation._standard = function(newConfig, extraConfig) {
   this._page = function(oldIndex, newIndex, direction) {
     setContainerHeight(this._config, newIndex);
     this.page(oldIndex, newIndex, direction);
+    if (typeof(this._config.onPageStart) == "function") {
+      this._config.onPageStart(oldIndex, newIndex, direction);
+    }
   }
 
   /**
@@ -520,7 +531,12 @@ onoPager.animation.slides = function(newConfig, extraConfig) {
         newAni,
         {
           duration: this._config.animationSpeed,
-          easing: this._config.animationEasing
+          easing: this._config.animationEasing,
+          complete: function() {
+            if (typeof(slidesInstance._config.onPageEnd) == "function") {
+              slidesInstance._config.onPageEnd(oldIndex, newIndex, direction);
+            }
+          }
         }
       );
   }
@@ -575,6 +591,9 @@ onoPager.animation.snap = function(newConfig, extraConfig) {
   snapInstance.page = function(oldIndex, newIndex, direction) {
     jQuery(this._config.listItems[oldIndex]).hide();
     jQuery(this._config.listItems[newIndex]).show();
+    if (typeof(this._config.onPageEnd) == "function") {
+      this._config.onPageEnd(oldIndex, newIndex, direction);
+    }
   }
 
   /**
@@ -686,6 +705,9 @@ onoPager.animation.fade = function(newConfig, extraConfig) {
         easing: this._config.animationEasing,
         complete: function() {
           jQuery(this).css('filter', '');
+          if (typeof(fadeInstance._config.onPageEnd) == "function") {
+            fadeInstance._config.onPageEnd(oldIndex, newIndex, direction);
+          }
         }
       }
     );
@@ -828,6 +850,9 @@ onoPager.animation.linear = function(newConfig, extraConfig) {
         complete: function() {
           // Set active class on visible list item
           linearInstance._setActiveClass(newIndex, true);
+          if (typeof(linearInstance._config.onPageEnd) == "function") {
+            linearInstance._config.onPageEnd(oldIndex, newIndex, direction);
+          }
         }
       }
     );
@@ -1045,6 +1070,9 @@ onoPager.animation.linearContinuous = function(newConfig, extraConfig) {
         easing: this._config.animationEasing,
         complete: function() {
           linearContinuousInstance._setActiveClass(newIndex, true);
+          if (typeof(linearContinuousInstance._config.onPageEnd) == "function") {
+            linearContinuousInstance._config.onPageEnd(oldIndex, newIndex, direction);
+          }
         }
       }
     );

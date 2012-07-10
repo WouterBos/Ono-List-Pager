@@ -81,12 +81,15 @@ TODO:
    *    true, the container will animatie to its new height. Default value is
    *    true.
    *
-   * @param {String} arg_config.ListItems.width Width of list items, like
+   * @param {String} arg_config.listItems.width Width of list items, like
    *    '200px'.
    *
-   * @param {String} arg_config.ListItems.height Height of list items,
+   * @param {String} arg_config.listItems.height Height of list items,
    *    like '200px'.
    *
+   * @param {Boolean} arg_config.listItems.triggersPagingOnClick If true, you
+   *    can page by clicking on adjacent list items (if visible).
+   * 
    * @param {Number} arg_config.activeIndex Sets initial visible page. By
    *    default the pager starts at index 0.
    *
@@ -185,6 +188,12 @@ TODO:
    * @param {Number} arg_config.animationSpeed Determines the speed at
    *    which the animations take place.
    *
+   * @param {Function|Null} onPageStart Custom callback that runs when a page
+   *    animation starts. Callback arguments: oldIndex, newIndex, direction.
+   * 
+   * @param {Function|Null} onPageEnd Custom callback that runs when a page
+   *    animation ends. Callback arguments: oldIndex, newIndex, direction.
+   *
    * @return {jQuery} chainable jQuery class.
    * @memberOf jQuery.fn
    *
@@ -281,7 +290,9 @@ TODO:
       animationType: 'linear',
       animationEasing: 'linear',
       orientation: 'horizontal',
-      animationSpeed: 1000
+      animationSpeed: 1000,
+      onPageStart: null,
+      onPageEnd: null
     };
     config = $.extend(true, config, arg_config);
     if (typeof(jQuery.easing.easeOutCubic) == 'function') {
@@ -359,7 +370,7 @@ TODO:
       }
       if (config.autoPage.active == true) {
         newHTML += '<a' + EMPTY_HREF + ' class="' + ONOPAGER +
-                   '_pause"><span>' + config.labels.pause + '</span></a>';
+                   '_pause" title="' + config.labels.pause + '"><span>' + config.labels.pause + '</span></a>';
       }
       root.append(
         '<div class="' + ONOPAGER + '_controlsContainer">' +
@@ -416,7 +427,9 @@ TODO:
           pagePrevious: pagePrevious,
           activeIndex: config.activeIndex,
           animationEasing: config.animationEasing,
-          autoPage: config.autoPage
+          autoPage: config.autoPage,
+          onPageStart: config.onPageStart,
+          onPageEnd: config.onPageEnd
         },
         animationConfig
       );
@@ -534,11 +547,13 @@ TODO:
         
         if (config.autoPage.active == true) {
           pagePause.click(function() {
-            root.toggleClass(ONOPAGER + '_pause');
-            if (root.hasClass(ONOPAGER + '_pause') == true) {
+            root.toggleClass(ONOPAGER + '_pauzed');
+            if (root.hasClass(ONOPAGER + '_pauzed') == true) {
               pagePause.html(config.labels.play);
+			  pagePause.attr('title', config.labels.play);
             } else {
               pagePause.html(config.labels.pause);
+			  pagePause.attr('title', config.labels.pause);
             }
           });
         }
@@ -721,6 +736,30 @@ TODO:
       animation._pagerHover(moveIndex);
     }
 
+    // Picks up data attribute values that can override the config.
+    function configOverride() {
+      var attributePrefix = 'data-onoPager_';
+      var configs = new Array();
+      var configElement = list[0];
+      
+      for (var i = 0, len = configElement.attributes.length; i < len; i++) {
+        if (configElement[i].name.indexOf(attributePrefix) == 0) {
+          configs.push(
+            {
+              name: configElement[i].name.replace(attributePrefix, ''),
+              value: configElement[i].value
+            }
+          );
+        }
+      }
+
+      for (var i = 0, len = configs.length; i < len; i++) {
+        if (typeof(config[configs[i].name]) != undefined) {
+          config[configs[i].name] = configs[i].value;
+        }
+      }
+    }
+
 
 
     return this.each(function() {
@@ -743,6 +782,7 @@ TODO:
         });
 
         // Set up ono pager
+        //configOverride(); TODO
         setStyles();
         createControls();
         setAnimation();
