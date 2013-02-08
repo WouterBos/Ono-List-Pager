@@ -383,6 +383,7 @@ onoPager.autopageAnimation.clock = function(newConfig, arg_extraConfig) {
       animationSpeed = this._config.animationSpeed;
     }
     clearInterval(drawClockInterval);
+    clearTimeout(drawClockTimeout);
     degrees = -80;
     context.clearRect(0, 0, canvasWidth, canvasHeight);
     drawClockTimeout = setTimeout(
